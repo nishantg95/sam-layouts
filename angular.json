@@ -145,6 +145,43 @@
           }
         }
       }
+    },
+    "layouts": {
+      "projectType": "library",
+      "root": "libs/layouts",
+      "sourceRoot": "libs/layouts/src",
+      "prefix": "sam-layouts",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/layouts/tsconfig.lib.json",
+            "project": "libs/layouts/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/layouts/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/layouts/src/**/*.ts",
+              "libs/layouts/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/layouts"],
+          "options": {
+            "jestConfig": "libs/layouts/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }
