@@ -138,7 +138,7 @@
           "outputs": ["{options.outputPath}"],
           "options": {
             "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/sam-layouts",
+            "outputPath": "docs",
             "config": {
               "configFolder": "apps/sam-layouts/.storybook"
             }
