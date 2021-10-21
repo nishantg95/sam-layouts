@@ -17,6 +17,12 @@ nx run layout:build
 nx run layout:build:production
 ```
 
+## Run docs site
+``` bash
+# http://localhost:4400
+nx run sam-layouts:storybook
+```
+
 ## Publish docs
 
 ```bash
