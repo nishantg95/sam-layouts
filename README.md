@@ -27,7 +27,7 @@ nx run sam-layouts:storybook
 
 ```bash
 # Update docs folder with latest code
- nx run sam-layouts:build-storybook
+ nx run sam-layouts:build-storybook -- --skip-nx-cache
  
 ## Push update docs folder to master brach
  ```
