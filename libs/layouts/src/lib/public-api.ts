@@ -1,6 +1,7 @@
 export * from './actions-menu/actions-menu.component';
 export * from './search-list-layout/search-list-layout.component';
 export * from './subheader/subheader.component';
+export * from './subheader/sds-subheader-wrapper.component';
 export * from './search-list-layout/search-list-layout.module';
 export * from './search-list-layout/model/search-list-layout.model';
 export * from './subheader/subheader.module';

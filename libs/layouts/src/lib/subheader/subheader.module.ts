@@ -13,11 +13,12 @@ import {
   SdsSubheaderDrawerComponent,
   SdsDrawerContentComponent
 } from './subheader.component';
-import { SdsActionsMenuModule } from '@gsa-sam/components';
+import { SdsSubheaderWrapperComponent } from './sds-subheader-wrapper.component';
+import { SdsActionsMenuModule } from '../actions-menu/actions-menu.module';
 import { SdsDrawerCommunicationService } from './drawer-communication.service';
-import { NgxBootstrapIconsModule, threeDotsVertical } from 'ngx-bootstrap-icons';
+import { NgxBootstrapIconsModule, threeDotsVertical, chevronLeft } from 'ngx-bootstrap-icons';
 import { IconModule } from '@gsa-sam/ngx-uswds-icons';
-
+import { SdsButtonGroupModule } from '@gsa-sam/sam-material-extensions';
 @NgModule({
   imports: [
     CommonModule,
@@ -27,20 +28,24 @@ import { IconModule } from '@gsa-sam/ngx-uswds-icons';
     SdsTruncateModule,
     SdsActionsMenuModule,
     IconModule,
-    NgxBootstrapIconsModule.pick({threeDotsVertical})
+    SdsButtonGroupModule,
+    NgxBootstrapIconsModule.pick({threeDotsVertical, chevronLeft})
+
   ],
   exports: [
     SdsSubheaderComponent,
     SdsSubheaderActionsComponent,
     SdsSubheaderDrawerComponent,
     SdsDrawerContentComponent,
+    SdsSubheaderWrapperComponent
 
   ],
   declarations: [
     SdsSubheaderComponent,
     SdsSubheaderActionsComponent,
     SdsSubheaderDrawerComponent,
-    SdsDrawerContentComponent
+    SdsDrawerContentComponent,
+    SdsSubheaderWrapperComponent
   ],
   providers: [SdsDrawerCommunicationService]
 })
