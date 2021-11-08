@@ -1,0 +1,116 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { RouterModule } from '@angular/router';
+import { SdsHeaderComponent } from './header.component';
+import { SdsHeaderModule } from './header.module';
+import { NavigationMode } from '@gsa-sam/components';
+import { NgxBootstrapIconsModule, squareFill, xCircle } from 'ngx-bootstrap-icons';
+import { request, messages, workspace, logOut, bars } from '@gsa-sam/ngx-uswds-icons';
+import { IconModule } from '@gsa-sam/ngx-uswds-icons';
+
+<Meta
+  title="Header"
+  component={SdsHeaderComponent}
+  decorators={[
+    moduleMetadata({
+      declarations: [],
+      imports: [
+        SdsHeaderModule,
+        IconModule,
+        RouterModule.forRoot([], { useHash: true }),
+        NgxBootstrapIconsModule.pick({request, messages, workspace, logOut, squareFill, xCircle, bars})
+      ]
+    })
+  ]} />
+
+# Header
+
+<Canvas>
+  <Story
+    inline={true}
+    name="Header"
+    args={{
+      model: {
+        secondaryLinks: [
+          {
+            imageClass: 'request',
+            text: 'Requests',
+            route: '/',
+            id: 'request',
+            hasCounter: true,
+            selected: true,
+            mode: NavigationMode.INTERNAL,
+          },
+          {
+            imageClass: 'messages',
+            text: 'Notifications',
+            route: '/',
+            id: 'messages',
+            mode: NavigationMode.INTERNAL,
+          },
+          {
+            imageClass: 'workspace',
+            text: 'Workspace',
+            route: '/',
+            id: 'workspace',
+            mode: NavigationMode.INTERNAL,
+          },
+          {
+            imageClass: 'log-out',
+            text: 'Sign Out',
+            route: '/',
+            id: 'signOut',
+            mode: NavigationMode.INTERNAL,
+          },
+        ],
+        navigationLinks: [
+          {
+            text: 'Home',
+            selected: true,
+            route: '/',
+            id: 'home',
+            mode: NavigationMode.INTERNAL,
+          },
+          {
+            text: 'Search',
+            route: '/',
+            id: 'search',
+            mode: NavigationMode.INTERNAL,
+          },
+          {
+            text: 'Databank',
+            route: '/',
+            id: 'databank',
+            mode: NavigationMode.INTERNAL,
+          },
+          {
+            text: 'Data Services',
+            route: '/',
+            id: 'dataService',
+            mode: NavigationMode.INTERNAL,
+          },
+          {
+            text: 'Help',
+            route: '/',
+            id: 'help',
+            mode: NavigationMode.INTERNAL,
+          },
+        ],
+        home: {
+          text: 'Logo',
+          logo: 'assets/img/logo-sam.svg',
+          route: '/',
+          id: 'home',
+          mode: NavigationMode.INTERNAL,
+        },
+      }
+    }}
+  >
+    {(args) => ({
+      props: { ...args },
+      template: `<sds-header [model]="model" (linkEvent)="linkEvent.next($event)"></sds-header>`,
+    })}
+  </Story>
+</Canvas>
+
+<ArgsTable of={SdsHeaderComponent} />
