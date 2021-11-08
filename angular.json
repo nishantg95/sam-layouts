@@ -125,7 +125,8 @@
             "port": 4400,
             "config": {
               "configFolder": "apps/sam-layouts/.storybook"
-            }
+            },
+            "staticDir": ["apps/sam-layouts/src/assets"]
           },
           "configurations": {
             "ci": {
