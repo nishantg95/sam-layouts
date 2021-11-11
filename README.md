@@ -5,10 +5,19 @@
 ## Homepage
 https://gsa.github.io/sam-layouts/
 
-## Build @gsa-sam/layouts package
+## Publish @gsa-sam/layouts package
 
 ``` bash
+# Publish to npm
+# Update libs/layout/package.json with new version then run..
 nx run layouts:build:production
+cd dist/libs/layout/
+npm publish
+
+# Publish to GSA Artifactory
+cd dist/libs/layout/
+npm pack
+# Upload to GSA Artifactory
 ```
 
 ## Run docs site
