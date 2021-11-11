@@ -8,13 +8,7 @@ https://gsa.github.io/sam-layouts/
 ## Build @gsa-sam/layouts package
 
 ``` bash
-# with IVY
-nx run layout:build
-```
-
-``` bash
-# without IVY
-nx run layout:build:production
+nx run layouts:build:production
 ```
 
 ## Run docs site
