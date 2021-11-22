@@ -11,11 +11,11 @@ https://gsa.github.io/sam-layouts/
 # Publish to npm
 # Update libs/layout/package.json with new version then run..
 nx run layouts:build:production
-cd dist/libs/layout/
+cd dist/libs/layouts/
 npm publish
 
 # Publish to GSA Artifactory
-cd dist/libs/layout/
+cd dist/libs/layouts/
 npm pack
 # Upload to GSA Artifactory
 ```
