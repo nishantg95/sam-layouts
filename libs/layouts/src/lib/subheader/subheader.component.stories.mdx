@@ -1,15 +1,9 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
 import { action } from '@storybook/addon-actions';
-import { APP_BASE_HREF } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  SdsSubheaderComponent,
-  SdsSubheaderActionsComponent,
-} from './subheader.component';
 import { DemoSubheaderComponent } from './subheader.demo';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 import {
   SdsMenuModule,
   SdsSearchModule,
@@ -18,31 +12,26 @@ import {
 import { SdsButtonGroupModule } from '@gsa-sam/sam-material-extensions';
 import { AutocompleteService } from './examples/services/autocomplete.service';
 import { IconModule } from '@gsa-sam/ngx-uswds-icons';
-import {
-  NgxBootstrapIconsModule,
-  chevronLeft,
-  threeDotsVertical,
-} from 'ngx-bootstrap-icons';
 import { FormsModule } from '@angular/forms';
+import { SdsSubheaderModule } from './subheader.module';
+import { SdsSubheaderComponent } from './subheader.component';
 
 <Meta
   title="Subheader"
   component={SdsSubheaderComponent}
   decorators={[
     moduleMetadata({
-      declarations: [SdsSubheaderActionsComponent, DemoSubheaderComponent],
+      declarations: [DemoSubheaderComponent],
       imports: [
         BrowserAnimationsModule,
-        SdsAutocompleteModule,
-        SdsSearchModule,
         FormsModule,
         IconModule,
-        SdsMenuModule,
+        SdsSearchModule,
+        SdsAutocompleteModule,
+        SdsSubheaderModule,
         SdsButtonGroupModule,
-        RouterModule.forRoot([], { useHash: true }),
-        NgxBootstrapIconsModule.pick({ chevronLeft, threeDotsVertical }),
       ],
-      providers: [AutocompleteService, { provide: APP_BASE_HREF, useValue: '/' },],
+      providers: [AutocompleteService],
     }),
   ]}
 />
