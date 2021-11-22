@@ -9,9 +9,9 @@
   <li *ngFor="let item of list.items">
     <span *ngIf="list.iconList" class="sds-list__item-icon">
       <usa-icon
-        *ngIf="item.icon.prefix == 'bs'"
-        [icon]="[item.icon.icon]"
-        [classList]="[item.icon.classes]"
+        *ngIf="item.icon.icon"
+        [icon]="item.icon.icon"
+        [classList]="item.icon.classes"
       >
       </usa-icon>
     </span>
