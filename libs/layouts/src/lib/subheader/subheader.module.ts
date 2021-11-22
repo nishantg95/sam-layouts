@@ -6,6 +6,7 @@ import {
   SdsSearchModule,
   SdsObserversModule,
   SdsTruncateModule,
+  SdsDialogModule,
 } from '@gsa-sam/components';
 import {
   SdsSubheaderComponent,
@@ -19,6 +20,10 @@ import { SdsDrawerCommunicationService } from './drawer-communication.service';
 import { NgxBootstrapIconsModule, threeDotsVertical, chevronLeft } from 'ngx-bootstrap-icons';
 import { IconModule } from '@gsa-sam/ngx-uswds-icons';
 import { SdsButtonGroupModule } from '@gsa-sam/sam-material-extensions';
+import { PortalModule } from '@angular/cdk/portal';
+import { HelpContentComponent, SdsSubheaderHelpComponent } from './help.component';
+import { SdsLandingListModule } from '../landing/list/list.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -29,8 +34,10 @@ import { SdsButtonGroupModule } from '@gsa-sam/sam-material-extensions';
     SdsActionsMenuModule,
     IconModule,
     SdsButtonGroupModule,
-    NgxBootstrapIconsModule.pick({threeDotsVertical, chevronLeft})
-
+    NgxBootstrapIconsModule.pick({threeDotsVertical, chevronLeft}),
+    SdsDialogModule,
+    PortalModule,
+    SdsLandingListModule
   ],
   exports: [
     SdsSubheaderComponent,
@@ -38,14 +45,15 @@ import { SdsButtonGroupModule } from '@gsa-sam/sam-material-extensions';
     SdsSubheaderDrawerComponent,
     SdsDrawerContentComponent,
     SdsSubheaderWrapperComponent
-
   ],
   declarations: [
     SdsSubheaderComponent,
     SdsSubheaderActionsComponent,
     SdsSubheaderDrawerComponent,
     SdsDrawerContentComponent,
-    SdsSubheaderWrapperComponent
+    SdsSubheaderWrapperComponent,
+    SdsSubheaderHelpComponent,
+    HelpContentComponent
   ],
   providers: [SdsDrawerCommunicationService]
 })
