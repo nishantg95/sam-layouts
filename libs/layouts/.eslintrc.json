@@ -16,7 +16,7 @@
         ],
         "@angular-eslint/component-selector": [
           "error",
-          { "type": "element", "prefix": "sam-layouts", "style": "kebab-case" }
+          { "type": "element", "prefix": "sds", "style": "kebab-case" }
         ]
       }
     },
