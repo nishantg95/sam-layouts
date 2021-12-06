@@ -40,7 +40,10 @@ export class SdsSubheaderHelpComponent {
       hasBackdrop: false,
       height: '100%',
       position: { right: 'true' },
-      slideOut: true,
+      slideOut: {
+        width: '20rem',
+        time: '350ms'
+      },
       data: {
         help: this.content,
       },
