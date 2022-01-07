@@ -5,5 +5,11 @@
     "types": []
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
-  "exclude": ["**/*.stories.ts", "**/*.stories.js"]
+  "include": ["src/**/*.d.ts"],
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/*.stories.ts",
+    "**/*.stories.js"
+  ]
 }

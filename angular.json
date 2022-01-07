@@ -1,37 +1,48 @@
 {
   "version": 1,
-  "cli": {
-    "defaultCollection": "@nrwl/angular"
-  },
-  "defaultProject": "sam-layouts",
-  "schematics": {
-    "@nrwl/angular": {
-      "application": {
-        "linter": "eslint"
-      },
-      "library": {
-        "linter": "eslint"
-      },
-      "storybook-configuration": {
-        "linter": "eslint"
-      }
-    },
-    "@nrwl/angular:application": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
-    },
-    "@nrwl/angular:library": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest"
-    },
-    "@nrwl/angular:component": {
-      "style": "scss"
-    }
-  },
   "projects": {
+    "layouts": {
+      "projectType": "library",
+      "root": "libs/layouts",
+      "sourceRoot": "libs/layouts/src",
+      "prefix": "sam-layouts",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/layouts"],
+          "options": {
+            "project": "libs/layouts/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/layouts/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/layouts/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/layouts"],
+          "options": {
+            "jestConfig": "libs/layouts/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/layouts/src/**/*.ts",
+              "libs/layouts/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
     "sam-layouts": {
       "projectType": "application",
       "root": "apps/sam-layouts",
@@ -40,13 +51,14 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/sam-layouts",
             "index": "apps/sam-layouts/src/index.html",
             "main": "apps/sam-layouts/src/main.ts",
             "polyfills": "apps/sam-layouts/src/polyfills.ts",
             "tsConfig": "apps/sam-layouts/tsconfig.app.json",
-            "aot": true,
+            "inlineStyleLanguage": "scss",
             "assets": [
               "apps/sam-layouts/src/favicon.ico",
               "apps/sam-layouts/src/assets"
@@ -56,44 +68,48 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "apps/sam-layouts/src/environments/environment.ts",
                   "with": "apps/sam-layouts/src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
-                }
-              ]
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "sam-layouts:build"
-          },
           "configurations": {
             "production": {
               "browserTarget": "sam-layouts:build:production"
+            },
+            "development": {
+              "browserTarget": "sam-layouts:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -126,7 +142,9 @@
             "config": {
               "configFolder": "apps/sam-layouts/.storybook"
             },
-            "staticDir": ["apps/sam-layouts/src/assets"]
+            "staticDir": [
+              "apps/sam-layouts/src/assets"
+            ]
           },
           "configurations": {
             "ci": {
@@ -150,7 +168,8 @@
             }
           }
         }
-      }
+      },
+      "tags": []
     },
     "sam-layouts-e2e": {
       "root": "apps/sam-layouts-e2e",
@@ -161,8 +180,7 @@
           "builder": "@nrwl/cypress:cypress",
           "options": {
             "cypressConfig": "apps/sam-layouts-e2e/cypress.json",
-            "tsConfig": "apps/sam-layouts-e2e/tsconfig.e2e.json",
-            "devServerTarget": "sam-layouts:serve"
+            "devServerTarget": "sam-layouts:serve:development"
           },
           "configurations": {
             "production": {
@@ -172,48 +190,14 @@
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
           "options": {
             "lintFilePatterns": ["apps/sam-layouts-e2e/**/*.{js,ts}"]
           }
         }
-      }
-    },
-    "layouts": {
-      "projectType": "library",
-      "root": "libs/layouts",
-      "sourceRoot": "libs/layouts/src",
-      "prefix": "sam-layouts",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/layouts/tsconfig.lib.json",
-            "project": "libs/layouts/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/layouts/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/layouts/src/**/*.ts",
-              "libs/layouts/src/**/*.html"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/layouts"],
-          "options": {
-            "jestConfig": "libs/layouts/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["sam-layouts"]
     }
   }
 }
