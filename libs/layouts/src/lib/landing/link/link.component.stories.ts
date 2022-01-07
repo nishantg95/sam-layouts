@@ -1,13 +1,19 @@
 import { moduleMetadata } from '@storybook/angular';
 import { Meta, Story } from '@storybook/angular/types-6-0';
 import { SdsLandingLinkComponent } from './link.component';
+import { SdsLandingLinkModule } from './link.module';
+import { RouterModule } from '@angular/router';
 
 export default {
   title: 'Landing/Link',
   component: SdsLandingLinkComponent,
   decorators: [
     moduleMetadata({
-      declarations: [SdsLandingLinkComponent],
+      declarations: [],
+      imports: [
+        SdsLandingLinkModule,
+        RouterModule.forRoot([], { useHash: true }),
+      ]
     }),
   ],
 } as Meta;

@@ -13,7 +13,7 @@ import {
 } from '@gsa-sam/sam-formly';
 
 import { ResultModule } from './result/result.module';
-import { SearchListServiceModule } from '@gsa-sam/layouts';
+import { SearchListServiceModule } from '../search-list-layout.module';
 import { FilterService } from './filter.service';
 import { AutocompleteSampleDataService } from './services/autocomplete-sample.service';
 import { LayoutResponsiveComponent } from './layout-responsive/layout-responsive.component';
