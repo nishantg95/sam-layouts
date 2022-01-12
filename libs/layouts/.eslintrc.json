@@ -21,7 +21,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "sam-layouts",
+            "prefix": "sds",
             "style": "kebab-case"
           }
         ]
