@@ -3,7 +3,7 @@
     "interfaces": [
         {
             "name": "Alert",
-            "id": "interface-Alert-5187e6bee7c5825196de89acd19cc4c1",
+            "id": "interface-Alert-7ac0e5a4326c28f7d8d2e5ef0c4f57815112d6fafb72f37657683871dd9480dc62f258c8b0406f12b1d39f0c12bddab5672834dda948c9d8a8a2d2c8523a5e41",
             "file": "libs/layouts/src/lib/system-alert/model/alert.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -48,17 +48,17 @@
                 }
             ],
             "indexSignatures": [],
-            "kind": 164,
+            "kind": 165,
             "methods": []
         },
         {
             "name": "Data",
-            "id": "interface-Data-5971db04935d7fe932c9ae38cae0d146",
+            "id": "interface-Data-13278ec3e16a802ab982f5412dd0d71d3249b799af26d057dd4d10c51ca0efeed3dfd7a59290bc1d5c0dfa1dc0bc8ca7f88a036b70c786d9a6435fc9d9d25bc9",
             "file": "libs/layouts/src/lib/subheader/help.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n@Component({\n  selector: 'sds-subheader-help',\n  template: `\n    <div class=\"tablet:margin-right-5 text-right\">\n      <button\n        class=\"usa-button\n          text-white text-semibold\n          radius-0 tablet:radius-bottom-lg\n          border-transparent\n          bg-accent-cool-darker\n          padding-y-05 padding-x-5\n          width-full tablet:width-15\"\n        (click)=\"openSlidePanel()\"\n      >\n        Help\n      </button>\n    </div>\n  `,\n})\nexport class SdsSubheaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: true,\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n@Component({\n  selector: 'sds-subheader-help',\n  template: `\n    <div class=\"tablet:margin-right-5 text-right\">\n      <button\n        class=\"usa-button\n          text-white text-semibold\n          radius-0 tablet:radius-bottom-lg\n          border-transparent\n          bg-accent-cool-darker\n          padding-y-05 padding-x-5\n          width-full tablet:width-15\"\n        (click)=\"openSlidePanel()\"\n      >\n        Help\n      </button>\n    </div>\n  `,\n})\nexport class SdsSubheaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms'\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
             "properties": [
                 {
                     "name": "help",
@@ -71,12 +71,38 @@
                 }
             ],
             "indexSignatures": [],
-            "kind": 164,
+            "kind": 165,
             "methods": []
         },
         {
+            "name": "Data",
+            "id": "interface-Data-9f44040371f9df5d5722e0ca9bda758d66cc4e616f5fee4e0b3034a9663150be1ef6572bb1b99fa9564343ea2e98a3a496192f1bfda1c73aee8e08ae1f1a453a-1",
+            "file": "libs/layouts/src/lib/header/help.component.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "properties": [
+                {
+                    "name": "help",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": [],
+            "isDuplicate": true,
+            "duplicateId": 1,
+            "duplicateName": "Data-1"
+        },
+        {
             "name": "ExternalLink",
-            "id": "interface-ExternalLink-e1d21b3fdf86cf1eb51c22eb74417c3d",
+            "id": "interface-ExternalLink-68a4261541357229e162225d1bc1f63c121e46928bc13a1038b0de700a104bb3f1fd83e04b4a0a4ef01c3ca7d63bf4c4f25d16e93ffa53f15e51b8b5c0e581e5",
             "file": "libs/layouts/src/lib/landing/link/link.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -103,13 +129,13 @@
                 }
             ],
             "indexSignatures": [],
-            "kind": 164,
+            "kind": 165,
             "methods": [],
             "extends": "LinkBase"
         },
         {
             "name": "FooterLogo",
-            "id": "interface-FooterLogo-5b7eb1ee3984c380395d80bf3f9eea0f",
+            "id": "interface-FooterLogo-003fa3488b7172538dc9d6aab42b510877d5f0b4bfbc87f424008a7947dd3ee116a4e9575f0ba8edd676e334790e0d9f587ea3236b1002d233d5a38ea064a919",
             "file": "libs/layouts/src/lib/footer/model/FooterModel.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -167,12 +193,12 @@
                 }
             ],
             "indexSignatures": [],
-            "kind": 164,
+            "kind": 165,
             "methods": []
         },
         {
             "name": "HeaderModel",
-            "id": "interface-HeaderModel-02868cb8266e3b61cd27d2bdb01ff7ab",
+            "id": "interface-HeaderModel-64bd5628f8b1f3bcb8419110ed772d3882b18b5319f6af3308779e16112d39cac6271b8d543b4a0f0fb7353a61b84723ce4a01fdf7c713af8f37bf6582adbeed",
             "file": "libs/layouts/src/lib/header/model/HeaderModel.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -211,12 +237,12 @@
                 }
             ],
             "indexSignatures": [],
-            "kind": 164,
+            "kind": 165,
             "methods": []
         },
         {
             "name": "InternalLink",
-            "id": "interface-InternalLink-e1d21b3fdf86cf1eb51c22eb74417c3d",
+            "id": "interface-InternalLink-68a4261541357229e162225d1bc1f63c121e46928bc13a1038b0de700a104bb3f1fd83e04b4a0a4ef01c3ca7d63bf4c4f25d16e93ffa53f15e51b8b5c0e581e5",
             "file": "libs/layouts/src/lib/landing/link/link.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -243,13 +269,13 @@
                 }
             ],
             "indexSignatures": [],
-            "kind": 164,
+            "kind": 165,
             "methods": [],
             "extends": "LinkBase"
         },
         {
             "name": "LinkBase",
-            "id": "interface-LinkBase-e1d21b3fdf86cf1eb51c22eb74417c3d",
+            "id": "interface-LinkBase-68a4261541357229e162225d1bc1f63c121e46928bc13a1038b0de700a104bb3f1fd83e04b4a0a4ef01c3ca7d63bf4c4f25d16e93ffa53f15e51b8b5c0e581e5",
             "file": "libs/layouts/src/lib/landing/link/link.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -285,12 +311,12 @@
                 }
             ],
             "indexSignatures": [],
-            "kind": 164,
+            "kind": 165,
             "methods": []
         },
         {
             "name": "Page",
-            "id": "interface-Page-5132ae15caeb6ada7eeb66cfbf276623",
+            "id": "interface-Page-ad9b98a4b69344169e7a4e2bd51e9829fdf3127f21a6d2693028eb790ceac80e07f7d1508ae0855b3cda681cad2c465b32ee0ea8b6fb963bacb5b9dfca6c170c",
             "file": "libs/layouts/src/lib/search-list-layout/model/search-list-layout.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -329,12 +355,12 @@
                 }
             ],
             "indexSignatures": [],
-            "kind": 164,
+            "kind": 165,
             "methods": []
         },
         {
             "name": "ResultsModel",
-            "id": "interface-ResultsModel-5132ae15caeb6ada7eeb66cfbf276623",
+            "id": "interface-ResultsModel-ad9b98a4b69344169e7a4e2bd51e9829fdf3127f21a6d2693028eb790ceac80e07f7d1508ae0855b3cda681cad2c465b32ee0ea8b6fb963bacb5b9dfca6c170c",
             "file": "libs/layouts/src/lib/search-list-layout/model/search-list-layout.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -370,12 +396,12 @@
                 }
             ],
             "indexSignatures": [],
-            "kind": 164,
+            "kind": 165,
             "methods": []
         },
         {
             "name": "SearchListInterface",
-            "id": "interface-SearchListInterface-5132ae15caeb6ada7eeb66cfbf276623",
+            "id": "interface-SearchListInterface-ad9b98a4b69344169e7a4e2bd51e9829fdf3127f21a6d2693028eb790ceac80e07f7d1508ae0855b3cda681cad2c465b32ee0ea8b6fb963bacb5b9dfca6c170c",
             "file": "libs/layouts/src/lib/search-list-layout/model/search-list-layout.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -383,7 +409,7 @@
             "sourceCode": "import { QueryParamsHandling } from '@angular/router';\nimport { Observable } from 'rxjs';\nexport class SearchParameters {\n\n    /**\n     * page  \n     */\n    page: Page;\n\n    /**\n     * Sort value\n     */\n    sortField: string\n\n    /**\n     * filter data\n     */\n    filter: any;\n\n}\n\nexport interface Page {\n\n    /**\n     * Page number\n     */\n    pageNumber: number;\n\n    /**\n     * Page size\n     */\n    pageSize: number;\n\n    /**\n     * Total number of pages\n     */\n    totalPages: number;\n\n}\n\nexport class SearchResult {\n\n    /**\n     * Total number of items (beyond the page)\n     */\n    totalItems: number;\n\n    /**\n     * Items to be displayed\n     */\n    items: any[];\n}\n\n\n\nexport interface SearchListInterface {\n\n    /**\n     * Method to get the takes it takes in the SearchParameters and returns SearchResult object\n     * @param search \n     */\n    getData(search: SearchParameters): Observable<SearchResult>;\n}\n\nexport class sortItem {\n    /**\n     * Text to be displayed\n     */\n    text: string;\n\n    /**\n     * Value of Item\n     */\n    value: string;\n\n\n}\n\nexport class SearchListConfiguration {\n\n    /**\n     * List of sort by items\n     */\n    sortList: sortItem[];\n\n    /**\n     * default sort value\n     */\n    defaultSortValue: string;\n\n    /**\n     * Starting page size\n     */\n    pageSize: number = 25;\n\n    /**\n     * Default values to use during initialization when there is none in url.\n     */\n    defaultFilterValue?: any = {};\n\n    queryParamsHandling?: QueryParamsHandling;\n\n}\n\nexport interface ResultsModel {\n    sort?: string;\n    page?: number;\n    filterModel: any;\n}",
             "properties": [],
             "indexSignatures": [],
-            "kind": 166,
+            "kind": 167,
             "methods": [
                 {
                     "name": "getData",
@@ -436,7 +462,7 @@
     "injectables": [
         {
             "name": "AutocompleteSampleDataService",
-            "id": "injectable-AutocompleteSampleDataService-49a80967bae22a67dc0df3eff69b267c",
+            "id": "injectable-AutocompleteSampleDataService-4cb852ee5b7af5cf401f8e343449208a5dddd777c73b06c4faf5aefa219a78eb86861dd646a025c82f1ab1a0384a137667b752c7589e3961aa2f5d14e2d2ffe6",
             "file": "libs/layouts/src/lib/search-list-layout/demo/services/autocomplete-sample.service.ts",
             "properties": [
                 {
@@ -516,7 +542,7 @@
         },
         {
             "name": "AutocompleteService",
-            "id": "injectable-AutocompleteService-c463416b124dca5eb5fd5b714670a2f1",
+            "id": "injectable-AutocompleteService-7dca82d3e1f4ace3421663e0c618ad3e6109c41e9dfd4063aa2150f0af2a4ab2f28aa3dbaf9a8638c4517efe49fb815bc28c6a01a7e619e57e3a4340cc10a076",
             "file": "libs/layouts/src/lib/subheader/examples/services/autocomplete.service.ts",
             "properties": [
                 {
@@ -589,7 +615,7 @@
         },
         {
             "name": "DataService",
-            "id": "injectable-DataService-2d0e8cde61c901a238fee43f0ee22379",
+            "id": "injectable-DataService-4ad745fcf6c4ae1183f55a42a20f510076fe895d21c8e06a524f31ae366ab4d773fc3147ea939ff51fd45d85153a49b60004af06519b0734a7478eeb8e09738d",
             "file": "libs/layouts/src/lib/search-list-layout/demo/data.service.ts",
             "properties": [
                 {
@@ -647,7 +673,7 @@
         },
         {
             "name": "FilterService",
-            "id": "injectable-FilterService-96b6d270523c8e331d208da342f21275",
+            "id": "injectable-FilterService-4bed7952d0d15efe335444d197bd32e18cf911dc011c3a1c0c2caf02f084a01df196d41e86b7e25aa6a18b84169d7014f3d8038bf981a0f73d69831a2931d2fa",
             "file": "libs/layouts/src/lib/search-list-layout/demo/filter.service.ts",
             "properties": [
                 {
@@ -869,7 +895,7 @@
         },
         {
             "name": "SdsDrawerCommunicationService",
-            "id": "injectable-SdsDrawerCommunicationService-9539dd5998c81e048cecea3b5b23c472",
+            "id": "injectable-SdsDrawerCommunicationService-06a978da78ddb33a3bd4ebc0c4379579532dad7394721635f9a97a79884526150558e06b6da4537abb05eada163aa0df24afcf13a60f3dab5bbf29e80e416b1b",
             "file": "libs/layouts/src/lib/subheader/drawer-communication.service.ts",
             "properties": [
                 {
@@ -977,7 +1003,7 @@
     "classes": [
         {
             "name": "FooterLink",
-            "id": "class-FooterLink-5b7eb1ee3984c380395d80bf3f9eea0f",
+            "id": "class-FooterLink-003fa3488b7172538dc9d6aab42b510877d5f0b4bfbc87f424008a7947dd3ee116a4e9575f0ba8edd676e334790e0d9f587ea3236b1002d233d5a38ea064a919",
             "file": "libs/layouts/src/lib/footer/model/FooterModel.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -1038,7 +1064,7 @@
         },
         {
             "name": "FooterLinkSection",
-            "id": "class-FooterLinkSection-5b7eb1ee3984c380395d80bf3f9eea0f",
+            "id": "class-FooterLinkSection-003fa3488b7172538dc9d6aab42b510877d5f0b4bfbc87f424008a7947dd3ee116a4e9575f0ba8edd676e334790e0d9f587ea3236b1002d233d5a38ea064a919",
             "file": "libs/layouts/src/lib/footer/model/FooterModel.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -1075,7 +1101,7 @@
         },
         {
             "name": "FooterModel",
-            "id": "class-FooterModel-5b7eb1ee3984c380395d80bf3f9eea0f",
+            "id": "class-FooterModel-003fa3488b7172538dc9d6aab42b510877d5f0b4bfbc87f424008a7947dd3ee116a4e9575f0ba8edd676e334790e0d9f587ea3236b1002d233d5a38ea064a919",
             "file": "libs/layouts/src/lib/footer/model/FooterModel.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -1121,7 +1147,7 @@
         },
         {
             "name": "HeaderHome",
-            "id": "class-HeaderHome-02868cb8266e3b61cd27d2bdb01ff7ab",
+            "id": "class-HeaderHome-64bd5628f8b1f3bcb8419110ed772d3882b18b5319f6af3308779e16112d39cac6271b8d543b4a0f0fb7353a61b84723ce4a01fdf7c713af8f37bf6582adbeed",
             "file": "libs/layouts/src/lib/header/model/HeaderModel.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -1202,7 +1228,7 @@
         },
         {
             "name": "HeaderNavigationLink",
-            "id": "class-HeaderNavigationLink-02868cb8266e3b61cd27d2bdb01ff7ab",
+            "id": "class-HeaderNavigationLink-64bd5628f8b1f3bcb8419110ed772d3882b18b5319f6af3308779e16112d39cac6271b8d543b4a0f0fb7353a61b84723ce4a01fdf7c713af8f37bf6582adbeed",
             "file": "libs/layouts/src/lib/header/model/HeaderModel.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -1283,7 +1309,7 @@
         },
         {
             "name": "HeaderSecondaryLink",
-            "id": "class-HeaderSecondaryLink-02868cb8266e3b61cd27d2bdb01ff7ab",
+            "id": "class-HeaderSecondaryLink-64bd5628f8b1f3bcb8419110ed772d3882b18b5319f6af3308779e16112d39cac6271b8d543b4a0f0fb7353a61b84723ce4a01fdf7c713af8f37bf6582adbeed",
             "file": "libs/layouts/src/lib/header/model/HeaderModel.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -1374,7 +1400,7 @@
         },
         {
             "name": "SearchListConfiguration",
-            "id": "class-SearchListConfiguration-5132ae15caeb6ada7eeb66cfbf276623",
+            "id": "class-SearchListConfiguration-ad9b98a4b69344169e7a4e2bd51e9829fdf3127f21a6d2693028eb790ceac80e07f7d1508ae0855b3cda681cad2c465b32ee0ea8b6fb963bacb5b9dfca6c170c",
             "file": "libs/layouts/src/lib/search-list-layout/model/search-list-layout.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -1442,7 +1468,7 @@
         },
         {
             "name": "SearchParameters",
-            "id": "class-SearchParameters-5132ae15caeb6ada7eeb66cfbf276623",
+            "id": "class-SearchParameters-ad9b98a4b69344169e7a4e2bd51e9829fdf3127f21a6d2693028eb790ceac80e07f7d1508ae0855b3cda681cad2c465b32ee0ea8b6fb963bacb5b9dfca6c170c",
             "file": "libs/layouts/src/lib/search-list-layout/model/search-list-layout.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -1489,7 +1515,7 @@
         },
         {
             "name": "SearchResult",
-            "id": "class-SearchResult-5132ae15caeb6ada7eeb66cfbf276623",
+            "id": "class-SearchResult-ad9b98a4b69344169e7a4e2bd51e9829fdf3127f21a6d2693028eb790ceac80e07f7d1508ae0855b3cda681cad2c465b32ee0ea8b6fb963bacb5b9dfca6c170c",
             "file": "libs/layouts/src/lib/search-list-layout/model/search-list-layout.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -1526,7 +1552,7 @@
         },
         {
             "name": "SerachDropDownItem",
-            "id": "class-SerachDropDownItem-14553f91d307e9b295f02609038750ca",
+            "id": "class-SerachDropDownItem-4ef6a47de49a2d5e62c92f6e58a79d21a8205c8d9c6265231972e4a0d285f0ff25ec89d7cc218f83be8de5622919bbc856c4e68ef2956e4240c150fdaf00cfe5",
             "file": "libs/layouts/src/lib/subheader/sds-subheader-wrapper.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -1561,7 +1587,7 @@
         },
         {
             "name": "sortItem",
-            "id": "class-sortItem-5132ae15caeb6ada7eeb66cfbf276623",
+            "id": "class-sortItem-ad9b98a4b69344169e7a4e2bd51e9829fdf3127f21a6d2693028eb790ceac80e07f7d1508ae0855b3cda681cad2c465b32ee0ea8b6fb963bacb5b9dfca6c170c",
             "file": "libs/layouts/src/lib/search-list-layout/model/search-list-layout.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -1598,7 +1624,7 @@
         },
         {
             "name": "TabModel",
-            "id": "class-TabModel-14553f91d307e9b295f02609038750ca",
+            "id": "class-TabModel-4ef6a47de49a2d5e62c92f6e58a79d21a8205c8d9c6265231972e4a0d285f0ff25ec89d7cc218f83be8de5622919bbc856c4e68ef2956e4240c150fdaf00cfe5",
             "file": "libs/layouts/src/lib/subheader/sds-subheader-wrapper.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
@@ -1647,7 +1673,7 @@
     "directives": [
         {
             "name": "SdsLandingCardTitleDirective",
-            "id": "directive-SdsLandingCardTitleDirective-9abbd856825f9e40c3a17c7c1cf6b643",
+            "id": "directive-SdsLandingCardTitleDirective-f3b26e59078a8cec923d61af607e5a1eb385a857466c50909180a01ec69712cd9546c46b177981eafc87212011689f9cce85829afec3009495dbfabfe0c29c7a",
             "file": "libs/layouts/src/lib/landing/card/card.component.ts",
             "type": "directive",
             "description": "",
@@ -1666,7 +1692,7 @@
         },
         {
             "name": "SdsLandingPageCardDirective",
-            "id": "directive-SdsLandingPageCardDirective-3ac01fe5f3fa64ebf64c14a26d0711bd",
+            "id": "directive-SdsLandingPageCardDirective-5edc4cf4fb72e7a5f44e7344e43f9b87a936b7b311171e3c85b12ec8e64826605481c929df726a38e17914cddeb97320978d40386df6ea915676b834a5d72056",
             "file": "libs/layouts/src/lib/landing/page/page.component.ts",
             "type": "directive",
             "description": "",
@@ -1685,7 +1711,7 @@
         },
         {
             "name": "SdsLandingPageLegacyLogoDirective",
-            "id": "directive-SdsLandingPageLegacyLogoDirective-3ac01fe5f3fa64ebf64c14a26d0711bd",
+            "id": "directive-SdsLandingPageLegacyLogoDirective-5edc4cf4fb72e7a5f44e7344e43f9b87a936b7b311171e3c85b12ec8e64826605481c929df726a38e17914cddeb97320978d40386df6ea915676b834a5d72056",
             "file": "libs/layouts/src/lib/landing/page/page.component.ts",
             "type": "directive",
             "description": "",
@@ -1699,7 +1725,8 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 51,
-                    "type": "string"
+                    "type": "string",
+                    "decorators": []
                 }
             ],
             "outputsClass": [],
@@ -1712,7 +1739,7 @@
         },
         {
             "name": "SdsLandingPageOverviewDirective",
-            "id": "directive-SdsLandingPageOverviewDirective-3ac01fe5f3fa64ebf64c14a26d0711bd",
+            "id": "directive-SdsLandingPageOverviewDirective-5edc4cf4fb72e7a5f44e7344e43f9b87a936b7b311171e3c85b12ec8e64826605481c929df726a38e17914cddeb97320978d40386df6ea915676b834a5d72056",
             "file": "libs/layouts/src/lib/landing/page/page.component.ts",
             "type": "directive",
             "description": "",
@@ -1731,7 +1758,7 @@
         },
         {
             "name": "SdsLandingPageOverviewParagraphDirective",
-            "id": "directive-SdsLandingPageOverviewParagraphDirective-3ac01fe5f3fa64ebf64c14a26d0711bd",
+            "id": "directive-SdsLandingPageOverviewParagraphDirective-5edc4cf4fb72e7a5f44e7344e43f9b87a936b7b311171e3c85b12ec8e64826605481c929df726a38e17914cddeb97320978d40386df6ea915676b834a5d72056",
             "file": "libs/layouts/src/lib/landing/page/page.component.ts",
             "type": "directive",
             "description": "",
@@ -1750,7 +1777,7 @@
         },
         {
             "name": "SdsLandingPageTileDirective",
-            "id": "directive-SdsLandingPageTileDirective-3ac01fe5f3fa64ebf64c14a26d0711bd",
+            "id": "directive-SdsLandingPageTileDirective-5edc4cf4fb72e7a5f44e7344e43f9b87a936b7b311171e3c85b12ec8e64826605481c929df726a38e17914cddeb97320978d40386df6ea915676b834a5d72056",
             "file": "libs/layouts/src/lib/landing/page/page.component.ts",
             "type": "directive",
             "description": "",
@@ -1769,7 +1796,7 @@
         },
         {
             "name": "SdsLandingPageTitleDirective",
-            "id": "directive-SdsLandingPageTitleDirective-3ac01fe5f3fa64ebf64c14a26d0711bd",
+            "id": "directive-SdsLandingPageTitleDirective-5edc4cf4fb72e7a5f44e7344e43f9b87a936b7b311171e3c85b12ec8e64826605481c929df726a38e17914cddeb97320978d40386df6ea915676b834a5d72056",
             "file": "libs/layouts/src/lib/landing/page/page.component.ts",
             "type": "directive",
             "description": "",
@@ -1790,7 +1817,7 @@
     "components": [
         {
             "name": "DemoSubheaderComponent",
-            "id": "component-DemoSubheaderComponent-903c5695798620136c029636a22f8ccc",
+            "id": "component-DemoSubheaderComponent-fc578a7c6a0f51b69c13c062770f17c45e59fbf6b4f46758683142cc430bfa7a486bdb713f030e053ff5c9459a81594d66ef62d288f26cb514b3b604dffada30",
             "file": "libs/layouts/src/lib/subheader/subheader.demo.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1810,7 +1837,8 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 79,
-                    "type": "boolean"
+                    "type": "boolean",
+                    "decorators": []
                 },
                 {
                     "name": "showButtonGroup",
@@ -1818,7 +1846,8 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 80,
-                    "type": "boolean"
+                    "type": "boolean",
+                    "decorators": []
                 },
                 {
                     "name": "showButtons",
@@ -1826,7 +1855,8 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 77,
-                    "type": "boolean"
+                    "type": "boolean",
+                    "decorators": []
                 },
                 {
                     "name": "showSearch",
@@ -1834,7 +1864,8 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 78,
-                    "type": "boolean"
+                    "type": "boolean",
+                    "decorators": []
                 }
             ],
             "outputsClass": [
@@ -1991,7 +2022,7 @@
         },
         {
             "name": "HelpContentComponent",
-            "id": "component-HelpContentComponent-5971db04935d7fe932c9ae38cae0d146",
+            "id": "component-HelpContentComponent-13278ec3e16a802ab982f5412dd0d71d3249b799af26d057dd4d10c51ca0efeed3dfd7a59290bc1d5c0dfa1dc0bc8ca7f88a036b70c786d9a6435fc9d9d25bc9",
             "file": "libs/layouts/src/lib/subheader/help.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2013,7 +2044,7 @@
                     "type": "Data",
                     "optional": false,
                     "description": "",
-                    "line": 72,
+                    "line": 75,
                     "decorators": [
                         {
                             "name": "Inject",
@@ -2046,7 +2077,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 74,
+                    "line": 77,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2079,7 +2110,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n@Component({\n  selector: 'sds-subheader-help',\n  template: `\n    <div class=\"tablet:margin-right-5 text-right\">\n      <button\n        class=\"usa-button\n          text-white text-semibold\n          radius-0 tablet:radius-bottom-lg\n          border-transparent\n          bg-accent-cool-darker\n          padding-y-05 padding-x-5\n          width-full tablet:width-15\"\n        (click)=\"openSlidePanel()\"\n      >\n        Help\n      </button>\n    </div>\n  `,\n})\nexport class SdsSubheaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: true,\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n@Component({\n  selector: 'sds-subheader-help',\n  template: `\n    <div class=\"tablet:margin-right-5 text-right\">\n      <button\n        class=\"usa-button\n          text-white text-semibold\n          radius-0 tablet:radius-bottom-lg\n          border-transparent\n          bg-accent-cool-darker\n          padding-y-05 padding-x-5\n          width-full tablet:width-15\"\n        (click)=\"openSlidePanel()\"\n      >\n        Help\n      </button>\n    </div>\n  `,\n})\nexport class SdsSubheaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms'\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -2096,7 +2127,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 71,
+                "line": 74,
                 "jsdoctags": [
                     {
                         "name": "data",
@@ -2111,8 +2142,132 @@
             }
         },
         {
+            "name": "HelpContentComponent",
+            "id": "component-HelpContentComponent-9f44040371f9df5d5722e0ca9bda758d66cc4e616f5fee4e0b3034a9663150be1ef6572bb1b99fa9564343ea2e98a3a496192f1bfda1c73aee8e08ae1f1a453a-1",
+            "file": "libs/layouts/src/lib/header/help.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "styleUrls": [],
+            "styles": [],
+            "template": "<div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n  <div class=\"font-heading-lg text-semibold\">Help</div>\n  <div *ngFor=\"let item of data.help\">\n    <div\n      class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n    >\n      {{ item.head.title }}\n    </div>\n    <ng-template\n      *ngFor=\"let content of item.body.content\"\n      [cdkPortalOutlet]=\"content.component\"\n      (attached)=\"inputs($event, content.inputs)\"\n    >\n    </ng-template>\n  </div>\n</div>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "data",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Data",
+                    "optional": false,
+                    "description": "",
+                    "line": 76,
+                    "decorators": [
+                        {
+                            "name": "Inject",
+                            "stringifiedArguments": "SDS_DIALOG_DATA"
+                        }
+                    ],
+                    "modifierKind": [
+                        123
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "inputs",
+                    "args": [
+                        {
+                            "name": "ref",
+                            "type": "CdkPortalOutletAttachedRef",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "componentInputs",
+                            "type": "object",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "defaultValue": "{}"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 78,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "ref",
+                            "type": "CdkPortalOutletAttachedRef",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "componentInputs",
+                            "type": "object",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "defaultValue": "{}",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "data",
+                        "type": "Data",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 75,
+                "jsdoctags": [
+                    {
+                        "name": "data",
+                        "type": "Data",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "isDuplicate": true,
+            "duplicateId": 1,
+            "duplicateName": "HelpContentComponent-1"
+        },
+        {
             "name": "LayoutResponsiveComponent",
-            "id": "component-LayoutResponsiveComponent-50bde59622c104858a603dc23b4707e8",
+            "id": "component-LayoutResponsiveComponent-d5afd29a98ea1818ebddc1d323aa95056fe71ae62cb3bc5420250bc97df8337adeb16760ddb30e45a5400db69873cf5847fed06f5df3d5b9319eb17de79aa52e",
             "file": "libs/layouts/src/lib/search-list-layout/demo/layout-responsive/layout-responsive.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2598,7 +2753,7 @@
         },
         {
             "name": "ResultComponent",
-            "id": "component-ResultComponent-d99ecb52cf79c48b3c870f50ae6a93a9",
+            "id": "component-ResultComponent-9bbd72c82517d8e41e23aa0d4d86b7464afe751eb12be6c366268315bea31d326c63293b2898cde07adad6dff6ed2c206442a79ddd40615e214e277195548675",
             "file": "libs/layouts/src/lib/search-list-layout/demo/result/result.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2618,7 +2773,8 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 7,
-                    "type": "any"
+                    "type": "any",
+                    "decorators": []
                 }
             ],
             "outputsClass": [],
@@ -2639,7 +2795,7 @@
         },
         {
             "name": "SdsDrawerContentComponent",
-            "id": "component-SdsDrawerContentComponent-39290a283693ddb1c0d1a3e7bcd70536",
+            "id": "component-SdsDrawerContentComponent-437a158da466d1bfb65f02b90e7140f15877d61ee093ae653c8d79d13852a294e818de8cc22d68ba7ba10ed0a1526d779e003af96973b9d9ee81a6b6f2efa328",
             "file": "libs/layouts/src/lib/subheader/subheader.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2744,7 +2900,7 @@
         },
         {
             "name": "SdsFeedbackComponent",
-            "id": "component-SdsFeedbackComponent-c857a6f52f480cd45900568b7e7139b1",
+            "id": "component-SdsFeedbackComponent-b2000d684af162711a2ec0f91f8cc5086b750ebbe4c835b78287838760e8a2cb241f057bdbb0dcb692248aadd51f7b956241e62a82c71e21f734eb7012cab0f7",
             "file": "libs/layouts/src/lib/sds-feedback/sds-feedback.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2767,7 +2923,8 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 11,
-                    "type": "FormControl"
+                    "type": "FormControl",
+                    "decorators": []
                 },
                 {
                     "name": "isCollapsedContent",
@@ -2775,7 +2932,8 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 12,
-                    "type": "boolean"
+                    "type": "boolean",
+                    "decorators": []
                 }
             ],
             "outputsClass": [
@@ -2829,7 +2987,7 @@
         },
         {
             "name": "SdsFooterComponent",
-            "id": "component-SdsFooterComponent-a360ed16f690e6bc8863f2ee05644c12",
+            "id": "component-SdsFooterComponent-e4d0180d7a299a938332021cdbca793aa2b9562a73a0eeb9ff260339543f670a8a1f74e73bcf281c1acf25ca70755b3eedcbf4d8959210ed148d995c6ef44485",
             "file": "libs/layouts/src/lib/footer/footer.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2851,16 +3009,18 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 24,
-                    "type": "TemplateRef<any>"
+                    "type": "TemplateRef<any>",
+                    "decorators": []
                 },
                 {
                     "name": "model",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "Model used for the different display portions of the footer",
+                    "rawdescription": "\n\nModel used for the different display portions of the footer\n",
                     "description": "<p>Model used for the different display portions of the footer</p>\n",
                     "line": 23,
-                    "type": "FooterModel"
+                    "type": "FooterModel",
+                    "decorators": []
                 }
             ],
             "outputsClass": [
@@ -3015,7 +3175,7 @@
         },
         {
             "name": "SdsHeaderComponent",
-            "id": "component-SdsHeaderComponent-a6ef422169efad8553466ee65dcffacc",
+            "id": "component-SdsHeaderComponent-e7277af143d9a071225e21e478d77c55509670d7094b41c66d1fd1c63e9146696d2298c927dece58c10e0ac013d540f487c065224f78fb00b2701cde2d032579",
             "file": "libs/layouts/src/lib/header/header.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3036,43 +3196,56 @@
                     "name": "alertsTemplate",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 48,
-                    "type": "TemplateRef<any>"
+                    "line": 52,
+                    "type": "TemplateRef<any>",
+                    "decorators": []
+                },
+                {
+                    "name": "help",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 54,
+                    "type": "[]",
+                    "decorators": []
                 },
                 {
                     "name": "model",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "Model used for the different display portions of the header",
+                    "rawdescription": "\n\nModel used for the different display portions of the header\n",
                     "description": "<p>Model used for the different display portions of the header</p>\n",
-                    "line": 42,
-                    "type": "HeaderModel"
+                    "line": 46,
+                    "type": "HeaderModel",
+                    "decorators": []
                 },
                 {
                     "name": "showHeaderLogo",
                     "defaultValue": "true",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 46,
-                    "type": "boolean"
+                    "line": 50,
+                    "type": "boolean",
+                    "decorators": []
                 },
                 {
                     "name": "showTopBanner",
                     "defaultValue": "true",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "determines if the top banner is shown",
+                    "rawdescription": "\n\ndetermines if the top banner is shown\n",
                     "description": "<p>determines if the top banner is shown</p>\n",
-                    "line": 37,
-                    "type": "boolean"
+                    "line": 41,
+                    "type": "boolean",
+                    "decorators": []
                 },
                 {
                     "name": "topBannerDescription",
                     "defaultValue": "''",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 44,
-                    "type": "string"
+                    "line": 48,
+                    "type": "string",
+                    "decorators": []
                 }
             ],
             "outputsClass": [
@@ -3083,11 +3256,25 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nevent for event based\n",
                     "description": "<p>event for event based</p>\n",
-                    "line": 54,
+                    "line": 59,
                     "type": "EventEmitter"
                 }
             ],
             "propertiesClass": [
+                {
+                    "name": "_navigationHelper",
+                    "defaultValue": "new NavigationHelper()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "NavigationHelper",
+                    "optional": false,
+                    "description": "<p>Navigation helper</p>\n",
+                    "line": 32,
+                    "rawdescription": "\n\nNavigation helper\n",
+                    "modifierKind": [
+                        121
+                    ]
+                },
                 {
                     "name": "closeNavBtn",
                     "deprecated": false,
@@ -3114,17 +3301,6 @@
                     "line": 28
                 },
                 {
-                    "name": "navigationHelper",
-                    "defaultValue": "new NavigationHelper()",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "optional": false,
-                    "description": "<p>Navigation helper</p>\n",
-                    "line": 32,
-                    "rawdescription": "\n\nNavigation helper\n"
-                },
-                {
                     "name": "openNavBtn",
                     "deprecated": false,
                     "deprecationMessage": "",
@@ -3147,7 +3323,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 194,
+                    "line": 199,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3157,7 +3333,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 97,
+                    "line": 102,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nDeselects all the items in the header model\n",
@@ -3176,7 +3352,7 @@
                     "optional": false,
                     "returnType": "Selectable",
                     "typeParameters": [],
-                    "line": 126,
+                    "line": 131,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nFinds the navigation element by id in the header model\n",
@@ -3184,8 +3360,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 2753,
-                                "end": 2755,
+                                "pos": 2872,
+                                "end": 2874,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3196,8 +3372,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 2747,
-                                "end": 2752,
+                                "pos": 2866,
+                                "end": 2871,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3227,7 +3403,7 @@
                     "optional": false,
                     "returnType": "Selectable",
                     "typeParameters": [],
-                    "line": 150,
+                    "line": 155,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nSearchs the items in the navigation links\n",
@@ -3238,8 +3414,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 3357,
-                                "end": 3359,
+                                "pos": 3476,
+                                "end": 3478,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3250,8 +3426,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 3351,
-                                "end": 3356,
+                                "pos": 3470,
+                                "end": 3475,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3277,7 +3453,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 68,
+                    "line": 73,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nseeif any secondary link has a counter\n",
@@ -3296,7 +3472,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 172,
+                    "line": 177,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nLink clicked and emits the link data into an event\n",
@@ -3304,8 +3480,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 3951,
-                                "end": 3955,
+                                "pos": 4070,
+                                "end": 4074,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3316,8 +3492,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 3945,
-                                "end": 3950,
+                                "pos": 4064,
+                                "end": 4069,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3334,7 +3510,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 205,
+                    "line": 210,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3351,7 +3527,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 181,
+                    "line": 186,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "decorators": [
@@ -3378,7 +3554,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 190,
+                    "line": 195,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3395,7 +3571,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 59,
+                    "line": 64,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nTakes in a text string and removes all white space characters and returns the new string\n",
@@ -3403,8 +3579,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 1266,
-                                "end": 1270,
+                                "pos": 1388,
+                                "end": 1392,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3415,8 +3591,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 1260,
-                                "end": 1265,
+                                "pos": 1382,
+                                "end": 1387,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3440,7 +3616,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 86,
+                    "line": 91,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nDeselects previous seletion\n",
@@ -3448,8 +3624,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 1809,
-                                "end": 1811,
+                                "pos": 1928,
+                                "end": 1930,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3460,8 +3636,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 1803,
-                                "end": 1808,
+                                "pos": 1922,
+                                "end": 1927,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3492,13 +3668,13 @@
                     ],
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 181
+                    "line": 186
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\n  Component,\n  Input,\n  Output,\n  EventEmitter,\n  ViewChild,\n  ElementRef,\n  HostListener,\n  TemplateRef\n} from '@angular/core';\nimport {\n  HeaderModel,\n  HeaderNavigationLink,\n  HeaderSecondaryLink\n} from './model/HeaderModel';\nimport { INavigationLink, Selectable } from '@gsa-sam/components';\nimport { NavigationHelper } from '@gsa-sam/components';\n\n\n@Component({\n  selector: 'sds-header',\n  templateUrl: './header.component.html',\n  styleUrls: ['./header.component.scss']\n})\nexport class SdsHeaderComponent {\n  @ViewChild('usaNavOpen') openNavBtn: ElementRef;\n  @ViewChild('usaNavClose') closeNavBtn: ElementRef;\n  mobileNavActive = false;\n  /**\n   * Navigation helper\n   */\n  navigationHelper = new NavigationHelper();\n\n  /**\n   * determines if the top banner is shown\n   */\n  @Input() showTopBanner = true;\n\n  /**\n   * Model used for the different display portions of the header\n   */\n  @Input() model: HeaderModel;\n\n  @Input() topBannerDescription = '';\n\n  @Input() showHeaderLogo = true;\n\n  @Input() alertsTemplate: TemplateRef<any>;\n\n  /**\n   * event for event based\n   */\n  @Output()\n  linkEvent = new EventEmitter<INavigationLink>();\n  /**\n   * Takes in a text string and removes all white space characters and returns the new string\n   * @param text\n   */\n  removeWhiteSpace(text: string) {\n    return text.replace(/ /g, '');\n  }\n  constructor() {\n   \n  }\n  /**\n   * seeif any secondary link has a counter\n   */\n  hasCounter(): boolean {\n    let hasCounter = false;\n    if (this.model) {\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          if (item.hasCounter) {\n            hasCounter = true;\n          }\n        });\n      }\n    }\n    return hasCounter;\n  }\n\n  /**\n   * Deselects previous seletion\n   * @param id\n   */\n  select(id: string) {\n    this.deselect();\n    const item = this.find(id);\n    if (item) {\n      item.selected = true;\n    }\n  }\n\n  /**\n   * Deselects all the items in the header model\n   */\n  deselect() {\n    if (this.model) {\n      if (this.model.home) {\n        this.model.home.selected = false;\n      }\n      if (this.model.navigationLinks) {\n        this.model.navigationLinks.forEach(function(\n          item: HeaderNavigationLink\n        ) {\n          item.selected = false;\n          if (item.children) {\n            item.children.forEach(function(child: HeaderNavigationLink) {\n              child.selected = false;\n            });\n          }\n        });\n      }\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          item.selected = false;\n        });\n      }\n    }\n  }\n\n  /**\n   * Finds the navigation element by id in the header model\n   * @param id of the navigation item\n   */\n  find(id: string): Selectable {\n    let toReturn = null;\n    if (this.model) {\n      if (this.model.home) {\n        if (this.model.home.id === id) {\n          toReturn = this.model.home;\n        }\n      }\n      toReturn = this.findNavigationLinks(id, toReturn);\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          if (item.id === id) {\n            toReturn = item;\n          }\n        });\n      }\n    }\n    return toReturn;\n  }\n\n  /**\n   * Searchs the items in the navigation links\n   * @param id\n   */\n  private findNavigationLinks(id: string, toReturn: Selectable): Selectable {\n    if (this.model.navigationLinks) {\n      this.model.navigationLinks.forEach(function(item: HeaderNavigationLink) {\n        if (item.id === id) {\n          toReturn = item;\n        }\n        if (item.children) {\n          item.children.forEach(function(child: HeaderNavigationLink) {\n            if (child.id === id) {\n              toReturn = child;\n            }\n          });\n        }\n      });\n    }\n    return toReturn;\n  }\n\n  /**\n   * Link clicked and emits the link data into an event\n   * @param link\n   */\n  linkClickEvent(link: INavigationLink) {\n    this.linkEvent.emit(link);\n    return false;\n  }\n\n  // When the mobile nav is active, and the close box isn't visible,\n  // we know the user's viewport has been resized to be larger.\n  // Let's make the page state consistent by deactivating the mobile nav.\n  @HostListener('window:resize', ['$event'])\n  onBrowserResize(event) {\n    if (\n      this.mobileNavActive &&\n      this.closeNavBtn.nativeElement.getBoundingClientRect().width === 0\n    ) {\n      this.mobileNavActive = false;\n    }\n  }\n\n  openMobileNav() {\n    this.mobileNavActive = true;\n  }\n\n  closeMobileNav() {\n    this.mobileNavActive = false;\n    // The mobile nav was just deactivated, and focus was on the close\n    // button, which is no longer visible. We don't want the focus to\n    // disappear into the void, so focus on the menu button if it's\n    // visible (this may have been what the user was just focused on,\n    // if they triggered the mobile nav by mistake).\n    this.openNavBtn.nativeElement.focus();\n  }\n\n  // The mobile nav was just activated, so focus on the close button,\n  navAnimationEnd() {\n    this.closeNavBtn.nativeElement.focus();\n  }\n}\n",
+            "sourceCode": "import {\n  Component,\n  Input,\n  Output,\n  EventEmitter,\n  ViewChild,\n  ElementRef,\n  HostListener,\n  TemplateRef\n} from '@angular/core';\nimport {\n  HeaderModel,\n  HeaderNavigationLink,\n  HeaderSecondaryLink\n} from './model/HeaderModel';\nimport { INavigationLink, Selectable } from '@gsa-sam/components';\nimport { NavigationHelper } from '@gsa-sam/components';\n\n\n@Component({\n  selector: 'sds-header',\n  templateUrl: './header.component.html',\n  styleUrls: ['./header.component.scss']\n})\nexport class SdsHeaderComponent {\n  @ViewChild('usaNavOpen') openNavBtn: ElementRef;\n  @ViewChild('usaNavClose') closeNavBtn: ElementRef;\n  mobileNavActive = false;\n  /**\n   * Navigation helper\n   */\n  private _navigationHelper: NavigationHelper = new NavigationHelper();\n\n  public get navigationHelper() {\n    return this._navigationHelper;\n  }\n\n  /**\n   * determines if the top banner is shown\n   */\n  @Input() showTopBanner = true;\n\n  /**\n   * Model used for the different display portions of the header\n   */\n  @Input() model: HeaderModel;\n\n  @Input() topBannerDescription = '';\n\n  @Input() showHeaderLogo = true;\n\n  @Input() alertsTemplate: TemplateRef<any>;\n\n  @Input() help: [];\n  /**\n   * event for event based\n   */\n  @Output()\n  linkEvent = new EventEmitter<INavigationLink>();\n  /**\n   * Takes in a text string and removes all white space characters and returns the new string\n   * @param text\n   */\n  removeWhiteSpace(text: string) {\n    return text.replace(/ /g, '');\n  }\n  constructor() {\n\n  }\n  /**\n   * seeif any secondary link has a counter\n   */\n  hasCounter(): boolean {\n    let hasCounter = false;\n    if (this.model) {\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          if (item.hasCounter) {\n            hasCounter = true;\n          }\n        });\n      }\n    }\n    return hasCounter;\n  }\n\n  /**\n   * Deselects previous seletion\n   * @param id\n   */\n  select(id: string) {\n    this.deselect();\n    const item = this.find(id);\n    if (item) {\n      item.selected = true;\n    }\n  }\n\n  /**\n   * Deselects all the items in the header model\n   */\n  deselect() {\n    if (this.model) {\n      if (this.model.home) {\n        this.model.home.selected = false;\n      }\n      if (this.model.navigationLinks) {\n        this.model.navigationLinks.forEach(function(\n          item: HeaderNavigationLink\n        ) {\n          item.selected = false;\n          if (item.children) {\n            item.children.forEach(function(child: HeaderNavigationLink) {\n              child.selected = false;\n            });\n          }\n        });\n      }\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          item.selected = false;\n        });\n      }\n    }\n  }\n\n  /**\n   * Finds the navigation element by id in the header model\n   * @param id of the navigation item\n   */\n  find(id: string): Selectable {\n    let toReturn = null;\n    if (this.model) {\n      if (this.model.home) {\n        if (this.model.home.id === id) {\n          toReturn = this.model.home;\n        }\n      }\n      toReturn = this.findNavigationLinks(id, toReturn);\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          if (item.id === id) {\n            toReturn = item;\n          }\n        });\n      }\n    }\n    return toReturn;\n  }\n\n  /**\n   * Searchs the items in the navigation links\n   * @param id\n   */\n  private findNavigationLinks(id: string, toReturn: Selectable): Selectable {\n    if (this.model.navigationLinks) {\n      this.model.navigationLinks.forEach(function(item: HeaderNavigationLink) {\n        if (item.id === id) {\n          toReturn = item;\n        }\n        if (item.children) {\n          item.children.forEach(function(child: HeaderNavigationLink) {\n            if (child.id === id) {\n              toReturn = child;\n            }\n          });\n        }\n      });\n    }\n    return toReturn;\n  }\n\n  /**\n   * Link clicked and emits the link data into an event\n   * @param link\n   */\n  linkClickEvent(link: INavigationLink) {\n    this.linkEvent.emit(link);\n    return false;\n  }\n\n  // When the mobile nav is active, and the close box isn't visible,\n  // we know the user's viewport has been resized to be larger.\n  // Let's make the page state consistent by deactivating the mobile nav.\n  @HostListener('window:resize', ['$event'])\n  onBrowserResize(event) {\n    if (\n      this.mobileNavActive &&\n      this.closeNavBtn.nativeElement.getBoundingClientRect().width === 0\n    ) {\n      this.mobileNavActive = false;\n    }\n  }\n\n  openMobileNav() {\n    this.mobileNavActive = true;\n  }\n\n  closeMobileNav() {\n    this.mobileNavActive = false;\n    // The mobile nav was just deactivated, and focus was on the close\n    // button, which is no longer visible. We don't want the focus to\n    // disappear into the void, so focus on the menu button if it's\n    // visible (this may have been what the user was just focused on,\n    // if they triggered the mobile nav by mistake).\n    this.openNavBtn.nativeElement.focus();\n  }\n\n  // The mobile nav was just activated, so focus on the close button,\n  navAnimationEnd() {\n    this.closeNavBtn.nativeElement.focus();\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -3513,13 +3689,132 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 61
+                "line": 66
             },
-            "templateData": "<sds-top-banner *ngIf=\"showTopBanner\" [description]=\"topBannerDescription\"></sds-top-banner>\n\n<div *ngIf=\"alertsTemplate\">\n  <ng-container [ngTemplateOutlet]=\"alertsTemplate\"></ng-container>\n</div>\n\n<div class=\"usa-overlay\" [class.is-visible]=\"mobileNavActive\" (click)=\"closeMobileNav()\"></div>\n<header class=\"usa-header usa-header--extended\">\n  <div class=\"usa-navbar\">\n    <div *ngIf=\"showHeaderLogo; else fillerBlock\" class=\"usa-logo\">\n      <ng-container [ngTemplateOutlet]=\"\n            navigationHelper.isLinkInternal(model.home)\n              ? homeLinkRouteTemplate\n              : homeLinkHREFTemplate\n          \" [ngTemplateOutletContext]=\"{ $implicit: model.home }\"></ng-container>\n    </div>\n    <button #usaNavOpen class=\"usa-menu-btn\" (click)=\"openMobileNav()\">\n      <div class=\"sds-stack sds-lg\">\n        <usa-icon class=\"sds-stack-icon text-primary\" [icon]=\"'square-fill'\" [size]=\"'2x'\"></usa-icon>\n        <usa-icon class=\"sds-stack-icon\" [icon]=\"'bars'\" [size]=\"'lg'\"></usa-icon>\n        <usa-icon *ngIf=\"hasCounter()\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n          [classes]=\"['counter-icon']\"></usa-icon>\n      </div>\n      <!-- <fa-layers [fixedWidth]=\"true\" size=\"3x\">\n        <fa-icon [icon]=\"['fas', 'square']\" [classes]=\"['text-primary']\"></fa-icon>\n        <fa-icon [icon]=\"['sds', 'bars']\" [classes]=\"['icon-bars']\" transform=\"shrink-6\"></fa-icon>\n        <fa-layers-counter *ngIf=\"hasCounter()\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n      </fa-layers> -->\n      <span class=\"usa-sr-only\">Menu</span>\n    </button>\n  </div>\n  <nav aria-label=\"Primary navigation\" class=\"usa-nav\" (keydown.esc)=\"closeMobileNav()\"\n    (animationend)=\"navAnimationEnd()\" [class.is-visible]=\"mobileNavActive\" [cdkTrapFocus]=\"mobileNavActive\">\n    <div class=\"usa-nav__inner\">\n      <button #usaNavClose class=\"usa-nav__close\" (click)=\"closeMobileNav()\">\n        <usa-icon [icon]=\"'x-circle'\" [size]=\"'lg'\"></usa-icon>\n        <!-- <fa-layers [fixedWidth]=\"true\" size=\"lg\">\n          <fa-icon [icon]=\"['fas', 'circle']\" [inverse]=\"true\" transform=\"grow-2\"></fa-icon>\n          <fa-icon [icon]=\"['fas', 'times']\" transform=\"shrink-6\"></fa-icon>\n        </fa-layers> -->\n        <span class=\"usa-sr-only\">Close</span>\n      </button>\n      <ul class=\"usa-nav__primary usa-accordion\">\n        <li *ngFor=\"let link of model.navigationLinks\" class=\"usa-nav__primary-item\">\n          <ng-container [ngTemplateOutlet]=\"link.route ? linkTemplate : dropDownTemplate\"\n            [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n        </li>\n      </ul>\n      <div class=\"usa-nav__secondary\" [ngClass]=\"{'sds-nav__secondary--blank': !showHeaderLogo}\">\n        <ul class=\"usa-nav__secondary-links\">\n          <li *ngFor=\"let link of model.secondaryLinks\" class=\"usa-nav__secondary-item\">\n            <ng-container [ngTemplateOutlet]=\"\n                navigationHelper.isLinkInternal(link)\n                  ? secondaryRouteLinkTemplate\n                  : navigationHelper.isLinkExternal(link)\n                  ? secondaryHREFLinkTemplate\n                  : secondaryEVENTLinkTemplate\n              \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </nav>\n</header>\n<ng-template #homeLinkRouteTemplate let-home>\n  <a [routerLink]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #homeLinkHREFTemplate let-home>\n  <a [attr.href]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #secondaryRouteLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [routerLink]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryHREFLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.href]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryEVENTLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" (click)=\"linkClickEvent(link)\" href=\"javascript:void(0)\"\n    [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #iconLinkTemplate let-link>\n  <div class=\"sds-stack sds-sm\">\n    <usa-icon class=\"sds-stack-icon text-ink\" [icon]=\"link.imageClass\"></usa-icon>\n    <usa-icon *ngIf=\"link.hasCounter\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n      [classes]=\"['counter-icon']\"></usa-icon>\n  </div>\n  <!-- <fa-layers [fixedWidth]=\"true\">\n    <usa-icon [icon]=\"[link.imageClassPrefix, link.imageClass]\"></usa-icon>\n    <fa-layers-counter *ngIf=\"link.hasCounter\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n  </fa-layers> -->\n  <span class=\"sds-nav__secondary-item-text\">{{ link.text }}</span>\n</ng-template>\n\n<ng-template #linkTemplate let-link>\n  <ng-container [ngTemplateOutlet]=\"\n      navigationHelper.isLinkInternal(link)\n        ? linkRouteTemplate\n        : navigationHelper.isLinkExternal(link)\n        ? linkHREFTemplate\n        : linkEventTemplate\n    \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n</ng-template>\n\n<ng-template #linkRouteTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [routerLink]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkHREFTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [attr.href]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkEventTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    href=\"javascript:void(0)\" (click)=\"linkClickEvent(link)\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #dropDownTemplate let-link>\n  <button [attr.id]=\"link.id\" [attr.class]=\"\n      link.selected\n        ? 'usa-accordion__button usa-nav__link usa-current'\n        : 'usa-accordion__button usa-nav__link'\n    \" aria-expanded=\"false\" [attr.aria-controls]=\"removeWhiteSpace(link.text) + '-section'\">\n    <span>{{ link.text }}</span>\n  </button>\n  <ul [attr.id]=\"removeWhiteSpace(link.text) + '-section'\" class=\"usa-nav__submenu\" hidden>\n    <li *ngFor=\"let childLink of link.children\" class=\"usa-nav__submenu-item\">\n      <ng-container [ngTemplateOutlet]=\"\n          navigationHelper.isLinkInternal(childLink)\n            ? dropDownRouteLinkTemplate\n            : navigationHelper.isLinkExternal(childLink)\n            ? dropDownHREFLinkTemplate\n            : dropDownEVENTLinkTemplate\n        \" [ngTemplateOutletContext]=\"{ $implicit: childLink }\"></ng-container>\n    </li>\n  </ul>\n</ng-template>\n\n<ng-template #dropDownRouteLinkTemplate let-childLink>\n  <a [routerLink]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownHREFLinkTemplate let-childLink>\n  <a [attr.href]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownEVENTLinkTemplate let-childLink>\n  <a href=\"javascript:void(0)\" (click)=\"linkClickEvent(childLink)\">{{\n    childLink.text\n  }}</a>\n</ng-template>\n\n<ng-template #fillerBlock>\n  <!--Empty filler space for secondary links for when header logo display is turned off-->\n  <div class=\"sds-navbar--blank \"></div>\n</ng-template>\n"
+            "accessors": {
+                "navigationHelper": {
+                    "name": "navigationHelper",
+                    "getSignature": {
+                        "name": "navigationHelper",
+                        "type": "",
+                        "returnType": "",
+                        "line": 34
+                    }
+                }
+            },
+            "templateData": "<sds-top-banner *ngIf=\"showTopBanner\" [description]=\"topBannerDescription\"></sds-top-banner>\n\n<div *ngIf=\"alertsTemplate\">\n  <ng-container [ngTemplateOutlet]=\"alertsTemplate\"></ng-container>\n</div>\n\n<div class=\"usa-overlay\" [class.is-visible]=\"mobileNavActive\" (click)=\"closeMobileNav()\"></div>\n<header class=\"usa-header usa-header--extended\">\n  <div class=\"usa-navbar\">\n    <div *ngIf=\"showHeaderLogo; else fillerBlock\" class=\"usa-logo\">\n      <ng-container [ngTemplateOutlet]=\"\n            navigationHelper.isLinkInternal(model.home)\n              ? homeLinkRouteTemplate\n              : homeLinkHREFTemplate\n          \" [ngTemplateOutletContext]=\"{ $implicit: model.home }\"></ng-container>\n    </div>\n    <sds-header-help *ngIf=\"help && help.length > 0\" [content]=\"help\" class=\"tablet:display-none margin-right-2\">\n    </sds-header-help>\n    <button #usaNavOpen class=\"usa-menu-btn\" (click)=\"openMobileNav()\">\n      <div class=\"sds-stack sds-lg\">\n        <usa-icon class=\"sds-stack-icon text-primary\" [icon]=\"'square-fill'\" [size]=\"'2x'\"></usa-icon>\n        <usa-icon class=\"sds-stack-icon\" [icon]=\"'bars'\" [size]=\"'lg'\"></usa-icon>\n        <usa-icon *ngIf=\"hasCounter()\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n          [classes]=\"['counter-icon']\"></usa-icon>\n      </div>\n      <!-- <fa-layers [fixedWidth]=\"true\" size=\"3x\">\n        <fa-icon [icon]=\"['fas', 'square']\" [classes]=\"['text-primary']\"></fa-icon>\n        <fa-icon [icon]=\"['sds', 'bars']\" [classes]=\"['icon-bars']\" transform=\"shrink-6\"></fa-icon>\n        <fa-layers-counter *ngIf=\"hasCounter()\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n      </fa-layers> -->\n      <span class=\"usa-sr-only\">Menu</span>\n    </button>\n  </div>\n  <nav aria-label=\"Primary navigation\" class=\"usa-nav\" (keydown.esc)=\"closeMobileNav()\"\n    (animationend)=\"navAnimationEnd()\" [class.is-visible]=\"mobileNavActive\" [cdkTrapFocus]=\"mobileNavActive\">\n    <div class=\"usa-nav__inner\">\n      <button #usaNavClose class=\"usa-nav__close\" (click)=\"closeMobileNav()\">\n        <usa-icon [icon]=\"'x-circle'\" [size]=\"'lg'\"></usa-icon>\n        <!-- <fa-layers [fixedWidth]=\"true\" size=\"lg\">\n          <fa-icon [icon]=\"['fas', 'circle']\" [inverse]=\"true\" transform=\"grow-2\"></fa-icon>\n          <fa-icon [icon]=\"['fas', 'times']\" transform=\"shrink-6\"></fa-icon>\n        </fa-layers> -->\n        <span class=\"usa-sr-only\">Close</span>\n      </button>\n      <ul class=\"usa-nav__primary usa-accordion\">\n        <li *ngFor=\"let link of model.navigationLinks\" class=\"usa-nav__primary-item\">\n          <ng-container [ngTemplateOutlet]=\"link.route ? linkTemplate : dropDownTemplate\"\n            [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n        </li>\n      </ul>\n      <div *ngIf=\"help && help.length > 0\" class=\"position-absolute top-1 right-205\">\n        <sds-header-help [content]=\"help\"></sds-header-help>\n      </div>\n      <div class=\"usa-nav__secondary\" [ngClass]=\"{'sds-nav__secondary--blank': !showHeaderLogo}\">\n        <ul class=\"usa-nav__secondary-links\">\n          <li *ngFor=\"let link of model.secondaryLinks\" class=\"usa-nav__secondary-item\">\n            <ng-container [ngTemplateOutlet]=\"\n                navigationHelper.isLinkInternal(link)\n                  ? secondaryRouteLinkTemplate\n                  : navigationHelper.isLinkExternal(link)\n                  ? secondaryHREFLinkTemplate\n                  : secondaryEVENTLinkTemplate\n              \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </nav>\n</header>\n<ng-template #homeLinkRouteTemplate let-home>\n  <a [routerLink]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #homeLinkHREFTemplate let-home>\n  <a [attr.href]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #secondaryRouteLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [routerLink]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryHREFLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.href]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryEVENTLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" (click)=\"linkClickEvent(link)\" href=\"javascript:void(0)\"\n    [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #iconLinkTemplate let-link>\n  <div class=\"sds-stack sds-sm\">\n    <usa-icon class=\"sds-stack-icon text-ink\" [icon]=\"link.imageClass\"></usa-icon>\n    <usa-icon *ngIf=\"link.hasCounter\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n      [classes]=\"['counter-icon']\"></usa-icon>\n  </div>\n  <!-- <fa-layers [fixedWidth]=\"true\">\n    <usa-icon [icon]=\"[link.imageClassPrefix, link.imageClass]\"></usa-icon>\n    <fa-layers-counter *ngIf=\"link.hasCounter\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n  </fa-layers> -->\n  <span class=\"sds-nav__secondary-item-text\">{{ link.text }}</span>\n</ng-template>\n\n<ng-template #linkTemplate let-link>\n  <ng-container [ngTemplateOutlet]=\"\n      navigationHelper.isLinkInternal(link)\n        ? linkRouteTemplate\n        : navigationHelper.isLinkExternal(link)\n        ? linkHREFTemplate\n        : linkEventTemplate\n    \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n</ng-template>\n\n<ng-template #linkRouteTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [routerLink]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkHREFTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [attr.href]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkEventTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    href=\"javascript:void(0)\" (click)=\"linkClickEvent(link)\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #dropDownTemplate let-link>\n  <button [attr.id]=\"link.id\" [attr.class]=\"\n      link.selected\n        ? 'usa-accordion__button usa-nav__link usa-current'\n        : 'usa-accordion__button usa-nav__link'\n    \" aria-expanded=\"false\" [attr.aria-controls]=\"removeWhiteSpace(link.text) + '-section'\">\n    <span>{{ link.text }}</span>\n  </button>\n  <ul [attr.id]=\"removeWhiteSpace(link.text) + '-section'\" class=\"usa-nav__submenu\" hidden>\n    <li *ngFor=\"let childLink of link.children\" class=\"usa-nav__submenu-item\">\n      <ng-container [ngTemplateOutlet]=\"\n          navigationHelper.isLinkInternal(childLink)\n            ? dropDownRouteLinkTemplate\n            : navigationHelper.isLinkExternal(childLink)\n            ? dropDownHREFLinkTemplate\n            : dropDownEVENTLinkTemplate\n        \" [ngTemplateOutletContext]=\"{ $implicit: childLink }\"></ng-container>\n    </li>\n  </ul>\n</ng-template>\n\n<ng-template #dropDownRouteLinkTemplate let-childLink>\n  <a [routerLink]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownHREFLinkTemplate let-childLink>\n  <a [attr.href]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownEVENTLinkTemplate let-childLink>\n  <a href=\"javascript:void(0)\" (click)=\"linkClickEvent(childLink)\">{{\n    childLink.text\n  }}</a>\n</ng-template>\n\n<ng-template #fillerBlock>\n  <!--Empty filler space for secondary links for when header logo display is turned off-->\n  <div class=\"sds-navbar--blank \"></div>\n</ng-template>\n"
+        },
+        {
+            "name": "SdsHeaderHelpComponent",
+            "id": "component-SdsHeaderHelpComponent-9f44040371f9df5d5722e0ca9bda758d66cc4e616f5fee4e0b3034a9663150be1ef6572bb1b99fa9564343ea2e98a3a496192f1bfda1c73aee8e08ae1f1a453a",
+            "file": "libs/layouts/src/lib/header/help.component.ts",
+            "encapsulation": [
+                "ViewEncapsulation.None"
+            ],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "sds-header-help",
+            "styleUrls": [
+                "./help.component.scss"
+            ],
+            "styles": [],
+            "template": "<button\n  class=\"usa-button usa-button--unstyled\"\n  (click)=\"openSlidePanel()\"\n  matTooltipClass='help-tooltip'\n  matTooltip=\"Find help articles for features on this page\"\n  >\n  <usa-icon\n    class=\"text-info\"\n    [icon]=\"'question-circle'\"\n    [size]=\"'2x'\"\n  ></usa-icon>\n</button>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "content",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 33,
+                    "type": "any",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "dialog",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "SdsDialogService",
+                    "optional": false,
+                    "description": "",
+                    "line": 37,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "openedDialogRef",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "SdsDialogRef<HelpContentComponent>",
+                    "optional": false,
+                    "description": "",
+                    "line": 35
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "openSlidePanel",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 39,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".help-tooltip{\n  font-size: 12px;\n  background-color: #585858;\n  margin: 10px !important;\n  padding: 5px;\n}\n",
+                    "styleUrl": "./help.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "dialog",
+                        "type": "SdsDialogService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 35,
+                "jsdoctags": [
+                    {
+                        "name": "dialog",
+                        "type": "SdsDialogService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            }
         },
         {
             "name": "SdsLandingButtonGroupComponent",
-            "id": "component-SdsLandingButtonGroupComponent-f119376b36a4ad191ca43b4b52581e0b",
+            "id": "component-SdsLandingButtonGroupComponent-ef10dd0f88e76933c07f07f178ed249046651f55551acc7261b251b4236ead2beade50af1377376873dc8aa753e68d26a8d328910e80963f81b3d17f60ec2c66",
             "file": "libs/layouts/src/lib/landing/button-group/button-group.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3540,7 +3835,8 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 12,
-                    "type": "[]"
+                    "type": "[]",
+                    "decorators": []
                 }
             ],
             "outputsClass": [],
@@ -3561,7 +3857,7 @@
         },
         {
             "name": "SdsLandingCardComponent",
-            "id": "component-SdsLandingCardComponent-9abbd856825f9e40c3a17c7c1cf6b643",
+            "id": "component-SdsLandingCardComponent-f3b26e59078a8cec923d61af607e5a1eb385a857466c50909180a01ec69712cd9546c46b177981eafc87212011689f9cce85829afec3009495dbfabfe0c29c7a",
             "file": "libs/layouts/src/lib/landing/card/card.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3594,7 +3890,7 @@
         },
         {
             "name": "SdsLandingLinkComponent",
-            "id": "component-SdsLandingLinkComponent-e6a9d9651235ce81adf2951924b73796",
+            "id": "component-SdsLandingLinkComponent-5a1e43dc865d27c0432129a79ffb07db0c75308a9c1b24e75565eea265128afb4515834600f3e6dc66ddf242b0a80818abd0d76540f6b375fd7b1576a1476227",
             "file": "libs/layouts/src/lib/landing/link/link.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3614,7 +3910,8 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 9,
-                    "type": "any"
+                    "type": "any",
+                    "decorators": []
                 }
             ],
             "outputsClass": [],
@@ -3635,7 +3932,7 @@
         },
         {
             "name": "SdsLandingListComponent",
-            "id": "component-SdsLandingListComponent-76d95d15908642b3437fe0832b6daa5d",
+            "id": "component-SdsLandingListComponent-c6d58cddd1cd6f3007b122addfa71ff04474ae82c2c06510a6011d49eabc00c46ca42410271de430e51384c8fde43e5c7c8e067ff06a6c2133e0f980a8810712",
             "file": "libs/layouts/src/lib/landing/list/list.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3655,7 +3952,8 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 8,
-                    "type": "any"
+                    "type": "any",
+                    "decorators": []
                 }
             ],
             "outputsClass": [],
@@ -3676,7 +3974,7 @@
         },
         {
             "name": "SdsLandingPageComponent",
-            "id": "component-SdsLandingPageComponent-3ac01fe5f3fa64ebf64c14a26d0711bd",
+            "id": "component-SdsLandingPageComponent-5edc4cf4fb72e7a5f44e7344e43f9b87a936b7b311171e3c85b12ec8e64826605481c929df726a38e17914cddeb97320978d40386df6ea915676b834a5d72056",
             "file": "libs/layouts/src/lib/landing/page/page.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3709,7 +4007,7 @@
         },
         {
             "name": "SdsLandingPageHeadComponent",
-            "id": "component-SdsLandingPageHeadComponent-3ac01fe5f3fa64ebf64c14a26d0711bd",
+            "id": "component-SdsLandingPageHeadComponent-5edc4cf4fb72e7a5f44e7344e43f9b87a936b7b311171e3c85b12ec8e64826605481c929df726a38e17914cddeb97320978d40386df6ea915676b834a5d72056",
             "file": "libs/layouts/src/lib/landing/page/page.component.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [
@@ -3745,7 +4043,7 @@
         },
         {
             "name": "SdsLandingPageHeaderComponent",
-            "id": "component-SdsLandingPageHeaderComponent-3ac01fe5f3fa64ebf64c14a26d0711bd",
+            "id": "component-SdsLandingPageHeaderComponent-5edc4cf4fb72e7a5f44e7344e43f9b87a936b7b311171e3c85b12ec8e64826605481c929df726a38e17914cddeb97320978d40386df6ea915676b834a5d72056",
             "file": "libs/layouts/src/lib/landing/page/page.component.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [
@@ -3781,7 +4079,7 @@
         },
         {
             "name": "SdsLandingPageLegacyComponent",
-            "id": "component-SdsLandingPageLegacyComponent-3ac01fe5f3fa64ebf64c14a26d0711bd",
+            "id": "component-SdsLandingPageLegacyComponent-5edc4cf4fb72e7a5f44e7344e43f9b87a936b7b311171e3c85b12ec8e64826605481c929df726a38e17914cddeb97320978d40386df6ea915676b834a5d72056",
             "file": "libs/layouts/src/lib/landing/page/page.component.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [
@@ -3818,7 +4116,7 @@
         },
         {
             "name": "SdsSubheaderActionsComponent",
-            "id": "component-SdsSubheaderActionsComponent-39290a283693ddb1c0d1a3e7bcd70536",
+            "id": "component-SdsSubheaderActionsComponent-437a158da466d1bfb65f02b90e7140f15877d61ee093ae653c8d79d13852a294e818de8cc22d68ba7ba10ed0a1526d779e003af96973b9d9ee81a6b6f2efa328",
             "file": "libs/layouts/src/lib/subheader/subheader.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3838,7 +4136,8 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 25,
-                    "type": "any"
+                    "type": "any",
+                    "decorators": []
                 }
             ],
             "outputsClass": [
@@ -3876,7 +4175,7 @@
         },
         {
             "name": "SdsSubheaderComponent",
-            "id": "component-SdsSubheaderComponent-39290a283693ddb1c0d1a3e7bcd70536",
+            "id": "component-SdsSubheaderComponent-437a158da466d1bfb65f02b90e7140f15877d61ee093ae653c8d79d13852a294e818de8cc22d68ba7ba10ed0a1526d779e003af96973b9d9ee81a6b6f2efa328",
             "file": "libs/layouts/src/lib/subheader/subheader.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3924,7 +4223,7 @@
         },
         {
             "name": "SdsSubheaderDrawerComponent",
-            "id": "component-SdsSubheaderDrawerComponent-39290a283693ddb1c0d1a3e7bcd70536",
+            "id": "component-SdsSubheaderDrawerComponent-437a158da466d1bfb65f02b90e7140f15877d61ee093ae653c8d79d13852a294e818de8cc22d68ba7ba10ed0a1526d779e003af96973b9d9ee81a6b6f2efa328",
             "file": "libs/layouts/src/lib/subheader/subheader.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3944,7 +4243,8 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 35,
-                    "type": "TemplateRef<any>"
+                    "type": "TemplateRef<any>",
+                    "decorators": []
                 }
             ],
             "outputsClass": [
@@ -4065,7 +4365,7 @@
         },
         {
             "name": "SdsSubheaderHelpComponent",
-            "id": "component-SdsSubheaderHelpComponent-5971db04935d7fe932c9ae38cae0d146",
+            "id": "component-SdsSubheaderHelpComponent-13278ec3e16a802ab982f5412dd0d71d3249b799af26d057dd4d10c51ca0efeed3dfd7a59290bc1d5c0dfa1dc0bc8ca7f88a036b70c786d9a6435fc9d9d25bc9",
             "file": "libs/layouts/src/lib/subheader/help.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -4084,7 +4384,8 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 32,
-                    "type": "any"
+                    "type": "any",
+                    "decorators": []
                 }
             ],
             "outputsClass": [],
@@ -4130,7 +4431,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n@Component({\n  selector: 'sds-subheader-help',\n  template: `\n    <div class=\"tablet:margin-right-5 text-right\">\n      <button\n        class=\"usa-button\n          text-white text-semibold\n          radius-0 tablet:radius-bottom-lg\n          border-transparent\n          bg-accent-cool-darker\n          padding-y-05 padding-x-5\n          width-full tablet:width-15\"\n        (click)=\"openSlidePanel()\"\n      >\n        Help\n      </button>\n    </div>\n  `,\n})\nexport class SdsSubheaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: true,\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n@Component({\n  selector: 'sds-subheader-help',\n  template: `\n    <div class=\"tablet:margin-right-5 text-right\">\n      <button\n        class=\"usa-button\n          text-white text-semibold\n          radius-0 tablet:radius-bottom-lg\n          border-transparent\n          bg-accent-cool-darker\n          padding-y-05 padding-x-5\n          width-full tablet:width-15\"\n        (click)=\"openSlidePanel()\"\n      >\n        Help\n      </button>\n    </div>\n  `,\n})\nexport class SdsSubheaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms'\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -4163,7 +4464,7 @@
         },
         {
             "name": "SdsSubheaderWrapperComponent",
-            "id": "component-SdsSubheaderWrapperComponent-14553f91d307e9b295f02609038750ca",
+            "id": "component-SdsSubheaderWrapperComponent-4ef6a47de49a2d5e62c92f6e58a79d21a8205c8d9c6265231972e4a0d285f0ff25ec89d7cc218f83be8de5622919bbc856c4e68ef2956e4240c150fdaf00cfe5",
             "file": "libs/layouts/src/lib/subheader/sds-subheader-wrapper.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -4183,28 +4484,32 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 21,
-                    "type": "INavigationLink"
+                    "type": "INavigationLink",
+                    "decorators": []
                 },
                 {
                     "name": "help",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 37,
-                    "type": "[]"
+                    "type": "[]",
+                    "decorators": []
                 },
                 {
                     "name": "mode",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 25,
-                    "type": "SubHeaderWrapperMode"
+                    "type": "SubHeaderWrapperMode",
+                    "decorators": []
                 },
                 {
                     "name": "searchDropDownItems",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 35,
-                    "type": "SerachDropDownItem[]"
+                    "type": "SerachDropDownItem[]",
+                    "decorators": []
                 },
                 {
                     "name": "searchEnabled",
@@ -4212,28 +4517,32 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 29,
-                    "type": "boolean"
+                    "type": "boolean",
+                    "decorators": []
                 },
                 {
                     "name": "searchPlaceholderText",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 33,
-                    "type": "string"
+                    "type": "string",
+                    "decorators": []
                 },
                 {
                     "name": "tabs",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 27,
-                    "type": "TabModel[]"
+                    "type": "TabModel[]",
+                    "decorators": []
                 },
                 {
                     "name": "title",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 23,
-                    "type": "string"
+                    "type": "string",
+                    "decorators": []
                 }
             ],
             "outputsClass": [
@@ -4385,7 +4694,7 @@
         },
         {
             "name": "SdsSystemAlertComponent",
-            "id": "component-SdsSystemAlertComponent-78b53dbbbd05e7b6d44833892e5fd6b4",
+            "id": "component-SdsSystemAlertComponent-4eb838281ebc2b0564814f793cdda1635b97436a0bf5db88891da2b331cce1f4b4fcdca1f0c194a6133d66789a95a9ba3d6b44a09e1620a8d964c9d6a80c6667",
             "file": "libs/layouts/src/lib/system-alert/system-alert.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -4406,10 +4715,11 @@
                     "name": "alerts",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "List of alerts to display. When the list contains only one item, the description of the alert will also\nbe displayed. Description text may contain html",
+                    "rawdescription": "\nList of alerts to display. When the list contains only one item, the description of the alert will also\nbe displayed. Description text may contain html\n",
                     "description": "<p>List of alerts to display. When the list contains only one item, the description of the alert will also\nbe displayed. Description text may contain html</p>\n",
                     "line": 14,
-                    "type": "Alert[]"
+                    "type": "Alert[]",
+                    "decorators": []
                 }
             ],
             "outputsClass": [
@@ -4601,7 +4911,7 @@
         },
         {
             "name": "SdsWorkspaceTier2ItemBodyComponent",
-            "id": "component-SdsWorkspaceTier2ItemBodyComponent-ced606ba78b1c3d28ecad58db1b69a1a",
+            "id": "component-SdsWorkspaceTier2ItemBodyComponent-0c3418af4abc557573a1a5b95c384ccdbc763449d4d9fe8f6726674e9bec92cd4ff78d641c0399632a18b97af744c0e2e7b96ba1cf5c94b27e68c3f9050c91aa",
             "file": "libs/layouts/src/lib/workspace-tier-2/item/item.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -4632,7 +4942,7 @@
         },
         {
             "name": "SdsWorkspaceTier2ItemComponent",
-            "id": "component-SdsWorkspaceTier2ItemComponent-ced606ba78b1c3d28ecad58db1b69a1a",
+            "id": "component-SdsWorkspaceTier2ItemComponent-0c3418af4abc557573a1a5b95c384ccdbc763449d4d9fe8f6726674e9bec92cd4ff78d641c0399632a18b97af744c0e2e7b96ba1cf5c94b27e68c3f9050c91aa",
             "file": "libs/layouts/src/lib/workspace-tier-2/item/item.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -4663,7 +4973,7 @@
         },
         {
             "name": "SdsWorkspaceTier2ItemHeadComponent",
-            "id": "component-SdsWorkspaceTier2ItemHeadComponent-ced606ba78b1c3d28ecad58db1b69a1a",
+            "id": "component-SdsWorkspaceTier2ItemHeadComponent-0c3418af4abc557573a1a5b95c384ccdbc763449d4d9fe8f6726674e9bec92cd4ff78d641c0399632a18b97af744c0e2e7b96ba1cf5c94b27e68c3f9050c91aa",
             "file": "libs/layouts/src/lib/workspace-tier-2/item/item.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -4694,7 +5004,7 @@
         },
         {
             "name": "SdsWorkspaceTier2LabelComponent",
-            "id": "component-SdsWorkspaceTier2LabelComponent-f330318cd0ce7e45d978b6aedd094391",
+            "id": "component-SdsWorkspaceTier2LabelComponent-44977250696ff8d04fc9231f6893717ce4f90b9b2945079a5daa8dea0e1601b058d5504ae3633004e6afa46b537c1f5b084628a8bd8b2353e7b86e905ecdfbdc",
             "file": "libs/layouts/src/lib/workspace-tier-2/label/label.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -4713,14 +5023,16 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 19,
-                    "type": "string"
+                    "type": "string",
+                    "decorators": []
                 },
                 {
                     "name": "size",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 20,
-                    "type": "string"
+                    "type": "string",
+                    "decorators": []
                 }
             ],
             "outputsClass": [],
@@ -4771,7 +5083,7 @@
         },
         {
             "name": "SdsWorkspaceTier2LabelDotComponent",
-            "id": "component-SdsWorkspaceTier2LabelDotComponent-a23df9767b90bf6166ef94cbfab73fdb",
+            "id": "component-SdsWorkspaceTier2LabelDotComponent-1092760490065e2419e45eb90060921618834d68d779c9f4be63420c3ece2b27dd829c8b4360567ad41431b57446559c8f367e41bd4832be07f6714d0bba4db2",
             "file": "libs/layouts/src/lib/workspace-tier-2/label/label-dot.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -4790,7 +5102,8 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 16,
-                    "type": "string"
+                    "type": "string",
+                    "decorators": []
                 }
             ],
             "outputsClass": [],
@@ -4831,7 +5144,7 @@
         },
         {
             "name": "SdsWorkspaceTier2TitleComponent",
-            "id": "component-SdsWorkspaceTier2TitleComponent-c32949c4b0f0e0d31b4edaff2909bec4",
+            "id": "component-SdsWorkspaceTier2TitleComponent-01e465782dc07b0f98bea16bb450237383ae8410b4506608d72fc382eb8951e4fe4ea4e8ab9287f05021e2578f511d3cadd45b2b3a4d2273d8286ddbf5066b9c",
             "file": "libs/layouts/src/lib/workspace-tier-2/title/title.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -4862,7 +5175,7 @@
         },
         {
             "name": "SearchListLayoutComponent",
-            "id": "component-SearchListLayoutComponent-f86b14c965278a47a58cd8b2057c26d4",
+            "id": "component-SearchListLayoutComponent-974bb6c94e77ba77a62fba6e0923cd2140ec36bf316b245857a4b3f85fdce9959b540d4792e2b9fbf4e8c3466850d1648b13ae925471c0f67f7e689b7f581bc2",
             "file": "libs/layouts/src/lib/search-list-layout/search-list-layout.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -4883,19 +5196,21 @@
                     "name": "configuration",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "configuration",
+                    "rawdescription": "\n\nconfiguration\n",
                     "description": "<p>configuration</p>\n",
                     "line": 65,
-                    "type": "SearchListConfiguration"
+                    "type": "SearchListConfiguration",
+                    "decorators": []
                 },
                 {
                     "name": "customResultsTemplate",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "Allow to insert a customized template for no results to use",
+                    "rawdescription": "\n\nAllow to insert a customized template for no results to use\n",
                     "description": "<p>Allow to insert a customized template for no results to use</p>\n",
                     "line": 59,
-                    "type": "TemplateRef<any>"
+                    "type": "TemplateRef<any>",
+                    "decorators": []
                 },
                 {
                     "name": "enableApiCall",
@@ -4903,7 +5218,8 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 67,
-                    "type": "boolean"
+                    "type": "boolean",
+                    "decorators": []
                 },
                 {
                     "name": "isHistoryEnabled",
@@ -4911,16 +5227,18 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 61,
-                    "type": "boolean"
+                    "type": "boolean",
+                    "decorators": []
                 },
                 {
                     "name": "service",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "Input service to be called when items change",
+                    "rawdescription": "\n\nInput service to be called when items change\n",
                     "description": "<p>Input service to be called when items change</p>\n",
                     "line": 54,
-                    "type": "SearchListInterface"
+                    "type": "SearchListInterface",
+                    "decorators": []
                 }
             ],
             "outputsClass": [
@@ -5720,7 +6038,7 @@
     "modules": [
         {
             "name": "ResultModule",
-            "id": "module-ResultModule-c06318e0368e8f3dc2bb42092693555f",
+            "id": "module-ResultModule-da4bd65c4a696009eb7f7c04c4dfe9b1044ce1aac6b2dbcb1d58b06bb17a12e8a0c91d03e00f5ca117860bb546d3b428a4dfaa7ecb8d2c98035815621e2d1dd1",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
@@ -5764,13 +6082,13 @@
         },
         {
             "name": "ResultsLayoutModule",
-            "id": "module-ResultsLayoutModule-ff79fc2899c7eddfa6e706ee1541ed5f",
+            "id": "module-ResultsLayoutModule-c45b3e3828b2402c88c6dc3449a7f6e06468aeefd49976059866a838198df67f188c05b9a4cfe554b90aaff305e1a6f244fed5b9080394eec05e20270dea3083",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/layouts/src/lib/search-list-layout/demo/layout.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\n\r\nimport {\r\n  SdsSearchResultListModule,\r\n  SdsSideNavigationModule,\r\n  SdsSelectionPanelModule,\r\n  SdsSideToolbarModule\r\n} from '@gsa-sam/components';\r\nimport {\r\n  SdsFiltersModule,\r\n  SDSFormlyUpdateModelService,\r\n} from '@gsa-sam/sam-formly';\r\n\r\nimport { ResultModule } from './result/result.module';\r\nimport { SearchListServiceModule } from '@gsa-sam/layouts';\r\nimport { FilterService } from './filter.service';\r\nimport { AutocompleteSampleDataService } from './services/autocomplete-sample.service';\r\nimport { LayoutResponsiveComponent } from './layout-responsive/layout-responsive.component';\r\nimport { SdsAccordionModule } from '@gsa-sam/sam-material-extensions';\r\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\r\n@NgModule({\r\n  imports: [\r\n    CommonModule,\r\n    IconModule,\r\n    SdsAccordionModule,\r\n    SdsSideNavigationModule,\r\n    SdsFiltersModule,\r\n    SdsSearchResultListModule,\r\n    SearchListServiceModule,\r\n    ResultModule,\r\n    SdsSideToolbarModule,\r\n    SdsSelectionPanelModule,\r\n  ],\r\n\r\n  exports: [LayoutResponsiveComponent],\r\n  declarations: [LayoutResponsiveComponent],\r\n  providers: [\r\n    FilterService,\r\n    AutocompleteSampleDataService,\r\n    SDSFormlyUpdateModelService,\r\n  ],\r\n})\r\nexport class ResultsLayoutModule {}\r\n",
+            "sourceCode": "import { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\n\r\nimport {\r\n  SdsSearchResultListModule,\r\n  SdsSideNavigationModule,\r\n  SdsSelectionPanelModule,\r\n  SdsSideToolbarModule\r\n} from '@gsa-sam/components';\r\nimport {\r\n  SdsFiltersModule,\r\n  SDSFormlyUpdateModelService,\r\n} from '@gsa-sam/sam-formly';\r\n\r\nimport { ResultModule } from './result/result.module';\r\nimport { SearchListServiceModule } from '../search-list-layout.module';\r\nimport { FilterService } from './filter.service';\r\nimport { AutocompleteSampleDataService } from './services/autocomplete-sample.service';\r\nimport { LayoutResponsiveComponent } from './layout-responsive/layout-responsive.component';\r\nimport { SdsAccordionModule } from '@gsa-sam/sam-material-extensions';\r\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\r\n@NgModule({\r\n  imports: [\r\n    CommonModule,\r\n    IconModule,\r\n    SdsAccordionModule,\r\n    SdsSideNavigationModule,\r\n    SdsFiltersModule,\r\n    SdsSearchResultListModule,\r\n    SearchListServiceModule,\r\n    ResultModule,\r\n    SdsSideToolbarModule,\r\n    SdsSelectionPanelModule,\r\n  ],\r\n\r\n  exports: [LayoutResponsiveComponent],\r\n  declarations: [LayoutResponsiveComponent],\r\n  providers: [\r\n    FilterService,\r\n    AutocompleteSampleDataService,\r\n    SDSFormlyUpdateModelService,\r\n  ],\r\n})\r\nexport class ResultsLayoutModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -5822,7 +6140,7 @@
         },
         {
             "name": "SdsFeedbackModule",
-            "id": "module-SdsFeedbackModule-3d2bfc3df09d1459961c4a8c4773e365",
+            "id": "module-SdsFeedbackModule-15fc8c7b6edfba0c1193ea21b480a3c4e55accf5b003246bd4cac16187b11d3b460c11ed403dd7b1ba02b57ee63b58d330421636e886f5c261febf1d9c79fc18",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
@@ -5866,7 +6184,7 @@
         },
         {
             "name": "SdsFooterModule",
-            "id": "module-SdsFooterModule-94180f6f34fddd991c53450b72ec1692",
+            "id": "module-SdsFooterModule-092d02c85b503f2771617414bc9ec5e1d21a01d81977d53c77959e581204eee236dc2b22aecf6cfc9b269606034551e03502a0648f1fcd3d4cd0915ebccaf9e9",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
@@ -5914,13 +6232,13 @@
         },
         {
             "name": "SdsHeaderModule",
-            "id": "module-SdsHeaderModule-c79aa635e8806aa504de468d6ecce28d",
+            "id": "module-SdsHeaderModule-8344304d3c2053e627abd19c8140a91656317c7249beb1b6231c5cd7c85df98a888f2b6fbf718a1b0244fbc5006cac11e1fd7bbdf4bfe2eef4bb63446074d6ca",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/layouts/src/lib/header/header.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { FormsModule } from '@angular/forms';\nimport { SdsHeaderComponent } from './header.component';\nimport { RouterModule } from '@angular/router';\nimport { SdsTopBannerModule } from '@gsa-sam/components';\n\nimport { A11yModule } from '@angular/cdk/a11y';\nimport { NgxBootstrapIconsModule, square, justifyLeft, circle, circleFill } from 'ngx-bootstrap-icons';\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\n\n@NgModule({\n  imports: [\n    CommonModule,\n    FormsModule,\n    RouterModule,\n    IconModule,\n    A11yModule,\n    SdsTopBannerModule,\n    NgxBootstrapIconsModule.pick({square, justifyLeft, circle, circleFill})\n  ],\n  declarations: [SdsHeaderComponent],\n  exports: [SdsHeaderComponent]\n})\nexport class SdsHeaderModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { FormsModule } from '@angular/forms';\nimport { SdsHeaderComponent } from './header.component';\nimport { RouterModule } from '@angular/router';\nimport { SdsTopBannerModule, SdsDialogModule } from '@gsa-sam/components';\n\nimport { A11yModule } from '@angular/cdk/a11y';\nimport { NgxBootstrapIconsModule, square, justifyLeft, circle, circleFill, questionCircle } from 'ngx-bootstrap-icons';\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\nimport { HelpContentComponent, SdsHeaderHelpComponent } from './help.component';\nimport { PortalModule } from '@angular/cdk/portal';\nimport {MatTooltipModule} from '@angular/material/tooltip';\nimport { SdsLandingListModule } from '../landing/list/list.module';\n\n@NgModule({\n  imports: [\n    CommonModule,\n    FormsModule,\n    RouterModule,\n    IconModule,\n    A11yModule,\n    SdsTopBannerModule,\n    SdsDialogModule,\n    PortalModule,\n    MatTooltipModule,\n    SdsLandingListModule,\n    NgxBootstrapIconsModule.pick({\n      square,\n      justifyLeft,\n      circle,\n      circleFill,\n      questionCircle,\n    }),\n  ],\n  declarations: [\n    SdsHeaderComponent,\n    SdsHeaderHelpComponent,\n    HelpContentComponent,\n  ],\n  exports: [SdsHeaderComponent],\n})\nexport class SdsHeaderModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -5930,13 +6248,23 @@
                     "type": "declarations",
                     "elements": [
                         {
+                            "name": "HelpContentComponent"
+                        },
+                        {
                             "name": "SdsHeaderComponent"
+                        },
+                        {
+                            "name": "SdsHeaderHelpComponent"
                         }
                     ]
                 },
                 {
                     "type": "imports",
-                    "elements": []
+                    "elements": [
+                        {
+                            "name": "SdsLandingListModule"
+                        }
+                    ]
                 },
                 {
                     "type": "exports",
@@ -5958,7 +6286,7 @@
         },
         {
             "name": "SdsLandingButtonGroupModule",
-            "id": "module-SdsLandingButtonGroupModule-408426ce12a084693833e1386fe94da3",
+            "id": "module-SdsLandingButtonGroupModule-e1d4155b04ca4a5656e6ccdcce14d1fdd82f346e8ac9eddba470a19c4d8753a9f0ff5e3144bab92920598f73d5f8eb90f648f0fabd51a3e42bcd4396d329181b",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
@@ -6002,7 +6330,7 @@
         },
         {
             "name": "SdsLandingCardModule",
-            "id": "module-SdsLandingCardModule-ef6891686c234215f1ffb76a135e5183",
+            "id": "module-SdsLandingCardModule-7c629cc20dd97046c3534072f2ebfb807eed11d5a8a316ee4b4080d74b989e30dae0e7def25adfc350f8f6c88016574112e948d1eb48164efadf8847b86a77ec",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
@@ -6052,7 +6380,7 @@
         },
         {
             "name": "SdsLandingLinkModule",
-            "id": "module-SdsLandingLinkModule-2fe43b2f413a6b0d00817f318af50823",
+            "id": "module-SdsLandingLinkModule-f8452acd2ad9dcbfa55e527c85910ecd3f4065cf053a3dfc2d55865373501708be051e91f16c3215fe8a9b980c904eb98239d3f5e309e91da17ffd37f1de9943",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
@@ -6096,7 +6424,7 @@
         },
         {
             "name": "SdsLandingListModule",
-            "id": "module-SdsLandingListModule-24dec628d82f42343a461b5e64dc15d8",
+            "id": "module-SdsLandingListModule-3b4b9e9b2456bdba50c685db67db0d7df268c8a5a7c3bae2b2a641b3dc33fb68ffdc6cefa34f2ffad70545bef69552d56b240839e5342c0e851ab20fddbb9745",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
@@ -6144,7 +6472,7 @@
         },
         {
             "name": "SdsLandingPageModule",
-            "id": "module-SdsLandingPageModule-8880cc88f9d5abbfcebd506152b80798",
+            "id": "module-SdsLandingPageModule-48a1d6cfa136a9f31823888766f64dc4e4d49bae594c48862a1603e49772676bd7def5b67f223c9a83b577328faa106082e1c1c072f66b75b68aff224ebedab4",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
@@ -6242,7 +6570,7 @@
         },
         {
             "name": "SdsSubheaderModule",
-            "id": "module-SdsSubheaderModule-014c4cc5de308de80fa9b5e0380663d5",
+            "id": "module-SdsSubheaderModule-404326909df9b6177974e993ce2368195b3d41d2fdb054ca8f85167e886d7a02e642f3bd3d2724dfed58b522555de2185a885d9fdb08a580aa0890662f01cb69",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
@@ -6324,7 +6652,7 @@
         },
         {
             "name": "SdsSystemAlertModule",
-            "id": "module-SdsSystemAlertModule-761ede9261687760966005a0019d81aa",
+            "id": "module-SdsSystemAlertModule-f9e11f061c5428b2913380d61535f30f9a68ef8aee9604b8f557124127ba7f44a0efc0c259a1f7099ac6fc4b08fe78e0c40df738c7d5e4c966974d9b47a5248c",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
@@ -6368,7 +6696,7 @@
         },
         {
             "name": "SdsWorkspaceTier2ItemModule",
-            "id": "module-SdsWorkspaceTier2ItemModule-891462ca741b5dce0cc92d1d9218896a",
+            "id": "module-SdsWorkspaceTier2ItemModule-271768503c5921a95cb781688a1b373f7e8d92141489c46e7f984458e053d37f032c6b0fc7a398f586602dd4828791712f645263d74facf387b82949e88a6fc3",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
@@ -6424,7 +6752,7 @@
         },
         {
             "name": "SdsWorkspaceTier2LabelModule",
-            "id": "module-SdsWorkspaceTier2LabelModule-b43c745f2b3f84a672e5b81c01acd34a",
+            "id": "module-SdsWorkspaceTier2LabelModule-abe93e552efedfe166cb40087b6a1dab6453ba57f682a0f6bbe0af4b80d8d04a4f3f95a8c4da7bf54cf613c7bb7ba8c5d22e75bdd614af3b8f3210b92e4bd62b",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
@@ -6474,7 +6802,7 @@
         },
         {
             "name": "SdsWorkspaceTier2TitleModule",
-            "id": "module-SdsWorkspaceTier2TitleModule-0530cbdfe6210546dc89ac3c2371bbc5",
+            "id": "module-SdsWorkspaceTier2TitleModule-659137f4e2e450d5c7a9efb08845d70f79388bbca1482a2e55fadd6fca9998f0158280e2e598153a85ec50d27a41dbab4ac310f6330ef13999d8371392ed526b",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
@@ -6518,7 +6846,7 @@
         },
         {
             "name": "SearchListServiceModule",
-            "id": "module-SearchListServiceModule-bce4c4ac7a74fefb2405b3ad39882596",
+            "id": "module-SearchListServiceModule-3e33dfd6989da05827f03f6a0132ed7e39f4ff8b5dc5ad10fe1257e8515cc3a1b0acf263cc2fadfd99c41b6fd2754434739c0fee7d930adf9c1661e13f2bb280",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
@@ -6745,7 +7073,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
-                "kind": 176
+                "kind": 177
             },
             {
                 "name": "Without",
@@ -6756,7 +7084,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
-                "kind": 193
+                "kind": 194
             },
             {
                 "name": "XOR",
@@ -6767,7 +7095,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
-                "kind": 187
+                "kind": 188
             }
         ],
         "enumerations": [
@@ -7050,7 +7378,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
-                    "kind": 176
+                    "kind": 177
                 },
                 {
                     "name": "Without",
@@ -7061,7 +7389,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
-                    "kind": 193
+                    "kind": 194
                 },
                 {
                     "name": "XOR",
@@ -7072,7 +7400,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
-                    "kind": 187
+                    "kind": 188
                 }
             ]
         }
@@ -7132,9 +7460,36 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "SdsHeaderComponent",
-                "coveragePercent": 45,
-                "coverageCount": "11/24",
+                "coveragePercent": 44,
+                "coverageCount": "11/25",
                 "status": "medium"
+            },
+            {
+                "filePath": "libs/layouts/src/lib/header/help.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "HelpContentComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/layouts/src/lib/header/help.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SdsHeaderHelpComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/6",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/layouts/src/lib/header/help.component.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Data",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
             },
             {
                 "filePath": "libs/layouts/src/lib/header/model/HeaderModel.ts",
