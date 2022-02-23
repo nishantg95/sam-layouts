@@ -29,7 +29,11 @@ export class SdsHeaderComponent {
   /**
    * Navigation helper
    */
-  navigationHelper = new NavigationHelper();
+  private _navigationHelper: NavigationHelper = new NavigationHelper();
+
+  public get navigationHelper() {
+    return this._navigationHelper;
+  }
 
   /**
    * determines if the top banner is shown
