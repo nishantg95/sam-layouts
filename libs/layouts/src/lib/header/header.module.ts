@@ -3,11 +3,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SdsHeaderComponent } from './header.component';
 import { RouterModule } from '@angular/router';
-import { SdsTopBannerModule } from '@gsa-sam/components';
+import { SdsTopBannerModule, SdsDialogModule } from '@gsa-sam/components';
 
 import { A11yModule } from '@angular/cdk/a11y';
-import { NgxBootstrapIconsModule, square, justifyLeft, circle, circleFill } from 'ngx-bootstrap-icons';
+import { NgxBootstrapIconsModule, square, justifyLeft, circle, circleFill, questionCircle } from 'ngx-bootstrap-icons';
 import { IconModule } from '@gsa-sam/ngx-uswds-icons';
+import { HelpContentComponent, SdsHeaderHelpComponent } from './help.component';
+import { PortalModule } from '@angular/cdk/portal';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { SdsLandingListModule } from '../landing/list/list.module';
 
 @NgModule({
   imports: [
@@ -17,9 +21,23 @@ import { IconModule } from '@gsa-sam/ngx-uswds-icons';
     IconModule,
     A11yModule,
     SdsTopBannerModule,
-    NgxBootstrapIconsModule.pick({square, justifyLeft, circle, circleFill})
+    SdsDialogModule,
+    PortalModule,
+    MatTooltipModule,
+    SdsLandingListModule,
+    NgxBootstrapIconsModule.pick({
+      square,
+      justifyLeft,
+      circle,
+      circleFill,
+      questionCircle,
+    }),
   ],
-  declarations: [SdsHeaderComponent],
-  exports: [SdsHeaderComponent]
+  declarations: [
+    SdsHeaderComponent,
+    SdsHeaderHelpComponent,
+    HelpContentComponent,
+  ],
+  exports: [SdsHeaderComponent],
 })
-export class SdsHeaderModule { }
+export class SdsHeaderModule {}

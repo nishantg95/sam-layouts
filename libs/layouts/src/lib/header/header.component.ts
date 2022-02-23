@@ -51,6 +51,7 @@ export class SdsHeaderComponent {
 
   @Input() alertsTemplate: TemplateRef<any>;
 
+  @Input() help: [];
   /**
    * event for event based
    */
@@ -64,7 +65,7 @@ export class SdsHeaderComponent {
     return text.replace(/ /g, '');
   }
   constructor() {
-   
+
   }
   /**
    * seeif any secondary link has a counter
