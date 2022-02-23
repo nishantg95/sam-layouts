@@ -53,12 +53,12 @@
         },
         {
             "name": "Data",
-            "id": "interface-Data-13278ec3e16a802ab982f5412dd0d71d3249b799af26d057dd4d10c51ca0efeed3dfd7a59290bc1d5c0dfa1dc0bc8ca7f88a036b70c786d9a6435fc9d9d25bc9",
-            "file": "libs/layouts/src/lib/subheader/help.component.ts",
+            "id": "interface-Data-9f44040371f9df5d5722e0ca9bda758d66cc4e616f5fee4e0b3034a9663150be1ef6572bb1b99fa9564343ea2e98a3a496192f1bfda1c73aee8e08ae1f1a453a",
+            "file": "libs/layouts/src/lib/header/help.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n@Component({\n  selector: 'sds-subheader-help',\n  template: `\n    <div class=\"tablet:margin-right-5 text-right\">\n      <button\n        class=\"usa-button\n          text-white text-semibold\n          radius-0 tablet:radius-bottom-lg\n          border-transparent\n          bg-accent-cool-darker\n          padding-y-05 padding-x-5\n          width-full tablet:width-15\"\n        (click)=\"openSlidePanel()\"\n      >\n        Help\n      </button>\n    </div>\n  `,\n})\nexport class SdsSubheaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms'\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
             "properties": [
                 {
                     "name": "help",
@@ -76,12 +76,12 @@
         },
         {
             "name": "Data",
-            "id": "interface-Data-9f44040371f9df5d5722e0ca9bda758d66cc4e616f5fee4e0b3034a9663150be1ef6572bb1b99fa9564343ea2e98a3a496192f1bfda1c73aee8e08ae1f1a453a-1",
-            "file": "libs/layouts/src/lib/header/help.component.ts",
+            "id": "interface-Data-13278ec3e16a802ab982f5412dd0d71d3249b799af26d057dd4d10c51ca0efeed3dfd7a59290bc1d5c0dfa1dc0bc8ca7f88a036b70c786d9a6435fc9d9d25bc9-1",
+            "file": "libs/layouts/src/lib/subheader/help.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n@Component({\n  selector: 'sds-subheader-help',\n  template: `\n    <div class=\"tablet:margin-right-5 text-right\">\n      <button\n        class=\"usa-button\n          text-white text-semibold\n          radius-0 tablet:radius-bottom-lg\n          border-transparent\n          bg-accent-cool-darker\n          padding-y-05 padding-x-5\n          width-full tablet:width-15\"\n        (click)=\"openSlidePanel()\"\n      >\n        Help\n      </button>\n    </div>\n  `,\n})\nexport class SdsSubheaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms'\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
             "properties": [
                 {
                     "name": "help",
@@ -2022,128 +2022,7 @@
         },
         {
             "name": "HelpContentComponent",
-            "id": "component-HelpContentComponent-13278ec3e16a802ab982f5412dd0d71d3249b799af26d057dd4d10c51ca0efeed3dfd7a59290bc1d5c0dfa1dc0bc8ca7f88a036b70c786d9a6435fc9d9d25bc9",
-            "file": "libs/layouts/src/lib/subheader/help.component.ts",
-            "encapsulation": [],
-            "entryComponents": [],
-            "inputs": [],
-            "outputs": [],
-            "providers": [],
-            "styleUrls": [],
-            "styles": [],
-            "template": "<div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n  <div class=\"font-heading-lg text-semibold\">Help</div>\n  <div *ngFor=\"let item of data.help\">\n    <div\n      class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n    >\n      {{ item.head.title }}\n    </div>\n    <ng-template\n      *ngFor=\"let content of item.body.content\"\n      [cdkPortalOutlet]=\"content.component\"\n      (attached)=\"inputs($event, content.inputs)\"\n    >\n    </ng-template>\n  </div>\n</div>\n",
-            "templateUrl": [],
-            "viewProviders": [],
-            "inputsClass": [],
-            "outputsClass": [],
-            "propertiesClass": [
-                {
-                    "name": "data",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Data",
-                    "optional": false,
-                    "description": "",
-                    "line": 75,
-                    "decorators": [
-                        {
-                            "name": "Inject",
-                            "stringifiedArguments": "SDS_DIALOG_DATA"
-                        }
-                    ],
-                    "modifierKind": [
-                        123
-                    ]
-                }
-            ],
-            "methodsClass": [
-                {
-                    "name": "inputs",
-                    "args": [
-                        {
-                            "name": "ref",
-                            "type": "CdkPortalOutletAttachedRef",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        },
-                        {
-                            "name": "componentInputs",
-                            "type": "object",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "defaultValue": "{}"
-                        }
-                    ],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 77,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "jsdoctags": [
-                        {
-                            "name": "ref",
-                            "type": "CdkPortalOutletAttachedRef",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        },
-                        {
-                            "name": "componentInputs",
-                            "type": "object",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "defaultValue": "{}",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        }
-                    ]
-                }
-            ],
-            "deprecated": false,
-            "deprecationMessage": "",
-            "hostBindings": [],
-            "hostListeners": [],
-            "description": "",
-            "rawdescription": "\n",
-            "type": "component",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n@Component({\n  selector: 'sds-subheader-help',\n  template: `\n    <div class=\"tablet:margin-right-5 text-right\">\n      <button\n        class=\"usa-button\n          text-white text-semibold\n          radius-0 tablet:radius-bottom-lg\n          border-transparent\n          bg-accent-cool-darker\n          padding-y-05 padding-x-5\n          width-full tablet:width-15\"\n        (click)=\"openSlidePanel()\"\n      >\n        Help\n      </button>\n    </div>\n  `,\n})\nexport class SdsSubheaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms'\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
-            "assetsDirs": [],
-            "styleUrlsData": "",
-            "stylesData": "",
-            "constructorObj": {
-                "name": "constructor",
-                "description": "",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "args": [
-                    {
-                        "name": "data",
-                        "type": "Data",
-                        "deprecated": false,
-                        "deprecationMessage": ""
-                    }
-                ],
-                "line": 74,
-                "jsdoctags": [
-                    {
-                        "name": "data",
-                        "type": "Data",
-                        "deprecated": false,
-                        "deprecationMessage": "",
-                        "tagName": {
-                            "text": "param"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "name": "HelpContentComponent",
-            "id": "component-HelpContentComponent-9f44040371f9df5d5722e0ca9bda758d66cc4e616f5fee4e0b3034a9663150be1ef6572bb1b99fa9564343ea2e98a3a496192f1bfda1c73aee8e08ae1f1a453a-1",
+            "id": "component-HelpContentComponent-9f44040371f9df5d5722e0ca9bda758d66cc4e616f5fee4e0b3034a9663150be1ef6572bb1b99fa9564343ea2e98a3a496192f1bfda1c73aee8e08ae1f1a453a",
             "file": "libs/layouts/src/lib/header/help.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2249,6 +2128,127 @@
                     }
                 ],
                 "line": 75,
+                "jsdoctags": [
+                    {
+                        "name": "data",
+                        "type": "Data",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "HelpContentComponent",
+            "id": "component-HelpContentComponent-13278ec3e16a802ab982f5412dd0d71d3249b799af26d057dd4d10c51ca0efeed3dfd7a59290bc1d5c0dfa1dc0bc8ca7f88a036b70c786d9a6435fc9d9d25bc9-1",
+            "file": "libs/layouts/src/lib/subheader/help.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "styleUrls": [],
+            "styles": [],
+            "template": "<div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n  <div class=\"font-heading-lg text-semibold\">Help</div>\n  <div *ngFor=\"let item of data.help\">\n    <div\n      class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n    >\n      {{ item.head.title }}\n    </div>\n    <ng-template\n      *ngFor=\"let content of item.body.content\"\n      [cdkPortalOutlet]=\"content.component\"\n      (attached)=\"inputs($event, content.inputs)\"\n    >\n    </ng-template>\n  </div>\n</div>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "data",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Data",
+                    "optional": false,
+                    "description": "",
+                    "line": 75,
+                    "decorators": [
+                        {
+                            "name": "Inject",
+                            "stringifiedArguments": "SDS_DIALOG_DATA"
+                        }
+                    ],
+                    "modifierKind": [
+                        123
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "inputs",
+                    "args": [
+                        {
+                            "name": "ref",
+                            "type": "CdkPortalOutletAttachedRef",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "componentInputs",
+                            "type": "object",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "defaultValue": "{}"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 77,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "ref",
+                            "type": "CdkPortalOutletAttachedRef",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "componentInputs",
+                            "type": "object",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "defaultValue": "{}",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n@Component({\n  selector: 'sds-subheader-help',\n  template: `\n    <div class=\"tablet:margin-right-5 text-right\">\n      <button\n        class=\"usa-button\n          text-white text-semibold\n          radius-0 tablet:radius-bottom-lg\n          border-transparent\n          bg-accent-cool-darker\n          padding-y-05 padding-x-5\n          width-full tablet:width-15\"\n        (click)=\"openSlidePanel()\"\n      >\n        Help\n      </button>\n    </div>\n  `,\n})\nexport class SdsSubheaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms'\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "data",
+                        "type": "Data",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 74,
                 "jsdoctags": [
                     {
                         "name": "data",
@@ -3175,7 +3175,7 @@
         },
         {
             "name": "SdsHeaderComponent",
-            "id": "component-SdsHeaderComponent-e7277af143d9a071225e21e478d77c55509670d7094b41c66d1fd1c63e9146696d2298c927dece58c10e0ac013d540f487c065224f78fb00b2701cde2d032579",
+            "id": "component-SdsHeaderComponent-0d7e66e9ec6406215e4937bc6b81a970a6686d8f30557ea1ba5d83cc42b2e3a429246770f216fd047f83589306dfc71c2b86a05a29912de46df02b5575fdc83d",
             "file": "libs/layouts/src/lib/header/header.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3196,7 +3196,7 @@
                     "name": "alertsTemplate",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 52,
+                    "line": 48,
                     "type": "TemplateRef<any>",
                     "decorators": []
                 },
@@ -3204,7 +3204,7 @@
                     "name": "help",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 54,
+                    "line": 50,
                     "type": "[]",
                     "decorators": []
                 },
@@ -3214,7 +3214,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nModel used for the different display portions of the header\n",
                     "description": "<p>Model used for the different display portions of the header</p>\n",
-                    "line": 46,
+                    "line": 42,
                     "type": "HeaderModel",
                     "decorators": []
                 },
@@ -3223,7 +3223,7 @@
                     "defaultValue": "true",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 50,
+                    "line": 46,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -3234,7 +3234,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\ndetermines if the top banner is shown\n",
                     "description": "<p>determines if the top banner is shown</p>\n",
-                    "line": 41,
+                    "line": 37,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -3243,7 +3243,7 @@
                     "defaultValue": "''",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 48,
+                    "line": 44,
                     "type": "string",
                     "decorators": []
                 }
@@ -3256,25 +3256,11 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nevent for event based\n",
                     "description": "<p>event for event based</p>\n",
-                    "line": 59,
+                    "line": 55,
                     "type": "EventEmitter"
                 }
             ],
             "propertiesClass": [
-                {
-                    "name": "_navigationHelper",
-                    "defaultValue": "new NavigationHelper()",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "NavigationHelper",
-                    "optional": false,
-                    "description": "<p>Navigation helper</p>\n",
-                    "line": 32,
-                    "rawdescription": "\n\nNavigation helper\n",
-                    "modifierKind": [
-                        121
-                    ]
-                },
                 {
                     "name": "closeNavBtn",
                     "deprecated": false,
@@ -3301,6 +3287,20 @@
                     "line": 28
                 },
                 {
+                    "name": "navigationHelper",
+                    "defaultValue": "new NavigationHelper()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "NavigationHelper",
+                    "optional": false,
+                    "description": "<p>Navigation helper</p>\n",
+                    "line": 32,
+                    "rawdescription": "\n\nNavigation helper\n",
+                    "modifierKind": [
+                        144
+                    ]
+                },
+                {
                     "name": "openNavBtn",
                     "deprecated": false,
                     "deprecationMessage": "",
@@ -3323,7 +3323,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 199,
+                    "line": 195,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3333,7 +3333,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 102,
+                    "line": 98,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nDeselects all the items in the header model\n",
@@ -3352,7 +3352,7 @@
                     "optional": false,
                     "returnType": "Selectable",
                     "typeParameters": [],
-                    "line": 131,
+                    "line": 127,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nFinds the navigation element by id in the header model\n",
@@ -3360,8 +3360,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 2872,
-                                "end": 2874,
+                                "pos": 2798,
+                                "end": 2800,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3372,8 +3372,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 2866,
-                                "end": 2871,
+                                "pos": 2792,
+                                "end": 2797,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3403,7 +3403,7 @@
                     "optional": false,
                     "returnType": "Selectable",
                     "typeParameters": [],
-                    "line": 155,
+                    "line": 151,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nSearchs the items in the navigation links\n",
@@ -3414,8 +3414,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 3476,
-                                "end": 3478,
+                                "pos": 3402,
+                                "end": 3404,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3426,8 +3426,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 3470,
-                                "end": 3475,
+                                "pos": 3396,
+                                "end": 3401,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3453,7 +3453,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 73,
+                    "line": 69,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nseeif any secondary link has a counter\n",
@@ -3472,7 +3472,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 177,
+                    "line": 173,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nLink clicked and emits the link data into an event\n",
@@ -3480,8 +3480,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 4070,
-                                "end": 4074,
+                                "pos": 3996,
+                                "end": 4000,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3492,8 +3492,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 4064,
-                                "end": 4069,
+                                "pos": 3990,
+                                "end": 3995,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3510,7 +3510,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 210,
+                    "line": 206,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3527,7 +3527,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 186,
+                    "line": 182,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "decorators": [
@@ -3554,7 +3554,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 195,
+                    "line": 191,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3571,7 +3571,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 64,
+                    "line": 60,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nTakes in a text string and removes all white space characters and returns the new string\n",
@@ -3579,8 +3579,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 1388,
-                                "end": 1392,
+                                "pos": 1314,
+                                "end": 1318,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3591,8 +3591,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 1382,
-                                "end": 1387,
+                                "pos": 1308,
+                                "end": 1313,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3616,7 +3616,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 91,
+                    "line": 87,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nDeselects previous seletion\n",
@@ -3624,8 +3624,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 1928,
-                                "end": 1930,
+                                "pos": 1854,
+                                "end": 1856,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3636,8 +3636,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 1922,
-                                "end": 1927,
+                                "pos": 1848,
+                                "end": 1853,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3668,13 +3668,13 @@
                     ],
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 186
+                    "line": 182
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\n  Component,\n  Input,\n  Output,\n  EventEmitter,\n  ViewChild,\n  ElementRef,\n  HostListener,\n  TemplateRef\n} from '@angular/core';\nimport {\n  HeaderModel,\n  HeaderNavigationLink,\n  HeaderSecondaryLink\n} from './model/HeaderModel';\nimport { INavigationLink, Selectable } from '@gsa-sam/components';\nimport { NavigationHelper } from '@gsa-sam/components';\n\n\n@Component({\n  selector: 'sds-header',\n  templateUrl: './header.component.html',\n  styleUrls: ['./header.component.scss']\n})\nexport class SdsHeaderComponent {\n  @ViewChild('usaNavOpen') openNavBtn: ElementRef;\n  @ViewChild('usaNavClose') closeNavBtn: ElementRef;\n  mobileNavActive = false;\n  /**\n   * Navigation helper\n   */\n  private _navigationHelper: NavigationHelper = new NavigationHelper();\n\n  public get navigationHelper() {\n    return this._navigationHelper;\n  }\n\n  /**\n   * determines if the top banner is shown\n   */\n  @Input() showTopBanner = true;\n\n  /**\n   * Model used for the different display portions of the header\n   */\n  @Input() model: HeaderModel;\n\n  @Input() topBannerDescription = '';\n\n  @Input() showHeaderLogo = true;\n\n  @Input() alertsTemplate: TemplateRef<any>;\n\n  @Input() help: [];\n  /**\n   * event for event based\n   */\n  @Output()\n  linkEvent = new EventEmitter<INavigationLink>();\n  /**\n   * Takes in a text string and removes all white space characters and returns the new string\n   * @param text\n   */\n  removeWhiteSpace(text: string) {\n    return text.replace(/ /g, '');\n  }\n  constructor() {\n\n  }\n  /**\n   * seeif any secondary link has a counter\n   */\n  hasCounter(): boolean {\n    let hasCounter = false;\n    if (this.model) {\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          if (item.hasCounter) {\n            hasCounter = true;\n          }\n        });\n      }\n    }\n    return hasCounter;\n  }\n\n  /**\n   * Deselects previous seletion\n   * @param id\n   */\n  select(id: string) {\n    this.deselect();\n    const item = this.find(id);\n    if (item) {\n      item.selected = true;\n    }\n  }\n\n  /**\n   * Deselects all the items in the header model\n   */\n  deselect() {\n    if (this.model) {\n      if (this.model.home) {\n        this.model.home.selected = false;\n      }\n      if (this.model.navigationLinks) {\n        this.model.navigationLinks.forEach(function(\n          item: HeaderNavigationLink\n        ) {\n          item.selected = false;\n          if (item.children) {\n            item.children.forEach(function(child: HeaderNavigationLink) {\n              child.selected = false;\n            });\n          }\n        });\n      }\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          item.selected = false;\n        });\n      }\n    }\n  }\n\n  /**\n   * Finds the navigation element by id in the header model\n   * @param id of the navigation item\n   */\n  find(id: string): Selectable {\n    let toReturn = null;\n    if (this.model) {\n      if (this.model.home) {\n        if (this.model.home.id === id) {\n          toReturn = this.model.home;\n        }\n      }\n      toReturn = this.findNavigationLinks(id, toReturn);\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          if (item.id === id) {\n            toReturn = item;\n          }\n        });\n      }\n    }\n    return toReturn;\n  }\n\n  /**\n   * Searchs the items in the navigation links\n   * @param id\n   */\n  private findNavigationLinks(id: string, toReturn: Selectable): Selectable {\n    if (this.model.navigationLinks) {\n      this.model.navigationLinks.forEach(function(item: HeaderNavigationLink) {\n        if (item.id === id) {\n          toReturn = item;\n        }\n        if (item.children) {\n          item.children.forEach(function(child: HeaderNavigationLink) {\n            if (child.id === id) {\n              toReturn = child;\n            }\n          });\n        }\n      });\n    }\n    return toReturn;\n  }\n\n  /**\n   * Link clicked and emits the link data into an event\n   * @param link\n   */\n  linkClickEvent(link: INavigationLink) {\n    this.linkEvent.emit(link);\n    return false;\n  }\n\n  // When the mobile nav is active, and the close box isn't visible,\n  // we know the user's viewport has been resized to be larger.\n  // Let's make the page state consistent by deactivating the mobile nav.\n  @HostListener('window:resize', ['$event'])\n  onBrowserResize(event) {\n    if (\n      this.mobileNavActive &&\n      this.closeNavBtn.nativeElement.getBoundingClientRect().width === 0\n    ) {\n      this.mobileNavActive = false;\n    }\n  }\n\n  openMobileNav() {\n    this.mobileNavActive = true;\n  }\n\n  closeMobileNav() {\n    this.mobileNavActive = false;\n    // The mobile nav was just deactivated, and focus was on the close\n    // button, which is no longer visible. We don't want the focus to\n    // disappear into the void, so focus on the menu button if it's\n    // visible (this may have been what the user was just focused on,\n    // if they triggered the mobile nav by mistake).\n    this.openNavBtn.nativeElement.focus();\n  }\n\n  // The mobile nav was just activated, so focus on the close button,\n  navAnimationEnd() {\n    this.closeNavBtn.nativeElement.focus();\n  }\n}\n",
+            "sourceCode": "import {\n  Component,\n  Input,\n  Output,\n  EventEmitter,\n  ViewChild,\n  ElementRef,\n  HostListener,\n  TemplateRef\n} from '@angular/core';\nimport {\n  HeaderModel,\n  HeaderNavigationLink,\n  HeaderSecondaryLink\n} from './model/HeaderModel';\nimport { INavigationLink, Selectable } from '@gsa-sam/components';\nimport { NavigationHelper } from '@gsa-sam/components';\n\n\n@Component({\n  selector: 'sds-header',\n  templateUrl: './header.component.html',\n  styleUrls: ['./header.component.scss']\n})\nexport class SdsHeaderComponent {\n  @ViewChild('usaNavOpen') openNavBtn: ElementRef;\n  @ViewChild('usaNavClose') closeNavBtn: ElementRef;\n  mobileNavActive = false;\n  /**\n   * Navigation helper\n   */\n  readonly navigationHelper: NavigationHelper = new NavigationHelper();\n\n  /**\n   * determines if the top banner is shown\n   */\n  @Input() showTopBanner = true;\n\n  /**\n   * Model used for the different display portions of the header\n   */\n  @Input() model: HeaderModel;\n\n  @Input() topBannerDescription = '';\n\n  @Input() showHeaderLogo = true;\n\n  @Input() alertsTemplate: TemplateRef<any>;\n\n  @Input() help: [];\n  /**\n   * event for event based\n   */\n  @Output()\n  linkEvent = new EventEmitter<INavigationLink>();\n  /**\n   * Takes in a text string and removes all white space characters and returns the new string\n   * @param text\n   */\n  removeWhiteSpace(text: string) {\n    return text.replace(/ /g, '');\n  }\n  constructor() {\n\n  }\n  /**\n   * seeif any secondary link has a counter\n   */\n  hasCounter(): boolean {\n    let hasCounter = false;\n    if (this.model) {\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          if (item.hasCounter) {\n            hasCounter = true;\n          }\n        });\n      }\n    }\n    return hasCounter;\n  }\n\n  /**\n   * Deselects previous seletion\n   * @param id\n   */\n  select(id: string) {\n    this.deselect();\n    const item = this.find(id);\n    if (item) {\n      item.selected = true;\n    }\n  }\n\n  /**\n   * Deselects all the items in the header model\n   */\n  deselect() {\n    if (this.model) {\n      if (this.model.home) {\n        this.model.home.selected = false;\n      }\n      if (this.model.navigationLinks) {\n        this.model.navigationLinks.forEach(function(\n          item: HeaderNavigationLink\n        ) {\n          item.selected = false;\n          if (item.children) {\n            item.children.forEach(function(child: HeaderNavigationLink) {\n              child.selected = false;\n            });\n          }\n        });\n      }\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          item.selected = false;\n        });\n      }\n    }\n  }\n\n  /**\n   * Finds the navigation element by id in the header model\n   * @param id of the navigation item\n   */\n  find(id: string): Selectable {\n    let toReturn = null;\n    if (this.model) {\n      if (this.model.home) {\n        if (this.model.home.id === id) {\n          toReturn = this.model.home;\n        }\n      }\n      toReturn = this.findNavigationLinks(id, toReturn);\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          if (item.id === id) {\n            toReturn = item;\n          }\n        });\n      }\n    }\n    return toReturn;\n  }\n\n  /**\n   * Searchs the items in the navigation links\n   * @param id\n   */\n  private findNavigationLinks(id: string, toReturn: Selectable): Selectable {\n    if (this.model.navigationLinks) {\n      this.model.navigationLinks.forEach(function(item: HeaderNavigationLink) {\n        if (item.id === id) {\n          toReturn = item;\n        }\n        if (item.children) {\n          item.children.forEach(function(child: HeaderNavigationLink) {\n            if (child.id === id) {\n              toReturn = child;\n            }\n          });\n        }\n      });\n    }\n    return toReturn;\n  }\n\n  /**\n   * Link clicked and emits the link data into an event\n   * @param link\n   */\n  linkClickEvent(link: INavigationLink) {\n    this.linkEvent.emit(link);\n    return false;\n  }\n\n  // When the mobile nav is active, and the close box isn't visible,\n  // we know the user's viewport has been resized to be larger.\n  // Let's make the page state consistent by deactivating the mobile nav.\n  @HostListener('window:resize', ['$event'])\n  onBrowserResize(event) {\n    if (\n      this.mobileNavActive &&\n      this.closeNavBtn.nativeElement.getBoundingClientRect().width === 0\n    ) {\n      this.mobileNavActive = false;\n    }\n  }\n\n  openMobileNav() {\n    this.mobileNavActive = true;\n  }\n\n  closeMobileNav() {\n    this.mobileNavActive = false;\n    // The mobile nav was just deactivated, and focus was on the close\n    // button, which is no longer visible. We don't want the focus to\n    // disappear into the void, so focus on the menu button if it's\n    // visible (this may have been what the user was just focused on,\n    // if they triggered the mobile nav by mistake).\n    this.openNavBtn.nativeElement.focus();\n  }\n\n  // The mobile nav was just activated, so focus on the close button,\n  navAnimationEnd() {\n    this.closeNavBtn.nativeElement.focus();\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -3689,18 +3689,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 66
-            },
-            "accessors": {
-                "navigationHelper": {
-                    "name": "navigationHelper",
-                    "getSignature": {
-                        "name": "navigationHelper",
-                        "type": "",
-                        "returnType": "",
-                        "line": 34
-                    }
-                }
+                "line": 62
             },
             "templateData": "<sds-top-banner *ngIf=\"showTopBanner\" [description]=\"topBannerDescription\"></sds-top-banner>\n\n<div *ngIf=\"alertsTemplate\">\n  <ng-container [ngTemplateOutlet]=\"alertsTemplate\"></ng-container>\n</div>\n\n<div class=\"usa-overlay\" [class.is-visible]=\"mobileNavActive\" (click)=\"closeMobileNav()\"></div>\n<header class=\"usa-header usa-header--extended\">\n  <div class=\"usa-navbar\">\n    <div *ngIf=\"showHeaderLogo; else fillerBlock\" class=\"usa-logo\">\n      <ng-container [ngTemplateOutlet]=\"\n            navigationHelper.isLinkInternal(model.home)\n              ? homeLinkRouteTemplate\n              : homeLinkHREFTemplate\n          \" [ngTemplateOutletContext]=\"{ $implicit: model.home }\"></ng-container>\n    </div>\n    <sds-header-help *ngIf=\"help && help.length > 0\" [content]=\"help\" class=\"tablet:display-none margin-right-2\">\n    </sds-header-help>\n    <button #usaNavOpen class=\"usa-menu-btn\" (click)=\"openMobileNav()\">\n      <div class=\"sds-stack sds-lg\">\n        <usa-icon class=\"sds-stack-icon text-primary\" [icon]=\"'square-fill'\" [size]=\"'2x'\"></usa-icon>\n        <usa-icon class=\"sds-stack-icon\" [icon]=\"'bars'\" [size]=\"'lg'\"></usa-icon>\n        <usa-icon *ngIf=\"hasCounter()\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n          [classes]=\"['counter-icon']\"></usa-icon>\n      </div>\n      <!-- <fa-layers [fixedWidth]=\"true\" size=\"3x\">\n        <fa-icon [icon]=\"['fas', 'square']\" [classes]=\"['text-primary']\"></fa-icon>\n        <fa-icon [icon]=\"['sds', 'bars']\" [classes]=\"['icon-bars']\" transform=\"shrink-6\"></fa-icon>\n        <fa-layers-counter *ngIf=\"hasCounter()\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n      </fa-layers> -->\n      <span class=\"usa-sr-only\">Menu</span>\n    </button>\n  </div>\n  <nav aria-label=\"Primary navigation\" class=\"usa-nav\" (keydown.esc)=\"closeMobileNav()\"\n    (animationend)=\"navAnimationEnd()\" [class.is-visible]=\"mobileNavActive\" [cdkTrapFocus]=\"mobileNavActive\">\n    <div class=\"usa-nav__inner\">\n      <button #usaNavClose class=\"usa-nav__close\" (click)=\"closeMobileNav()\">\n        <usa-icon [icon]=\"'x-circle'\" [size]=\"'lg'\"></usa-icon>\n        <!-- <fa-layers [fixedWidth]=\"true\" size=\"lg\">\n          <fa-icon [icon]=\"['fas', 'circle']\" [inverse]=\"true\" transform=\"grow-2\"></fa-icon>\n          <fa-icon [icon]=\"['fas', 'times']\" transform=\"shrink-6\"></fa-icon>\n        </fa-layers> -->\n        <span class=\"usa-sr-only\">Close</span>\n      </button>\n      <ul class=\"usa-nav__primary usa-accordion\">\n        <li *ngFor=\"let link of model.navigationLinks\" class=\"usa-nav__primary-item\">\n          <ng-container [ngTemplateOutlet]=\"link.route ? linkTemplate : dropDownTemplate\"\n            [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n        </li>\n      </ul>\n      <div *ngIf=\"help && help.length > 0\" class=\"position-absolute top-1 right-205\">\n        <sds-header-help [content]=\"help\"></sds-header-help>\n      </div>\n      <div class=\"usa-nav__secondary\" [ngClass]=\"{'sds-nav__secondary--blank': !showHeaderLogo}\">\n        <ul class=\"usa-nav__secondary-links\">\n          <li *ngFor=\"let link of model.secondaryLinks\" class=\"usa-nav__secondary-item\">\n            <ng-container [ngTemplateOutlet]=\"\n                navigationHelper.isLinkInternal(link)\n                  ? secondaryRouteLinkTemplate\n                  : navigationHelper.isLinkExternal(link)\n                  ? secondaryHREFLinkTemplate\n                  : secondaryEVENTLinkTemplate\n              \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </nav>\n</header>\n<ng-template #homeLinkRouteTemplate let-home>\n  <a [routerLink]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #homeLinkHREFTemplate let-home>\n  <a [attr.href]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #secondaryRouteLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [routerLink]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryHREFLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.href]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryEVENTLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" (click)=\"linkClickEvent(link)\" href=\"javascript:void(0)\"\n    [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #iconLinkTemplate let-link>\n  <div class=\"sds-stack sds-sm\">\n    <usa-icon class=\"sds-stack-icon text-ink\" [icon]=\"link.imageClass\"></usa-icon>\n    <usa-icon *ngIf=\"link.hasCounter\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n      [classes]=\"['counter-icon']\"></usa-icon>\n  </div>\n  <!-- <fa-layers [fixedWidth]=\"true\">\n    <usa-icon [icon]=\"[link.imageClassPrefix, link.imageClass]\"></usa-icon>\n    <fa-layers-counter *ngIf=\"link.hasCounter\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n  </fa-layers> -->\n  <span class=\"sds-nav__secondary-item-text\">{{ link.text }}</span>\n</ng-template>\n\n<ng-template #linkTemplate let-link>\n  <ng-container [ngTemplateOutlet]=\"\n      navigationHelper.isLinkInternal(link)\n        ? linkRouteTemplate\n        : navigationHelper.isLinkExternal(link)\n        ? linkHREFTemplate\n        : linkEventTemplate\n    \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n</ng-template>\n\n<ng-template #linkRouteTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [routerLink]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkHREFTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [attr.href]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkEventTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    href=\"javascript:void(0)\" (click)=\"linkClickEvent(link)\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #dropDownTemplate let-link>\n  <button [attr.id]=\"link.id\" [attr.class]=\"\n      link.selected\n        ? 'usa-accordion__button usa-nav__link usa-current'\n        : 'usa-accordion__button usa-nav__link'\n    \" aria-expanded=\"false\" [attr.aria-controls]=\"removeWhiteSpace(link.text) + '-section'\">\n    <span>{{ link.text }}</span>\n  </button>\n  <ul [attr.id]=\"removeWhiteSpace(link.text) + '-section'\" class=\"usa-nav__submenu\" hidden>\n    <li *ngFor=\"let childLink of link.children\" class=\"usa-nav__submenu-item\">\n      <ng-container [ngTemplateOutlet]=\"\n          navigationHelper.isLinkInternal(childLink)\n            ? dropDownRouteLinkTemplate\n            : navigationHelper.isLinkExternal(childLink)\n            ? dropDownHREFLinkTemplate\n            : dropDownEVENTLinkTemplate\n        \" [ngTemplateOutletContext]=\"{ $implicit: childLink }\"></ng-container>\n    </li>\n  </ul>\n</ng-template>\n\n<ng-template #dropDownRouteLinkTemplate let-childLink>\n  <a [routerLink]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownHREFLinkTemplate let-childLink>\n  <a [attr.href]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownEVENTLinkTemplate let-childLink>\n  <a href=\"javascript:void(0)\" (click)=\"linkClickEvent(childLink)\">{{\n    childLink.text\n  }}</a>\n</ng-template>\n\n<ng-template #fillerBlock>\n  <!--Empty filler space for secondary links for when header logo display is turned off-->\n  <div class=\"sds-navbar--blank \"></div>\n</ng-template>\n"
         },
