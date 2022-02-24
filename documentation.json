@@ -1552,12 +1552,12 @@
         },
         {
             "name": "SerachDropDownItem",
-            "id": "class-SerachDropDownItem-4ef6a47de49a2d5e62c92f6e58a79d21a8205c8d9c6265231972e4a0d285f0ff25ec89d7cc218f83be8de5622919bbc856c4e68ef2956e4240c150fdaf00cfe5",
+            "id": "class-SerachDropDownItem-733cd76cc767b3e0dcdf75255920686b06787460c5a7fed8a5cb8f6355e3fb8f9925bb585d0f725bffcc81e7aa791418a73d5dac08f8436af7b33813f20aefaa",
             "file": "libs/layouts/src/lib/subheader/sds-subheader-wrapper.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "class",
-            "sourceCode": "import {\n  Component,\n  Output,\n  EventEmitter,\n  Input,\n  OnInit\n} from '@angular/core';\nimport { INavigationLink, NavigationMode, SearchSettings, Selectable } from '@gsa-sam/components';\nimport { Router } from '@angular/router';\n\n\n@Component({\n  selector: 'sds-subheader-wrapper',\n  templateUrl: 'sds-subheader-wrapper.component.html'\n})\nexport class SdsSubheaderWrapperComponent implements OnInit {\n\n\n  constructor(private router: Router) { }\n\n  @Input() backbuttonBehavior: INavigationLink;\n\n  @Input() title: string;\n\n  @Input() mode: SubHeaderWrapperMode;\n\n  @Input() tabs: TabModel[];\n\n  @Input() searchEnabled: boolean = false;\n\n  @Output() action = new EventEmitter<string>();\n\n  @Input() searchPlaceholderText: string;\n\n  @Input() searchDropDownItems: SerachDropDownItem[];\n\n  @Input() help: [];\n\n  searchModel = {};\n\n  HeaderMode = SubHeaderWrapperMode;\n\n  menu = {\n    trigger: {\n      type: 'plain', // plain | primary\n      shadow: true\n    },\n    actions: []\n  };\n\n  searchSettings: SearchSettings = {\n    placeholder: '',\n    parentSelector: '.sds-subheader__content',\n    inputClass:\n      'width-card-lg widescreen:width-mobile display-none desktop-lg:display-inline-block',\n    size: 'small',\n    ariaLabel: 'Search',\n    dropdown: {}\n\n\n  };\n\n\n\n  searchSubmit(model) {\n    this.action.emit(model);\n  }\n\n  public backClick(): void {\n    if (!this.backbuttonBehavior) {\n      window.history.back();\n    } else {\n      switch (this.backbuttonBehavior.mode) {\n        case NavigationMode.INTERNAL:\n          this.router.navigate([this.backbuttonBehavior.route]);\n          break;\n        case NavigationMode.EXTERNAL:\n          window.location.href = this.backbuttonBehavior.route;\n          break;\n        default:\n          window.history.back();\n      }\n    }\n  }\n\n\n   ngOnInit() {\n\n    if (this.searchPlaceholderText) {\n      this.searchSettings.placeholder = this.searchPlaceholderText;\n    }\n\n    if (this.searchDropDownItems) {\n      this.searchSettings.dropdown =\n      {\n        id: 'searchOptions',\n        placeholder: '-Select-',\n        options: this.searchDropDownItems,\n        inverse: false,\n      };\n    }\n\n\n  }\n}\n\nexport enum SubHeaderWrapperMode {\n  CUSTOM,\n  //Accept and Reject buttons\n  REQUEST,//(Accept/Reject),\n\n  SUBMIT,//(Submit/EDIT)\n  //\n  SEARCH,\n  //\n  TAB\n}\n\nexport class TabModel implements Selectable {\n  text: string;\n  id: string;\n  selected?: boolean;\n}\n\nexport class SerachDropDownItem {\n  label: string;\n  value: string;\n}\n\n",
+            "sourceCode": "import {\n  Component,\n  Output,\n  EventEmitter,\n  Input,\n  OnInit\n} from '@angular/core';\nimport { INavigationLink, NavigationMode, SearchSettings, Selectable } from '@gsa-sam/components';\nimport { Router } from '@angular/router';\n\n\n@Component({\n  selector: 'sds-subheader-wrapper',\n  templateUrl: 'sds-subheader-wrapper.component.html'\n})\nexport class SdsSubheaderWrapperComponent implements OnInit {\n\n\n  constructor(private router: Router) { }\n\n  @Input() backbuttonBehavior: INavigationLink;\n\n  @Input() title: string;\n\n  @Input() mode: SubHeaderWrapperMode;\n\n  @Input() tabs: TabModel[];\n\n  @Input() searchEnabled: boolean = false;\n\n  @Output() action = new EventEmitter<string>();\n\n  @Input() searchPlaceholderText: string;\n\n  @Input() searchDropDownItems: SerachDropDownItem[];\n\n  searchModel = {};\n\n  HeaderMode = SubHeaderWrapperMode;\n\n  menu = {\n    trigger: {\n      type: 'plain', // plain | primary\n      shadow: true\n    },\n    actions: []\n  };\n\n  searchSettings: SearchSettings = {\n    placeholder: '',\n    parentSelector: '.sds-subheader__content',\n    inputClass:\n      'width-card-lg widescreen:width-mobile display-none desktop-lg:display-inline-block',\n    size: 'small',\n    ariaLabel: 'Search',\n    dropdown: {}\n\n\n  };\n\n\n\n  searchSubmit(model) {\n    this.action.emit(model);\n  }\n\n  public backClick(): void {\n    if (!this.backbuttonBehavior) {\n      window.history.back();\n    } else {\n      switch (this.backbuttonBehavior.mode) {\n        case NavigationMode.INTERNAL:\n          this.router.navigate([this.backbuttonBehavior.route]);\n          break;\n        case NavigationMode.EXTERNAL:\n          window.location.href = this.backbuttonBehavior.route;\n          break;\n        default:\n          window.history.back();\n      }\n    }\n  }\n\n\n   ngOnInit() {\n\n    if (this.searchPlaceholderText) {\n      this.searchSettings.placeholder = this.searchPlaceholderText;\n    }\n\n    if (this.searchDropDownItems) {\n      this.searchSettings.dropdown =\n      {\n        id: 'searchOptions',\n        placeholder: '-Select-',\n        options: this.searchDropDownItems,\n        inverse: false,\n      };\n    }\n\n\n  }\n}\n\nexport enum SubHeaderWrapperMode {\n  CUSTOM,\n  //Accept and Reject buttons\n  REQUEST,//(Accept/Reject),\n\n  SUBMIT,//(Submit/EDIT)\n  //\n  SEARCH,\n  //\n  TAB\n}\n\nexport class TabModel implements Selectable {\n  text: string;\n  id: string;\n  selected?: boolean;\n}\n\nexport class SerachDropDownItem {\n  label: string;\n  value: string;\n}\n\n",
             "properties": [
                 {
                     "name": "label",
@@ -1566,7 +1566,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 126
+                    "line": 124
                 },
                 {
                     "name": "value",
@@ -1575,7 +1575,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 127
+                    "line": 125
                 }
             ],
             "methods": [],
@@ -1624,12 +1624,12 @@
         },
         {
             "name": "TabModel",
-            "id": "class-TabModel-4ef6a47de49a2d5e62c92f6e58a79d21a8205c8d9c6265231972e4a0d285f0ff25ec89d7cc218f83be8de5622919bbc856c4e68ef2956e4240c150fdaf00cfe5",
+            "id": "class-TabModel-733cd76cc767b3e0dcdf75255920686b06787460c5a7fed8a5cb8f6355e3fb8f9925bb585d0f725bffcc81e7aa791418a73d5dac08f8436af7b33813f20aefaa",
             "file": "libs/layouts/src/lib/subheader/sds-subheader-wrapper.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "class",
-            "sourceCode": "import {\n  Component,\n  Output,\n  EventEmitter,\n  Input,\n  OnInit\n} from '@angular/core';\nimport { INavigationLink, NavigationMode, SearchSettings, Selectable } from '@gsa-sam/components';\nimport { Router } from '@angular/router';\n\n\n@Component({\n  selector: 'sds-subheader-wrapper',\n  templateUrl: 'sds-subheader-wrapper.component.html'\n})\nexport class SdsSubheaderWrapperComponent implements OnInit {\n\n\n  constructor(private router: Router) { }\n\n  @Input() backbuttonBehavior: INavigationLink;\n\n  @Input() title: string;\n\n  @Input() mode: SubHeaderWrapperMode;\n\n  @Input() tabs: TabModel[];\n\n  @Input() searchEnabled: boolean = false;\n\n  @Output() action = new EventEmitter<string>();\n\n  @Input() searchPlaceholderText: string;\n\n  @Input() searchDropDownItems: SerachDropDownItem[];\n\n  @Input() help: [];\n\n  searchModel = {};\n\n  HeaderMode = SubHeaderWrapperMode;\n\n  menu = {\n    trigger: {\n      type: 'plain', // plain | primary\n      shadow: true\n    },\n    actions: []\n  };\n\n  searchSettings: SearchSettings = {\n    placeholder: '',\n    parentSelector: '.sds-subheader__content',\n    inputClass:\n      'width-card-lg widescreen:width-mobile display-none desktop-lg:display-inline-block',\n    size: 'small',\n    ariaLabel: 'Search',\n    dropdown: {}\n\n\n  };\n\n\n\n  searchSubmit(model) {\n    this.action.emit(model);\n  }\n\n  public backClick(): void {\n    if (!this.backbuttonBehavior) {\n      window.history.back();\n    } else {\n      switch (this.backbuttonBehavior.mode) {\n        case NavigationMode.INTERNAL:\n          this.router.navigate([this.backbuttonBehavior.route]);\n          break;\n        case NavigationMode.EXTERNAL:\n          window.location.href = this.backbuttonBehavior.route;\n          break;\n        default:\n          window.history.back();\n      }\n    }\n  }\n\n\n   ngOnInit() {\n\n    if (this.searchPlaceholderText) {\n      this.searchSettings.placeholder = this.searchPlaceholderText;\n    }\n\n    if (this.searchDropDownItems) {\n      this.searchSettings.dropdown =\n      {\n        id: 'searchOptions',\n        placeholder: '-Select-',\n        options: this.searchDropDownItems,\n        inverse: false,\n      };\n    }\n\n\n  }\n}\n\nexport enum SubHeaderWrapperMode {\n  CUSTOM,\n  //Accept and Reject buttons\n  REQUEST,//(Accept/Reject),\n\n  SUBMIT,//(Submit/EDIT)\n  //\n  SEARCH,\n  //\n  TAB\n}\n\nexport class TabModel implements Selectable {\n  text: string;\n  id: string;\n  selected?: boolean;\n}\n\nexport class SerachDropDownItem {\n  label: string;\n  value: string;\n}\n\n",
+            "sourceCode": "import {\n  Component,\n  Output,\n  EventEmitter,\n  Input,\n  OnInit\n} from '@angular/core';\nimport { INavigationLink, NavigationMode, SearchSettings, Selectable } from '@gsa-sam/components';\nimport { Router } from '@angular/router';\n\n\n@Component({\n  selector: 'sds-subheader-wrapper',\n  templateUrl: 'sds-subheader-wrapper.component.html'\n})\nexport class SdsSubheaderWrapperComponent implements OnInit {\n\n\n  constructor(private router: Router) { }\n\n  @Input() backbuttonBehavior: INavigationLink;\n\n  @Input() title: string;\n\n  @Input() mode: SubHeaderWrapperMode;\n\n  @Input() tabs: TabModel[];\n\n  @Input() searchEnabled: boolean = false;\n\n  @Output() action = new EventEmitter<string>();\n\n  @Input() searchPlaceholderText: string;\n\n  @Input() searchDropDownItems: SerachDropDownItem[];\n\n  searchModel = {};\n\n  HeaderMode = SubHeaderWrapperMode;\n\n  menu = {\n    trigger: {\n      type: 'plain', // plain | primary\n      shadow: true\n    },\n    actions: []\n  };\n\n  searchSettings: SearchSettings = {\n    placeholder: '',\n    parentSelector: '.sds-subheader__content',\n    inputClass:\n      'width-card-lg widescreen:width-mobile display-none desktop-lg:display-inline-block',\n    size: 'small',\n    ariaLabel: 'Search',\n    dropdown: {}\n\n\n  };\n\n\n\n  searchSubmit(model) {\n    this.action.emit(model);\n  }\n\n  public backClick(): void {\n    if (!this.backbuttonBehavior) {\n      window.history.back();\n    } else {\n      switch (this.backbuttonBehavior.mode) {\n        case NavigationMode.INTERNAL:\n          this.router.navigate([this.backbuttonBehavior.route]);\n          break;\n        case NavigationMode.EXTERNAL:\n          window.location.href = this.backbuttonBehavior.route;\n          break;\n        default:\n          window.history.back();\n      }\n    }\n  }\n\n\n   ngOnInit() {\n\n    if (this.searchPlaceholderText) {\n      this.searchSettings.placeholder = this.searchPlaceholderText;\n    }\n\n    if (this.searchDropDownItems) {\n      this.searchSettings.dropdown =\n      {\n        id: 'searchOptions',\n        placeholder: '-Select-',\n        options: this.searchDropDownItems,\n        inverse: false,\n      };\n    }\n\n\n  }\n}\n\nexport enum SubHeaderWrapperMode {\n  CUSTOM,\n  //Accept and Reject buttons\n  REQUEST,//(Accept/Reject),\n\n  SUBMIT,//(Submit/EDIT)\n  //\n  SEARCH,\n  //\n  TAB\n}\n\nexport class TabModel implements Selectable {\n  text: string;\n  id: string;\n  selected?: boolean;\n}\n\nexport class SerachDropDownItem {\n  label: string;\n  value: string;\n}\n\n",
             "properties": [
                 {
                     "name": "id",
@@ -1638,7 +1638,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 121
+                    "line": 119
                 },
                 {
                     "name": "selected",
@@ -1647,7 +1647,7 @@
                     "type": "boolean",
                     "optional": true,
                     "description": "",
-                    "line": 122
+                    "line": 120
                 },
                 {
                     "name": "text",
@@ -1656,7 +1656,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 120
+                    "line": 118
                 }
             ],
             "methods": [],
@@ -4439,7 +4439,7 @@
         },
         {
             "name": "SdsSubheaderWrapperComponent",
-            "id": "component-SdsSubheaderWrapperComponent-4ef6a47de49a2d5e62c92f6e58a79d21a8205c8d9c6265231972e4a0d285f0ff25ec89d7cc218f83be8de5622919bbc856c4e68ef2956e4240c150fdaf00cfe5",
+            "id": "component-SdsSubheaderWrapperComponent-733cd76cc767b3e0dcdf75255920686b06787460c5a7fed8a5cb8f6355e3fb8f9925bb585d0f725bffcc81e7aa791418a73d5dac08f8436af7b33813f20aefaa",
             "file": "libs/layouts/src/lib/subheader/sds-subheader-wrapper.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -4460,14 +4460,6 @@
                     "deprecationMessage": "",
                     "line": 21,
                     "type": "INavigationLink",
-                    "decorators": []
-                },
-                {
-                    "name": "help",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 37,
-                    "type": "[]",
                     "decorators": []
                 },
                 {
@@ -4539,7 +4531,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 41
+                    "line": 39
                 },
                 {
                     "name": "menu",
@@ -4549,7 +4541,7 @@
                     "type": "object",
                     "optional": false,
                     "description": "",
-                    "line": 43
+                    "line": 41
                 },
                 {
                     "name": "searchModel",
@@ -4559,7 +4551,7 @@
                     "type": "object",
                     "optional": false,
                     "description": "",
-                    "line": 39
+                    "line": 37
                 },
                 {
                     "name": "searchSettings",
@@ -4569,7 +4561,7 @@
                     "type": "SearchSettings",
                     "optional": false,
                     "description": "",
-                    "line": 51
+                    "line": 49
                 }
             ],
             "methodsClass": [
@@ -4579,7 +4571,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 69,
+                    "line": 67,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -4592,7 +4584,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 87,
+                    "line": 85,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -4609,7 +4601,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 65,
+                    "line": 63,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -4632,7 +4624,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\n  Component,\n  Output,\n  EventEmitter,\n  Input,\n  OnInit\n} from '@angular/core';\nimport { INavigationLink, NavigationMode, SearchSettings, Selectable } from '@gsa-sam/components';\nimport { Router } from '@angular/router';\n\n\n@Component({\n  selector: 'sds-subheader-wrapper',\n  templateUrl: 'sds-subheader-wrapper.component.html'\n})\nexport class SdsSubheaderWrapperComponent implements OnInit {\n\n\n  constructor(private router: Router) { }\n\n  @Input() backbuttonBehavior: INavigationLink;\n\n  @Input() title: string;\n\n  @Input() mode: SubHeaderWrapperMode;\n\n  @Input() tabs: TabModel[];\n\n  @Input() searchEnabled: boolean = false;\n\n  @Output() action = new EventEmitter<string>();\n\n  @Input() searchPlaceholderText: string;\n\n  @Input() searchDropDownItems: SerachDropDownItem[];\n\n  @Input() help: [];\n\n  searchModel = {};\n\n  HeaderMode = SubHeaderWrapperMode;\n\n  menu = {\n    trigger: {\n      type: 'plain', // plain | primary\n      shadow: true\n    },\n    actions: []\n  };\n\n  searchSettings: SearchSettings = {\n    placeholder: '',\n    parentSelector: '.sds-subheader__content',\n    inputClass:\n      'width-card-lg widescreen:width-mobile display-none desktop-lg:display-inline-block',\n    size: 'small',\n    ariaLabel: 'Search',\n    dropdown: {}\n\n\n  };\n\n\n\n  searchSubmit(model) {\n    this.action.emit(model);\n  }\n\n  public backClick(): void {\n    if (!this.backbuttonBehavior) {\n      window.history.back();\n    } else {\n      switch (this.backbuttonBehavior.mode) {\n        case NavigationMode.INTERNAL:\n          this.router.navigate([this.backbuttonBehavior.route]);\n          break;\n        case NavigationMode.EXTERNAL:\n          window.location.href = this.backbuttonBehavior.route;\n          break;\n        default:\n          window.history.back();\n      }\n    }\n  }\n\n\n   ngOnInit() {\n\n    if (this.searchPlaceholderText) {\n      this.searchSettings.placeholder = this.searchPlaceholderText;\n    }\n\n    if (this.searchDropDownItems) {\n      this.searchSettings.dropdown =\n      {\n        id: 'searchOptions',\n        placeholder: '-Select-',\n        options: this.searchDropDownItems,\n        inverse: false,\n      };\n    }\n\n\n  }\n}\n\nexport enum SubHeaderWrapperMode {\n  CUSTOM,\n  //Accept and Reject buttons\n  REQUEST,//(Accept/Reject),\n\n  SUBMIT,//(Submit/EDIT)\n  //\n  SEARCH,\n  //\n  TAB\n}\n\nexport class TabModel implements Selectable {\n  text: string;\n  id: string;\n  selected?: boolean;\n}\n\nexport class SerachDropDownItem {\n  label: string;\n  value: string;\n}\n\n",
+            "sourceCode": "import {\n  Component,\n  Output,\n  EventEmitter,\n  Input,\n  OnInit\n} from '@angular/core';\nimport { INavigationLink, NavigationMode, SearchSettings, Selectable } from '@gsa-sam/components';\nimport { Router } from '@angular/router';\n\n\n@Component({\n  selector: 'sds-subheader-wrapper',\n  templateUrl: 'sds-subheader-wrapper.component.html'\n})\nexport class SdsSubheaderWrapperComponent implements OnInit {\n\n\n  constructor(private router: Router) { }\n\n  @Input() backbuttonBehavior: INavigationLink;\n\n  @Input() title: string;\n\n  @Input() mode: SubHeaderWrapperMode;\n\n  @Input() tabs: TabModel[];\n\n  @Input() searchEnabled: boolean = false;\n\n  @Output() action = new EventEmitter<string>();\n\n  @Input() searchPlaceholderText: string;\n\n  @Input() searchDropDownItems: SerachDropDownItem[];\n\n  searchModel = {};\n\n  HeaderMode = SubHeaderWrapperMode;\n\n  menu = {\n    trigger: {\n      type: 'plain', // plain | primary\n      shadow: true\n    },\n    actions: []\n  };\n\n  searchSettings: SearchSettings = {\n    placeholder: '',\n    parentSelector: '.sds-subheader__content',\n    inputClass:\n      'width-card-lg widescreen:width-mobile display-none desktop-lg:display-inline-block',\n    size: 'small',\n    ariaLabel: 'Search',\n    dropdown: {}\n\n\n  };\n\n\n\n  searchSubmit(model) {\n    this.action.emit(model);\n  }\n\n  public backClick(): void {\n    if (!this.backbuttonBehavior) {\n      window.history.back();\n    } else {\n      switch (this.backbuttonBehavior.mode) {\n        case NavigationMode.INTERNAL:\n          this.router.navigate([this.backbuttonBehavior.route]);\n          break;\n        case NavigationMode.EXTERNAL:\n          window.location.href = this.backbuttonBehavior.route;\n          break;\n        default:\n          window.history.back();\n      }\n    }\n  }\n\n\n   ngOnInit() {\n\n    if (this.searchPlaceholderText) {\n      this.searchSettings.placeholder = this.searchPlaceholderText;\n    }\n\n    if (this.searchDropDownItems) {\n      this.searchSettings.dropdown =\n      {\n        id: 'searchOptions',\n        placeholder: '-Select-',\n        options: this.searchDropDownItems,\n        inverse: false,\n      };\n    }\n\n\n  }\n}\n\nexport enum SubHeaderWrapperMode {\n  CUSTOM,\n  //Accept and Reject buttons\n  REQUEST,//(Accept/Reject),\n\n  SUBMIT,//(Submit/EDIT)\n  //\n  SEARCH,\n  //\n  TAB\n}\n\nexport class TabModel implements Selectable {\n  text: string;\n  id: string;\n  selected?: boolean;\n}\n\nexport class SerachDropDownItem {\n  label: string;\n  value: string;\n}\n\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -4665,7 +4657,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<sds-subheader>\n  <!-- =============== BACK BUTTON =============== -->\n  <button class=\"sds-button sds-button--circular sds-navbar__back-button\" (click)=\"backClick()\" id=\"backBtn\">\n    <usa-icon [icon]=\"'chevron-left'\"></usa-icon>\n    <span class=\"usa-sr-only\">Go Back</span>\n  </button>\n\n  <!-- =============== TITLE =============== -->\n  <span class=\"sds-navbar__title\">\n    {{title}}\n  </span>\n  <!--- Search and Autocomplete-->\n\n  <sds-search *ngIf=\"searchEnabled\" [searchSettings]=\"searchSettings\" (submit)=\"searchSubmit($event)\">\n  </sds-search>\n\n\n  <!-- =============== BUTTON GROUP =============== -->\n  <ng-container subheader-buttons-container>\n    <!-- Add extra buttons before mode buttons-->\n    <ng-content select=\"[subheader-buttons-container-pre]\"></ng-content>\n\n    <!-- Modes -->\n    <ng-container *ngIf=\"mode === HeaderMode.REQUEST\" [ngTemplateOutlet]=\"request\"></ng-container>\n    <ng-container *ngIf=\"mode === HeaderMode.SUBMIT\" [ngTemplateOutlet]=\"submit\"></ng-container>\n    <ng-container *ngIf=\"mode === HeaderMode.TAB\" [ngTemplateOutlet]=\"tabOutlet\"></ng-container>\n\n    <!-- Add extra buttons after mode buttons-->\n    <ng-content select=\"[subheader-buttons-container-post]\"></ng-content>\n  </ng-container>\n</sds-subheader>\n\n\n<ng-template #request>\n  <button class=\"usa-button usa-button--secondary grid-col-6\" (click)=\"action.emit('Reject')\">Reject</button>\n  <button class=\"usa-button grid-col-6\" (click)=\"action.emit('Approve')\">Approve</button>\n</ng-template>\n\n<ng-template #submit>\n  <button class=\"usa-button usa-button--secondary grid-col-6\" (click)=\"action.emit('Edit')\">Edit</button>\n  <button class=\"usa-button grid-col-6\" (click)=\"action.emit('Submit')\">Submit</button>\n</ng-template>\n\n<ng-template #tabOutlet>\n  <sds-button-group [mode]=\"'radio'\" (change)=\"action.emit($event)\"\n    class=\"sds-button-group  sds-button-group--secondary\">\n    <ng-template ngFor let-tab [ngForOf]=\"tabs\">\n      <sds-button-group-option [value]=\"tab.id\" [aria-label]=\"tab.text\" [checked]=\"tab.selected\">\n        {{ tab.text}}\n      </sds-button-group-option>\n    </ng-template>\n  </sds-button-group>\n</ng-template>\n\n<sds-subheader-help *ngIf=\"help && help.length > 0\" [content]=\"help\"></sds-subheader-help>\n"
+            "templateData": "<sds-subheader>\n  <!-- =============== BACK BUTTON =============== -->\n  <button class=\"sds-button sds-button--circular sds-navbar__back-button\" (click)=\"backClick()\" id=\"backBtn\">\n    <usa-icon [icon]=\"'chevron-left'\"></usa-icon>\n    <span class=\"usa-sr-only\">Go Back</span>\n  </button>\n\n  <!-- =============== TITLE =============== -->\n  <span class=\"sds-navbar__title\">\n    {{title}}\n  </span>\n  <!--- Search and Autocomplete-->\n\n  <sds-search *ngIf=\"searchEnabled\" [searchSettings]=\"searchSettings\" (submit)=\"searchSubmit($event)\">\n  </sds-search>\n\n\n  <!-- =============== BUTTON GROUP =============== -->\n  <ng-container subheader-buttons-container>\n    <!-- Add extra buttons before mode buttons-->\n    <ng-content select=\"[subheader-buttons-container-pre]\"></ng-content>\n\n    <!-- Modes -->\n    <ng-container *ngIf=\"mode === HeaderMode.REQUEST\" [ngTemplateOutlet]=\"request\"></ng-container>\n    <ng-container *ngIf=\"mode === HeaderMode.SUBMIT\" [ngTemplateOutlet]=\"submit\"></ng-container>\n    <ng-container *ngIf=\"mode === HeaderMode.TAB\" [ngTemplateOutlet]=\"tabOutlet\"></ng-container>\n\n    <!-- Add extra buttons after mode buttons-->\n    <ng-content select=\"[subheader-buttons-container-post]\"></ng-content>\n  </ng-container>\n</sds-subheader>\n\n\n<ng-template #request>\n  <button class=\"usa-button usa-button--secondary grid-col-6\" (click)=\"action.emit('Reject')\">Reject</button>\n  <button class=\"usa-button grid-col-6\" (click)=\"action.emit('Approve')\">Approve</button>\n</ng-template>\n\n<ng-template #submit>\n  <button class=\"usa-button usa-button--secondary grid-col-6\" (click)=\"action.emit('Edit')\">Edit</button>\n  <button class=\"usa-button grid-col-6\" (click)=\"action.emit('Submit')\">Submit</button>\n</ng-template>\n\n<ng-template #tabOutlet>\n  <sds-button-group [mode]=\"'radio'\" (change)=\"action.emit($event)\"\n    class=\"sds-button-group  sds-button-group--secondary\">\n    <ng-template ngFor let-tab [ngForOf]=\"tabs\">\n      <sds-button-group-option [value]=\"tab.id\" [aria-label]=\"tab.text\" [checked]=\"tab.selected\">\n        {{ tab.text}}\n      </sds-button-group-option>\n    </ng-template>\n  </sds-button-group>\n</ng-template>\n"
         },
         {
             "name": "SdsSystemAlertComponent",
@@ -6545,13 +6537,13 @@
         },
         {
             "name": "SdsSubheaderModule",
-            "id": "module-SdsSubheaderModule-404326909df9b6177974e993ce2368195b3d41d2fdb054ca8f85167e886d7a02e642f3bd3d2724dfed58b522555de2185a885d9fdb08a580aa0890662f01cb69",
+            "id": "module-SdsSubheaderModule-7255180d0403786e05504209852a7832dc5158e809e8881eecaf4f85cc76acec0a73a275dcb41efee22b9092ebacae2b0a143de2a2a20d3c57fce3c3137b82c9",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/layouts/src/lib/subheader/subheader.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\nimport {\n  SdsMenuModule,\n  SdsSearchModule,\n  SdsObserversModule,\n  SdsTruncateModule,\n  SdsDialogModule,\n} from '@gsa-sam/components';\nimport {\n  SdsSubheaderComponent,\n  SdsSubheaderActionsComponent,\n  SdsSubheaderDrawerComponent,\n  SdsDrawerContentComponent\n} from './subheader.component';\nimport { SdsSubheaderWrapperComponent } from './sds-subheader-wrapper.component';\nimport { SdsActionsMenuModule } from '@gsa-sam/components';\nimport { SdsDrawerCommunicationService } from './drawer-communication.service';\nimport { NgxBootstrapIconsModule, threeDotsVertical, chevronLeft } from 'ngx-bootstrap-icons';\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\nimport { SdsButtonGroupModule } from '@gsa-sam/sam-material-extensions';\nimport { PortalModule } from '@angular/cdk/portal';\nimport { HelpContentComponent, SdsSubheaderHelpComponent } from './help.component';\nimport { SdsLandingListModule } from '../landing/list/list.module';\n\n@NgModule({\n  imports: [\n    CommonModule,\n    SdsMenuModule,\n    SdsObserversModule,\n    SdsSearchModule,\n    SdsTruncateModule,\n    SdsActionsMenuModule,\n    IconModule,\n    SdsButtonGroupModule,\n    NgxBootstrapIconsModule.pick({threeDotsVertical, chevronLeft}),\n    SdsDialogModule,\n    PortalModule,\n    SdsLandingListModule\n  ],\n  exports: [\n    SdsSubheaderComponent,\n    SdsSubheaderActionsComponent,\n    SdsSubheaderDrawerComponent,\n    SdsDrawerContentComponent,\n    SdsSubheaderWrapperComponent\n  ],\n  declarations: [\n    SdsSubheaderComponent,\n    SdsSubheaderActionsComponent,\n    SdsSubheaderDrawerComponent,\n    SdsDrawerContentComponent,\n    SdsSubheaderWrapperComponent,\n    SdsSubheaderHelpComponent,\n    HelpContentComponent\n  ],\n  providers: [SdsDrawerCommunicationService]\n})\nexport class SdsSubheaderModule {}\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\nimport {\n  SdsMenuModule,\n  SdsSearchModule,\n  SdsObserversModule,\n  SdsTruncateModule,\n  SdsDialogModule,\n} from '@gsa-sam/components';\nimport {\n  SdsSubheaderComponent,\n  SdsSubheaderActionsComponent,\n  SdsSubheaderDrawerComponent,\n  SdsDrawerContentComponent\n} from './subheader.component';\nimport { SdsSubheaderWrapperComponent } from './sds-subheader-wrapper.component';\nimport { SdsActionsMenuModule } from '@gsa-sam/components';\nimport { SdsDrawerCommunicationService } from './drawer-communication.service';\nimport { NgxBootstrapIconsModule, threeDotsVertical, chevronLeft } from 'ngx-bootstrap-icons';\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\nimport { SdsButtonGroupModule } from '@gsa-sam/sam-material-extensions';\n\n@NgModule({\n  imports: [\n    CommonModule,\n    SdsMenuModule,\n    SdsObserversModule,\n    SdsSearchModule,\n    SdsTruncateModule,\n    SdsActionsMenuModule,\n    IconModule,\n    SdsButtonGroupModule,\n    NgxBootstrapIconsModule.pick({threeDotsVertical, chevronLeft})\n  ],\n  exports: [\n    SdsSubheaderComponent,\n    SdsSubheaderActionsComponent,\n    SdsSubheaderDrawerComponent,\n    SdsDrawerContentComponent,\n    SdsSubheaderWrapperComponent\n  ],\n  declarations: [\n    SdsSubheaderComponent,\n    SdsSubheaderActionsComponent,\n    SdsSubheaderDrawerComponent,\n    SdsDrawerContentComponent,\n    SdsSubheaderWrapperComponent\n  ],\n  providers: [SdsDrawerCommunicationService]\n})\nexport class SdsSubheaderModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -6565,9 +6557,6 @@
                     "type": "declarations",
                     "elements": [
                         {
-                            "name": "HelpContentComponent"
-                        },
-                        {
                             "name": "SdsDrawerContentComponent"
                         },
                         {
@@ -6580,20 +6569,13 @@
                             "name": "SdsSubheaderDrawerComponent"
                         },
                         {
-                            "name": "SdsSubheaderHelpComponent"
-                        },
-                        {
                             "name": "SdsSubheaderWrapperComponent"
                         }
                     ]
                 },
                 {
                     "type": "imports",
-                    "elements": [
-                        {
-                            "name": "SdsLandingListModule"
-                        }
-                    ]
+                    "elements": []
                 },
                 {
                     "type": "exports",
@@ -6937,16 +6919,6 @@
                 "defaultValue": "(args) => ({\n  props: {\n    ...args,\n    clicks: action('Button Click'),\n    mode: SubHeaderWrapperMode.SEARCH,\n  },\n  template: `\n  <sds-subheader-wrapper\n      [title]=\"'Request'\"\n      [mode]=\"mode\"\n      (action)=\"clicks($event)\">\n  </sds-subheader-wrapper>\n  `,\n})"
             },
             {
-                "name": "RequestWithHelp",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "libs/layouts/src/lib/subheader/subheader.component.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<SdsSubheaderComponent>",
-                "defaultValue": "(args) => ({\n  props: {\n    ...args,\n    help: [\n      {\n        head: {\n          title: 'Get started searching contract opportunities',\n        },\n        body: {\n          content: [\n            {\n              component: new ComponentPortal(SdsLandingListComponent),\n              inputs: {\n                list: {\n                  iconList: true,\n                  items: [\n                    {\n                      link: {\n                        innerHtml: 'Use the search feature on SAM.gov',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0017298',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Follow contract opportunities',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0017560',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Save my searches',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0017561',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'file-earmark',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Use the interested vendors list',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0017569',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                  ],\n                },\n              },\n            },\n          ],\n        },\n      },\n      {\n        head: {\n          title: 'Use contract opportunities advanced search',\n        },\n        body: {\n          content: [\n            {\n              component: new ComponentPortal(SdsLandingListComponent),\n              inputs: {\n                list: {\n                  iconList: true,\n                  items: [\n                    {\n                      link: {\n                        innerHtml: 'Changing search filters',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0029688',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Filter by notice types',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0029689',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Filter by small business set-asides',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0029690',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml:\n                          'Filter by product and services (NAICS and PSC)',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0020214',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'play-btn',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Filter by place of performance',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0029691',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Search vendor collaboration opportunities',\n                        routerLink:\n                          '/search/?index=opp&page=1&sort=-relevance&sfm%5Bstatus%5D%5Bis_active%5D=true&sfm%5Bkeywords%5D%5B0%5D%5Bkey%5D=Vendor%20Collaboration&sfm%5Bkeywords%5D%5B0%5D%5Bvalue%5D=Vendor%20Collaboration',\n                      },\n                      icon: {\n                        icon: 'search',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Search small business events',\n                        routerLink:\n                          '/search/?index=opp&page=1&sort=-relevance&sfm%5Bstatus%5D%5Bis_active%5D=true&sfm%5Bkeywords%5D%5B0%5D%5Bkey%5D=Small%20Business%20Event&sfm%5Bkeywords%5D%5B0%5D%5Bvalue%5D=Small%20Business%20Event',\n                      },\n                      icon: {\n                        icon: 'search',\n                        prefix: 'bs',\n                      },\n                    },\n                  ],\n                },\n              },\n            },\n          ],\n        },\n      },\n    ],\n    clicks: action('Click'),\n    mode: SubHeaderWrapperMode.REQUEST,\n  },\n  template: `\n  <sds-subheader-wrapper\n      [title]=\"'Request with help'\"\n      [mode]=\"mode\"\n      [help]=\"help\"\n      (action)=\"clicks($event)\">\n  </sds-subheader-wrapper>\n  `,\n})"
-            },
-            {
                 "name": "ResultsItem",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -7214,16 +7186,6 @@
                     "deprecationMessage": "",
                     "type": "Story<SdsSubheaderComponent>",
                     "defaultValue": "(args) => ({\n  props: {\n    ...args,\n    clicks: action('Button Click'),\n    mode: SubHeaderWrapperMode.SEARCH,\n  },\n  template: `\n  <sds-subheader-wrapper\n      [title]=\"'Request'\"\n      [mode]=\"mode\"\n      (action)=\"clicks($event)\">\n  </sds-subheader-wrapper>\n  `,\n})"
-                },
-                {
-                    "name": "RequestWithHelp",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "libs/layouts/src/lib/subheader/subheader.component.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<SdsSubheaderComponent>",
-                    "defaultValue": "(args) => ({\n  props: {\n    ...args,\n    help: [\n      {\n        head: {\n          title: 'Get started searching contract opportunities',\n        },\n        body: {\n          content: [\n            {\n              component: new ComponentPortal(SdsLandingListComponent),\n              inputs: {\n                list: {\n                  iconList: true,\n                  items: [\n                    {\n                      link: {\n                        innerHtml: 'Use the search feature on SAM.gov',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0017298',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Follow contract opportunities',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0017560',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Save my searches',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0017561',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'file-earmark',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Use the interested vendors list',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0017569',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                  ],\n                },\n              },\n            },\n          ],\n        },\n      },\n      {\n        head: {\n          title: 'Use contract opportunities advanced search',\n        },\n        body: {\n          content: [\n            {\n              component: new ComponentPortal(SdsLandingListComponent),\n              inputs: {\n                list: {\n                  iconList: true,\n                  items: [\n                    {\n                      link: {\n                        innerHtml: 'Changing search filters',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0029688',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Filter by notice types',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0029689',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Filter by small business set-asides',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0029690',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml:\n                          'Filter by product and services (NAICS and PSC)',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0020214',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'play-btn',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Filter by place of performance',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0029691',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Search vendor collaboration opportunities',\n                        routerLink:\n                          '/search/?index=opp&page=1&sort=-relevance&sfm%5Bstatus%5D%5Bis_active%5D=true&sfm%5Bkeywords%5D%5B0%5D%5Bkey%5D=Vendor%20Collaboration&sfm%5Bkeywords%5D%5B0%5D%5Bvalue%5D=Vendor%20Collaboration',\n                      },\n                      icon: {\n                        icon: 'search',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Search small business events',\n                        routerLink:\n                          '/search/?index=opp&page=1&sort=-relevance&sfm%5Bstatus%5D%5Bis_active%5D=true&sfm%5Bkeywords%5D%5B0%5D%5Bkey%5D=Small%20Business%20Event&sfm%5Bkeywords%5D%5B0%5D%5Bvalue%5D=Small%20Business%20Event',\n                      },\n                      icon: {\n                        icon: 'search',\n                        prefix: 'bs',\n                      },\n                    },\n                  ],\n                },\n              },\n            },\n          ],\n        },\n      },\n    ],\n    clicks: action('Click'),\n    mode: SubHeaderWrapperMode.REQUEST,\n  },\n  template: `\n  <sds-subheader-wrapper\n      [title]=\"'Request with help'\"\n      [mode]=\"mode\"\n      [help]=\"help\"\n      (action)=\"clicks($event)\">\n  </sds-subheader-wrapper>\n  `,\n})"
                 },
                 {
                     "name": "SearchMode",
@@ -7931,7 +7893,7 @@
                 "linktype": "component",
                 "name": "SdsSubheaderWrapperComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/18",
+                "coverageCount": "0/17",
                 "status": "low"
             },
             {
@@ -7958,16 +7920,6 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "RequestMode",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "libs/layouts/src/lib/subheader/subheader.component.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "RequestWithHelp",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
