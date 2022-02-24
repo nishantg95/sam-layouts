@@ -26,10 +26,14 @@ export class SdsHeaderComponent {
   @ViewChild('usaNavOpen') openNavBtn: ElementRef;
   @ViewChild('usaNavClose') closeNavBtn: ElementRef;
   mobileNavActive = false;
-  /**
-   * Navigation helper
+
+  /** Navigation helper
+   * Compodoc Ignore
+   * Instantiation of a class in a property causes
+   * issues in storybook
+   * @ignore
    */
-  readonly navigationHelper: NavigationHelper = new NavigationHelper();
+  navigationHelper = new NavigationHelper();
 
   /**
    * determines if the top banner is shown
