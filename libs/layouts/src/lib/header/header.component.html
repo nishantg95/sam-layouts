@@ -48,7 +48,7 @@
             [ngTemplateOutletContext]="{ $implicit: link }"></ng-container>
         </li>
       </ul>
-      <div *ngIf="help && help.length > 0" class="position-absolute top-1 right-205">
+      <div *ngIf="help && help.length > 0 && !mobileNavActive" class="position-absolute top-1 right-205">
         <sds-header-help [content]="help"></sds-header-help>
       </div>
       <div class="usa-nav__secondary" [ngClass]="{'sds-nav__secondary--blank': !showHeaderLogo}">
