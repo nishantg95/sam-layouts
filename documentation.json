@@ -75,32 +75,6 @@
             "methods": []
         },
         {
-            "name": "Data",
-            "id": "interface-Data-13278ec3e16a802ab982f5412dd0d71d3249b799af26d057dd4d10c51ca0efeed3dfd7a59290bc1d5c0dfa1dc0bc8ca7f88a036b70c786d9a6435fc9d9d25bc9-1",
-            "file": "libs/layouts/src/lib/subheader/help.component.ts",
-            "deprecated": false,
-            "deprecationMessage": "",
-            "type": "interface",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n@Component({\n  selector: 'sds-subheader-help',\n  template: `\n    <div class=\"tablet:margin-right-5 text-right\">\n      <button\n        class=\"usa-button\n          text-white text-semibold\n          radius-0 tablet:radius-bottom-lg\n          border-transparent\n          bg-accent-cool-darker\n          padding-y-05 padding-x-5\n          width-full tablet:width-15\"\n        (click)=\"openSlidePanel()\"\n      >\n        Help\n      </button>\n    </div>\n  `,\n})\nexport class SdsSubheaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms'\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
-            "properties": [
-                {
-                    "name": "help",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "[]",
-                    "optional": false,
-                    "description": "",
-                    "line": 10
-                }
-            ],
-            "indexSignatures": [],
-            "kind": 165,
-            "methods": [],
-            "isDuplicate": true,
-            "duplicateId": 1,
-            "duplicateName": "Data-1"
-        },
-        {
             "name": "ExternalLink",
             "id": "interface-ExternalLink-68a4261541357229e162225d1bc1f63c121e46928bc13a1038b0de700a104bb3f1fd83e04b4a0a4ef01c3ca7d63bf4c4f25d16e93ffa53f15e51b8b5c0e581e5",
             "file": "libs/layouts/src/lib/landing/link/link.model.ts",
@@ -2142,130 +2116,6 @@
             }
         },
         {
-            "name": "HelpContentComponent",
-            "id": "component-HelpContentComponent-13278ec3e16a802ab982f5412dd0d71d3249b799af26d057dd4d10c51ca0efeed3dfd7a59290bc1d5c0dfa1dc0bc8ca7f88a036b70c786d9a6435fc9d9d25bc9-1",
-            "file": "libs/layouts/src/lib/subheader/help.component.ts",
-            "encapsulation": [],
-            "entryComponents": [],
-            "inputs": [],
-            "outputs": [],
-            "providers": [],
-            "styleUrls": [],
-            "styles": [],
-            "template": "<div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n  <div class=\"font-heading-lg text-semibold\">Help</div>\n  <div *ngFor=\"let item of data.help\">\n    <div\n      class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n    >\n      {{ item.head.title }}\n    </div>\n    <ng-template\n      *ngFor=\"let content of item.body.content\"\n      [cdkPortalOutlet]=\"content.component\"\n      (attached)=\"inputs($event, content.inputs)\"\n    >\n    </ng-template>\n  </div>\n</div>\n",
-            "templateUrl": [],
-            "viewProviders": [],
-            "inputsClass": [],
-            "outputsClass": [],
-            "propertiesClass": [
-                {
-                    "name": "data",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Data",
-                    "optional": false,
-                    "description": "",
-                    "line": 75,
-                    "decorators": [
-                        {
-                            "name": "Inject",
-                            "stringifiedArguments": "SDS_DIALOG_DATA"
-                        }
-                    ],
-                    "modifierKind": [
-                        123
-                    ]
-                }
-            ],
-            "methodsClass": [
-                {
-                    "name": "inputs",
-                    "args": [
-                        {
-                            "name": "ref",
-                            "type": "CdkPortalOutletAttachedRef",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        },
-                        {
-                            "name": "componentInputs",
-                            "type": "object",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "defaultValue": "{}"
-                        }
-                    ],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 77,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "jsdoctags": [
-                        {
-                            "name": "ref",
-                            "type": "CdkPortalOutletAttachedRef",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        },
-                        {
-                            "name": "componentInputs",
-                            "type": "object",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "defaultValue": "{}",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        }
-                    ]
-                }
-            ],
-            "deprecated": false,
-            "deprecationMessage": "",
-            "hostBindings": [],
-            "hostListeners": [],
-            "description": "",
-            "rawdescription": "\n",
-            "type": "component",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n@Component({\n  selector: 'sds-subheader-help',\n  template: `\n    <div class=\"tablet:margin-right-5 text-right\">\n      <button\n        class=\"usa-button\n          text-white text-semibold\n          radius-0 tablet:radius-bottom-lg\n          border-transparent\n          bg-accent-cool-darker\n          padding-y-05 padding-x-5\n          width-full tablet:width-15\"\n        (click)=\"openSlidePanel()\"\n      >\n        Help\n      </button>\n    </div>\n  `,\n})\nexport class SdsSubheaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms'\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
-            "assetsDirs": [],
-            "styleUrlsData": "",
-            "stylesData": "",
-            "constructorObj": {
-                "name": "constructor",
-                "description": "",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "args": [
-                    {
-                        "name": "data",
-                        "type": "Data",
-                        "deprecated": false,
-                        "deprecationMessage": ""
-                    }
-                ],
-                "line": 74,
-                "jsdoctags": [
-                    {
-                        "name": "data",
-                        "type": "Data",
-                        "deprecated": false,
-                        "deprecationMessage": "",
-                        "tagName": {
-                            "text": "param"
-                        }
-                    }
-                ]
-            },
-            "isDuplicate": true,
-            "duplicateId": 1,
-            "duplicateName": "HelpContentComponent-1"
-        },
-        {
             "name": "LayoutResponsiveComponent",
             "id": "component-LayoutResponsiveComponent-d5afd29a98ea1818ebddc1d323aa95056fe71ae62cb3bc5420250bc97df8337adeb16760ddb30e45a5400db69873cf5847fed06f5df3d5b9319eb17de79aa52e",
             "file": "libs/layouts/src/lib/search-list-layout/demo/layout-responsive/layout-responsive.component.ts",
@@ -3677,7 +3527,7 @@
                 "args": [],
                 "line": 66
             },
-            "templateData": "<sds-top-banner *ngIf=\"showTopBanner\" [description]=\"topBannerDescription\"></sds-top-banner>\n\n<div *ngIf=\"alertsTemplate\">\n  <ng-container [ngTemplateOutlet]=\"alertsTemplate\"></ng-container>\n</div>\n\n<div class=\"usa-overlay\" [class.is-visible]=\"mobileNavActive\" (click)=\"closeMobileNav()\"></div>\n<header class=\"usa-header usa-header--extended\">\n  <div class=\"usa-navbar\">\n    <div *ngIf=\"showHeaderLogo; else fillerBlock\" class=\"usa-logo\">\n      <ng-container [ngTemplateOutlet]=\"\n            navigationHelper.isLinkInternal(model.home)\n              ? homeLinkRouteTemplate\n              : homeLinkHREFTemplate\n          \" [ngTemplateOutletContext]=\"{ $implicit: model.home }\"></ng-container>\n    </div>\n    <sds-header-help *ngIf=\"help && help.length > 0\" [content]=\"help\" class=\"tablet:display-none margin-right-2\">\n    </sds-header-help>\n    <button #usaNavOpen class=\"usa-menu-btn\" (click)=\"openMobileNav()\">\n      <div class=\"sds-stack sds-lg\">\n        <usa-icon class=\"sds-stack-icon text-primary\" [icon]=\"'square-fill'\" [size]=\"'2x'\"></usa-icon>\n        <usa-icon class=\"sds-stack-icon\" [icon]=\"'bars'\" [size]=\"'lg'\"></usa-icon>\n        <usa-icon *ngIf=\"hasCounter()\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n          [classes]=\"['counter-icon']\"></usa-icon>\n      </div>\n      <!-- <fa-layers [fixedWidth]=\"true\" size=\"3x\">\n        <fa-icon [icon]=\"['fas', 'square']\" [classes]=\"['text-primary']\"></fa-icon>\n        <fa-icon [icon]=\"['sds', 'bars']\" [classes]=\"['icon-bars']\" transform=\"shrink-6\"></fa-icon>\n        <fa-layers-counter *ngIf=\"hasCounter()\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n      </fa-layers> -->\n      <span class=\"usa-sr-only\">Menu</span>\n    </button>\n  </div>\n  <nav aria-label=\"Primary navigation\" class=\"usa-nav\" (keydown.esc)=\"closeMobileNav()\"\n    (animationend)=\"navAnimationEnd()\" [class.is-visible]=\"mobileNavActive\" [cdkTrapFocus]=\"mobileNavActive\">\n    <div class=\"usa-nav__inner\">\n      <button #usaNavClose class=\"usa-nav__close\" (click)=\"closeMobileNav()\">\n        <usa-icon [icon]=\"'x-circle'\" [size]=\"'lg'\"></usa-icon>\n        <!-- <fa-layers [fixedWidth]=\"true\" size=\"lg\">\n          <fa-icon [icon]=\"['fas', 'circle']\" [inverse]=\"true\" transform=\"grow-2\"></fa-icon>\n          <fa-icon [icon]=\"['fas', 'times']\" transform=\"shrink-6\"></fa-icon>\n        </fa-layers> -->\n        <span class=\"usa-sr-only\">Close</span>\n      </button>\n      <ul class=\"usa-nav__primary usa-accordion\">\n        <li *ngFor=\"let link of model.navigationLinks\" class=\"usa-nav__primary-item\">\n          <ng-container [ngTemplateOutlet]=\"link.route ? linkTemplate : dropDownTemplate\"\n            [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n        </li>\n      </ul>\n      <div *ngIf=\"help && help.length > 0\" class=\"position-absolute top-1 right-205\">\n        <sds-header-help [content]=\"help\"></sds-header-help>\n      </div>\n      <div class=\"usa-nav__secondary\" [ngClass]=\"{'sds-nav__secondary--blank': !showHeaderLogo}\">\n        <ul class=\"usa-nav__secondary-links\">\n          <li *ngFor=\"let link of model.secondaryLinks\" class=\"usa-nav__secondary-item\">\n            <ng-container [ngTemplateOutlet]=\"\n                navigationHelper.isLinkInternal(link)\n                  ? secondaryRouteLinkTemplate\n                  : navigationHelper.isLinkExternal(link)\n                  ? secondaryHREFLinkTemplate\n                  : secondaryEVENTLinkTemplate\n              \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </nav>\n</header>\n<ng-template #homeLinkRouteTemplate let-home>\n  <a [routerLink]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #homeLinkHREFTemplate let-home>\n  <a [attr.href]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #secondaryRouteLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [routerLink]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryHREFLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.href]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryEVENTLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" (click)=\"linkClickEvent(link)\" href=\"javascript:void(0)\"\n    [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #iconLinkTemplate let-link>\n  <div class=\"sds-stack sds-sm\">\n    <usa-icon class=\"sds-stack-icon text-ink\" [icon]=\"link.imageClass\"></usa-icon>\n    <usa-icon *ngIf=\"link.hasCounter\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n      [classes]=\"['counter-icon']\"></usa-icon>\n  </div>\n  <!-- <fa-layers [fixedWidth]=\"true\">\n    <usa-icon [icon]=\"[link.imageClassPrefix, link.imageClass]\"></usa-icon>\n    <fa-layers-counter *ngIf=\"link.hasCounter\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n  </fa-layers> -->\n  <span class=\"sds-nav__secondary-item-text\">{{ link.text }}</span>\n</ng-template>\n\n<ng-template #linkTemplate let-link>\n  <ng-container [ngTemplateOutlet]=\"\n      navigationHelper.isLinkInternal(link)\n        ? linkRouteTemplate\n        : navigationHelper.isLinkExternal(link)\n        ? linkHREFTemplate\n        : linkEventTemplate\n    \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n</ng-template>\n\n<ng-template #linkRouteTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [routerLink]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkHREFTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [attr.href]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkEventTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    href=\"javascript:void(0)\" (click)=\"linkClickEvent(link)\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #dropDownTemplate let-link>\n  <button [attr.id]=\"link.id\" [attr.class]=\"\n      link.selected\n        ? 'usa-accordion__button usa-nav__link usa-current'\n        : 'usa-accordion__button usa-nav__link'\n    \" aria-expanded=\"false\" [attr.aria-controls]=\"removeWhiteSpace(link.text) + '-section'\">\n    <span>{{ link.text }}</span>\n  </button>\n  <ul [attr.id]=\"removeWhiteSpace(link.text) + '-section'\" class=\"usa-nav__submenu\" hidden>\n    <li *ngFor=\"let childLink of link.children\" class=\"usa-nav__submenu-item\">\n      <ng-container [ngTemplateOutlet]=\"\n          navigationHelper.isLinkInternal(childLink)\n            ? dropDownRouteLinkTemplate\n            : navigationHelper.isLinkExternal(childLink)\n            ? dropDownHREFLinkTemplate\n            : dropDownEVENTLinkTemplate\n        \" [ngTemplateOutletContext]=\"{ $implicit: childLink }\"></ng-container>\n    </li>\n  </ul>\n</ng-template>\n\n<ng-template #dropDownRouteLinkTemplate let-childLink>\n  <a [routerLink]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownHREFLinkTemplate let-childLink>\n  <a [attr.href]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownEVENTLinkTemplate let-childLink>\n  <a href=\"javascript:void(0)\" (click)=\"linkClickEvent(childLink)\">{{\n    childLink.text\n  }}</a>\n</ng-template>\n\n<ng-template #fillerBlock>\n  <!--Empty filler space for secondary links for when header logo display is turned off-->\n  <div class=\"sds-navbar--blank \"></div>\n</ng-template>\n"
+            "templateData": "<sds-top-banner *ngIf=\"showTopBanner\" [description]=\"topBannerDescription\"></sds-top-banner>\n\n<div *ngIf=\"alertsTemplate\">\n  <ng-container [ngTemplateOutlet]=\"alertsTemplate\"></ng-container>\n</div>\n\n<div class=\"usa-overlay\" [class.is-visible]=\"mobileNavActive\" (click)=\"closeMobileNav()\"></div>\n<header class=\"usa-header usa-header--extended\">\n  <div class=\"usa-navbar\">\n    <div *ngIf=\"showHeaderLogo; else fillerBlock\" class=\"usa-logo\">\n      <ng-container [ngTemplateOutlet]=\"\n            navigationHelper.isLinkInternal(model.home)\n              ? homeLinkRouteTemplate\n              : homeLinkHREFTemplate\n          \" [ngTemplateOutletContext]=\"{ $implicit: model.home }\"></ng-container>\n    </div>\n    <sds-header-help *ngIf=\"help && help.length > 0\" [content]=\"help\" class=\"tablet:display-none margin-right-2\">\n    </sds-header-help>\n    <button #usaNavOpen class=\"usa-menu-btn\" (click)=\"openMobileNav()\">\n      <div class=\"sds-stack sds-lg\">\n        <usa-icon class=\"sds-stack-icon text-primary\" [icon]=\"'square-fill'\" [size]=\"'2x'\"></usa-icon>\n        <usa-icon class=\"sds-stack-icon\" [icon]=\"'bars'\" [size]=\"'lg'\"></usa-icon>\n        <usa-icon *ngIf=\"hasCounter()\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n          [classes]=\"['counter-icon']\"></usa-icon>\n      </div>\n      <!-- <fa-layers [fixedWidth]=\"true\" size=\"3x\">\n        <fa-icon [icon]=\"['fas', 'square']\" [classes]=\"['text-primary']\"></fa-icon>\n        <fa-icon [icon]=\"['sds', 'bars']\" [classes]=\"['icon-bars']\" transform=\"shrink-6\"></fa-icon>\n        <fa-layers-counter *ngIf=\"hasCounter()\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n      </fa-layers> -->\n      <span class=\"usa-sr-only\">Menu</span>\n    </button>\n  </div>\n  <nav aria-label=\"Primary navigation\" class=\"usa-nav\" (keydown.esc)=\"closeMobileNav()\"\n    (animationend)=\"navAnimationEnd()\" [class.is-visible]=\"mobileNavActive\" [cdkTrapFocus]=\"mobileNavActive\">\n    <div class=\"usa-nav__inner\">\n      <button #usaNavClose class=\"usa-nav__close\" (click)=\"closeMobileNav()\">\n        <usa-icon [icon]=\"'x-circle'\" [size]=\"'lg'\"></usa-icon>\n        <!-- <fa-layers [fixedWidth]=\"true\" size=\"lg\">\n          <fa-icon [icon]=\"['fas', 'circle']\" [inverse]=\"true\" transform=\"grow-2\"></fa-icon>\n          <fa-icon [icon]=\"['fas', 'times']\" transform=\"shrink-6\"></fa-icon>\n        </fa-layers> -->\n        <span class=\"usa-sr-only\">Close</span>\n      </button>\n      <ul class=\"usa-nav__primary usa-accordion\">\n        <li *ngFor=\"let link of model.navigationLinks\" class=\"usa-nav__primary-item\">\n          <ng-container [ngTemplateOutlet]=\"link.route ? linkTemplate : dropDownTemplate\"\n            [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n        </li>\n      </ul>\n      <div *ngIf=\"help && help.length > 0 && !mobileNavActive\" class=\"position-absolute top-1 right-205\">\n        <sds-header-help [content]=\"help\"></sds-header-help>\n      </div>\n      <div class=\"usa-nav__secondary\" [ngClass]=\"{'sds-nav__secondary--blank': !showHeaderLogo}\">\n        <ul class=\"usa-nav__secondary-links\">\n          <li *ngFor=\"let link of model.secondaryLinks\" class=\"usa-nav__secondary-item\">\n            <ng-container [ngTemplateOutlet]=\"\n                navigationHelper.isLinkInternal(link)\n                  ? secondaryRouteLinkTemplate\n                  : navigationHelper.isLinkExternal(link)\n                  ? secondaryHREFLinkTemplate\n                  : secondaryEVENTLinkTemplate\n              \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </nav>\n</header>\n<ng-template #homeLinkRouteTemplate let-home>\n  <a [routerLink]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #homeLinkHREFTemplate let-home>\n  <a [attr.href]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #secondaryRouteLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [routerLink]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryHREFLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.href]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryEVENTLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" (click)=\"linkClickEvent(link)\" href=\"javascript:void(0)\"\n    [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #iconLinkTemplate let-link>\n  <div class=\"sds-stack sds-sm\">\n    <usa-icon class=\"sds-stack-icon text-ink\" [icon]=\"link.imageClass\"></usa-icon>\n    <usa-icon *ngIf=\"link.hasCounter\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n      [classes]=\"['counter-icon']\"></usa-icon>\n  </div>\n  <!-- <fa-layers [fixedWidth]=\"true\">\n    <usa-icon [icon]=\"[link.imageClassPrefix, link.imageClass]\"></usa-icon>\n    <fa-layers-counter *ngIf=\"link.hasCounter\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n  </fa-layers> -->\n  <span class=\"sds-nav__secondary-item-text\">{{ link.text }}</span>\n</ng-template>\n\n<ng-template #linkTemplate let-link>\n  <ng-container [ngTemplateOutlet]=\"\n      navigationHelper.isLinkInternal(link)\n        ? linkRouteTemplate\n        : navigationHelper.isLinkExternal(link)\n        ? linkHREFTemplate\n        : linkEventTemplate\n    \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n</ng-template>\n\n<ng-template #linkRouteTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [routerLink]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkHREFTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [attr.href]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkEventTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    href=\"javascript:void(0)\" (click)=\"linkClickEvent(link)\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #dropDownTemplate let-link>\n  <button [attr.id]=\"link.id\" [attr.class]=\"\n      link.selected\n        ? 'usa-accordion__button usa-nav__link usa-current'\n        : 'usa-accordion__button usa-nav__link'\n    \" aria-expanded=\"false\" [attr.aria-controls]=\"removeWhiteSpace(link.text) + '-section'\">\n    <span>{{ link.text }}</span>\n  </button>\n  <ul [attr.id]=\"removeWhiteSpace(link.text) + '-section'\" class=\"usa-nav__submenu\" hidden>\n    <li *ngFor=\"let childLink of link.children\" class=\"usa-nav__submenu-item\">\n      <ng-container [ngTemplateOutlet]=\"\n          navigationHelper.isLinkInternal(childLink)\n            ? dropDownRouteLinkTemplate\n            : navigationHelper.isLinkExternal(childLink)\n            ? dropDownHREFLinkTemplate\n            : dropDownEVENTLinkTemplate\n        \" [ngTemplateOutletContext]=\"{ $implicit: childLink }\"></ng-container>\n    </li>\n  </ul>\n</ng-template>\n\n<ng-template #dropDownRouteLinkTemplate let-childLink>\n  <a [routerLink]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownHREFLinkTemplate let-childLink>\n  <a [attr.href]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownEVENTLinkTemplate let-childLink>\n  <a href=\"javascript:void(0)\" (click)=\"linkClickEvent(childLink)\">{{\n    childLink.text\n  }}</a>\n</ng-template>\n\n<ng-template #fillerBlock>\n  <!--Empty filler space for secondary links for when header logo display is turned off-->\n  <div class=\"sds-navbar--blank \"></div>\n</ng-template>\n"
         },
         {
             "name": "SdsHeaderHelpComponent",
@@ -4337,105 +4187,6 @@
                 "OnInit"
             ],
             "templateData": "<button (click)=\"onDrawerOpenClose($event)\" class=\"sds-button sds-button--circular margin-top-2px tablet:margin-top-0\">\n  <usa-icon\n    [icon]=\"isOpen ? 'arrow-up' : 'arrow-down'\"\n  ></usa-icon>\n</button>\n"
-        },
-        {
-            "name": "SdsSubheaderHelpComponent",
-            "id": "component-SdsSubheaderHelpComponent-13278ec3e16a802ab982f5412dd0d71d3249b799af26d057dd4d10c51ca0efeed3dfd7a59290bc1d5c0dfa1dc0bc8ca7f88a036b70c786d9a6435fc9d9d25bc9",
-            "file": "libs/layouts/src/lib/subheader/help.component.ts",
-            "encapsulation": [],
-            "entryComponents": [],
-            "inputs": [],
-            "outputs": [],
-            "providers": [],
-            "selector": "sds-subheader-help",
-            "styleUrls": [],
-            "styles": [],
-            "template": "<div class=\"tablet:margin-right-5 text-right\">\n  <button\n    class=\"usa-button\n      text-white text-semibold\n      radius-0 tablet:radius-bottom-lg\n      border-transparent\n      bg-accent-cool-darker\n      padding-y-05 padding-x-5\n      width-full tablet:width-15\"\n    (click)=\"openSlidePanel()\"\n  >\n    Help\n  </button>\n</div>\n",
-            "templateUrl": [],
-            "viewProviders": [],
-            "inputsClass": [
-                {
-                    "name": "content",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 32,
-                    "type": "any",
-                    "decorators": []
-                }
-            ],
-            "outputsClass": [],
-            "propertiesClass": [
-                {
-                    "name": "dialog",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "SdsDialogService",
-                    "optional": false,
-                    "description": "",
-                    "line": 36,
-                    "modifierKind": [
-                        123
-                    ]
-                },
-                {
-                    "name": "openedDialogRef",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "SdsDialogRef<HelpContentComponent>",
-                    "optional": false,
-                    "description": "",
-                    "line": 34
-                }
-            ],
-            "methodsClass": [
-                {
-                    "name": "openSlidePanel",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 38,
-                    "deprecated": false,
-                    "deprecationMessage": ""
-                }
-            ],
-            "deprecated": false,
-            "deprecationMessage": "",
-            "hostBindings": [],
-            "hostListeners": [],
-            "description": "",
-            "rawdescription": "\n",
-            "type": "component",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n@Component({\n  selector: 'sds-subheader-help',\n  template: `\n    <div class=\"tablet:margin-right-5 text-right\">\n      <button\n        class=\"usa-button\n          text-white text-semibold\n          radius-0 tablet:radius-bottom-lg\n          border-transparent\n          bg-accent-cool-darker\n          padding-y-05 padding-x-5\n          width-full tablet:width-15\"\n        (click)=\"openSlidePanel()\"\n      >\n        Help\n      </button>\n    </div>\n  `,\n})\nexport class SdsSubheaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms'\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
-            "assetsDirs": [],
-            "styleUrlsData": "",
-            "stylesData": "",
-            "constructorObj": {
-                "name": "constructor",
-                "description": "",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "args": [
-                    {
-                        "name": "dialog",
-                        "type": "SdsDialogService",
-                        "deprecated": false,
-                        "deprecationMessage": ""
-                    }
-                ],
-                "line": 34,
-                "jsdoctags": [
-                    {
-                        "name": "dialog",
-                        "type": "SdsDialogService",
-                        "deprecated": false,
-                        "deprecationMessage": "",
-                        "tagName": {
-                            "text": "param"
-                        }
-                    }
-                ]
-            }
         },
         {
             "name": "SdsSubheaderWrapperComponent",
@@ -6537,13 +6288,13 @@
         },
         {
             "name": "SdsSubheaderModule",
-            "id": "module-SdsSubheaderModule-7255180d0403786e05504209852a7832dc5158e809e8881eecaf4f85cc76acec0a73a275dcb41efee22b9092ebacae2b0a143de2a2a20d3c57fce3c3137b82c9",
+            "id": "module-SdsSubheaderModule-740e2e949377f917339e879c4199ce8ddee80b16ce0c4364e9f9bd52cf7562f0a0e45df78181310952738dc6b23f50a334d618b168a63f6fb5dca9c37c43a686",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/layouts/src/lib/subheader/subheader.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\nimport {\n  SdsMenuModule,\n  SdsSearchModule,\n  SdsObserversModule,\n  SdsTruncateModule,\n  SdsDialogModule,\n} from '@gsa-sam/components';\nimport {\n  SdsSubheaderComponent,\n  SdsSubheaderActionsComponent,\n  SdsSubheaderDrawerComponent,\n  SdsDrawerContentComponent\n} from './subheader.component';\nimport { SdsSubheaderWrapperComponent } from './sds-subheader-wrapper.component';\nimport { SdsActionsMenuModule } from '@gsa-sam/components';\nimport { SdsDrawerCommunicationService } from './drawer-communication.service';\nimport { NgxBootstrapIconsModule, threeDotsVertical, chevronLeft } from 'ngx-bootstrap-icons';\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\nimport { SdsButtonGroupModule } from '@gsa-sam/sam-material-extensions';\n\n@NgModule({\n  imports: [\n    CommonModule,\n    SdsMenuModule,\n    SdsObserversModule,\n    SdsSearchModule,\n    SdsTruncateModule,\n    SdsActionsMenuModule,\n    IconModule,\n    SdsButtonGroupModule,\n    NgxBootstrapIconsModule.pick({threeDotsVertical, chevronLeft})\n  ],\n  exports: [\n    SdsSubheaderComponent,\n    SdsSubheaderActionsComponent,\n    SdsSubheaderDrawerComponent,\n    SdsDrawerContentComponent,\n    SdsSubheaderWrapperComponent\n  ],\n  declarations: [\n    SdsSubheaderComponent,\n    SdsSubheaderActionsComponent,\n    SdsSubheaderDrawerComponent,\n    SdsDrawerContentComponent,\n    SdsSubheaderWrapperComponent\n  ],\n  providers: [SdsDrawerCommunicationService]\n})\nexport class SdsSubheaderModule {}\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\nimport {\n  SdsMenuModule,\n  SdsSearchModule,\n  SdsObserversModule,\n  SdsTruncateModule\n} from '@gsa-sam/components';\nimport {\n  SdsSubheaderComponent,\n  SdsSubheaderActionsComponent,\n  SdsSubheaderDrawerComponent,\n  SdsDrawerContentComponent\n} from './subheader.component';\nimport { SdsSubheaderWrapperComponent } from './sds-subheader-wrapper.component';\nimport { SdsActionsMenuModule } from '@gsa-sam/components';\nimport { SdsDrawerCommunicationService } from './drawer-communication.service';\nimport { NgxBootstrapIconsModule, threeDotsVertical, chevronLeft } from 'ngx-bootstrap-icons';\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\nimport { SdsButtonGroupModule } from '@gsa-sam/sam-material-extensions';\n\n@NgModule({\n  imports: [\n    CommonModule,\n    SdsMenuModule,\n    SdsObserversModule,\n    SdsSearchModule,\n    SdsTruncateModule,\n    SdsActionsMenuModule,\n    IconModule,\n    SdsButtonGroupModule,\n    NgxBootstrapIconsModule.pick({threeDotsVertical, chevronLeft})\n  ],\n  exports: [\n    SdsSubheaderComponent,\n    SdsSubheaderActionsComponent,\n    SdsSubheaderDrawerComponent,\n    SdsDrawerContentComponent,\n    SdsSubheaderWrapperComponent\n  ],\n  declarations: [\n    SdsSubheaderComponent,\n    SdsSubheaderActionsComponent,\n    SdsSubheaderDrawerComponent,\n    SdsDrawerContentComponent,\n    SdsSubheaderWrapperComponent\n  ],\n  providers: [SdsDrawerCommunicationService]\n})\nexport class SdsSubheaderModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -7858,33 +7609,6 @@
                 "name": "AutocompleteService",
                 "coveragePercent": 0,
                 "coverageCount": "0/3",
-                "status": "low"
-            },
-            {
-                "filePath": "libs/layouts/src/lib/subheader/help.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "HelpContentComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/4",
-                "status": "low"
-            },
-            {
-                "filePath": "libs/layouts/src/lib/subheader/help.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "SdsSubheaderHelpComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/6",
-                "status": "low"
-            },
-            {
-                "filePath": "libs/layouts/src/lib/subheader/help.component.ts",
-                "type": "interface",
-                "linktype": "interface",
-                "name": "Data",
-                "coveragePercent": 0,
-                "coverageCount": "0/2",
                 "status": "low"
             },
             {
