@@ -142,7 +142,7 @@
             "config": {
               "configFolder": "apps/sam-layouts/.storybook"
             },
-            "staticDir": [
+            "staticDirs": [
               "apps/sam-layouts/src/assets"
             ]
           },
