@@ -53,12 +53,12 @@
         },
         {
             "name": "Data",
-            "id": "interface-Data-13278ec3e16a802ab982f5412dd0d71d3249b799af26d057dd4d10c51ca0efeed3dfd7a59290bc1d5c0dfa1dc0bc8ca7f88a036b70c786d9a6435fc9d9d25bc9",
-            "file": "libs/layouts/src/lib/subheader/help.component.ts",
+            "id": "interface-Data-9f44040371f9df5d5722e0ca9bda758d66cc4e616f5fee4e0b3034a9663150be1ef6572bb1b99fa9564343ea2e98a3a496192f1bfda1c73aee8e08ae1f1a453a",
+            "file": "libs/layouts/src/lib/header/help.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n@Component({\n  selector: 'sds-subheader-help',\n  template: `\n    <div class=\"tablet:margin-right-5 text-right\">\n      <button\n        class=\"usa-button\n          text-white text-semibold\n          radius-0 tablet:radius-bottom-lg\n          border-transparent\n          bg-accent-cool-darker\n          padding-y-05 padding-x-5\n          width-full tablet:width-15\"\n        (click)=\"openSlidePanel()\"\n      >\n        Help\n      </button>\n    </div>\n  `,\n})\nexport class SdsSubheaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms'\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
             "properties": [
                 {
                     "name": "help",
@@ -1526,12 +1526,12 @@
         },
         {
             "name": "SerachDropDownItem",
-            "id": "class-SerachDropDownItem-4ef6a47de49a2d5e62c92f6e58a79d21a8205c8d9c6265231972e4a0d285f0ff25ec89d7cc218f83be8de5622919bbc856c4e68ef2956e4240c150fdaf00cfe5",
+            "id": "class-SerachDropDownItem-733cd76cc767b3e0dcdf75255920686b06787460c5a7fed8a5cb8f6355e3fb8f9925bb585d0f725bffcc81e7aa791418a73d5dac08f8436af7b33813f20aefaa",
             "file": "libs/layouts/src/lib/subheader/sds-subheader-wrapper.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "class",
-            "sourceCode": "import {\n  Component,\n  Output,\n  EventEmitter,\n  Input,\n  OnInit\n} from '@angular/core';\nimport { INavigationLink, NavigationMode, SearchSettings, Selectable } from '@gsa-sam/components';\nimport { Router } from '@angular/router';\n\n\n@Component({\n  selector: 'sds-subheader-wrapper',\n  templateUrl: 'sds-subheader-wrapper.component.html'\n})\nexport class SdsSubheaderWrapperComponent implements OnInit {\n\n\n  constructor(private router: Router) { }\n\n  @Input() backbuttonBehavior: INavigationLink;\n\n  @Input() title: string;\n\n  @Input() mode: SubHeaderWrapperMode;\n\n  @Input() tabs: TabModel[];\n\n  @Input() searchEnabled: boolean = false;\n\n  @Output() action = new EventEmitter<string>();\n\n  @Input() searchPlaceholderText: string;\n\n  @Input() searchDropDownItems: SerachDropDownItem[];\n\n  @Input() help: [];\n\n  searchModel = {};\n\n  HeaderMode = SubHeaderWrapperMode;\n\n  menu = {\n    trigger: {\n      type: 'plain', // plain | primary\n      shadow: true\n    },\n    actions: []\n  };\n\n  searchSettings: SearchSettings = {\n    placeholder: '',\n    parentSelector: '.sds-subheader__content',\n    inputClass:\n      'width-card-lg widescreen:width-mobile display-none desktop-lg:display-inline-block',\n    size: 'small',\n    ariaLabel: 'Search',\n    dropdown: {}\n\n\n  };\n\n\n\n  searchSubmit(model) {\n    this.action.emit(model);\n  }\n\n  public backClick(): void {\n    if (!this.backbuttonBehavior) {\n      window.history.back();\n    } else {\n      switch (this.backbuttonBehavior.mode) {\n        case NavigationMode.INTERNAL:\n          this.router.navigate([this.backbuttonBehavior.route]);\n          break;\n        case NavigationMode.EXTERNAL:\n          window.location.href = this.backbuttonBehavior.route;\n          break;\n        default:\n          window.history.back();\n      }\n    }\n  }\n\n\n   ngOnInit() {\n\n    if (this.searchPlaceholderText) {\n      this.searchSettings.placeholder = this.searchPlaceholderText;\n    }\n\n    if (this.searchDropDownItems) {\n      this.searchSettings.dropdown =\n      {\n        id: 'searchOptions',\n        placeholder: '-Select-',\n        options: this.searchDropDownItems,\n        inverse: false,\n      };\n    }\n\n\n  }\n}\n\nexport enum SubHeaderWrapperMode {\n  CUSTOM,\n  //Accept and Reject buttons\n  REQUEST,//(Accept/Reject),\n\n  SUBMIT,//(Submit/EDIT)\n  //\n  SEARCH,\n  //\n  TAB\n}\n\nexport class TabModel implements Selectable {\n  text: string;\n  id: string;\n  selected?: boolean;\n}\n\nexport class SerachDropDownItem {\n  label: string;\n  value: string;\n}\n\n",
+            "sourceCode": "import {\n  Component,\n  Output,\n  EventEmitter,\n  Input,\n  OnInit\n} from '@angular/core';\nimport { INavigationLink, NavigationMode, SearchSettings, Selectable } from '@gsa-sam/components';\nimport { Router } from '@angular/router';\n\n\n@Component({\n  selector: 'sds-subheader-wrapper',\n  templateUrl: 'sds-subheader-wrapper.component.html'\n})\nexport class SdsSubheaderWrapperComponent implements OnInit {\n\n\n  constructor(private router: Router) { }\n\n  @Input() backbuttonBehavior: INavigationLink;\n\n  @Input() title: string;\n\n  @Input() mode: SubHeaderWrapperMode;\n\n  @Input() tabs: TabModel[];\n\n  @Input() searchEnabled: boolean = false;\n\n  @Output() action = new EventEmitter<string>();\n\n  @Input() searchPlaceholderText: string;\n\n  @Input() searchDropDownItems: SerachDropDownItem[];\n\n  searchModel = {};\n\n  HeaderMode = SubHeaderWrapperMode;\n\n  menu = {\n    trigger: {\n      type: 'plain', // plain | primary\n      shadow: true\n    },\n    actions: []\n  };\n\n  searchSettings: SearchSettings = {\n    placeholder: '',\n    parentSelector: '.sds-subheader__content',\n    inputClass:\n      'width-card-lg widescreen:width-mobile display-none desktop-lg:display-inline-block',\n    size: 'small',\n    ariaLabel: 'Search',\n    dropdown: {}\n\n\n  };\n\n\n\n  searchSubmit(model) {\n    this.action.emit(model);\n  }\n\n  public backClick(): void {\n    if (!this.backbuttonBehavior) {\n      window.history.back();\n    } else {\n      switch (this.backbuttonBehavior.mode) {\n        case NavigationMode.INTERNAL:\n          this.router.navigate([this.backbuttonBehavior.route]);\n          break;\n        case NavigationMode.EXTERNAL:\n          window.location.href = this.backbuttonBehavior.route;\n          break;\n        default:\n          window.history.back();\n      }\n    }\n  }\n\n\n   ngOnInit() {\n\n    if (this.searchPlaceholderText) {\n      this.searchSettings.placeholder = this.searchPlaceholderText;\n    }\n\n    if (this.searchDropDownItems) {\n      this.searchSettings.dropdown =\n      {\n        id: 'searchOptions',\n        placeholder: '-Select-',\n        options: this.searchDropDownItems,\n        inverse: false,\n      };\n    }\n\n\n  }\n}\n\nexport enum SubHeaderWrapperMode {\n  CUSTOM,\n  //Accept and Reject buttons\n  REQUEST,//(Accept/Reject),\n\n  SUBMIT,//(Submit/EDIT)\n  //\n  SEARCH,\n  //\n  TAB\n}\n\nexport class TabModel implements Selectable {\n  text: string;\n  id: string;\n  selected?: boolean;\n}\n\nexport class SerachDropDownItem {\n  label: string;\n  value: string;\n}\n\n",
             "properties": [
                 {
                     "name": "label",
@@ -1540,7 +1540,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 126
+                    "line": 124
                 },
                 {
                     "name": "value",
@@ -1549,7 +1549,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 127
+                    "line": 125
                 }
             ],
             "methods": [],
@@ -1598,12 +1598,12 @@
         },
         {
             "name": "TabModel",
-            "id": "class-TabModel-4ef6a47de49a2d5e62c92f6e58a79d21a8205c8d9c6265231972e4a0d285f0ff25ec89d7cc218f83be8de5622919bbc856c4e68ef2956e4240c150fdaf00cfe5",
+            "id": "class-TabModel-733cd76cc767b3e0dcdf75255920686b06787460c5a7fed8a5cb8f6355e3fb8f9925bb585d0f725bffcc81e7aa791418a73d5dac08f8436af7b33813f20aefaa",
             "file": "libs/layouts/src/lib/subheader/sds-subheader-wrapper.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "class",
-            "sourceCode": "import {\n  Component,\n  Output,\n  EventEmitter,\n  Input,\n  OnInit\n} from '@angular/core';\nimport { INavigationLink, NavigationMode, SearchSettings, Selectable } from '@gsa-sam/components';\nimport { Router } from '@angular/router';\n\n\n@Component({\n  selector: 'sds-subheader-wrapper',\n  templateUrl: 'sds-subheader-wrapper.component.html'\n})\nexport class SdsSubheaderWrapperComponent implements OnInit {\n\n\n  constructor(private router: Router) { }\n\n  @Input() backbuttonBehavior: INavigationLink;\n\n  @Input() title: string;\n\n  @Input() mode: SubHeaderWrapperMode;\n\n  @Input() tabs: TabModel[];\n\n  @Input() searchEnabled: boolean = false;\n\n  @Output() action = new EventEmitter<string>();\n\n  @Input() searchPlaceholderText: string;\n\n  @Input() searchDropDownItems: SerachDropDownItem[];\n\n  @Input() help: [];\n\n  searchModel = {};\n\n  HeaderMode = SubHeaderWrapperMode;\n\n  menu = {\n    trigger: {\n      type: 'plain', // plain | primary\n      shadow: true\n    },\n    actions: []\n  };\n\n  searchSettings: SearchSettings = {\n    placeholder: '',\n    parentSelector: '.sds-subheader__content',\n    inputClass:\n      'width-card-lg widescreen:width-mobile display-none desktop-lg:display-inline-block',\n    size: 'small',\n    ariaLabel: 'Search',\n    dropdown: {}\n\n\n  };\n\n\n\n  searchSubmit(model) {\n    this.action.emit(model);\n  }\n\n  public backClick(): void {\n    if (!this.backbuttonBehavior) {\n      window.history.back();\n    } else {\n      switch (this.backbuttonBehavior.mode) {\n        case NavigationMode.INTERNAL:\n          this.router.navigate([this.backbuttonBehavior.route]);\n          break;\n        case NavigationMode.EXTERNAL:\n          window.location.href = this.backbuttonBehavior.route;\n          break;\n        default:\n          window.history.back();\n      }\n    }\n  }\n\n\n   ngOnInit() {\n\n    if (this.searchPlaceholderText) {\n      this.searchSettings.placeholder = this.searchPlaceholderText;\n    }\n\n    if (this.searchDropDownItems) {\n      this.searchSettings.dropdown =\n      {\n        id: 'searchOptions',\n        placeholder: '-Select-',\n        options: this.searchDropDownItems,\n        inverse: false,\n      };\n    }\n\n\n  }\n}\n\nexport enum SubHeaderWrapperMode {\n  CUSTOM,\n  //Accept and Reject buttons\n  REQUEST,//(Accept/Reject),\n\n  SUBMIT,//(Submit/EDIT)\n  //\n  SEARCH,\n  //\n  TAB\n}\n\nexport class TabModel implements Selectable {\n  text: string;\n  id: string;\n  selected?: boolean;\n}\n\nexport class SerachDropDownItem {\n  label: string;\n  value: string;\n}\n\n",
+            "sourceCode": "import {\n  Component,\n  Output,\n  EventEmitter,\n  Input,\n  OnInit\n} from '@angular/core';\nimport { INavigationLink, NavigationMode, SearchSettings, Selectable } from '@gsa-sam/components';\nimport { Router } from '@angular/router';\n\n\n@Component({\n  selector: 'sds-subheader-wrapper',\n  templateUrl: 'sds-subheader-wrapper.component.html'\n})\nexport class SdsSubheaderWrapperComponent implements OnInit {\n\n\n  constructor(private router: Router) { }\n\n  @Input() backbuttonBehavior: INavigationLink;\n\n  @Input() title: string;\n\n  @Input() mode: SubHeaderWrapperMode;\n\n  @Input() tabs: TabModel[];\n\n  @Input() searchEnabled: boolean = false;\n\n  @Output() action = new EventEmitter<string>();\n\n  @Input() searchPlaceholderText: string;\n\n  @Input() searchDropDownItems: SerachDropDownItem[];\n\n  searchModel = {};\n\n  HeaderMode = SubHeaderWrapperMode;\n\n  menu = {\n    trigger: {\n      type: 'plain', // plain | primary\n      shadow: true\n    },\n    actions: []\n  };\n\n  searchSettings: SearchSettings = {\n    placeholder: '',\n    parentSelector: '.sds-subheader__content',\n    inputClass:\n      'width-card-lg widescreen:width-mobile display-none desktop-lg:display-inline-block',\n    size: 'small',\n    ariaLabel: 'Search',\n    dropdown: {}\n\n\n  };\n\n\n\n  searchSubmit(model) {\n    this.action.emit(model);\n  }\n\n  public backClick(): void {\n    if (!this.backbuttonBehavior) {\n      window.history.back();\n    } else {\n      switch (this.backbuttonBehavior.mode) {\n        case NavigationMode.INTERNAL:\n          this.router.navigate([this.backbuttonBehavior.route]);\n          break;\n        case NavigationMode.EXTERNAL:\n          window.location.href = this.backbuttonBehavior.route;\n          break;\n        default:\n          window.history.back();\n      }\n    }\n  }\n\n\n   ngOnInit() {\n\n    if (this.searchPlaceholderText) {\n      this.searchSettings.placeholder = this.searchPlaceholderText;\n    }\n\n    if (this.searchDropDownItems) {\n      this.searchSettings.dropdown =\n      {\n        id: 'searchOptions',\n        placeholder: '-Select-',\n        options: this.searchDropDownItems,\n        inverse: false,\n      };\n    }\n\n\n  }\n}\n\nexport enum SubHeaderWrapperMode {\n  CUSTOM,\n  //Accept and Reject buttons\n  REQUEST,//(Accept/Reject),\n\n  SUBMIT,//(Submit/EDIT)\n  //\n  SEARCH,\n  //\n  TAB\n}\n\nexport class TabModel implements Selectable {\n  text: string;\n  id: string;\n  selected?: boolean;\n}\n\nexport class SerachDropDownItem {\n  label: string;\n  value: string;\n}\n\n",
             "properties": [
                 {
                     "name": "id",
@@ -1612,7 +1612,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 121
+                    "line": 119
                 },
                 {
                     "name": "selected",
@@ -1621,7 +1621,7 @@
                     "type": "boolean",
                     "optional": true,
                     "description": "",
-                    "line": 122
+                    "line": 120
                 },
                 {
                     "name": "text",
@@ -1630,7 +1630,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 120
+                    "line": 118
                 }
             ],
             "methods": [],
@@ -1996,8 +1996,8 @@
         },
         {
             "name": "HelpContentComponent",
-            "id": "component-HelpContentComponent-13278ec3e16a802ab982f5412dd0d71d3249b799af26d057dd4d10c51ca0efeed3dfd7a59290bc1d5c0dfa1dc0bc8ca7f88a036b70c786d9a6435fc9d9d25bc9",
-            "file": "libs/layouts/src/lib/subheader/help.component.ts",
+            "id": "component-HelpContentComponent-9f44040371f9df5d5722e0ca9bda758d66cc4e616f5fee4e0b3034a9663150be1ef6572bb1b99fa9564343ea2e98a3a496192f1bfda1c73aee8e08ae1f1a453a",
+            "file": "libs/layouts/src/lib/header/help.component.ts",
             "encapsulation": [],
             "entryComponents": [],
             "inputs": [],
@@ -2018,7 +2018,7 @@
                     "type": "Data",
                     "optional": false,
                     "description": "",
-                    "line": 75,
+                    "line": 76,
                     "decorators": [
                         {
                             "name": "Inject",
@@ -2051,7 +2051,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 77,
+                    "line": 78,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2084,7 +2084,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n@Component({\n  selector: 'sds-subheader-help',\n  template: `\n    <div class=\"tablet:margin-right-5 text-right\">\n      <button\n        class=\"usa-button\n          text-white text-semibold\n          radius-0 tablet:radius-bottom-lg\n          border-transparent\n          bg-accent-cool-darker\n          padding-y-05 padding-x-5\n          width-full tablet:width-15\"\n        (click)=\"openSlidePanel()\"\n      >\n        Help\n      </button>\n    </div>\n  `,\n})\nexport class SdsSubheaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms'\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -2101,7 +2101,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 74,
+                "line": 75,
                 "jsdoctags": [
                     {
                         "name": "data",
@@ -3025,7 +3025,7 @@
         },
         {
             "name": "SdsHeaderComponent",
-            "id": "component-SdsHeaderComponent-f50b9d4e14a13168e7362eb1f737888c1ab395f59f1c2e38caee9c6e5da37c2ecb28b20302685ac5efa4321574969ad501b76f0be0d39543a2e462ee35a9dc1c",
+            "id": "component-SdsHeaderComponent-cefdc9c339ced3c99134e4a89be326873114e2c0db156dd79fa2c414db7724e3addfea3b2425d26bd5a9e6ae4c7ca15ffb2f487e8af4499d6730667e30b01e09",
             "file": "libs/layouts/src/lib/header/header.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3046,8 +3046,16 @@
                     "name": "alertsTemplate",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 48,
+                    "line": 52,
                     "type": "TemplateRef<any>",
+                    "decorators": []
+                },
+                {
+                    "name": "help",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 54,
+                    "type": "[]",
                     "decorators": []
                 },
                 {
@@ -3056,7 +3064,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nModel used for the different display portions of the header\n",
                     "description": "<p>Model used for the different display portions of the header</p>\n",
-                    "line": 42,
+                    "line": 46,
                     "type": "HeaderModel",
                     "decorators": []
                 },
@@ -3065,7 +3073,7 @@
                     "defaultValue": "true",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 46,
+                    "line": 50,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -3076,7 +3084,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\ndetermines if the top banner is shown\n",
                     "description": "<p>determines if the top banner is shown</p>\n",
-                    "line": 37,
+                    "line": 41,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -3085,7 +3093,7 @@
                     "defaultValue": "''",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 44,
+                    "line": 48,
                     "type": "string",
                     "decorators": []
                 }
@@ -3098,7 +3106,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nevent for event based\n",
                     "description": "<p>event for event based</p>\n",
-                    "line": 54,
+                    "line": 59,
                     "type": "EventEmitter"
                 }
             ],
@@ -3129,17 +3137,6 @@
                     "line": 28
                 },
                 {
-                    "name": "navigationHelper",
-                    "defaultValue": "new NavigationHelper()",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "optional": false,
-                    "description": "<p>Navigation helper</p>\n",
-                    "line": 32,
-                    "rawdescription": "\n\nNavigation helper\n"
-                },
-                {
                     "name": "openNavBtn",
                     "deprecated": false,
                     "deprecationMessage": "",
@@ -3162,7 +3159,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 194,
+                    "line": 199,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3172,7 +3169,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 97,
+                    "line": 102,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nDeselects all the items in the header model\n",
@@ -3191,7 +3188,7 @@
                     "optional": false,
                     "returnType": "Selectable",
                     "typeParameters": [],
-                    "line": 126,
+                    "line": 131,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nFinds the navigation element by id in the header model\n",
@@ -3199,8 +3196,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 2753,
-                                "end": 2755,
+                                "pos": 2877,
+                                "end": 2879,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3211,8 +3208,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 2747,
-                                "end": 2752,
+                                "pos": 2871,
+                                "end": 2876,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3242,7 +3239,7 @@
                     "optional": false,
                     "returnType": "Selectable",
                     "typeParameters": [],
-                    "line": 150,
+                    "line": 155,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nSearchs the items in the navigation links\n",
@@ -3253,8 +3250,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 3357,
-                                "end": 3359,
+                                "pos": 3481,
+                                "end": 3483,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3265,8 +3262,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 3351,
-                                "end": 3356,
+                                "pos": 3475,
+                                "end": 3480,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3292,7 +3289,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 68,
+                    "line": 73,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nseeif any secondary link has a counter\n",
@@ -3311,7 +3308,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 172,
+                    "line": 177,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nLink clicked and emits the link data into an event\n",
@@ -3319,8 +3316,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 3951,
-                                "end": 3955,
+                                "pos": 4075,
+                                "end": 4079,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3331,8 +3328,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 3945,
-                                "end": 3950,
+                                "pos": 4069,
+                                "end": 4074,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3349,7 +3346,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 205,
+                    "line": 210,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3366,7 +3363,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 181,
+                    "line": 186,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "decorators": [
@@ -3393,7 +3390,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 190,
+                    "line": 195,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3410,7 +3407,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 59,
+                    "line": 64,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nTakes in a text string and removes all white space characters and returns the new string\n",
@@ -3418,8 +3415,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 1266,
-                                "end": 1270,
+                                "pos": 1393,
+                                "end": 1397,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3430,8 +3427,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 1260,
-                                "end": 1265,
+                                "pos": 1387,
+                                "end": 1392,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3455,7 +3452,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 86,
+                    "line": 91,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nDeselects previous seletion\n",
@@ -3463,8 +3460,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 1809,
-                                "end": 1811,
+                                "pos": 1933,
+                                "end": 1935,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3475,8 +3472,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 1803,
-                                "end": 1808,
+                                "pos": 1927,
+                                "end": 1932,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3507,13 +3504,13 @@
                     ],
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 181
+                    "line": 186
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\n  Component,\n  Input,\n  Output,\n  EventEmitter,\n  ViewChild,\n  ElementRef,\n  HostListener,\n  TemplateRef\n} from '@angular/core';\nimport {\n  HeaderModel,\n  HeaderNavigationLink,\n  HeaderSecondaryLink\n} from './model/HeaderModel';\nimport { INavigationLink, Selectable } from '@gsa-sam/components';\nimport { NavigationHelper } from '@gsa-sam/components';\n\n\n@Component({\n  selector: 'sds-header',\n  templateUrl: './header.component.html',\n  styleUrls: ['./header.component.scss']\n})\nexport class SdsHeaderComponent {\n  @ViewChild('usaNavOpen') openNavBtn: ElementRef;\n  @ViewChild('usaNavClose') closeNavBtn: ElementRef;\n  mobileNavActive = false;\n  /**\n   * Navigation helper\n   */\n  navigationHelper = new NavigationHelper();\n\n  /**\n   * determines if the top banner is shown\n   */\n  @Input() showTopBanner = true;\n\n  /**\n   * Model used for the different display portions of the header\n   */\n  @Input() model: HeaderModel;\n\n  @Input() topBannerDescription = '';\n\n  @Input() showHeaderLogo = true;\n\n  @Input() alertsTemplate: TemplateRef<any>;\n\n  /**\n   * event for event based\n   */\n  @Output()\n  linkEvent = new EventEmitter<INavigationLink>();\n  /**\n   * Takes in a text string and removes all white space characters and returns the new string\n   * @param text\n   */\n  removeWhiteSpace(text: string) {\n    return text.replace(/ /g, '');\n  }\n  constructor() {\n   \n  }\n  /**\n   * seeif any secondary link has a counter\n   */\n  hasCounter(): boolean {\n    let hasCounter = false;\n    if (this.model) {\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          if (item.hasCounter) {\n            hasCounter = true;\n          }\n        });\n      }\n    }\n    return hasCounter;\n  }\n\n  /**\n   * Deselects previous seletion\n   * @param id\n   */\n  select(id: string) {\n    this.deselect();\n    const item = this.find(id);\n    if (item) {\n      item.selected = true;\n    }\n  }\n\n  /**\n   * Deselects all the items in the header model\n   */\n  deselect() {\n    if (this.model) {\n      if (this.model.home) {\n        this.model.home.selected = false;\n      }\n      if (this.model.navigationLinks) {\n        this.model.navigationLinks.forEach(function(\n          item: HeaderNavigationLink\n        ) {\n          item.selected = false;\n          if (item.children) {\n            item.children.forEach(function(child: HeaderNavigationLink) {\n              child.selected = false;\n            });\n          }\n        });\n      }\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          item.selected = false;\n        });\n      }\n    }\n  }\n\n  /**\n   * Finds the navigation element by id in the header model\n   * @param id of the navigation item\n   */\n  find(id: string): Selectable {\n    let toReturn = null;\n    if (this.model) {\n      if (this.model.home) {\n        if (this.model.home.id === id) {\n          toReturn = this.model.home;\n        }\n      }\n      toReturn = this.findNavigationLinks(id, toReturn);\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          if (item.id === id) {\n            toReturn = item;\n          }\n        });\n      }\n    }\n    return toReturn;\n  }\n\n  /**\n   * Searchs the items in the navigation links\n   * @param id\n   */\n  private findNavigationLinks(id: string, toReturn: Selectable): Selectable {\n    if (this.model.navigationLinks) {\n      this.model.navigationLinks.forEach(function(item: HeaderNavigationLink) {\n        if (item.id === id) {\n          toReturn = item;\n        }\n        if (item.children) {\n          item.children.forEach(function(child: HeaderNavigationLink) {\n            if (child.id === id) {\n              toReturn = child;\n            }\n          });\n        }\n      });\n    }\n    return toReturn;\n  }\n\n  /**\n   * Link clicked and emits the link data into an event\n   * @param link\n   */\n  linkClickEvent(link: INavigationLink) {\n    this.linkEvent.emit(link);\n    return false;\n  }\n\n  // When the mobile nav is active, and the close box isn't visible,\n  // we know the user's viewport has been resized to be larger.\n  // Let's make the page state consistent by deactivating the mobile nav.\n  @HostListener('window:resize', ['$event'])\n  onBrowserResize(event) {\n    if (\n      this.mobileNavActive &&\n      this.closeNavBtn.nativeElement.getBoundingClientRect().width === 0\n    ) {\n      this.mobileNavActive = false;\n    }\n  }\n\n  openMobileNav() {\n    this.mobileNavActive = true;\n  }\n\n  closeMobileNav() {\n    this.mobileNavActive = false;\n    // The mobile nav was just deactivated, and focus was on the close\n    // button, which is no longer visible. We don't want the focus to\n    // disappear into the void, so focus on the menu button if it's\n    // visible (this may have been what the user was just focused on,\n    // if they triggered the mobile nav by mistake).\n    this.openNavBtn.nativeElement.focus();\n  }\n\n  // The mobile nav was just activated, so focus on the close button,\n  navAnimationEnd() {\n    this.closeNavBtn.nativeElement.focus();\n  }\n}\n",
+            "sourceCode": "import {\n  Component,\n  Input,\n  Output,\n  EventEmitter,\n  ViewChild,\n  ElementRef,\n  HostListener,\n  TemplateRef\n} from '@angular/core';\nimport {\n  HeaderModel,\n  HeaderNavigationLink,\n  HeaderSecondaryLink\n} from './model/HeaderModel';\nimport { INavigationLink, Selectable } from '@gsa-sam/components';\nimport { NavigationHelper } from '@gsa-sam/components';\n\n\n@Component({\n  selector: 'sds-header',\n  templateUrl: './header.component.html',\n  styleUrls: ['./header.component.scss']\n})\nexport class SdsHeaderComponent {\n  @ViewChild('usaNavOpen') openNavBtn: ElementRef;\n  @ViewChild('usaNavClose') closeNavBtn: ElementRef;\n  mobileNavActive = false;\n\n  /** Navigation helper\n   * Compodoc Ignore\n   * Instantiation of a class in a property causes\n   * issues in storybook\n   * @ignore\n   */\n  navigationHelper = new NavigationHelper();\n\n  /**\n   * determines if the top banner is shown\n   */\n  @Input() showTopBanner = true;\n\n  /**\n   * Model used for the different display portions of the header\n   */\n  @Input() model: HeaderModel;\n\n  @Input() topBannerDescription = '';\n\n  @Input() showHeaderLogo = true;\n\n  @Input() alertsTemplate: TemplateRef<any>;\n\n  @Input() help: [];\n  /**\n   * event for event based\n   */\n  @Output()\n  linkEvent = new EventEmitter<INavigationLink>();\n  /**\n   * Takes in a text string and removes all white space characters and returns the new string\n   * @param text\n   */\n  removeWhiteSpace(text: string) {\n    return text.replace(/ /g, '');\n  }\n  constructor() {\n\n  }\n  /**\n   * seeif any secondary link has a counter\n   */\n  hasCounter(): boolean {\n    let hasCounter = false;\n    if (this.model) {\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          if (item.hasCounter) {\n            hasCounter = true;\n          }\n        });\n      }\n    }\n    return hasCounter;\n  }\n\n  /**\n   * Deselects previous seletion\n   * @param id\n   */\n  select(id: string) {\n    this.deselect();\n    const item = this.find(id);\n    if (item) {\n      item.selected = true;\n    }\n  }\n\n  /**\n   * Deselects all the items in the header model\n   */\n  deselect() {\n    if (this.model) {\n      if (this.model.home) {\n        this.model.home.selected = false;\n      }\n      if (this.model.navigationLinks) {\n        this.model.navigationLinks.forEach(function(\n          item: HeaderNavigationLink\n        ) {\n          item.selected = false;\n          if (item.children) {\n            item.children.forEach(function(child: HeaderNavigationLink) {\n              child.selected = false;\n            });\n          }\n        });\n      }\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          item.selected = false;\n        });\n      }\n    }\n  }\n\n  /**\n   * Finds the navigation element by id in the header model\n   * @param id of the navigation item\n   */\n  find(id: string): Selectable {\n    let toReturn = null;\n    if (this.model) {\n      if (this.model.home) {\n        if (this.model.home.id === id) {\n          toReturn = this.model.home;\n        }\n      }\n      toReturn = this.findNavigationLinks(id, toReturn);\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          if (item.id === id) {\n            toReturn = item;\n          }\n        });\n      }\n    }\n    return toReturn;\n  }\n\n  /**\n   * Searchs the items in the navigation links\n   * @param id\n   */\n  private findNavigationLinks(id: string, toReturn: Selectable): Selectable {\n    if (this.model.navigationLinks) {\n      this.model.navigationLinks.forEach(function(item: HeaderNavigationLink) {\n        if (item.id === id) {\n          toReturn = item;\n        }\n        if (item.children) {\n          item.children.forEach(function(child: HeaderNavigationLink) {\n            if (child.id === id) {\n              toReturn = child;\n            }\n          });\n        }\n      });\n    }\n    return toReturn;\n  }\n\n  /**\n   * Link clicked and emits the link data into an event\n   * @param link\n   */\n  linkClickEvent(link: INavigationLink) {\n    this.linkEvent.emit(link);\n    return false;\n  }\n\n  // When the mobile nav is active, and the close box isn't visible,\n  // we know the user's viewport has been resized to be larger.\n  // Let's make the page state consistent by deactivating the mobile nav.\n  @HostListener('window:resize', ['$event'])\n  onBrowserResize(event) {\n    if (\n      this.mobileNavActive &&\n      this.closeNavBtn.nativeElement.getBoundingClientRect().width === 0\n    ) {\n      this.mobileNavActive = false;\n    }\n  }\n\n  openMobileNav() {\n    this.mobileNavActive = true;\n  }\n\n  closeMobileNav() {\n    this.mobileNavActive = false;\n    // The mobile nav was just deactivated, and focus was on the close\n    // button, which is no longer visible. We don't want the focus to\n    // disappear into the void, so focus on the menu button if it's\n    // visible (this may have been what the user was just focused on,\n    // if they triggered the mobile nav by mistake).\n    this.openNavBtn.nativeElement.focus();\n  }\n\n  // The mobile nav was just activated, so focus on the close button,\n  navAnimationEnd() {\n    this.closeNavBtn.nativeElement.focus();\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -3528,9 +3525,117 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 61
+                "line": 66
             },
-            "templateData": "<sds-top-banner *ngIf=\"showTopBanner\" [description]=\"topBannerDescription\"></sds-top-banner>\n\n<div *ngIf=\"alertsTemplate\">\n  <ng-container [ngTemplateOutlet]=\"alertsTemplate\"></ng-container>\n</div>\n\n<div class=\"usa-overlay\" [class.is-visible]=\"mobileNavActive\" (click)=\"closeMobileNav()\"></div>\n<header class=\"usa-header usa-header--extended\">\n  <div class=\"usa-navbar\">\n    <div *ngIf=\"showHeaderLogo; else fillerBlock\" class=\"usa-logo\">\n      <ng-container [ngTemplateOutlet]=\"\n            navigationHelper.isLinkInternal(model.home)\n              ? homeLinkRouteTemplate\n              : homeLinkHREFTemplate\n          \" [ngTemplateOutletContext]=\"{ $implicit: model.home }\"></ng-container>\n    </div>\n    <button #usaNavOpen class=\"usa-menu-btn\" (click)=\"openMobileNav()\">\n      <div class=\"sds-stack sds-lg\">\n        <usa-icon class=\"sds-stack-icon text-primary\" [icon]=\"'square-fill'\" [size]=\"'2x'\"></usa-icon>\n        <usa-icon class=\"sds-stack-icon\" [icon]=\"'bars'\" [size]=\"'lg'\"></usa-icon>\n        <usa-icon *ngIf=\"hasCounter()\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n          [classes]=\"['counter-icon']\"></usa-icon>\n      </div>\n      <!-- <fa-layers [fixedWidth]=\"true\" size=\"3x\">\n        <fa-icon [icon]=\"['fas', 'square']\" [classes]=\"['text-primary']\"></fa-icon>\n        <fa-icon [icon]=\"['sds', 'bars']\" [classes]=\"['icon-bars']\" transform=\"shrink-6\"></fa-icon>\n        <fa-layers-counter *ngIf=\"hasCounter()\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n      </fa-layers> -->\n      <span class=\"usa-sr-only\">Menu</span>\n    </button>\n  </div>\n  <nav aria-label=\"Primary navigation\" class=\"usa-nav\" (keydown.esc)=\"closeMobileNav()\"\n    (animationend)=\"navAnimationEnd()\" [class.is-visible]=\"mobileNavActive\" [cdkTrapFocus]=\"mobileNavActive\">\n    <div class=\"usa-nav__inner\">\n      <button #usaNavClose class=\"usa-nav__close\" (click)=\"closeMobileNav()\">\n        <usa-icon [icon]=\"'x-circle'\" [size]=\"'lg'\"></usa-icon>\n        <!-- <fa-layers [fixedWidth]=\"true\" size=\"lg\">\n          <fa-icon [icon]=\"['fas', 'circle']\" [inverse]=\"true\" transform=\"grow-2\"></fa-icon>\n          <fa-icon [icon]=\"['fas', 'times']\" transform=\"shrink-6\"></fa-icon>\n        </fa-layers> -->\n        <span class=\"usa-sr-only\">Close</span>\n      </button>\n      <ul class=\"usa-nav__primary usa-accordion\">\n        <li *ngFor=\"let link of model.navigationLinks\" class=\"usa-nav__primary-item\">\n          <ng-container [ngTemplateOutlet]=\"link.route ? linkTemplate : dropDownTemplate\"\n            [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n        </li>\n      </ul>\n      <div class=\"usa-nav__secondary\" [ngClass]=\"{'sds-nav__secondary--blank': !showHeaderLogo}\">\n        <ul class=\"usa-nav__secondary-links\">\n          <li *ngFor=\"let link of model.secondaryLinks\" class=\"usa-nav__secondary-item\">\n            <ng-container [ngTemplateOutlet]=\"\n                navigationHelper.isLinkInternal(link)\n                  ? secondaryRouteLinkTemplate\n                  : navigationHelper.isLinkExternal(link)\n                  ? secondaryHREFLinkTemplate\n                  : secondaryEVENTLinkTemplate\n              \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </nav>\n</header>\n<ng-template #homeLinkRouteTemplate let-home>\n  <a [routerLink]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #homeLinkHREFTemplate let-home>\n  <a [attr.href]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #secondaryRouteLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [routerLink]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryHREFLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.href]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryEVENTLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" (click)=\"linkClickEvent(link)\" href=\"javascript:void(0)\"\n    [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #iconLinkTemplate let-link>\n  <div class=\"sds-stack sds-sm\">\n    <usa-icon class=\"sds-stack-icon text-ink\" [icon]=\"link.imageClass\"></usa-icon>\n    <usa-icon *ngIf=\"link.hasCounter\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n      [classes]=\"['counter-icon']\"></usa-icon>\n  </div>\n  <!-- <fa-layers [fixedWidth]=\"true\">\n    <usa-icon [icon]=\"[link.imageClassPrefix, link.imageClass]\"></usa-icon>\n    <fa-layers-counter *ngIf=\"link.hasCounter\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n  </fa-layers> -->\n  <span class=\"sds-nav__secondary-item-text\">{{ link.text }}</span>\n</ng-template>\n\n<ng-template #linkTemplate let-link>\n  <ng-container [ngTemplateOutlet]=\"\n      navigationHelper.isLinkInternal(link)\n        ? linkRouteTemplate\n        : navigationHelper.isLinkExternal(link)\n        ? linkHREFTemplate\n        : linkEventTemplate\n    \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n</ng-template>\n\n<ng-template #linkRouteTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [routerLink]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkHREFTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [attr.href]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkEventTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    href=\"javascript:void(0)\" (click)=\"linkClickEvent(link)\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #dropDownTemplate let-link>\n  <button [attr.id]=\"link.id\" [attr.class]=\"\n      link.selected\n        ? 'usa-accordion__button usa-nav__link usa-current'\n        : 'usa-accordion__button usa-nav__link'\n    \" aria-expanded=\"false\" [attr.aria-controls]=\"removeWhiteSpace(link.text) + '-section'\">\n    <span>{{ link.text }}</span>\n  </button>\n  <ul [attr.id]=\"removeWhiteSpace(link.text) + '-section'\" class=\"usa-nav__submenu\" hidden>\n    <li *ngFor=\"let childLink of link.children\" class=\"usa-nav__submenu-item\">\n      <ng-container [ngTemplateOutlet]=\"\n          navigationHelper.isLinkInternal(childLink)\n            ? dropDownRouteLinkTemplate\n            : navigationHelper.isLinkExternal(childLink)\n            ? dropDownHREFLinkTemplate\n            : dropDownEVENTLinkTemplate\n        \" [ngTemplateOutletContext]=\"{ $implicit: childLink }\"></ng-container>\n    </li>\n  </ul>\n</ng-template>\n\n<ng-template #dropDownRouteLinkTemplate let-childLink>\n  <a [routerLink]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownHREFLinkTemplate let-childLink>\n  <a [attr.href]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownEVENTLinkTemplate let-childLink>\n  <a href=\"javascript:void(0)\" (click)=\"linkClickEvent(childLink)\">{{\n    childLink.text\n  }}</a>\n</ng-template>\n\n<ng-template #fillerBlock>\n  <!--Empty filler space for secondary links for when header logo display is turned off-->\n  <div class=\"sds-navbar--blank \"></div>\n</ng-template>\n"
+            "templateData": "<sds-top-banner *ngIf=\"showTopBanner\" [description]=\"topBannerDescription\"></sds-top-banner>\n\n<div *ngIf=\"alertsTemplate\">\n  <ng-container [ngTemplateOutlet]=\"alertsTemplate\"></ng-container>\n</div>\n\n<div class=\"usa-overlay\" [class.is-visible]=\"mobileNavActive\" (click)=\"closeMobileNav()\"></div>\n<header class=\"usa-header usa-header--extended\">\n  <div class=\"usa-navbar\">\n    <div *ngIf=\"showHeaderLogo; else fillerBlock\" class=\"usa-logo\">\n      <ng-container [ngTemplateOutlet]=\"\n            navigationHelper.isLinkInternal(model.home)\n              ? homeLinkRouteTemplate\n              : homeLinkHREFTemplate\n          \" [ngTemplateOutletContext]=\"{ $implicit: model.home }\"></ng-container>\n    </div>\n    <sds-header-help *ngIf=\"help && help.length > 0\" [content]=\"help\" class=\"tablet:display-none margin-right-2\">\n    </sds-header-help>\n    <button #usaNavOpen class=\"usa-menu-btn\" (click)=\"openMobileNav()\">\n      <div class=\"sds-stack sds-lg\">\n        <usa-icon class=\"sds-stack-icon text-primary\" [icon]=\"'square-fill'\" [size]=\"'2x'\"></usa-icon>\n        <usa-icon class=\"sds-stack-icon\" [icon]=\"'bars'\" [size]=\"'lg'\"></usa-icon>\n        <usa-icon *ngIf=\"hasCounter()\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n          [classes]=\"['counter-icon']\"></usa-icon>\n      </div>\n      <!-- <fa-layers [fixedWidth]=\"true\" size=\"3x\">\n        <fa-icon [icon]=\"['fas', 'square']\" [classes]=\"['text-primary']\"></fa-icon>\n        <fa-icon [icon]=\"['sds', 'bars']\" [classes]=\"['icon-bars']\" transform=\"shrink-6\"></fa-icon>\n        <fa-layers-counter *ngIf=\"hasCounter()\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n      </fa-layers> -->\n      <span class=\"usa-sr-only\">Menu</span>\n    </button>\n  </div>\n  <nav aria-label=\"Primary navigation\" class=\"usa-nav\" (keydown.esc)=\"closeMobileNav()\"\n    (animationend)=\"navAnimationEnd()\" [class.is-visible]=\"mobileNavActive\" [cdkTrapFocus]=\"mobileNavActive\">\n    <div class=\"usa-nav__inner\">\n      <button #usaNavClose class=\"usa-nav__close\" (click)=\"closeMobileNav()\">\n        <usa-icon [icon]=\"'x-circle'\" [size]=\"'lg'\"></usa-icon>\n        <!-- <fa-layers [fixedWidth]=\"true\" size=\"lg\">\n          <fa-icon [icon]=\"['fas', 'circle']\" [inverse]=\"true\" transform=\"grow-2\"></fa-icon>\n          <fa-icon [icon]=\"['fas', 'times']\" transform=\"shrink-6\"></fa-icon>\n        </fa-layers> -->\n        <span class=\"usa-sr-only\">Close</span>\n      </button>\n      <ul class=\"usa-nav__primary usa-accordion\">\n        <li *ngFor=\"let link of model.navigationLinks\" class=\"usa-nav__primary-item\">\n          <ng-container [ngTemplateOutlet]=\"link.route ? linkTemplate : dropDownTemplate\"\n            [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n        </li>\n      </ul>\n      <div *ngIf=\"help && help.length > 0 && !mobileNavActive\" class=\"position-absolute top-1 right-205\">\n        <sds-header-help [content]=\"help\"></sds-header-help>\n      </div>\n      <div class=\"usa-nav__secondary\" [ngClass]=\"{'sds-nav__secondary--blank': !showHeaderLogo}\">\n        <ul class=\"usa-nav__secondary-links\">\n          <li *ngFor=\"let link of model.secondaryLinks\" class=\"usa-nav__secondary-item\">\n            <ng-container [ngTemplateOutlet]=\"\n                navigationHelper.isLinkInternal(link)\n                  ? secondaryRouteLinkTemplate\n                  : navigationHelper.isLinkExternal(link)\n                  ? secondaryHREFLinkTemplate\n                  : secondaryEVENTLinkTemplate\n              \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </nav>\n</header>\n<ng-template #homeLinkRouteTemplate let-home>\n  <a [routerLink]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #homeLinkHREFTemplate let-home>\n  <a [attr.href]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #secondaryRouteLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [routerLink]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryHREFLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.href]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryEVENTLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" (click)=\"linkClickEvent(link)\" href=\"javascript:void(0)\"\n    [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #iconLinkTemplate let-link>\n  <div class=\"sds-stack sds-sm\">\n    <usa-icon class=\"sds-stack-icon text-ink\" [icon]=\"link.imageClass\"></usa-icon>\n    <usa-icon *ngIf=\"link.hasCounter\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n      [classes]=\"['counter-icon']\"></usa-icon>\n  </div>\n  <!-- <fa-layers [fixedWidth]=\"true\">\n    <usa-icon [icon]=\"[link.imageClassPrefix, link.imageClass]\"></usa-icon>\n    <fa-layers-counter *ngIf=\"link.hasCounter\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n  </fa-layers> -->\n  <span class=\"sds-nav__secondary-item-text\">{{ link.text }}</span>\n</ng-template>\n\n<ng-template #linkTemplate let-link>\n  <ng-container [ngTemplateOutlet]=\"\n      navigationHelper.isLinkInternal(link)\n        ? linkRouteTemplate\n        : navigationHelper.isLinkExternal(link)\n        ? linkHREFTemplate\n        : linkEventTemplate\n    \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n</ng-template>\n\n<ng-template #linkRouteTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [routerLink]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkHREFTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [attr.href]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkEventTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    href=\"javascript:void(0)\" (click)=\"linkClickEvent(link)\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #dropDownTemplate let-link>\n  <button [attr.id]=\"link.id\" [attr.class]=\"\n      link.selected\n        ? 'usa-accordion__button usa-nav__link usa-current'\n        : 'usa-accordion__button usa-nav__link'\n    \" aria-expanded=\"false\" [attr.aria-controls]=\"removeWhiteSpace(link.text) + '-section'\">\n    <span>{{ link.text }}</span>\n  </button>\n  <ul [attr.id]=\"removeWhiteSpace(link.text) + '-section'\" class=\"usa-nav__submenu\" hidden>\n    <li *ngFor=\"let childLink of link.children\" class=\"usa-nav__submenu-item\">\n      <ng-container [ngTemplateOutlet]=\"\n          navigationHelper.isLinkInternal(childLink)\n            ? dropDownRouteLinkTemplate\n            : navigationHelper.isLinkExternal(childLink)\n            ? dropDownHREFLinkTemplate\n            : dropDownEVENTLinkTemplate\n        \" [ngTemplateOutletContext]=\"{ $implicit: childLink }\"></ng-container>\n    </li>\n  </ul>\n</ng-template>\n\n<ng-template #dropDownRouteLinkTemplate let-childLink>\n  <a [routerLink]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownHREFLinkTemplate let-childLink>\n  <a [attr.href]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownEVENTLinkTemplate let-childLink>\n  <a href=\"javascript:void(0)\" (click)=\"linkClickEvent(childLink)\">{{\n    childLink.text\n  }}</a>\n</ng-template>\n\n<ng-template #fillerBlock>\n  <!--Empty filler space for secondary links for when header logo display is turned off-->\n  <div class=\"sds-navbar--blank \"></div>\n</ng-template>\n"
+        },
+        {
+            "name": "SdsHeaderHelpComponent",
+            "id": "component-SdsHeaderHelpComponent-9f44040371f9df5d5722e0ca9bda758d66cc4e616f5fee4e0b3034a9663150be1ef6572bb1b99fa9564343ea2e98a3a496192f1bfda1c73aee8e08ae1f1a453a",
+            "file": "libs/layouts/src/lib/header/help.component.ts",
+            "encapsulation": [
+                "ViewEncapsulation.None"
+            ],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "sds-header-help",
+            "styleUrls": [
+                "./help.component.scss"
+            ],
+            "styles": [],
+            "template": "<button\n  class=\"usa-button usa-button--unstyled\"\n  (click)=\"openSlidePanel()\"\n  matTooltipClass='help-tooltip'\n  matTooltip=\"Find help articles for features on this page\"\n  >\n  <usa-icon\n    class=\"text-info\"\n    [icon]=\"'question-circle'\"\n    [size]=\"'2x'\"\n  ></usa-icon>\n</button>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "content",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 33,
+                    "type": "any",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "dialog",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "SdsDialogService",
+                    "optional": false,
+                    "description": "",
+                    "line": 37,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "openedDialogRef",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "SdsDialogRef<HelpContentComponent>",
+                    "optional": false,
+                    "description": "",
+                    "line": 35
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "openSlidePanel",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 39,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".help-tooltip{\n  font-size: 12px;\n  background-color: #585858;\n  margin: 10px !important;\n  padding: 5px;\n}\n",
+                    "styleUrl": "./help.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "dialog",
+                        "type": "SdsDialogService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 35,
+                "jsdoctags": [
+                    {
+                        "name": "dialog",
+                        "type": "SdsDialogService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            }
         },
         {
             "name": "SdsLandingButtonGroupComponent",
@@ -4084,107 +4189,8 @@
             "templateData": "<button (click)=\"onDrawerOpenClose($event)\" class=\"sds-button sds-button--circular margin-top-2px tablet:margin-top-0\">\n  <usa-icon\n    [icon]=\"isOpen ? 'arrow-up' : 'arrow-down'\"\n  ></usa-icon>\n</button>\n"
         },
         {
-            "name": "SdsSubheaderHelpComponent",
-            "id": "component-SdsSubheaderHelpComponent-13278ec3e16a802ab982f5412dd0d71d3249b799af26d057dd4d10c51ca0efeed3dfd7a59290bc1d5c0dfa1dc0bc8ca7f88a036b70c786d9a6435fc9d9d25bc9",
-            "file": "libs/layouts/src/lib/subheader/help.component.ts",
-            "encapsulation": [],
-            "entryComponents": [],
-            "inputs": [],
-            "outputs": [],
-            "providers": [],
-            "selector": "sds-subheader-help",
-            "styleUrls": [],
-            "styles": [],
-            "template": "<div class=\"tablet:margin-right-5 text-right\">\n  <button\n    class=\"usa-button\n      text-white text-semibold\n      radius-0 tablet:radius-bottom-lg\n      border-transparent\n      bg-accent-cool-darker\n      padding-y-05 padding-x-5\n      width-full tablet:width-15\"\n    (click)=\"openSlidePanel()\"\n  >\n    Help\n  </button>\n</div>\n",
-            "templateUrl": [],
-            "viewProviders": [],
-            "inputsClass": [
-                {
-                    "name": "content",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 32,
-                    "type": "any",
-                    "decorators": []
-                }
-            ],
-            "outputsClass": [],
-            "propertiesClass": [
-                {
-                    "name": "dialog",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "SdsDialogService",
-                    "optional": false,
-                    "description": "",
-                    "line": 36,
-                    "modifierKind": [
-                        123
-                    ]
-                },
-                {
-                    "name": "openedDialogRef",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "SdsDialogRef<HelpContentComponent>",
-                    "optional": false,
-                    "description": "",
-                    "line": 34
-                }
-            ],
-            "methodsClass": [
-                {
-                    "name": "openSlidePanel",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 38,
-                    "deprecated": false,
-                    "deprecationMessage": ""
-                }
-            ],
-            "deprecated": false,
-            "deprecationMessage": "",
-            "hostBindings": [],
-            "hostListeners": [],
-            "description": "",
-            "rawdescription": "\n",
-            "type": "component",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n@Component({\n  selector: 'sds-subheader-help',\n  template: `\n    <div class=\"tablet:margin-right-5 text-right\">\n      <button\n        class=\"usa-button\n          text-white text-semibold\n          radius-0 tablet:radius-bottom-lg\n          border-transparent\n          bg-accent-cool-darker\n          padding-y-05 padding-x-5\n          width-full tablet:width-15\"\n        (click)=\"openSlidePanel()\"\n      >\n        Help\n      </button>\n    </div>\n  `,\n})\nexport class SdsSubheaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms'\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
-            "assetsDirs": [],
-            "styleUrlsData": "",
-            "stylesData": "",
-            "constructorObj": {
-                "name": "constructor",
-                "description": "",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "args": [
-                    {
-                        "name": "dialog",
-                        "type": "SdsDialogService",
-                        "deprecated": false,
-                        "deprecationMessage": ""
-                    }
-                ],
-                "line": 34,
-                "jsdoctags": [
-                    {
-                        "name": "dialog",
-                        "type": "SdsDialogService",
-                        "deprecated": false,
-                        "deprecationMessage": "",
-                        "tagName": {
-                            "text": "param"
-                        }
-                    }
-                ]
-            }
-        },
-        {
             "name": "SdsSubheaderWrapperComponent",
-            "id": "component-SdsSubheaderWrapperComponent-4ef6a47de49a2d5e62c92f6e58a79d21a8205c8d9c6265231972e4a0d285f0ff25ec89d7cc218f83be8de5622919bbc856c4e68ef2956e4240c150fdaf00cfe5",
+            "id": "component-SdsSubheaderWrapperComponent-733cd76cc767b3e0dcdf75255920686b06787460c5a7fed8a5cb8f6355e3fb8f9925bb585d0f725bffcc81e7aa791418a73d5dac08f8436af7b33813f20aefaa",
             "file": "libs/layouts/src/lib/subheader/sds-subheader-wrapper.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -4205,14 +4211,6 @@
                     "deprecationMessage": "",
                     "line": 21,
                     "type": "INavigationLink",
-                    "decorators": []
-                },
-                {
-                    "name": "help",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 37,
-                    "type": "[]",
                     "decorators": []
                 },
                 {
@@ -4284,7 +4282,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 41
+                    "line": 39
                 },
                 {
                     "name": "menu",
@@ -4294,7 +4292,7 @@
                     "type": "object",
                     "optional": false,
                     "description": "",
-                    "line": 43
+                    "line": 41
                 },
                 {
                     "name": "searchModel",
@@ -4304,7 +4302,7 @@
                     "type": "object",
                     "optional": false,
                     "description": "",
-                    "line": 39
+                    "line": 37
                 },
                 {
                     "name": "searchSettings",
@@ -4314,7 +4312,7 @@
                     "type": "SearchSettings",
                     "optional": false,
                     "description": "",
-                    "line": 51
+                    "line": 49
                 }
             ],
             "methodsClass": [
@@ -4324,7 +4322,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 69,
+                    "line": 67,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -4337,7 +4335,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 87,
+                    "line": 85,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -4354,7 +4352,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 65,
+                    "line": 63,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -4377,7 +4375,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\n  Component,\n  Output,\n  EventEmitter,\n  Input,\n  OnInit\n} from '@angular/core';\nimport { INavigationLink, NavigationMode, SearchSettings, Selectable } from '@gsa-sam/components';\nimport { Router } from '@angular/router';\n\n\n@Component({\n  selector: 'sds-subheader-wrapper',\n  templateUrl: 'sds-subheader-wrapper.component.html'\n})\nexport class SdsSubheaderWrapperComponent implements OnInit {\n\n\n  constructor(private router: Router) { }\n\n  @Input() backbuttonBehavior: INavigationLink;\n\n  @Input() title: string;\n\n  @Input() mode: SubHeaderWrapperMode;\n\n  @Input() tabs: TabModel[];\n\n  @Input() searchEnabled: boolean = false;\n\n  @Output() action = new EventEmitter<string>();\n\n  @Input() searchPlaceholderText: string;\n\n  @Input() searchDropDownItems: SerachDropDownItem[];\n\n  @Input() help: [];\n\n  searchModel = {};\n\n  HeaderMode = SubHeaderWrapperMode;\n\n  menu = {\n    trigger: {\n      type: 'plain', // plain | primary\n      shadow: true\n    },\n    actions: []\n  };\n\n  searchSettings: SearchSettings = {\n    placeholder: '',\n    parentSelector: '.sds-subheader__content',\n    inputClass:\n      'width-card-lg widescreen:width-mobile display-none desktop-lg:display-inline-block',\n    size: 'small',\n    ariaLabel: 'Search',\n    dropdown: {}\n\n\n  };\n\n\n\n  searchSubmit(model) {\n    this.action.emit(model);\n  }\n\n  public backClick(): void {\n    if (!this.backbuttonBehavior) {\n      window.history.back();\n    } else {\n      switch (this.backbuttonBehavior.mode) {\n        case NavigationMode.INTERNAL:\n          this.router.navigate([this.backbuttonBehavior.route]);\n          break;\n        case NavigationMode.EXTERNAL:\n          window.location.href = this.backbuttonBehavior.route;\n          break;\n        default:\n          window.history.back();\n      }\n    }\n  }\n\n\n   ngOnInit() {\n\n    if (this.searchPlaceholderText) {\n      this.searchSettings.placeholder = this.searchPlaceholderText;\n    }\n\n    if (this.searchDropDownItems) {\n      this.searchSettings.dropdown =\n      {\n        id: 'searchOptions',\n        placeholder: '-Select-',\n        options: this.searchDropDownItems,\n        inverse: false,\n      };\n    }\n\n\n  }\n}\n\nexport enum SubHeaderWrapperMode {\n  CUSTOM,\n  //Accept and Reject buttons\n  REQUEST,//(Accept/Reject),\n\n  SUBMIT,//(Submit/EDIT)\n  //\n  SEARCH,\n  //\n  TAB\n}\n\nexport class TabModel implements Selectable {\n  text: string;\n  id: string;\n  selected?: boolean;\n}\n\nexport class SerachDropDownItem {\n  label: string;\n  value: string;\n}\n\n",
+            "sourceCode": "import {\n  Component,\n  Output,\n  EventEmitter,\n  Input,\n  OnInit\n} from '@angular/core';\nimport { INavigationLink, NavigationMode, SearchSettings, Selectable } from '@gsa-sam/components';\nimport { Router } from '@angular/router';\n\n\n@Component({\n  selector: 'sds-subheader-wrapper',\n  templateUrl: 'sds-subheader-wrapper.component.html'\n})\nexport class SdsSubheaderWrapperComponent implements OnInit {\n\n\n  constructor(private router: Router) { }\n\n  @Input() backbuttonBehavior: INavigationLink;\n\n  @Input() title: string;\n\n  @Input() mode: SubHeaderWrapperMode;\n\n  @Input() tabs: TabModel[];\n\n  @Input() searchEnabled: boolean = false;\n\n  @Output() action = new EventEmitter<string>();\n\n  @Input() searchPlaceholderText: string;\n\n  @Input() searchDropDownItems: SerachDropDownItem[];\n\n  searchModel = {};\n\n  HeaderMode = SubHeaderWrapperMode;\n\n  menu = {\n    trigger: {\n      type: 'plain', // plain | primary\n      shadow: true\n    },\n    actions: []\n  };\n\n  searchSettings: SearchSettings = {\n    placeholder: '',\n    parentSelector: '.sds-subheader__content',\n    inputClass:\n      'width-card-lg widescreen:width-mobile display-none desktop-lg:display-inline-block',\n    size: 'small',\n    ariaLabel: 'Search',\n    dropdown: {}\n\n\n  };\n\n\n\n  searchSubmit(model) {\n    this.action.emit(model);\n  }\n\n  public backClick(): void {\n    if (!this.backbuttonBehavior) {\n      window.history.back();\n    } else {\n      switch (this.backbuttonBehavior.mode) {\n        case NavigationMode.INTERNAL:\n          this.router.navigate([this.backbuttonBehavior.route]);\n          break;\n        case NavigationMode.EXTERNAL:\n          window.location.href = this.backbuttonBehavior.route;\n          break;\n        default:\n          window.history.back();\n      }\n    }\n  }\n\n\n   ngOnInit() {\n\n    if (this.searchPlaceholderText) {\n      this.searchSettings.placeholder = this.searchPlaceholderText;\n    }\n\n    if (this.searchDropDownItems) {\n      this.searchSettings.dropdown =\n      {\n        id: 'searchOptions',\n        placeholder: '-Select-',\n        options: this.searchDropDownItems,\n        inverse: false,\n      };\n    }\n\n\n  }\n}\n\nexport enum SubHeaderWrapperMode {\n  CUSTOM,\n  //Accept and Reject buttons\n  REQUEST,//(Accept/Reject),\n\n  SUBMIT,//(Submit/EDIT)\n  //\n  SEARCH,\n  //\n  TAB\n}\n\nexport class TabModel implements Selectable {\n  text: string;\n  id: string;\n  selected?: boolean;\n}\n\nexport class SerachDropDownItem {\n  label: string;\n  value: string;\n}\n\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -4410,7 +4408,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<sds-subheader>\n  <!-- =============== BACK BUTTON =============== -->\n  <button class=\"sds-button sds-button--circular sds-navbar__back-button\" (click)=\"backClick()\" id=\"backBtn\">\n    <usa-icon [icon]=\"'chevron-left'\"></usa-icon>\n    <span class=\"usa-sr-only\">Go Back</span>\n  </button>\n\n  <!-- =============== TITLE =============== -->\n  <span class=\"sds-navbar__title\">\n    {{title}}\n  </span>\n  <!--- Search and Autocomplete-->\n\n  <sds-search *ngIf=\"searchEnabled\" [searchSettings]=\"searchSettings\" (submit)=\"searchSubmit($event)\">\n  </sds-search>\n\n\n  <!-- =============== BUTTON GROUP =============== -->\n  <ng-container subheader-buttons-container>\n    <!-- Add extra buttons before mode buttons-->\n    <ng-content select=\"[subheader-buttons-container-pre]\"></ng-content>\n\n    <!-- Modes -->\n    <ng-container *ngIf=\"mode === HeaderMode.REQUEST\" [ngTemplateOutlet]=\"request\"></ng-container>\n    <ng-container *ngIf=\"mode === HeaderMode.SUBMIT\" [ngTemplateOutlet]=\"submit\"></ng-container>\n    <ng-container *ngIf=\"mode === HeaderMode.TAB\" [ngTemplateOutlet]=\"tabOutlet\"></ng-container>\n\n    <!-- Add extra buttons after mode buttons-->\n    <ng-content select=\"[subheader-buttons-container-post]\"></ng-content>\n  </ng-container>\n</sds-subheader>\n\n\n<ng-template #request>\n  <button class=\"usa-button usa-button--secondary grid-col-6\" (click)=\"action.emit('Reject')\">Reject</button>\n  <button class=\"usa-button grid-col-6\" (click)=\"action.emit('Approve')\">Approve</button>\n</ng-template>\n\n<ng-template #submit>\n  <button class=\"usa-button usa-button--secondary grid-col-6\" (click)=\"action.emit('Edit')\">Edit</button>\n  <button class=\"usa-button grid-col-6\" (click)=\"action.emit('Submit')\">Submit</button>\n</ng-template>\n\n<ng-template #tabOutlet>\n  <sds-button-group [mode]=\"'radio'\" (change)=\"action.emit($event)\"\n    class=\"sds-button-group  sds-button-group--secondary\">\n    <ng-template ngFor let-tab [ngForOf]=\"tabs\">\n      <sds-button-group-option [value]=\"tab.id\" [aria-label]=\"tab.text\" [checked]=\"tab.selected\">\n        {{ tab.text}}\n      </sds-button-group-option>\n    </ng-template>\n  </sds-button-group>\n</ng-template>\n\n<sds-subheader-help *ngIf=\"help && help.length > 0\" [content]=\"help\"></sds-subheader-help>\n"
+            "templateData": "<sds-subheader>\n  <!-- =============== BACK BUTTON =============== -->\n  <button class=\"sds-button sds-button--circular sds-navbar__back-button\" (click)=\"backClick()\" id=\"backBtn\">\n    <usa-icon [icon]=\"'chevron-left'\"></usa-icon>\n    <span class=\"usa-sr-only\">Go Back</span>\n  </button>\n\n  <!-- =============== TITLE =============== -->\n  <span class=\"sds-navbar__title\">\n    {{title}}\n  </span>\n  <!--- Search and Autocomplete-->\n\n  <sds-search *ngIf=\"searchEnabled\" [searchSettings]=\"searchSettings\" (submit)=\"searchSubmit($event)\">\n  </sds-search>\n\n\n  <!-- =============== BUTTON GROUP =============== -->\n  <ng-container subheader-buttons-container>\n    <!-- Add extra buttons before mode buttons-->\n    <ng-content select=\"[subheader-buttons-container-pre]\"></ng-content>\n\n    <!-- Modes -->\n    <ng-container *ngIf=\"mode === HeaderMode.REQUEST\" [ngTemplateOutlet]=\"request\"></ng-container>\n    <ng-container *ngIf=\"mode === HeaderMode.SUBMIT\" [ngTemplateOutlet]=\"submit\"></ng-container>\n    <ng-container *ngIf=\"mode === HeaderMode.TAB\" [ngTemplateOutlet]=\"tabOutlet\"></ng-container>\n\n    <!-- Add extra buttons after mode buttons-->\n    <ng-content select=\"[subheader-buttons-container-post]\"></ng-content>\n  </ng-container>\n</sds-subheader>\n\n\n<ng-template #request>\n  <button class=\"usa-button usa-button--secondary grid-col-6\" (click)=\"action.emit('Reject')\">Reject</button>\n  <button class=\"usa-button grid-col-6\" (click)=\"action.emit('Approve')\">Approve</button>\n</ng-template>\n\n<ng-template #submit>\n  <button class=\"usa-button usa-button--secondary grid-col-6\" (click)=\"action.emit('Edit')\">Edit</button>\n  <button class=\"usa-button grid-col-6\" (click)=\"action.emit('Submit')\">Submit</button>\n</ng-template>\n\n<ng-template #tabOutlet>\n  <sds-button-group [mode]=\"'radio'\" (change)=\"action.emit($event)\"\n    class=\"sds-button-group  sds-button-group--secondary\">\n    <ng-template ngFor let-tab [ngForOf]=\"tabs\">\n      <sds-button-group-option [value]=\"tab.id\" [aria-label]=\"tab.text\" [checked]=\"tab.selected\">\n        {{ tab.text}}\n      </sds-button-group-option>\n    </ng-template>\n  </sds-button-group>\n</ng-template>\n"
         },
         {
             "name": "SdsSystemAlertComponent",
@@ -5952,13 +5950,13 @@
         },
         {
             "name": "SdsHeaderModule",
-            "id": "module-SdsHeaderModule-bdedd95d465c36ba7fddefc5501280f0f3eaedf36ed474e402c37c6ab63a7f5e56d0977bd02f72e9ab70a7f7c2300e8d0a02164d51a020d46a2ccaf0faaf992c",
+            "id": "module-SdsHeaderModule-8344304d3c2053e627abd19c8140a91656317c7249beb1b6231c5cd7c85df98a888f2b6fbf718a1b0244fbc5006cac11e1fd7bbdf4bfe2eef4bb63446074d6ca",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/layouts/src/lib/header/header.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { FormsModule } from '@angular/forms';\nimport { SdsHeaderComponent } from './header.component';\nimport { RouterModule } from '@angular/router';\nimport { SdsTopBannerModule } from '@gsa-sam/components';\n\nimport { A11yModule } from '@angular/cdk/a11y';\nimport { NgxBootstrapIconsModule, square, justifyLeft, circle, circleFill } from 'ngx-bootstrap-icons';\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\n\n@NgModule({\n  imports: [\n    CommonModule,\n    FormsModule,\n    RouterModule,\n    IconModule,\n    A11yModule,\n    SdsTopBannerModule,\n    NgxBootstrapIconsModule.pick({square, justifyLeft, circle, circleFill})\n  ],\n  declarations: [SdsHeaderComponent],\n  exports: [SdsHeaderComponent]\n})\nexport class SdsHeaderModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { FormsModule } from '@angular/forms';\nimport { SdsHeaderComponent } from './header.component';\nimport { RouterModule } from '@angular/router';\nimport { SdsTopBannerModule, SdsDialogModule } from '@gsa-sam/components';\n\nimport { A11yModule } from '@angular/cdk/a11y';\nimport { NgxBootstrapIconsModule, square, justifyLeft, circle, circleFill, questionCircle } from 'ngx-bootstrap-icons';\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\nimport { HelpContentComponent, SdsHeaderHelpComponent } from './help.component';\nimport { PortalModule } from '@angular/cdk/portal';\nimport {MatTooltipModule} from '@angular/material/tooltip';\nimport { SdsLandingListModule } from '../landing/list/list.module';\n\n@NgModule({\n  imports: [\n    CommonModule,\n    FormsModule,\n    RouterModule,\n    IconModule,\n    A11yModule,\n    SdsTopBannerModule,\n    SdsDialogModule,\n    PortalModule,\n    MatTooltipModule,\n    SdsLandingListModule,\n    NgxBootstrapIconsModule.pick({\n      square,\n      justifyLeft,\n      circle,\n      circleFill,\n      questionCircle,\n    }),\n  ],\n  declarations: [\n    SdsHeaderComponent,\n    SdsHeaderHelpComponent,\n    HelpContentComponent,\n  ],\n  exports: [SdsHeaderComponent],\n})\nexport class SdsHeaderModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -5968,13 +5966,23 @@
                     "type": "declarations",
                     "elements": [
                         {
+                            "name": "HelpContentComponent"
+                        },
+                        {
                             "name": "SdsHeaderComponent"
+                        },
+                        {
+                            "name": "SdsHeaderHelpComponent"
                         }
                     ]
                 },
                 {
                     "type": "imports",
-                    "elements": []
+                    "elements": [
+                        {
+                            "name": "SdsLandingListModule"
+                        }
+                    ]
                 },
                 {
                     "type": "exports",
@@ -6280,13 +6288,13 @@
         },
         {
             "name": "SdsSubheaderModule",
-            "id": "module-SdsSubheaderModule-404326909df9b6177974e993ce2368195b3d41d2fdb054ca8f85167e886d7a02e642f3bd3d2724dfed58b522555de2185a885d9fdb08a580aa0890662f01cb69",
+            "id": "module-SdsSubheaderModule-740e2e949377f917339e879c4199ce8ddee80b16ce0c4364e9f9bd52cf7562f0a0e45df78181310952738dc6b23f50a334d618b168a63f6fb5dca9c37c43a686",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/layouts/src/lib/subheader/subheader.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\nimport {\n  SdsMenuModule,\n  SdsSearchModule,\n  SdsObserversModule,\n  SdsTruncateModule,\n  SdsDialogModule,\n} from '@gsa-sam/components';\nimport {\n  SdsSubheaderComponent,\n  SdsSubheaderActionsComponent,\n  SdsSubheaderDrawerComponent,\n  SdsDrawerContentComponent\n} from './subheader.component';\nimport { SdsSubheaderWrapperComponent } from './sds-subheader-wrapper.component';\nimport { SdsActionsMenuModule } from '@gsa-sam/components';\nimport { SdsDrawerCommunicationService } from './drawer-communication.service';\nimport { NgxBootstrapIconsModule, threeDotsVertical, chevronLeft } from 'ngx-bootstrap-icons';\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\nimport { SdsButtonGroupModule } from '@gsa-sam/sam-material-extensions';\nimport { PortalModule } from '@angular/cdk/portal';\nimport { HelpContentComponent, SdsSubheaderHelpComponent } from './help.component';\nimport { SdsLandingListModule } from '../landing/list/list.module';\n\n@NgModule({\n  imports: [\n    CommonModule,\n    SdsMenuModule,\n    SdsObserversModule,\n    SdsSearchModule,\n    SdsTruncateModule,\n    SdsActionsMenuModule,\n    IconModule,\n    SdsButtonGroupModule,\n    NgxBootstrapIconsModule.pick({threeDotsVertical, chevronLeft}),\n    SdsDialogModule,\n    PortalModule,\n    SdsLandingListModule\n  ],\n  exports: [\n    SdsSubheaderComponent,\n    SdsSubheaderActionsComponent,\n    SdsSubheaderDrawerComponent,\n    SdsDrawerContentComponent,\n    SdsSubheaderWrapperComponent\n  ],\n  declarations: [\n    SdsSubheaderComponent,\n    SdsSubheaderActionsComponent,\n    SdsSubheaderDrawerComponent,\n    SdsDrawerContentComponent,\n    SdsSubheaderWrapperComponent,\n    SdsSubheaderHelpComponent,\n    HelpContentComponent\n  ],\n  providers: [SdsDrawerCommunicationService]\n})\nexport class SdsSubheaderModule {}\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\nimport {\n  SdsMenuModule,\n  SdsSearchModule,\n  SdsObserversModule,\n  SdsTruncateModule\n} from '@gsa-sam/components';\nimport {\n  SdsSubheaderComponent,\n  SdsSubheaderActionsComponent,\n  SdsSubheaderDrawerComponent,\n  SdsDrawerContentComponent\n} from './subheader.component';\nimport { SdsSubheaderWrapperComponent } from './sds-subheader-wrapper.component';\nimport { SdsActionsMenuModule } from '@gsa-sam/components';\nimport { SdsDrawerCommunicationService } from './drawer-communication.service';\nimport { NgxBootstrapIconsModule, threeDotsVertical, chevronLeft } from 'ngx-bootstrap-icons';\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\nimport { SdsButtonGroupModule } from '@gsa-sam/sam-material-extensions';\n\n@NgModule({\n  imports: [\n    CommonModule,\n    SdsMenuModule,\n    SdsObserversModule,\n    SdsSearchModule,\n    SdsTruncateModule,\n    SdsActionsMenuModule,\n    IconModule,\n    SdsButtonGroupModule,\n    NgxBootstrapIconsModule.pick({threeDotsVertical, chevronLeft})\n  ],\n  exports: [\n    SdsSubheaderComponent,\n    SdsSubheaderActionsComponent,\n    SdsSubheaderDrawerComponent,\n    SdsDrawerContentComponent,\n    SdsSubheaderWrapperComponent\n  ],\n  declarations: [\n    SdsSubheaderComponent,\n    SdsSubheaderActionsComponent,\n    SdsSubheaderDrawerComponent,\n    SdsDrawerContentComponent,\n    SdsSubheaderWrapperComponent\n  ],\n  providers: [SdsDrawerCommunicationService]\n})\nexport class SdsSubheaderModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -6300,9 +6308,6 @@
                     "type": "declarations",
                     "elements": [
                         {
-                            "name": "HelpContentComponent"
-                        },
-                        {
                             "name": "SdsDrawerContentComponent"
                         },
                         {
@@ -6315,20 +6320,13 @@
                             "name": "SdsSubheaderDrawerComponent"
                         },
                         {
-                            "name": "SdsSubheaderHelpComponent"
-                        },
-                        {
                             "name": "SdsSubheaderWrapperComponent"
                         }
                     ]
                 },
                 {
                     "type": "imports",
-                    "elements": [
-                        {
-                            "name": "SdsLandingListModule"
-                        }
-                    ]
+                    "elements": []
                 },
                 {
                     "type": "exports",
@@ -6672,16 +6670,6 @@
                 "defaultValue": "(args) => ({\n  props: {\n    ...args,\n    clicks: action('Button Click'),\n    mode: SubHeaderWrapperMode.SEARCH,\n  },\n  template: `\n  <sds-subheader-wrapper\n      [title]=\"'Request'\"\n      [mode]=\"mode\"\n      (action)=\"clicks($event)\">\n  </sds-subheader-wrapper>\n  `,\n})"
             },
             {
-                "name": "RequestWithHelp",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "libs/layouts/src/lib/subheader/subheader.component.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<SdsSubheaderComponent>",
-                "defaultValue": "(args) => ({\n  props: {\n    ...args,\n    help: [\n      {\n        head: {\n          title: 'Get started searching contract opportunities',\n        },\n        body: {\n          content: [\n            {\n              component: new ComponentPortal(SdsLandingListComponent),\n              inputs: {\n                list: {\n                  iconList: true,\n                  items: [\n                    {\n                      link: {\n                        innerHtml: 'Use the search feature on SAM.gov',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0017298',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Follow contract opportunities',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0017560',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Save my searches',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0017561',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'file-earmark',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Use the interested vendors list',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0017569',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                  ],\n                },\n              },\n            },\n          ],\n        },\n      },\n      {\n        head: {\n          title: 'Use contract opportunities advanced search',\n        },\n        body: {\n          content: [\n            {\n              component: new ComponentPortal(SdsLandingListComponent),\n              inputs: {\n                list: {\n                  iconList: true,\n                  items: [\n                    {\n                      link: {\n                        innerHtml: 'Changing search filters',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0029688',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Filter by notice types',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0029689',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Filter by small business set-asides',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0029690',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml:\n                          'Filter by product and services (NAICS and PSC)',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0020214',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'play-btn',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Filter by place of performance',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0029691',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Search vendor collaboration opportunities',\n                        routerLink:\n                          '/search/?index=opp&page=1&sort=-relevance&sfm%5Bstatus%5D%5Bis_active%5D=true&sfm%5Bkeywords%5D%5B0%5D%5Bkey%5D=Vendor%20Collaboration&sfm%5Bkeywords%5D%5B0%5D%5Bvalue%5D=Vendor%20Collaboration',\n                      },\n                      icon: {\n                        icon: 'search',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Search small business events',\n                        routerLink:\n                          '/search/?index=opp&page=1&sort=-relevance&sfm%5Bstatus%5D%5Bis_active%5D=true&sfm%5Bkeywords%5D%5B0%5D%5Bkey%5D=Small%20Business%20Event&sfm%5Bkeywords%5D%5B0%5D%5Bvalue%5D=Small%20Business%20Event',\n                      },\n                      icon: {\n                        icon: 'search',\n                        prefix: 'bs',\n                      },\n                    },\n                  ],\n                },\n              },\n            },\n          ],\n        },\n      },\n    ],\n    clicks: action('Click'),\n    mode: SubHeaderWrapperMode.REQUEST,\n  },\n  template: `\n  <sds-subheader-wrapper\n      [title]=\"'Request with help'\"\n      [mode]=\"mode\"\n      [help]=\"help\"\n      (action)=\"clicks($event)\">\n  </sds-subheader-wrapper>\n  `,\n})"
-            },
-            {
                 "name": "ResultsItem",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -6951,16 +6939,6 @@
                     "defaultValue": "(args) => ({\n  props: {\n    ...args,\n    clicks: action('Button Click'),\n    mode: SubHeaderWrapperMode.SEARCH,\n  },\n  template: `\n  <sds-subheader-wrapper\n      [title]=\"'Request'\"\n      [mode]=\"mode\"\n      (action)=\"clicks($event)\">\n  </sds-subheader-wrapper>\n  `,\n})"
                 },
                 {
-                    "name": "RequestWithHelp",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "libs/layouts/src/lib/subheader/subheader.component.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<SdsSubheaderComponent>",
-                    "defaultValue": "(args) => ({\n  props: {\n    ...args,\n    help: [\n      {\n        head: {\n          title: 'Get started searching contract opportunities',\n        },\n        body: {\n          content: [\n            {\n              component: new ComponentPortal(SdsLandingListComponent),\n              inputs: {\n                list: {\n                  iconList: true,\n                  items: [\n                    {\n                      link: {\n                        innerHtml: 'Use the search feature on SAM.gov',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0017298',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Follow contract opportunities',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0017560',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Save my searches',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0017561',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'file-earmark',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Use the interested vendors list',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0017569',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                  ],\n                },\n              },\n            },\n          ],\n        },\n      },\n      {\n        head: {\n          title: 'Use contract opportunities advanced search',\n        },\n        body: {\n          content: [\n            {\n              component: new ComponentPortal(SdsLandingListComponent),\n              inputs: {\n                list: {\n                  iconList: true,\n                  items: [\n                    {\n                      link: {\n                        innerHtml: 'Changing search filters',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0029688',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Filter by notice types',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0029689',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Filter by small business set-asides',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0029690',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml:\n                          'Filter by product and services (NAICS and PSC)',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0020214',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'play-btn',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Filter by place of performance',\n                        href:\n                          'https://www.fsd.gov/gsafsd_sp?id=kb_article_view&sysparm_article=KB0029691',\n                        target: '_blank',\n                      },\n                      icon: {\n                        icon: 'question-circle',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Search vendor collaboration opportunities',\n                        routerLink:\n                          '/search/?index=opp&page=1&sort=-relevance&sfm%5Bstatus%5D%5Bis_active%5D=true&sfm%5Bkeywords%5D%5B0%5D%5Bkey%5D=Vendor%20Collaboration&sfm%5Bkeywords%5D%5B0%5D%5Bvalue%5D=Vendor%20Collaboration',\n                      },\n                      icon: {\n                        icon: 'search',\n                        prefix: 'bs',\n                      },\n                    },\n                    {\n                      link: {\n                        innerHtml: 'Search small business events',\n                        routerLink:\n                          '/search/?index=opp&page=1&sort=-relevance&sfm%5Bstatus%5D%5Bis_active%5D=true&sfm%5Bkeywords%5D%5B0%5D%5Bkey%5D=Small%20Business%20Event&sfm%5Bkeywords%5D%5B0%5D%5Bvalue%5D=Small%20Business%20Event',\n                      },\n                      icon: {\n                        icon: 'search',\n                        prefix: 'bs',\n                      },\n                    },\n                  ],\n                },\n              },\n            },\n          ],\n        },\n      },\n    ],\n    clicks: action('Click'),\n    mode: SubHeaderWrapperMode.REQUEST,\n  },\n  template: `\n  <sds-subheader-wrapper\n      [title]=\"'Request with help'\"\n      [mode]=\"mode\"\n      [help]=\"help\"\n      (action)=\"clicks($event)\">\n  </sds-subheader-wrapper>\n  `,\n})"
-                },
-                {
                     "name": "SearchMode",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
@@ -7170,9 +7148,36 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "SdsHeaderComponent",
-                "coveragePercent": 45,
-                "coverageCount": "11/24",
+                "coveragePercent": 41,
+                "coverageCount": "10/24",
                 "status": "medium"
+            },
+            {
+                "filePath": "libs/layouts/src/lib/header/help.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "HelpContentComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/layouts/src/lib/header/help.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SdsHeaderHelpComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/6",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/layouts/src/lib/header/help.component.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Data",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
             },
             {
                 "filePath": "libs/layouts/src/lib/header/model/HeaderModel.ts",
@@ -7607,39 +7612,12 @@
                 "status": "low"
             },
             {
-                "filePath": "libs/layouts/src/lib/subheader/help.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "HelpContentComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/4",
-                "status": "low"
-            },
-            {
-                "filePath": "libs/layouts/src/lib/subheader/help.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "SdsSubheaderHelpComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/6",
-                "status": "low"
-            },
-            {
-                "filePath": "libs/layouts/src/lib/subheader/help.component.ts",
-                "type": "interface",
-                "linktype": "interface",
-                "name": "Data",
-                "coveragePercent": 0,
-                "coverageCount": "0/2",
-                "status": "low"
-            },
-            {
                 "filePath": "libs/layouts/src/lib/subheader/sds-subheader-wrapper.component.ts",
                 "type": "component",
                 "linktype": "component",
                 "name": "SdsSubheaderWrapperComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/18",
+                "coverageCount": "0/17",
                 "status": "low"
             },
             {
@@ -7666,16 +7644,6 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "RequestMode",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "libs/layouts/src/lib/subheader/subheader.component.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "RequestWithHelp",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
