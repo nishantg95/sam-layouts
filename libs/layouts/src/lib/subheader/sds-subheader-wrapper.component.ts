@@ -34,8 +34,6 @@ export class SdsSubheaderWrapperComponent implements OnInit {
 
   @Input() searchDropDownItems: SerachDropDownItem[];
 
-  @Input() help: [];
-
   searchModel = {};
 
   HeaderMode = SubHeaderWrapperMode;

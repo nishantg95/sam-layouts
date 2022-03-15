@@ -26,8 +26,12 @@ export class SdsHeaderComponent {
   @ViewChild('usaNavOpen') openNavBtn: ElementRef;
   @ViewChild('usaNavClose') closeNavBtn: ElementRef;
   mobileNavActive = false;
-  /**
-   * Navigation helper
+
+  /** Navigation helper
+   * Compodoc Ignore
+   * Instantiation of a class in a property causes
+   * issues in storybook
+   * @ignore
    */
   navigationHelper = new NavigationHelper();
 
@@ -47,6 +51,7 @@ export class SdsHeaderComponent {
 
   @Input() alertsTemplate: TemplateRef<any>;
 
+  @Input() help: [];
   /**
    * event for event based
    */
@@ -60,7 +65,7 @@ export class SdsHeaderComponent {
     return text.replace(/ /g, '');
   }
   constructor() {
-   
+
   }
   /**
    * seeif any secondary link has a counter

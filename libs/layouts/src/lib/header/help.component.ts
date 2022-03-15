@@ -1,5 +1,5 @@
 import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';
-import { Component, ComponentRef, Inject, Input } from '@angular/core';
+import { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';
 import {
   SdsDialogRef,
   SdsDialogService,
@@ -9,26 +9,27 @@ import {
 interface Data {
   help: [];
 }
+
 @Component({
-  selector: 'sds-subheader-help',
+  selector: 'sds-header-help',
+  styleUrls: ['./help.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   template: `
-    <div class="tablet:margin-right-5 text-right">
-      <button
-        class="usa-button
-          text-white text-semibold
-          radius-0 tablet:radius-bottom-lg
-          border-transparent
-          bg-accent-cool-darker
-          padding-y-05 padding-x-5
-          width-full tablet:width-15"
-        (click)="openSlidePanel()"
+    <button
+      class="usa-button usa-button--unstyled"
+      (click)="openSlidePanel()"
+      matTooltipClass='help-tooltip'
+      matTooltip="Find help articles for features on this page"
       >
-        Help
-      </button>
-    </div>
+      <usa-icon
+        class="text-info"
+        [icon]="'question-circle'"
+        [size]="'2x'"
+      ></usa-icon>
+    </button>
   `,
 })
-export class SdsSubheaderHelpComponent {
+export class SdsHeaderHelpComponent {
   @Input() content;
 
   openedDialogRef: SdsDialogRef<HelpContentComponent>;
@@ -42,7 +43,7 @@ export class SdsSubheaderHelpComponent {
       position: { right: 'true' },
       slideOut: {
         width: '20rem',
-        time: '350ms'
+        time: '350ms',
       },
       data: {
         help: this.content,
