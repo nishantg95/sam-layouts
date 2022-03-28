@@ -970,6 +970,70 @@
             "rawdescription": "\n",
             "sourceCode": "import { Injectable, TemplateRef } from '@angular/core';\nimport { BehaviorSubject } from 'rxjs';\n\n@Injectable()\nexport class SdsDrawerCommunicationService {\n  private isOpen = new BehaviorSubject(false);\n  isDrawerOpen = this.isOpen.asObservable();\n\n  private currentTemplate= new BehaviorSubject<TemplateRef<any>>(null);\n  contentTemplate = this.currentTemplate.asObservable();\n\n  onDrawerOpen(open: boolean, temp : TemplateRef<any>){\n    this.isOpen.next(open);\n    this.currentTemplate.next(temp);  \n  }\n}",
             "type": "injectable"
+        },
+        {
+            "name": "StepperAdvancedService",
+            "id": "injectable-StepperAdvancedService-ee07d5ecc4bafdaa4c8d9a746f85cafe7d99df2d66f5d8f46e98ef2650f76c70affd8a31fff36df0f4aff6f24e6493c62d636b63cf7b81bc3d6250832f1d510d",
+            "file": "libs/layouts/src/lib/stepper/demo/advanced/advanced.service.ts",
+            "properties": [],
+            "methods": [
+                {
+                    "name": "getEntityInformation",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "FormlyFieldConfig",
+                    "typeParameters": [],
+                    "line": 66,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "getRegistrationPurpose",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "FormlyFieldConfig",
+                    "typeParameters": [],
+                    "line": 7,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "getReportDetails",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "{ key: string; templateOptions: { placeholder: string; }; fieldGroup: {}; }",
+                    "typeParameters": [],
+                    "line": 258,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "getSubawardeeForm",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "{ key: string; fieldGroup: {}; }",
+                    "typeParameters": [],
+                    "line": 191,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "getTaxpayerForm",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "FormlyFieldConfig",
+                    "typeParameters": [],
+                    "line": 160,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { Injectable } from '@angular/core';\nimport { SdsFormlyTypes } from '@gsa-sam/sam-formly';\nimport { FormlyFieldConfig } from '@ngx-formly/core';\n\n@Injectable()\nexport class StepperAdvancedService {\n  getRegistrationPurpose(): FormlyFieldConfig {\n    return {\n      key: 'purposeOfRegistration',\n      fieldGroup: [\n        {\n          key: 'typeOfEntity',\n          type: SdsFormlyTypes.RADIO,\n          templateOptions: {\n            label: 'What type of entity are you registering?',\n            hideOptions: true,\n            options: [\n              {\n                label: 'Business Or Organization',\n                value: 'business',\n              },\n              {\n                label: 'U.S. State Government',\n                value: 'stateGovt',\n              },\n              {\n                label: 'U.S. Local Government',\n                value: 'localGovt',\n              },\n              {\n                label: 'Tribal Government',\n                value: 'tribal',\n              },\n              {\n                label: 'Foreign Government',\n                value: 'foreign',\n              },\n            ],\n          },\n        },\n        {\n          key: 'purposeOfRegistration',\n          type: SdsFormlyTypes.RADIO,\n          templateOptions: {\n            hideOptions: true,\n            label:\n              'Why are you registering this entity to do business with the U.S. government?',\n            options: [\n              {\n                label: `I want to be able to bid on federal contracts or other procurement opportunities.\n                        I also want to be able to apply for financial assistance programs`,\n                value: 'bidContracts',\n              },\n              {\n                label:\n                  'I want to apply for federal assistance opportunities like grants, loans, and other financial assistance programs',\n                value: 'assistanceOpportunities',\n              },\n            ],\n          },\n        },\n      ],\n    };\n  }\n\n  getEntityInformation(): FormlyFieldConfig {\n    return {\n      key: 'entityInformation',\n      fieldGroupClassName: 'grid-row grid-gap-4',\n      fieldGroup: [\n        {\n          key: 'legalBusinessName',\n          type: SdsFormlyTypes.INPUT,\n          templateOptions: {\n            hideOptions: true,\n            label: 'Legal Business Name',\n            description: `If you are acting on behalf of a limited partnershil, LLC, or corporation,\n                          your legal business name is the name you registered with your state filing office.`,\n          },\n        },\n        {\n          template: `\n            <span class=\"display-block text-bold margin-top-2\">Physical Address</span>\n            <span>\n              Your physical address is the street address of the primary office or other building where\n              your entity is located. A post office box may not be used as your physical address.\n            </span>\n          `,\n        },\n        {\n          className: 'grid-col-7',\n          key: 'country',\n          type: 'select',\n          templateOptions: {\n            label: 'Country',\n            hideOptional: true,\n            options: [\n              { label: 'United States (USA)', value: 'united_states' },\n              { label: 'Canada', value: 'canada' },\n            ],\n          },\n        },\n        {\n          className: 'grid-col-7',\n          key: 'streetAddress',\n          type: 'input',\n          templateOptions: {\n            label: 'Street Address',\n            hideOptional: true,\n          },\n        },\n        {\n          className: 'grid-col-4',\n          type: 'input',\n          key: 'zip',\n\n          templateOptions: {\n            hideOptional: true,\n            type: 'number',\n            label: 'Zip',\n            maxLength: 5,\n            minLength: 5,\n            min: 0,\n          },\n        },\n        {\n          className: 'grid-col-7',\n          type: 'input',\n          key: 'cityName',\n          templateOptions: {\n            label: 'City',\n            hideOptional: true,\n          },\n        },\n        {\n          className: 'grid-col-4',\n          key: 'state',\n          type: 'select',\n          hideExpression: (model) => model.country === 'canada',\n          templateOptions: {\n            label: 'State',\n            hideOptional: true,\n            options: [\n              { id: '0', label: '--Select--', value: 'Select' },\n              { id: '1', label: 'Alabama', value: 'Alabama' },\n              { id: '2', label: 'Alaska', value: 'Alaska' },\n              { id: '3', label: 'Arizona', value: 'Arizona' },\n              { id: '4', label: 'Arkansas', value: 'Arkansas' },\n              { id: '5', label: 'California', value: 'California' },\n              { id: '6', label: 'Colorado', value: 'Colorado' },\n              { id: '7', label: 'Connecticut', value: 'Connecticut' },\n              { id: '8', label: 'Delaware', value: 'Delaware' },\n            ],\n          },\n        },\n      ],\n    };\n  }\n\n  getTaxpayerForm(): FormlyFieldConfig {\n    return {\n      key: 'taxpayerDetails',\n      fieldGroup: [\n        {\n          template: `\n            <span>\n              Please refer to your taxpayer documnets from IRS to find your taxpayer information\n            </span>\n          `,\n        },\n        {\n          type: 'input',\n          key: 'taxpayerName',\n          templateOptions: {\n            label: 'Taxpayer Name',\n            hideOptional: true,\n          },\n        },\n        {\n          type: 'input',\n          key: 'tinNumber',\n          templateOptions: {\n            label: 'TIN Number',\n            hideOptional: true,\n          },\n        },\n      ],\n    };\n  }\n\n  getSubawardeeForm() {\n    return {\n      key: 'subawardee',\n      fieldGroup: [\n        {\n          templateOptions: { label: 'Input Details' },\n          fieldGroup: [\n            {\n              key: 'globalDunsNumber',\n              type: 'input',\n              templateOptions: {\n                label: 'Subawardee Number',\n              },\n            },\n            {\n              key: 'globalName',\n              type: 'input',\n              templateOptions: {\n                label: 'Subawardee Name',\n              },\n            },\n            {\n              key: 'date',\n              type: 'datepicker',\n              templateOptions: {\n                label: 'Subawardee Date',\n                placeholder:\n                  'eg: ' +\n                  new Date().toLocaleString('en-US', {\n                    month: 'short',\n                    day: 'numeric',\n                    year: 'numeric',\n                  }),\n              },\n            },\n            {\n              key: 'description',\n              type: 'textarea',\n              templateOptions: {\n                label:\n                  'Description of the overall purpose and expected outcomes, OR results of the contract, including significant deliverables and, if appropriate, associated units of measure. (Optional)',\n              },\n            },\n            {\n              key: 'subcontract',\n              type: 'radio',\n              templateOptions: {\n                label:\n                  \"As provided to you by your subcontractor, in your subcontractor's business or organization's preceding completed fiscal year, did its business or organization (the legal entity to which the DUNS number it provided belongs) receive (1) 80 percent or more of its annual gross revenues in U.S. federal contracts, subcontracts, loans, grants, subgrants, and/or cooperative agreements; and (2) $25,000,000 or more in annual gross revenues from U.S. federal contracts, subcontracts, loans, grants, subgrants, and/or cooperative agreements?*:\",\n                options: [\n                  {\n                    value: 'yes',\n                    label: 'Yes',\n                  },\n                  {\n                    value: 'no',\n                    label: 'No',\n                  },\n                ],\n              },\n            },\n          ],\n        },\n      ],\n    };\n  }\n\n  getReportDetails() {\n    return {\n      key: 'reportDetails',\n      templateOptions: {\n        placeholder: 'Input Unique Entity ID',\n      },\n      fieldGroup: [\n        {\n          key: 'report',\n          fieldGroupClassName: 'grid-row grid-gap-4',\n          fieldGroup: [\n            {\n              className: 'grid-col-5',\n              key: 'month',\n              type: 'select',\n              templateOptions: {\n                label: 'Report Month',\n                hideOptional: true,\n                options: [\n                  { label: 'Jan', value: '01' },\n                  { label: 'Feb', value: '02' },\n                  { label: 'Mar', value: '03' },\n                  { label: 'Apr', value: '04' },\n                ],\n                required: true,\n              },\n            },\n            {\n              className: 'grid-col-4',\n              key: 'year',\n              type: 'select',\n              templateOptions: {\n                label: 'Report Year',\n                hideOptional: true,\n                options: [\n                  { label: '2001', value: '01' },\n                  { label: '2002', value: '02' },\n                  { label: '2003', value: '03' },\n                  { label: '2004', value: '04' },\n                ],\n                required: true,\n                showError: false,\n              },\n            },\n          ],\n        },\n\n        {\n          className: 'desktop:grid-col-12 tablet:grid-col-12',\n          type: 'input',\n          key: 'title',\n\n          templateOptions: {\n            label: 'Program or Project Title',\n            required: true,\n            showError: false,\n          },\n          modelOptions: {\n            updateOn: 'blur',\n          },\n        },\n      ],\n    };\n  }\n}\n",
+            "type": "injectable"
         }
     ],
     "guards": [],
@@ -1789,6 +1853,557 @@
         }
     ],
     "components": [
+        {
+            "name": "AddSubawardeeDialogDemo",
+            "id": "component-AddSubawardeeDialogDemo-77120483744b71c87b6025e7a42230d3df246efe265fb24a13467a46d8832faa4df1b8e69db492b0833b4d8dbceebe6ef1938213fc1940d3fe89370e56a4f796",
+            "file": "libs/layouts/src/lib/stepper/demo/advanced/subawardee.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [
+                {
+                    "name": "StepperAdvancedService"
+                }
+            ],
+            "selector": "add-subawardee-dialog-demo",
+            "styleUrls": [],
+            "styles": [],
+            "template": "<div sds-dialog-title>\n  <h3>Add Subawardee</h3>\n</div>\n<div sds-dialog-content>\n  <formly-form [fields]=\"subawardeeFields\" [model]=\"model\"> </formly-form>\n</div>\n<div sds-dialog-actions>\n  <button class=\"usa-button usa-button--base\" (click)=\"cancel()\">\n    Cancel\n  </button>\n  <button\n    type=\"submit\"\n    (click)=\"onFormSubmit()\"\n    class=\"usa-button margin-top-2\"\n  >\n    Submit\n  </button>\n</div>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "data",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "SdsFormlyDialogData",
+                    "optional": false,
+                    "description": "",
+                    "line": 82,
+                    "decorators": [
+                        {
+                            "name": "Inject",
+                            "stringifiedArguments": "SDS_DIALOG_DATA"
+                        }
+                    ],
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "dialogRef",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "SdsDialogRef<AddSubawardeeDialogDemo>",
+                    "optional": false,
+                    "description": "",
+                    "line": 81,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "model",
+                    "defaultValue": "{}",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "optional": false,
+                    "description": "",
+                    "line": 78
+                },
+                {
+                    "name": "subawardeeFields",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "FormlyFieldConfig[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 77
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "cancel",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 98,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 86,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "onFormSubmit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 90,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import {\n  Component,\n  EventEmitter,\n  Inject,\n  Input,\n  OnInit,\n  Output,\n} from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\nimport { SdsFormlyDialogData } from '@gsa-sam/sam-formly';\nimport { FormlyFieldConfig } from '@ngx-formly/core';\nimport { StepperAdvancedService } from './advanced.service';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: `subawardee-demo`,\n  templateUrl: './subawardee.component.html',\n})\nexport class SubawardeeDemoComponent {\n  @Input() displayInput = true;\n  @Input() subawardees: any[] = [];\n\n  @Output() subawardeeUpdate = new EventEmitter<any[]>();\n\n  awardDialogRef: SdsDialogRef<AddSubawardeeDialogDemo> | undefined;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  onAddSubawardee(value: any) {\n    this.awardDialogRef = this.dialog.open(AddSubawardeeDialogDemo, {\n      width: 'medium',\n    });\n\n    this.awardDialogRef.afterClosed().subscribe((result: any[]) => {\n      if (!result) {\n        return;\n      }\n      this.subawardees = [...this.subawardees, result];\n      this.subawardeeUpdate.emit(this.subawardees);\n    });\n  }\n}\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: `add-subawardee-dialog-demo`,\n  template: `\n    <div sds-dialog-title>\n      <h3>Add Subawardee</h3>\n    </div>\n    <div sds-dialog-content>\n      <formly-form [fields]=\"subawardeeFields\" [model]=\"model\"> </formly-form>\n    </div>\n    <div sds-dialog-actions>\n      <button class=\"usa-button usa-button--base\" (click)=\"cancel()\">\n        Cancel\n      </button>\n      <button\n        type=\"submit\"\n        (click)=\"onFormSubmit()\"\n        class=\"usa-button margin-top-2\"\n      >\n        Submit\n      </button>\n    </div>\n  `,\n  providers: [StepperAdvancedService],\n})\n// eslint-disable-next-line @angular-eslint/component-class-suffix\nexport class AddSubawardeeDialogDemo implements OnInit {\n  subawardeeFields!: FormlyFieldConfig[];\n  model = {};\n\n  constructor(\n    public dialogRef: SdsDialogRef<AddSubawardeeDialogDemo>,\n    @Inject(SDS_DIALOG_DATA) public data: SdsFormlyDialogData,\n    private stepperAdvancedService: StepperAdvancedService\n  ) {}\n\n  ngOnInit() {\n    this.subawardeeFields = [this.stepperAdvancedService.getSubawardeeForm()];\n  }\n\n  onFormSubmit() {\n    if (Object.keys(this.model).length) {\n      this.dialogRef.close(this.model);\n    } else {\n      this.cancel();\n    }\n  }\n\n  cancel() {\n    this.dialogRef.close();\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "dialogRef",
+                        "type": "SdsDialogRef<AddSubawardeeDialogDemo>",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "data",
+                        "type": "SdsFormlyDialogData",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "stepperAdvancedService",
+                        "type": "StepperAdvancedService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 78,
+                "jsdoctags": [
+                    {
+                        "name": "dialogRef",
+                        "type": "SdsDialogRef<AddSubawardeeDialogDemo>",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "data",
+                        "type": "SdsFormlyDialogData",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "stepperAdvancedService",
+                        "type": "StepperAdvancedService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "implements": [
+                "OnInit"
+            ]
+        },
+        {
+            "name": "DemoStepperAdvancedComponent",
+            "id": "component-DemoStepperAdvancedComponent-cb6237efd23ce1f17960ca39ff8c15253c5e985c5470a9c626ebcf2089c4d37dd97349e45c16f5e716a94fc4b3dedb9b6bc1ab538707ad94b233b9f6809a57ee",
+            "file": "libs/layouts/src/lib/stepper/demo/advanced/advanced.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [
+                {
+                    "name": "StepperAdvancedService"
+                },
+                {
+                    "name": "SdsStepper"
+                }
+            ],
+            "selector": "demo-stepper-advanced",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./advanced.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "currentStepId",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string | undefined",
+                    "optional": false,
+                    "description": "",
+                    "line": 54
+                },
+                {
+                    "name": "linear",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 57
+                },
+                {
+                    "name": "model",
+                    "defaultValue": "{\n    subawardee: [],\n  }",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "optional": false,
+                    "description": "",
+                    "line": 14
+                },
+                {
+                    "name": "reinitializeComponents",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 58
+                },
+                {
+                    "name": "showLoading",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 18
+                },
+                {
+                    "name": "stepMap",
+                    "defaultValue": "{\n    welcome: {\n      validationFn: () => true,\n    },\n    registrationPurpose: {\n      fieldConfig: this.stepperAdvancedService.getRegistrationPurpose(),\n    },\n    enitityInformation: {\n      fieldConfig: this.stepperAdvancedService.getEntityInformation(),\n    },\n    reportDetails: {\n      fieldConfig: this.stepperAdvancedService.getReportDetails() as FormlyFieldConfig,\n    },\n    taxpayerInformation: {\n      fieldConfig: this.stepperAdvancedService.getTaxpayerForm(),\n    },\n    subawardee: {\n      validationFn: (model: any) => {\n        return model.subawardee.length ? true : undefined;\n      },\n    },\n    review: {\n      fieldConfig: {\n        fieldGroup: [\n          this.stepperAdvancedService.getRegistrationPurpose(),\n          this.stepperAdvancedService.getEntityInformation(),\n          this.stepperAdvancedService.getReportDetails() as FormlyFieldConfig,\n          this.stepperAdvancedService.getTaxpayerForm(),\n        ],\n      },\n      validationFn: () => true,\n    },\n  }",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "optional": false,
+                    "description": "",
+                    "line": 20
+                },
+                {
+                    "name": "stepValidityMap",
+                    "defaultValue": "{}",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "optional": false,
+                    "description": "",
+                    "line": 55
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "customBtnClick",
+                    "args": [
+                        {
+                            "name": "evt",
+                            "type": "MouseEvent",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 84,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "evt",
+                            "type": "MouseEvent",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "onSaveData",
+                    "args": [
+                        {
+                            "name": "data",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 72,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "data",
+                            "type": "literal type",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "onStepChange",
+                    "args": [
+                        {
+                            "name": "$event",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 61,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "$event",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "toggleLinearMode",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 80,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "updateSubawardee",
+                    "args": [
+                        {
+                            "name": "$event",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 76,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "$event",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { FormlyUtilsService, SdsStepper } from '@gsa-sam/sam-formly';\nimport { FormlyFieldConfig } from '@ngx-formly/core';\nimport { StepperAdvancedService } from './advanced.service';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: `demo-stepper-advanced`,\n  templateUrl: `./advanced.component.html`,\n  providers: [StepperAdvancedService, SdsStepper],\n})\nexport class DemoStepperAdvancedComponent {\n  model = {\n    subawardee: [],\n  };\n\n  showLoading = false;\n\n  stepMap = {\n    welcome: {\n      validationFn: () => true,\n    },\n    registrationPurpose: {\n      fieldConfig: this.stepperAdvancedService.getRegistrationPurpose(),\n    },\n    enitityInformation: {\n      fieldConfig: this.stepperAdvancedService.getEntityInformation(),\n    },\n    reportDetails: {\n      fieldConfig: this.stepperAdvancedService.getReportDetails() as FormlyFieldConfig,\n    },\n    taxpayerInformation: {\n      fieldConfig: this.stepperAdvancedService.getTaxpayerForm(),\n    },\n    subawardee: {\n      validationFn: (model: any) => {\n        return model.subawardee.length ? true : undefined;\n      },\n    },\n    review: {\n      fieldConfig: {\n        fieldGroup: [\n          this.stepperAdvancedService.getRegistrationPurpose(),\n          this.stepperAdvancedService.getEntityInformation(),\n          this.stepperAdvancedService.getReportDetails() as FormlyFieldConfig,\n          this.stepperAdvancedService.getTaxpayerForm(),\n        ],\n      },\n      validationFn: () => true,\n    },\n  };\n\n  currentStepId: string | undefined;\n  stepValidityMap = {};\n\n  linear = false;\n  reinitializeComponents = false;\n  constructor(private stepperAdvancedService: StepperAdvancedService) {}\n\n  onStepChange($event: any) {\n    this.currentStepId = $event.id;\n\n    if (this.currentStepId === 'review') {\n      FormlyUtilsService.setReadonlyMode(\n        true,\n        this.stepMap.review.fieldConfig.fieldGroup as any\n      );\n    }\n  }\n\n  onSaveData(data: { model: any; metadata: any }) {\n    console.log(data);\n  }\n\n  updateSubawardee($event: any) {\n    this.model.subawardee = $event;\n  }\n\n  toggleLinearMode() {\n    this.linear = !this.linear;\n  }\n\n  customBtnClick(evt: MouseEvent){\n    console.log(evt)\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "stepperAdvancedService",
+                        "type": "StepperAdvancedService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 58,
+                "jsdoctags": [
+                    {
+                        "name": "stepperAdvancedService",
+                        "type": "StepperAdvancedService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "templateData": "<button class=\"usa-button margin-bottom-3\" (click)=\"toggleLinearMode()\">Toggle Linear Mode</button>\n\n<sam-layouts-stepper [hideSideNav]=\"false\" [hideHeader]=\"true\" [queryParamKey]=\"'sdsAdvancedStepper'\" [model]=\"model\"\n  [stepValidityMap]=\"stepValidityMap\" (stepChange)=\"onStepChange($event)\" [linear]=\"linear\"\n  (saveData)=\"onSaveData($event)\">\n\n  <sds-step id=\"welcome\" text=\"Welcome\" [stepTemplate]=\"gatherInformation\"\n    [stepValidationFn]=\"stepMap.welcome.validationFn\">\n  </sds-step>\n\n  <sds-step id=\"entityDetails\" text=\"Entity Details\" [editable]=\"false\">\n    <sds-step id=\"registrationPurpose\" text=\"Purpose of Registration\"\n      [fieldConfig]=\"stepMap.registrationPurpose.fieldConfig\">\n      <h1 sdsStepHeader class=\"margin-top-0\">\n        Purpose of Registration\n        <hr>\n      </h1>\n    </sds-step>\n\n    <sds-step id=\"entityInformation\" text=\"Entity Information\" [fieldConfig]=\"stepMap.enitityInformation.fieldConfig\">\n      <h1 sdsStepHeader class=\"margin-top-0\">\n        Enter Entity Information\n        <hr>\n      </h1>\n    </sds-step>\n\n    <sds-step id=\"reportDetails\" text=\"Report Details\" [fieldConfig]=\"stepMap.reportDetails.fieldConfig\">\n      <h1 sdsStepHeader class=\"margin-top-0\">\n        Report Details\n        <hr>\n      </h1>\n    </sds-step>\n  </sds-step>\n\n  <sds-step id=\"taxPayerInfoForm\" text=\"Taxpayer Details\" [fieldConfig]=\"stepMap.taxpayerInformation.fieldConfig\">\n    <h1 sdsStepHeader class=\"margin-top-0\">\n      Enter Taxpayer Details\n      <hr>\n    </h1>\n  </sds-step>\n\n  <sds-step id=\"addSubawardee\" text=\"Add Subawardee\" [stepTemplate]=\"subawardeeStep\"\n    [stepValidationFn]=\"stepMap.subawardee.validationFn\">\n  </sds-step>\n\n  <sds-step id=\"review\" text=\"Review and Submit\" [isReview]=\"true\" [stepTemplate]=\"reviewTemplate\"\n    [stepValidationFn]=\"stepMap.review.validationFn\">\n  </sds-step>\n\n  <ng-container stepper-footer>\n    <sam-layouts-stepper-footer-custom-action icon=\"x\" (clickEvent)=\"customBtnClick($event)\">Close\n    </sam-layouts-stepper-footer-custom-action>\n    <sam-layouts-stepper-footer-custom-action icon=\"question\" (clickEvent)=\"customBtnClick($event)\">Help\n    </sam-layouts-stepper-footer-custom-action>\n  </ng-container>\n\n</sam-layouts-stepper>\n\n<!-- Custom Templates -->\n<ng-template #gatherInformation>\n  <h1 class=\"margin-top-0\">\n    Gather Your Information\n  </h1>\n  <div class=\"sds-card\">\n    <div class=\"sds-card__header\">\n      <h2>\n        U.S. REGISTRANTS:\n      </h2>\n    </div>\n    <div class=\"sds-card__body\">\n      <ul class=\"usa-list usa-list--unstyled\">\n        <li class=\"margin-bottom-4\">\n          <h3>Entity Details</h3>\n          <ul class=\"usa-list\">\n            <li>Purpose of Registration</li>\n            <li>Legal Business Name</li>\n            <li>Physical Address</li>\n          </ul>\n        </li>\n        <li class=\"margin-bottom-4\">\n          <h3>Taxpayer Information</h3>\n          <ul class=\"usa-list\">\n            <li>Taxpayer Identification Number (TIN)</li>\n            <li>Taxpayer Name</li>\n          </ul>\n          <span class=\"display-block text-small\">\n            Review your tax documents from the IRS (such as a 1099 or w2 form)\n            to find your Taxpayer information.\n          </span>\n        </li>\n        <li class=\"margin-bottom-4\">\n          <h3>Banking Information</h3>\n          <ul class=\"usa-list\">\n            <li>Routing Number</li>\n            <li>Account Number</li>\n          </ul>\n          <span class=\"display-block text-small\">\n            Account type (checking or savings) to set up Electronic Funds Transfer (ETF)\n          </span>\n        </li>\n      </ul>\n    </div>\n  </div>\n</ng-template>\n\n<ng-template #subawardeeStep>\n  <ng-container *ngIf=\"!showLoading; else loading\">\n    <h1 class=\"margin-top-0\">\n      Subawardee Data\n      <hr>\n    </h1>\n    <subawardee-demo (subawardeeUpdate)=\"updateSubawardee($event)\" [subawardees]=\"model.subawardee\"></subawardee-demo>\n  </ng-container>\n  <ng-template #loading>\n    <div class=\"grid-container padding-left-0\">\n      <div class=\"sds-load grid-row\">\n        <div class=\"grid-col-5 sds-load__title\"></div>\n      </div>\n      <div class=\"sds-load margin-top-1\">\n        <div class=\"tablet:grid-col-fill sds-load__element\"></div>\n      </div>\n      <div class=\"sds-load margin-top-1\">\n        <div class=\"grid-col-8 height-4 sds-load__content\"></div>\n      </div>\n    </div>\n  </ng-template>\n</ng-template>\n\n<ng-template #reviewTemplate>\n  <h1 class=\"margin-top-0\">\n    Review and Submit\n    <hr>\n  </h1>\n  <formly-form [fields]=\"[stepMap.review.fieldConfig]\" [model]=\"model\"></formly-form>\n  <subawardee-demo [displayInput]=\"false\" [subawardees]=\"model.subawardee\"></subawardee-demo>\n</ng-template>\n"
+        },
+        {
+            "name": "DemoStepperSimpleComponent",
+            "id": "component-DemoStepperSimpleComponent-77eca7f27cbf63efbbb58206de2480b0e4422f4e91fb41d81a7d76ac6a460f6051bab422bdbe9a9d3fbad369718d9b5a709237f8ef0576ea5f9fae348adc1abd",
+            "file": "libs/layouts/src/lib/stepper/demo/simple/simple.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [
+                {
+                    "name": "{\n    provide: UsaStepIndicatorConfig, useValue: {\n        displayCounters: true, hideLabels: false, headerPosition: \n    },\n}"
+                }
+            ],
+            "selector": "demo-stepper-simple",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./simple.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "model",
+                    "defaultValue": "{}",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "optional": false,
+                    "description": "",
+                    "line": 137
+                },
+                {
+                    "name": "stepOne",
+                    "defaultValue": "{\n    key: 'entityOne',\n    fieldGroup: [\n      {\n        key: 'name',\n        type: 'input',\n        templateOptions: {\n          label: 'Entity Name',\n          placeholder: 'eg: Acme Corporation',\n          description: 'Enter the name of your entity.',\n          required: true,\n        },\n        modelOptions: {\n          updateOn: 'blur',\n        },\n      },\n      {\n        className: 'desktop:grid-col-12 tablet:grid-col-12',\n        type: 'input',\n        key: 'title',\n\n        templateOptions: {\n          label: 'Program or Project Title',\n          required: true,\n          showError: false,\n        },\n      },\n    ],\n  }",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "FormlyFieldConfig",
+                    "optional": false,
+                    "description": "",
+                    "line": 23
+                },
+                {
+                    "name": "stepThree",
+                    "defaultValue": "{\n    key: 'taxpayerDetails',\n    fieldGroup: [\n      {\n        template: `\n          <span>\n            Please refer to your taxpayer documnets from IRS to find your taxpayer information\n          </span>\n        `,\n      },\n      {\n        type: 'input',\n        key: 'taxpayerName',\n        templateOptions: {\n          label: 'Taxpayer Name',\n          hideOptional: true,\n        },\n      },\n      {\n        type: 'input',\n        key: 'tinNumber',\n        templateOptions: {\n          label: 'TIN Number',\n          hideOptional: true,\n        },\n      },\n    ],\n  }",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "optional": false,
+                    "description": "",
+                    "line": 108
+                },
+                {
+                    "name": "stepTwo",
+                    "defaultValue": "{\n    key: 'purposeOfRegistration',\n    fieldGroup: [\n      {\n        key: 'typeOfEntity',\n        type: SdsFormlyTypes.RADIO,\n        templateOptions: {\n          label: 'What type of entity are you registering?',\n          hideOptions: true,\n          options: [\n            {\n              label: 'Business Or Organization',\n              value: 'business',\n            },\n            {\n              label: 'U.S. State Government',\n              value: 'stateGovt',\n            },\n            {\n              label: 'U.S. Local Government',\n              value: 'localGovt',\n            },\n            {\n              label: 'Tribal Government',\n              value: 'tribal',\n            },\n            {\n              label: 'Foreign Government',\n              value: 'foreign',\n            },\n          ],\n        },\n      },\n      {\n        key: 'purposeOfRegistration',\n        type: SdsFormlyTypes.RADIO,\n        templateOptions: {\n          hideOptions: true,\n          label:\n            'Why are you registering this entity to do business with the U.S. government?',\n          options: [\n            {\n              label: `Bid on federal contracts or other procurement opportunities.`,\n              value: 'bidContracts',\n            },\n            {\n              label: 'Apply for federal assistance opportunities.',\n              value: 'assistanceOpportunities',\n            },\n          ],\n        },\n      },\n    ],\n  }",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "optional": false,
+                    "description": "",
+                    "line": 53
+                },
+                {
+                    "name": "stepValidityMap",
+                    "defaultValue": "{}",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "optional": false,
+                    "description": "",
+                    "line": 138
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "onSaveData",
+                    "args": [
+                        {
+                            "name": "$event",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 141,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "$event",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { UsaStepIndicatorConfig } from '@gsa-sam/ngx-uswds';\nimport { SdsFormlyTypes } from '@gsa-sam/sam-formly';\nimport { FormlyFieldConfig } from '@ngx-formly/core';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'demo-stepper-simple',\n  templateUrl: './simple.component.html',\n  providers: [\n    {\n      // Stepper Header Configuration\n      provide: UsaStepIndicatorConfig,\n      useValue: {\n        displayCounters: true,\n        hideLabels: false,\n        headerPosition: 'top'\n      },\n    },\n  ],\n})\nexport class DemoStepperSimpleComponent {\n  stepOne: FormlyFieldConfig = {\n    key: 'entityOne',\n    fieldGroup: [\n      {\n        key: 'name',\n        type: 'input',\n        templateOptions: {\n          label: 'Entity Name',\n          placeholder: 'eg: Acme Corporation',\n          description: 'Enter the name of your entity.',\n          required: true,\n        },\n        modelOptions: {\n          updateOn: 'blur',\n        },\n      },\n      {\n        className: 'desktop:grid-col-12 tablet:grid-col-12',\n        type: 'input',\n        key: 'title',\n\n        templateOptions: {\n          label: 'Program or Project Title',\n          required: true,\n          showError: false,\n        },\n      },\n    ],\n  };\n\n  stepTwo = {\n    key: 'purposeOfRegistration',\n    fieldGroup: [\n      {\n        key: 'typeOfEntity',\n        type: SdsFormlyTypes.RADIO,\n        templateOptions: {\n          label: 'What type of entity are you registering?',\n          hideOptions: true,\n          options: [\n            {\n              label: 'Business Or Organization',\n              value: 'business',\n            },\n            {\n              label: 'U.S. State Government',\n              value: 'stateGovt',\n            },\n            {\n              label: 'U.S. Local Government',\n              value: 'localGovt',\n            },\n            {\n              label: 'Tribal Government',\n              value: 'tribal',\n            },\n            {\n              label: 'Foreign Government',\n              value: 'foreign',\n            },\n          ],\n        },\n      },\n      {\n        key: 'purposeOfRegistration',\n        type: SdsFormlyTypes.RADIO,\n        templateOptions: {\n          hideOptions: true,\n          label:\n            'Why are you registering this entity to do business with the U.S. government?',\n          options: [\n            {\n              label: `Bid on federal contracts or other procurement opportunities.`,\n              value: 'bidContracts',\n            },\n            {\n              label: 'Apply for federal assistance opportunities.',\n              value: 'assistanceOpportunities',\n            },\n          ],\n        },\n      },\n    ],\n  };\n\n  stepThree = {\n    key: 'taxpayerDetails',\n    fieldGroup: [\n      {\n        template: `\n          <span>\n            Please refer to your taxpayer documnets from IRS to find your taxpayer information\n          </span>\n        `,\n      },\n      {\n        type: 'input',\n        key: 'taxpayerName',\n        templateOptions: {\n          label: 'Taxpayer Name',\n          hideOptional: true,\n        },\n      },\n      {\n        type: 'input',\n        key: 'tinNumber',\n        templateOptions: {\n          label: 'TIN Number',\n          hideOptional: true,\n        },\n      },\n    ],\n  };\n\n  model = {};\n  stepValidityMap = {};\n\n  // eslint-disable-next-line @typescript-eslint/no-explicit-any\n  onSaveData($event: any) {\n    console.log($event);\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "templateData": "<div class=\"display-flex flex-justify-center\">\n  <sam-layouts-stepper [model]=\"model\" [stepValidityMap]=\"stepValidityMap\" (saveData)=\"onSaveData($event)\">\n\n    <sam-layouts-stepper-header [template]=\"customHeader\">\n      <ng-template #customHeader></ng-template>\n    </sam-layouts-stepper-header>\n\n    <sds-step id=\"stepOne\" text=\"Entity Title\" [fieldConfig]=\"stepOne\"></sds-step>\n    <sds-step id=\"stepTwo\" text=\"Purpose of Registration\" [fieldConfig]=\"stepTwo\"></sds-step>\n    <sds-step id=\"stepThree\" text=\"Taxpayer Details\" [fieldConfig]=\"stepThree\"></sds-step>\n\n    <ng-container stepper-footer>\n      <sam-layouts-stepper-footer-custom-action icon=\"x\">\n        Close\n      </sam-layouts-stepper-footer-custom-action>\n      <sam-layouts-stepper-footer-custom-action icon=\"question\">\n        Help\n      </sam-layouts-stepper-footer-custom-action>\n    </ng-container>\n\n  </sam-layouts-stepper>\n</div>\n\n\n\n"
+        },
         {
             "name": "DemoSubheaderComponent",
             "id": "component-DemoSubheaderComponent-fc578a7c6a0f51b69c13c062770f17c45e59fbf6b4f46758683142cc430bfa7a486bdb713f030e053ff5c9459a81594d66ef62d288f26cb514b3b604dffada30",
@@ -5751,9 +6366,637 @@
                 "OnInit"
             ],
             "templateData": "<div class=\"grid-row\" *ngIf=\"items?.length\">\n  <div class=\"grid-col\">\n    <div class=\"grid-row\">\n      <div class=\"grid-col-auto\">\n        <sds-pagination class=\"tablet:grid-col display-block margin-top-3 padding-top-3\" [paginationConfiguration]=\"top\"\n          [(page)]=\"page\" (pageChange)=\"paginationChange.next($event)\" displayMode='results' [totalItems]=\"totalItems\">\n        </sds-pagination>\n      </div>\n      <div class=\"grid-col-fill\"></div>\n      <div class=\"grid-col-auto float-right\">\n        <div class=\"margin-left-1\">\n          <label class=\"usa-label font-sans-3xs text-italic text-base margin-top-1\" for=\"options\">\n            Sort by\n          </label>\n          <select (change)=\"onSelectChange()\" [(ngModel)]=\"sortField\"\n            class=\"usa-select usa-select--small sds-min-width-160 border-base-light\" id=\"options\">\n            <option *ngFor=\"let item of configuration.sortList\" [ngValue]=\"item.value\">\n              {{ item.text }}\n            </option>\n          </select>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n<div class=\"grid-row\">\n  <div class=\"grid-col-12\">\n    <div *ngIf=\"!loading; else loadingScreen\">\n      <sds-search-result-list [model]=\"items\" [customResultsTemplate]=\"customResultsTemplate\"\n        [isDefaultModel]=\"isDefaultModel\">\n        <ng-container>\n          <ng-template #resultContent let-item>\n              <ng-container *ngTemplateOutlet=\"resultContentTemplate, context: { $implicit: item }\">\n              </ng-container>\n          </ng-template>\n        </ng-container>\n      </sds-search-result-list>\n    </div>\n    <sds-pagination *ngIf=\"!loading && items?.length\" [paginationConfiguration]=\"bottom\" [(page)]=\"page\"\n      (pageChange)=\"paginationChange.next($event)\">\n    </sds-pagination>\n  </div>\n</div>\n\n<ng-template #loadingScreen>\n  <div *ngFor=\"let a of loadingArray\">\n    <hr>\n    <div class=\"grid-container padding-left-0\">\n      <div class=\"sds-load grid-row\">\n        <div class=\"grid-col-5 sds-load__title\"></div>\n      </div>\n      <div class=\"sds-load margin-top-1\">\n        <div class=\"tablet:grid-col-fill sds-load__element\"></div>\n      </div>\n      <div class=\"sds-load margin-top-1\">\n        <div class=\"grid-col-8 height-4 sds-load__content\"></div>\n      </div>\n    </div>\n  </div>\n  <hr>\n</ng-template>\n"
+        },
+        {
+            "name": "SLStepperComponent",
+            "id": "component-SLStepperComponent-f620431ee6551d231e29ada187c3f5ee9405d43a4cd6a0a627edba78410a698383dbf1bc7d27e66f9bfec4c06976967fe7f55311ac10a47b800da3550eb8cc22",
+            "file": "libs/layouts/src/lib/stepper/stepper.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [
+                {
+                    "name": "{ provide: SdsStepper, useExisting: SLStepperComponent }",
+                    "type": "component"
+                }
+            ],
+            "selector": "sam-layouts-stepper",
+            "styleUrls": [],
+            "styles": [
+                ".justify-content-space-between {justify-content: space-between; }",
+                ".usa-sidenav__item--disabled {cursor: default; hover:none; opacity: 60%; pointer-events: none}",
+                ".usa-step-indicator__header { border: 1px solid red; }"
+            ],
+            "templateUrl": [
+                "./stepper.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "hideSideNav",
+                    "defaultValue": "true",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 19,
+                    "type": "boolean",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { AfterContentInit, Component, Input } from '@angular/core';\nimport { SdsDialogRef } from '@gsa-sam/components';\nimport { SdsStepper } from '@gsa-sam/sam-formly';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper',\n  templateUrl: './stepper.component.html',\n  providers: [{ provide: SdsStepper, useExisting: SLStepperComponent }],\n  styles: [\n    '.justify-content-space-between {justify-content: space-between; }',\n    '.usa-sidenav__item--disabled {cursor: default; hover:none; opacity: 60%; pointer-events: none}',\n    '.usa-step-indicator__header { border: 1px solid red; }'\n  ],\n})\nexport class SLStepperComponent extends SdsStepper implements AfterContentInit {\n\n  @Input() hideSideNav = true;\n\n  /**\n   * @ignore\n   */\n  stepLabels: any = [];\n  /**\n   * @ignore\n   */\n  currentStepIndex = 0;\n\n  /**\n   * @ignore\n   */\n  responseDialog: SdsDialogRef<any> | undefined;\n\n  /**\n   * @ignore\n   */\n  onDialogOpen($event: any) {\n    this.responseDialog = $event;\n  }\n\n  /**\n   * @ignore\n   */\n  onCancelClicked() {\n    if (this.responseDialog) this.responseDialog.close();\n    this.responseDialog = undefined;\n  }\n\n  /**\n   * @ignore\n   */\n  onSideNavClick() {\n    if (!this.responseDialog) {\n      return;\n    }\n    this.responseDialog.close();\n    this.responseDialog = undefined;\n  }\n\n  /**\n   * @ignore\n   */\n  ngAfterContentInit() {\n    super.ngAfterContentInit();\n    this.stepLabels = this.stepTemplates.map((stepTemplate, index) => {\n      if (stepTemplate.id === this.currentStepId) {\n        this.currentStepIndex = index;\n      }\n      return { ...stepTemplate, label: stepTemplate.text };\n    });\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": ".justify-content-space-between {justify-content: space-between; }\n.usa-sidenav__item--disabled {cursor: default; hover:none; opacity: 60%; pointer-events: none}\n.usa-step-indicator__header { border: 1px solid red; }\n",
+            "extends": "SdsStepper",
+            "implements": [
+                "AfterContentInit"
+            ],
+            "templateData": "<div class=\"grid-row\">\n  <div *ngIf=\"!hideSideNav\"\n    class=\"desktop:grid-col-4 tablet-lg:grid-col-12 mobile-lg:grid-col-12 margin-bottom-3 margin-right-2\">\n    <!-- =========================================================== -->\n    <!-- SIDE NAVIGATION -->\n    <!-- =========================================================== -->\n    <sds-side-toolbar [responsiveButtonText]=\"'Select Step'\" (responsiveDialog)=\"onDialogOpen($event)\">\n      <ng-template>\n        <div class=\"sds-card\" *ngIf=\"!!responseDialog\">\n          <div class=\"sds-card__header sds-card__header--accent-cool grid-row\">\n            <button id=\"cancelButton\" class=\"sds-button sds-button--circular sds-button--white\"\n              (click)=\"onCancelClicked()\" aria-label=\"Cancel Select Step\">\n              <usa-icon [icon]=\"'chevron-left'\"></usa-icon>\n            </button>\n            <div class=\"margin-x-auto\">\n              <h2 class=\"sds-card__title margin-top-1 margin-left-neg-2\">Select Step</h2>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"sds-card\">\n          <div class=\"sds-card__body sds-card__body--accent-cool\">\n\n            <ul class=\"usa-sidenav usa-sidenav--styled\">\n              <li *ngFor=\"let step of stepTemplates; let i = index;\" class=\"usa-sidenav__item\" [ngClass]=\"{\n                'usa-current':  selectedStep?.id === step.id\n              }\">\n                <ng-container [ngTemplateOutlet]=\"sidenavItem\" [ngTemplateOutletContext]=\"{$implicit: step}\">\n                </ng-container>\n                <ng-container [ngTemplateOutlet]=\"subPanelTemplate\" [ngTemplateOutletContext]=\"{$implicit:step}\">\n                </ng-container>\n              </li>\n            </ul>\n          </div>\n        </div>\n      </ng-template>\n    </sds-side-toolbar>\n  </div>\n\n  <!-- =========================================================== -->\n  <!-- STEPPER -->\n  <!-- =========================================================== -->\n  <div class=\"grid-col-fill\">\n\n    <ng-content select=\"sam-layouts-stepper-header\"></ng-content>\n\n    <!-- Header -->\n    <!-- <usa-step-indicator *ngIf=\"!hideHeader\" sdsStepperUSWDSNav [steps]=\"stepLabels\" [(currentStep)]=\"currentStepIndex\">\n      <div UsaStepHeader></div>\n    </usa-step-indicator> -->\n\n    <!-- Body -->\n    <div [ngTemplateOutlet]=\"selectedStep ? selectedStep.content : null\"></div>\n\n    <!-- Footer -->\n    <sam-layouts-stepper-footer>\n      <ng-content select=\"[stepper-footer]\"></ng-content>\n    </sam-layouts-stepper-footer>\n  </div>\n\n</div>\n\n<!-- =========================================================== -->\n<!-- SIDE NAVIGATION TEMPLATES -->\n<!-- =========================================================== -->\n<ng-template #subPanelTemplate let-panelItem>\n  <div *ngFor=\"let pItem of getDisplayedSteps(panelItem.children); let i = index;\">\n    <ul class=\"usa-sidenav usa-sidenav--styled bg-base-lighter margin-x-0\">\n      <li class=\"usa-sidenav__item  padding-left-3\" [ngClass]=\"{'usa-current':  selectedStep?.id === pItem.id }\">\n        <ng-container [ngTemplateOutlet]=\"sidenavItem\" [ngTemplateOutletContext]=\"{$implicit: pItem}\"></ng-container>\n      </li>\n    </ul>\n  </div>\n</ng-template>\n\n<ng-template #sidenavItem let-step>\n  <ng-container [ngSwitch]=\"step.editable\">\n    <span *ngSwitchCase=\"false\">\n      <span class=\"padding-x-2 padding-y-1 display-block text-bold\">\n        {{step.text}}\n      </span>\n    </span>\n    <a *ngSwitchDefault href=\"javascript:void(0);\" [sdsStepperNav]=\"step\" (click)=\"onSideNavClick()\"\n      class=\"display-flex justify-content-space-between\"\n      [ngClass]=\"{'usa-sidenav__item--disabled': step.disabled || (step.isReview && _isReviewAndSubmitDisabled)}\">\n      <span>\n        {{step.text}}\n      </span>\n      <ng-container [ngTemplateOutlet]=\"sidenavIcon\" [ngTemplateOutletContext]=\"{$implicit: step}\"></ng-container>\n    </a>\n  </ng-container>\n</ng-template>\n\n<ng-template #sidenavIcon let-step>\n  <span>\n    <ng-container [ngSwitch]=\"step.valid\">\n      <usa-icon *ngSwitchCase=\"true\" [icon]=\"'check-circle-fill'\" class=\"text-primary\"></usa-icon>\n      <usa-icon *ngSwitchCase=\"false\" [icon]=\"'slash-circle-fill'\" class=\"text-error\"></usa-icon>\n      <usa-icon *ngSwitchDefault [icon]=\"'circle'\"></usa-icon>\n    </ng-container>\n  </span>\n</ng-template>\n"
+        },
+        {
+            "name": "SLStepperFooterComponent",
+            "id": "component-SLStepperFooterComponent-b77ba4d170bb3e95d8700123d3bc78aa24cfd7734ca62a5fa030df736a0744558bf1c9d5c426d31faf1346e7d5a25286d958021432dad8909b31943c276d3e7b",
+            "file": "libs/layouts/src/lib/stepper/footer/footer.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "sam-layouts-stepper-footer",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./footer.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "stepperID",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 10,
+                    "modifierKind": [
+                        123
+                    ]
+                }
+            ],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { SdsStepper } from '@gsa-sam/sam-formly';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-footer',\n  templateUrl: './footer.component.html',\n})\nexport class SLStepperFooterComponent {\n  public stepperID: string;\n  constructor(stepper: SdsStepper) {\n    this.stepperID = stepper.id;\n  }\n}\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-footer-custom-action',\n  template: `\n    <div class=\"margin-right-1\">\n      <button\n        class=\"usa-button sds-button--circle usa-button--big usa-button--base padding-2\"\n        [attr.id]=\"stepperID + '-closeBtn'\"\n        (click)=\"btnClicked($event)\"\n      >\n        <usa-icon [icon]=\"icon\"></usa-icon>\n      </button>\n      <label\n        [attr.for]=\"stepperID + '-closeBtn'\"\n        class=\"text-center usa-link cursor-pointer display-block margin-top-2\"\n      >\n        <ng-content></ng-content>\n      </label>\n    </div>\n  `,\n})\nexport class SLStepperFooterCustomActionComponent {\n  @Input() icon!: string;\n  @Output() clickEvent = new EventEmitter<MouseEvent>();\n  public stepperID: string;\n  constructor(stepper: SdsStepper) {\n    this.stepperID = stepper.id;\n  }\n  btnClicked(event: MouseEvent) {\n    this.clickEvent.emit(event);\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "stepper",
+                        "type": "SdsStepper",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 10,
+                "jsdoctags": [
+                    {
+                        "name": "stepper",
+                        "type": "SdsStepper",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "templateData": "<div class=\"grid-row grid-gap flex-justify-center margin-top-4\">\n  <div class=\"margin-right-1\">\n    <button sdsStepperPrevious class=\"usa-button sds-button--circle usa-button--base usa-button--big padding-2\"\n      [attr.id]=\"stepperID + '-prevBtn'\">\n      <usa-icon [icon]=\"'chevron-left'\"></usa-icon>\n    </button>\n\n    <label [attr.for]=\"stepperID + '-prevBtn'\" class=\"text-right usa-link cursor-pointer display-block margin-top-2\">\n      Go Back\n    </label>\n  </div>\n\n  <ng-content></ng-content>\n\n  <div class=\"margin-right-1\">\n    <button sdsStepperSave class=\"usa-button sds-button--circle usa-button--big usa-button--base padding-2\"\n      [attr.id]=\"stepperID + '-saveBtn'\">\n      <usa-icon [icon]=\"'save'\"></usa-icon>\n    </button>\n    <label [attr.for]=\"stepperID + '-saveBtn'\" class=\"text-center usa-link cursor-pointer display-block margin-top-2\">\n      Save\n    </label>\n  </div>\n\n  <div class=\"margin-right-1\">\n    <button #saveAndContinueBtn sdsStepperNext\n      class=\"usa-button sds-button--circle usa-button--base usa-button--big usa-button--active padding-2\"\n      [attr.id]=\"stepperID + '-nextBtn'\">\n      <usa-icon [icon]=\"'chevron-right'\"></usa-icon>\n    </button>\n    <label [attr.for]=\"stepperID + '-nextBtn'\" class=\"text-left usa-link cursor-pointer display-block margin-top-2\">\n      Save and Continue\n    </label>\n  </div>\n</div>\n"
+        },
+        {
+            "name": "SLStepperFooterCustomActionComponent",
+            "id": "component-SLStepperFooterCustomActionComponent-b77ba4d170bb3e95d8700123d3bc78aa24cfd7734ca62a5fa030df736a0744558bf1c9d5c426d31faf1346e7d5a25286d958021432dad8909b31943c276d3e7b",
+            "file": "libs/layouts/src/lib/stepper/footer/footer.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "sam-layouts-stepper-footer-custom-action",
+            "styleUrls": [],
+            "styles": [],
+            "template": "<div class=\"margin-right-1\">\n  <button\n    class=\"usa-button sds-button--circle usa-button--big usa-button--base padding-2\"\n    [attr.id]=\"stepperID + '-closeBtn'\"\n    (click)=\"btnClicked($event)\"\n  >\n    <usa-icon [icon]=\"icon\"></usa-icon>\n  </button>\n  <label\n    [attr.for]=\"stepperID + '-closeBtn'\"\n    class=\"text-center usa-link cursor-pointer display-block margin-top-2\"\n  >\n    <ng-content></ng-content>\n  </label>\n</div>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "icon",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 38,
+                    "type": "string",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "clickEvent",
+                    "defaultValue": "new EventEmitter<MouseEvent>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 39,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "stepperID",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 40,
+                    "modifierKind": [
+                        123
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "btnClicked",
+                    "args": [
+                        {
+                            "name": "event",
+                            "type": "MouseEvent",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 44,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "event",
+                            "type": "MouseEvent",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { SdsStepper } from '@gsa-sam/sam-formly';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-footer',\n  templateUrl: './footer.component.html',\n})\nexport class SLStepperFooterComponent {\n  public stepperID: string;\n  constructor(stepper: SdsStepper) {\n    this.stepperID = stepper.id;\n  }\n}\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-footer-custom-action',\n  template: `\n    <div class=\"margin-right-1\">\n      <button\n        class=\"usa-button sds-button--circle usa-button--big usa-button--base padding-2\"\n        [attr.id]=\"stepperID + '-closeBtn'\"\n        (click)=\"btnClicked($event)\"\n      >\n        <usa-icon [icon]=\"icon\"></usa-icon>\n      </button>\n      <label\n        [attr.for]=\"stepperID + '-closeBtn'\"\n        class=\"text-center usa-link cursor-pointer display-block margin-top-2\"\n      >\n        <ng-content></ng-content>\n      </label>\n    </div>\n  `,\n})\nexport class SLStepperFooterCustomActionComponent {\n  @Input() icon!: string;\n  @Output() clickEvent = new EventEmitter<MouseEvent>();\n  public stepperID: string;\n  constructor(stepper: SdsStepper) {\n    this.stepperID = stepper.id;\n  }\n  btnClicked(event: MouseEvent) {\n    this.clickEvent.emit(event);\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "stepper",
+                        "type": "SdsStepper",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 40,
+                "jsdoctags": [
+                    {
+                        "name": "stepper",
+                        "type": "SdsStepper",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "SLStepperHeaderComponent",
+            "id": "component-SLStepperHeaderComponent-9f9158ff0d630206cc888e5dfed0560ac668b8d7047aab66a8a41aaf9b4228314b9042609cb313260beaeda220f16826912e0bec4940662275880c6c5de19860",
+            "file": "libs/layouts/src/lib/stepper/header/header.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "sam-layouts-stepper-header",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./header.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "custom",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 18,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "template",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 19,
+                    "type": "TemplateRef<any>",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "currentStepIndex",
+                    "defaultValue": "0",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 22
+                },
+                {
+                    "name": "stepLabels",
+                    "defaultValue": "[]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 21
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "ngAfterContentInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 32,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { AfterContentInit, Component, ElementRef, Input, TemplateRef } from '@angular/core';\n\nimport {\n  UsaStepIndicatorComponent,\n  UsaStepIndicatorConfig,\n} from '@gsa-sam/ngx-uswds';\nimport { SdsStepper } from '@gsa-sam/sam-formly';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-header',\n  templateUrl: './header.component.html',\n})\nexport class SLStepperHeaderComponent\n  extends UsaStepIndicatorComponent\n  implements AfterContentInit\n{\n  @Input() custom = false;\n  @Input() template: TemplateRef<any>;\n\n  stepLabels: any = [];\n  currentStepIndex = 0;\n\n  constructor(\n    private stepper: SdsStepper,\n    config: UsaStepIndicatorConfig,\n    elementRef: ElementRef\n  ) {\n    super(config, elementRef);\n  }\n\n  ngAfterContentInit() {\n    this.stepLabels = this.stepper.stepTemplates.map((stepTemplate, index) => {\n      if (stepTemplate.id === this.stepper.currentStepId) {\n        this.currentStepIndex = index;\n      }\n      return { ...stepTemplate, label: stepTemplate.text };\n    });\n    this.steps = this.stepLabels;\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "stepper",
+                        "type": "SdsStepper",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "config",
+                        "type": "UsaStepIndicatorConfig",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "elementRef",
+                        "type": "ElementRef",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 22,
+                "jsdoctags": [
+                    {
+                        "name": "stepper",
+                        "type": "SdsStepper",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "config",
+                        "type": "UsaStepIndicatorConfig",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "elementRef",
+                        "type": "ElementRef",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "extends": "UsaStepIndicatorComponent",
+            "implements": [
+                "AfterContentInit"
+            ],
+            "templateData": "<usa-step-indicator sdsStepperUSWDSNav [steps]=\"stepLabels\" [(currentStep)]=\"currentStepIndex\">\n  <div  UsaStepHeader [template]=\"template\"></div>\n</usa-step-indicator>\n"
+        },
+        {
+            "name": "SubawardeeDemoComponent",
+            "id": "component-SubawardeeDemoComponent-77120483744b71c87b6025e7a42230d3df246efe265fb24a13467a46d8832faa4df1b8e69db492b0833b4d8dbceebe6ef1938213fc1940d3fe89370e56a4f796",
+            "file": "libs/layouts/src/lib/stepper/demo/advanced/subawardee.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "subawardee-demo",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./subawardee.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "displayInput",
+                    "defaultValue": "true",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 26,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "subawardees",
+                    "defaultValue": "[]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 27,
+                    "type": "any[]",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "subawardeeUpdate",
+                    "defaultValue": "new EventEmitter<any[]>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 29,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "awardDialogRef",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "SdsDialogRef<AddSubawardeeDialogDemo> | undefined",
+                    "optional": false,
+                    "description": "",
+                    "line": 31
+                },
+                {
+                    "name": "dialog",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "SdsDialogService",
+                    "optional": false,
+                    "description": "",
+                    "line": 33,
+                    "modifierKind": [
+                        123
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "onAddSubawardee",
+                    "args": [
+                        {
+                            "name": "value",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 35,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "value",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import {\n  Component,\n  EventEmitter,\n  Inject,\n  Input,\n  OnInit,\n  Output,\n} from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\nimport { SdsFormlyDialogData } from '@gsa-sam/sam-formly';\nimport { FormlyFieldConfig } from '@ngx-formly/core';\nimport { StepperAdvancedService } from './advanced.service';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: `subawardee-demo`,\n  templateUrl: './subawardee.component.html',\n})\nexport class SubawardeeDemoComponent {\n  @Input() displayInput = true;\n  @Input() subawardees: any[] = [];\n\n  @Output() subawardeeUpdate = new EventEmitter<any[]>();\n\n  awardDialogRef: SdsDialogRef<AddSubawardeeDialogDemo> | undefined;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  onAddSubawardee(value: any) {\n    this.awardDialogRef = this.dialog.open(AddSubawardeeDialogDemo, {\n      width: 'medium',\n    });\n\n    this.awardDialogRef.afterClosed().subscribe((result: any[]) => {\n      if (!result) {\n        return;\n      }\n      this.subawardees = [...this.subawardees, result];\n      this.subawardeeUpdate.emit(this.subawardees);\n    });\n  }\n}\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: `add-subawardee-dialog-demo`,\n  template: `\n    <div sds-dialog-title>\n      <h3>Add Subawardee</h3>\n    </div>\n    <div sds-dialog-content>\n      <formly-form [fields]=\"subawardeeFields\" [model]=\"model\"> </formly-form>\n    </div>\n    <div sds-dialog-actions>\n      <button class=\"usa-button usa-button--base\" (click)=\"cancel()\">\n        Cancel\n      </button>\n      <button\n        type=\"submit\"\n        (click)=\"onFormSubmit()\"\n        class=\"usa-button margin-top-2\"\n      >\n        Submit\n      </button>\n    </div>\n  `,\n  providers: [StepperAdvancedService],\n})\n// eslint-disable-next-line @angular-eslint/component-class-suffix\nexport class AddSubawardeeDialogDemo implements OnInit {\n  subawardeeFields!: FormlyFieldConfig[];\n  model = {};\n\n  constructor(\n    public dialogRef: SdsDialogRef<AddSubawardeeDialogDemo>,\n    @Inject(SDS_DIALOG_DATA) public data: SdsFormlyDialogData,\n    private stepperAdvancedService: StepperAdvancedService\n  ) {}\n\n  ngOnInit() {\n    this.subawardeeFields = [this.stepperAdvancedService.getSubawardeeForm()];\n  }\n\n  onFormSubmit() {\n    if (Object.keys(this.model).length) {\n      this.dialogRef.close(this.model);\n    } else {\n      this.cancel();\n    }\n  }\n\n  cancel() {\n    this.dialogRef.close();\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "dialog",
+                        "type": "SdsDialogService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 31,
+                "jsdoctags": [
+                    {
+                        "name": "dialog",
+                        "type": "SdsDialogService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "templateData": "<div class=\"grid-col\" *ngIf=\"displayInput\">\n  <div class=\"grid-row\">\n    <div class=\"grid-col\">\n      <h3>Add Subawardee</h3>\n      <input #input class=\"usa-input\" id=\"input-type-text\" name=\"input-type-text\"\n        [placeholder]=\"'Input Unique Entity ID'\" type=\"text\" />\n    </div>\n    <div class=\"grid-col padding-left-3 padding-top-3\">\n      <button class=\"usa-button\" type=\"button\" (click)=\"onAddSubawardee(input.value)\">\n        Add Subawardee\n      </button>\n    </div>\n  </div>\n</div>\n\n<div class=\"sds-card sds-card__body--accent-cool margin-top-3\" *ngIf=\"subawardees.length === 0\">\n  <div class=\"sds-card__header sds-card__header--left\">\n    <h2 class=\"sds-card__title \">No Subawardees</h2>\n  </div>\n  <div class=\"sds-card__body \">\n    <p>\n      To add a subawardee, begin by entering a subawardee Unique Entity ID\n      above.\n    </p>\n  </div>\n</div>\n\n<!-- Subawards Display Template-->\n<div class=\"grid-container padding-0 margin-top-2\">\n\n  <div class=\"sds-card\" *ngFor=\"let subawardee of subawardees\">\n    <div class=\"grid-row grid-gap sds-card__header\">\n      <!-- 1st column -->\n      <div class=\"grid-col-12 tablet:grid-col-3\">\n        <div class=\"grid-row margin-t-1\">\n          <div class=\"sds-field sds-field--stacked sds-field--small\">\n            <div class=\"sds-field__name\">Subaward Number:</div>\n            <div class=\"sds-field__value\">543</div>\n          </div>\n        </div>\n\n      </div>\n      <!-- 2nd column -->\n      <div class=\"grid-col-12 tablet:grid-col-3\">\n        <!-- DUNS -->\n        <div class=\"grid-row margin-t-1\">\n          <!-- Tag -->\n          <div class=\"grid-col-auto\">\n            <div class=\"usa-tag sds-tag--info-purple sds-static--tag\">DUNS</div>\n            <div class=\"sds-field sds-field--small sds-field__name has-usa-tag\">Unique Entity ID:</div>\n            <div class=\"sds-field__value\">902930291</div>\n          </div>\n        </div>\n      </div>\n\n      <!-- 3rd column -->\n      <div class=\"grid-col-12 tablet:grid-col-3\">\n\n        <div class=\"grid-row margin-t-1\">\n          <div class=\"sds-field sds-field--stacked sds-field--small\">\n            <div class=\"sds-field__name\">Subaward Amount:</div>\n            <div class=\"sds-field__value\">6811525.00</div>\n          </div>\n        </div>\n\n\n      </div>\n\n      <!-- 4th column -->\n      <div class=\"grid-col-12 tablet:grid-col-3\">\n\n        <div class=\"grid-row margin-t-1\">\n          <div class=\"sds-field sds-field--stacked sds-field--small\">\n            <div class=\"sds-field__name\">Subaward Date:</div>\n            <div class=\"sds-field__value\">Feb 20, 2019</div>\n          </div>\n        </div>\n\n      </div>\n    </div>\n    <div class=\"grid-row grid-gap sds-card__body\">\n\n      <!-- 1st column -->\n      <div class=\"grid-col-12 tablet:grid-col-3\">\n\n        <div class=\"grid-row margin-y-2\">\n          <div class=\"sds-field sds-field--stacked sds-field--small\">\n            <div class=\"sds-field__name\">Doing Business As Name:</div>\n            <div class=\"sds-field__value\">Simplicity Corperation</div>\n          </div>\n        </div>\n        <div class=\"grid-row margin-y-2\">\n          <div class=\"sds-field sds-field--stacked sds-field--small\">\n            <div class=\"sds-field__name\">Physical Address:</div>\n            <div class=\"sds-field__value sds-results-child--hilite\">\n              <div>123456 George Washington Boulevard, Suite 4a</div>\n              <div>Ashburn, VA 20147 United States</div>\n            </div>\n          </div>\n        </div>\n\n      </div>\n      <!-- 2nd column -->\n      <div class=\"grid-col-12 tablet:grid-col-3\">\n\n        <!-- SAM -->\n        <div class=\"grid-row margin-y-2\">\n          <!-- Tag -->\n          <div class=\"grid-col-auto\">\n            <div class=\"usa-tag sds-tag--info-white sds-static--tag\">SAM</div>\n            <div class=\"sds-field sds-field--small sds-field__name has-usa-tag\">Unique Entity ID:</div>\n            <div class=\"sds-field__value\">1A23B45C67D89E</div>\n          </div>\n        </div>\n        <div class=\"grid-row margin-y-2\">\n          <div class=\"sds-field sds-field--stacked sds-field--small\">\n            <div class=\"sds-field__name\">Principal Place of Performance:</div>\n            <div class=\"sds-field__value sds-results-child--hilite\">\n              <div>1401 ROCKVILLE PIKE</div>\n              <div>ROCKVILLE, Virginia 10, USA</div>\n              <div>20852</div>\n            </div>\n          </div>\n        </div>\n\n      </div>\n\n      <!-- 3rd column -->\n      <div class=\"grid-col-12 tablet:grid-col-3\">\n\n        <div class=\"grid-row margin-y-2\">\n          <div class=\"sds-field sds-field--stacked sds-field--small\">\n            <div class=\"sds-field__name\">Primary Contract NAICS Code:</div>\n            <div class=\"sds-field__value sds-results-child--hilite\">\n              <div>237310 -- Highway, Street, and Bridge Construction</div>\n\n            </div>\n          </div>\n        </div>\n\n      </div>\n\n      <!-- 4th column -->\n      <div class=\"grid-col-12 tablet:grid-col-3\">\n\n        <div class=\"grid-row margin-y-2\">\n          <div class=\"sds-field sds-field--stacked sds-field--small\">\n            <div class=\"sds-field__name\">Organization / Business Type(s):</div>\n            <div class=\"sds-field__value\">Contracts, SBA Certified Small Disadvantaged Business, SBA Certified 8(a)\n              Program\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n\n\n    <div class=\"padding-3\">\n      <hr />\n      <h3>Desciption of Requirement</h3>\n      <div class=\"sds-field__name\">Preservation of adaptive immunity leads to HIV control upon treatment cessation.\n      </div>\n\n      <hr />\n\n      <h3>Executive Compensation Data Certification(s)</h3>\n\n      <div class=\"grid-row margin-y-2\">\n        <div class=\"sds-field sds-field--stacked sds-field--small\">\n          <div class=\"sds-field__name\">As provided to you by your subcontractor, in your subcontractor's business or\n            organization's preceding completed fiscal year, did its business or organization (the legal entity to\n            which the\n            DUNS\n            number it provided belongs) receive (1) 80 percent or more of its annual gross revenues in U.S. federal\n            contracts,\n            subcontracts, loans, grants, subgrants, and/or cooperative agreements; and (2) $25,000,000 or more in\n            annual gross\n            revenues from U.S. federal contracts, subcontracts, loans, grants, subgrants, and/or cooperative\n            agreements?*:\n          </div>\n          <div class=\"sds-field__value\">No </div>\n        </div>\n      </div>\n    </div>\n\n\n\n  </div>\n</div>\n"
         }
     ],
     "modules": [
+        {
+            "name": "DemoStepperAdvancedModule",
+            "id": "module-DemoStepperAdvancedModule-bcc6647959f268e7bfeb5b645ee8926eb08c81c0c0c3964288c5606f2e4910f407c18a0c24bee8ca695b996163d775e5746e1df01aa7bc64e7e8e196b4d71d0d",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "libs/layouts/src/lib/stepper/demo/advanced/advanced.module.ts",
+            "methods": [],
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { NgModule } from '@angular/core';\nimport { FormlyModule } from '@ngx-formly/core';\nimport { SdsStepperModule } from '@gsa-sam/sam-formly';\n\nimport { SLStepperModule } from '@gsa-sam/layouts';\nimport { DemoStepperAdvancedComponent } from './advanced.component';\nimport {\n  AddSubawardeeDialogDemo,\n  SubawardeeDemoComponent,\n} from './subawardee.component';\n\n@NgModule({\n  imports: [CommonModule, FormlyModule, SdsStepperModule, SLStepperModule],\n  declarations: [\n    DemoStepperAdvancedComponent,\n    SubawardeeDemoComponent,\n    AddSubawardeeDialogDemo,\n  ],\n  exports: [DemoStepperAdvancedComponent],\n})\nexport class DemoStepperAdvancedModule {}\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "AddSubawardeeDialogDemo"
+                        },
+                        {
+                            "name": "DemoStepperAdvancedComponent"
+                        },
+                        {
+                            "name": "SubawardeeDemoComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": [
+                        {
+                            "name": "SLStepperModule"
+                        }
+                    ]
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "DemoStepperAdvancedComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "DemoStepperSimpleModule",
+            "id": "module-DemoStepperSimpleModule-42efb5b9891311596450df84945eefd917b85687566b6a55d76ae4803cc1f45faef3575de10c936e6e69faf0fb1e9ff7593a187b8962c21e88ba8253d6366c7e",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "libs/layouts/src/lib/stepper/demo/simple/simple.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\nimport { SdsStepperModule } from '@gsa-sam/sam-formly';\nimport { DemoStepperSimpleComponent } from './simple.component';\nimport { SLStepperModule } from '@gsa-sam/layouts';\n\n@NgModule({\n  declarations: [DemoStepperSimpleComponent],\n  imports: [CommonModule, SdsStepperModule, SLStepperModule],\n  exports: [DemoStepperSimpleComponent],\n})\nexport class DemoStepperSimpleModule {}\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "DemoStepperSimpleComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": [
+                        {
+                            "name": "SLStepperModule"
+                        }
+                    ]
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "DemoStepperSimpleComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
         {
             "name": "ResultModule",
             "id": "module-ResultModule-da4bd65c4a696009eb7f7c04c4dfe9b1044ce1aac6b2dbcb1d58b06bb17a12e8a0c91d03e00f5ca117860bb546d3b428a4dfaa7ecb8d2c98035815621e2d1dd1",
@@ -6595,6 +7838,65 @@
                     "elements": []
                 }
             ]
+        },
+        {
+            "name": "SLStepperModule",
+            "id": "module-SLStepperModule-d0590b4840dc930cd4d9fc3c8262c3406269e6a7d53236a4f2055cf12c8fff4e078c6244b6cab0bbdee39bc34558acab198849985067d82286da694d6bc9e319",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "libs/layouts/src/lib/stepper/stepper.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { UsaStepIndicatorModule } from '@gsa-sam/ngx-uswds';\nimport { SdsStepperModule } from '@gsa-sam/sam-formly';\nimport {\n  NgxBootstrapIconsModule,\n  chevronLeft,\n  chevronRight,\n  slashCircleFill,\n  checkCircleFill,\n  circle,\n  question,\n  save,\n  x,\n} from 'ngx-bootstrap-icons';\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\nimport { SdsSideToolbarModule } from '@gsa-sam/components';\n\nimport { SLStepperHeaderComponent } from './header/header.component';\nimport {\n  SLStepperFooterComponent,\n  SLStepperFooterCustomActionComponent,\n} from './footer/footer.component';\nimport { SLStepperComponent } from './stepper.component';\n\n@NgModule({\n  declarations: [\n    SLStepperComponent,\n    SLStepperHeaderComponent,\n    SLStepperFooterComponent,\n    SLStepperFooterCustomActionComponent,\n  ],\n  imports: [\n    CommonModule,\n    UsaStepIndicatorModule,\n    SdsStepperModule,\n    NgxBootstrapIconsModule.pick({\n      chevronLeft,\n      chevronRight,\n      circle,\n      slashCircleFill,\n      checkCircleFill,\n      question,\n      save,\n      x,\n    }),\n    IconModule,\n    SdsSideToolbarModule,\n  ],\n  exports: [\n    SLStepperComponent,\n    SLStepperHeaderComponent,\n    SLStepperFooterCustomActionComponent,\n  ],\n  providers: [],\n})\nexport class SLStepperModule {}\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "SLStepperComponent"
+                        },
+                        {
+                            "name": "SLStepperFooterComponent"
+                        },
+                        {
+                            "name": "SLStepperFooterCustomActionComponent"
+                        },
+                        {
+                            "name": "SLStepperHeaderComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "SLStepperComponent"
+                        },
+                        {
+                            "name": "SLStepperFooterCustomActionComponent"
+                        },
+                        {
+                            "name": "SLStepperHeaderComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
         }
     ],
     "miscellaneous": {
@@ -7095,7 +8397,7 @@
     },
     "routes": [],
     "coverage": {
-        "count": 14,
+        "count": 13,
         "status": "low",
         "files": [
             {
@@ -7582,6 +8884,87 @@
                 "coveragePercent": 52,
                 "coverageCount": "20/38",
                 "status": "good"
+            },
+            {
+                "filePath": "libs/layouts/src/lib/stepper/demo/advanced/advanced.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "DemoStepperAdvancedComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/14",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/layouts/src/lib/stepper/demo/advanced/advanced.service.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "StepperAdvancedService",
+                "coveragePercent": 0,
+                "coverageCount": "0/6",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/layouts/src/lib/stepper/demo/advanced/subawardee.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "AddSubawardeeDialogDemo",
+                "coveragePercent": 0,
+                "coverageCount": "0/9",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/layouts/src/lib/stepper/demo/advanced/subawardee.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SubawardeeDemoComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/8",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/layouts/src/lib/stepper/demo/simple/simple.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "DemoStepperSimpleComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/7",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/layouts/src/lib/stepper/footer/footer.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SLStepperFooterComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/layouts/src/lib/stepper/footer/footer.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SLStepperFooterCustomActionComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/6",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/layouts/src/lib/stepper/header/header.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SLStepperHeaderComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/7",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/layouts/src/lib/stepper/stepper.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SLStepperComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
             },
             {
                 "filePath": "libs/layouts/src/lib/subheader/drawer-communication.service.ts",
