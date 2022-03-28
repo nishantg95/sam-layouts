@@ -144,7 +144,8 @@
             },
             "staticDirs": [
               "apps/sam-layouts/src/assets"
-            ]
+            ],
+            "projectBuildConfig": "sam-layouts:build"
           },
           "configurations": {
             "ci": {
@@ -160,7 +161,8 @@
             "outputPath": "docs",
             "config": {
               "configFolder": "apps/sam-layouts/.storybook"
-            }
+            },
+            "projectBuildConfig": "sam-layouts:build"
           },
           "configurations": {
             "ci": {
