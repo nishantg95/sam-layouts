@@ -1,0 +1,102 @@
+<div class="grid-row">
+  <div *ngIf="!hideSideNav"
+    class="desktop:grid-col-4 tablet-lg:grid-col-12 mobile-lg:grid-col-12 margin-bottom-3 margin-right-2">
+    <!-- =========================================================== -->
+    <!-- SIDE NAVIGATION -->
+    <!-- =========================================================== -->
+    <sds-side-toolbar [responsiveButtonText]="'Select Step'" (responsiveDialog)="onDialogOpen($event)">
+      <ng-template>
+        <div class="sds-card" *ngIf="!!responseDialog">
+          <div class="sds-card__header sds-card__header--accent-cool grid-row">
+            <button id="cancelButton" class="sds-button sds-button--circular sds-button--white"
+              (click)="onCancelClicked()" aria-label="Cancel Select Step">
+              <usa-icon [icon]="'chevron-left'"></usa-icon>
+            </button>
+            <div class="margin-x-auto">
+              <h2 class="sds-card__title margin-top-1 margin-left-neg-2">Select Step</h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="sds-card">
+          <div class="sds-card__body sds-card__body--accent-cool">
+
+            <ul class="usa-sidenav usa-sidenav--styled">
+              <li *ngFor="let step of stepTemplates; let i = index;" class="usa-sidenav__item" [ngClass]="{
+                'usa-current':  selectedStep?.id === step.id
+              }">
+                <ng-container [ngTemplateOutlet]="sidenavItem" [ngTemplateOutletContext]="{$implicit: step}">
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="subPanelTemplate" [ngTemplateOutletContext]="{$implicit:step}">
+                </ng-container>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </ng-template>
+    </sds-side-toolbar>
+  </div>
+
+  <!-- =========================================================== -->
+  <!-- STEPPER -->
+  <!-- =========================================================== -->
+  <div class="grid-col-fill">
+
+    <ng-content select="sam-layouts-stepper-header"></ng-content>
+
+    <!-- Header -->
+    <!-- <usa-step-indicator *ngIf="!hideHeader" sdsStepperUSWDSNav [steps]="stepLabels" [(currentStep)]="currentStepIndex">
+      <div UsaStepHeader></div>
+    </usa-step-indicator> -->
+
+    <!-- Body -->
+    <div [ngTemplateOutlet]="selectedStep ? selectedStep.content : null"></div>
+
+    <!-- Footer -->
+    <sam-layouts-stepper-footer>
+      <ng-content select="[stepper-footer]"></ng-content>
+    </sam-layouts-stepper-footer>
+  </div>
+
+</div>
+
+<!-- =========================================================== -->
+<!-- SIDE NAVIGATION TEMPLATES -->
+<!-- =========================================================== -->
+<ng-template #subPanelTemplate let-panelItem>
+  <div *ngFor="let pItem of getDisplayedSteps(panelItem.children); let i = index;">
+    <ul class="usa-sidenav usa-sidenav--styled bg-base-lighter margin-x-0">
+      <li class="usa-sidenav__item  padding-left-3" [ngClass]="{'usa-current':  selectedStep?.id === pItem.id }">
+        <ng-container [ngTemplateOutlet]="sidenavItem" [ngTemplateOutletContext]="{$implicit: pItem}"></ng-container>
+      </li>
+    </ul>
+  </div>
+</ng-template>
+
+<ng-template #sidenavItem let-step>
+  <ng-container [ngSwitch]="step.editable">
+    <span *ngSwitchCase="false">
+      <span class="padding-x-2 padding-y-1 display-block text-bold">
+        {{step.text}}
+      </span>
+    </span>
+    <a *ngSwitchDefault href="javascript:void(0);" [sdsStepperNav]="step" (click)="onSideNavClick()"
+      class="display-flex justify-content-space-between"
+      [ngClass]="{'usa-sidenav__item--disabled': step.disabled || (step.isReview && _isReviewAndSubmitDisabled)}">
+      <span>
+        {{step.text}}
+      </span>
+      <ng-container [ngTemplateOutlet]="sidenavIcon" [ngTemplateOutletContext]="{$implicit: step}"></ng-container>
+    </a>
+  </ng-container>
+</ng-template>
+
+<ng-template #sidenavIcon let-step>
+  <span>
+    <ng-container [ngSwitch]="step.valid">
+      <usa-icon *ngSwitchCase="true" [icon]="'check-circle-fill'" class="text-primary"></usa-icon>
+      <usa-icon *ngSwitchCase="false" [icon]="'slash-circle-fill'" class="text-error"></usa-icon>
+      <usa-icon *ngSwitchDefault [icon]="'circle'"></usa-icon>
+    </ng-container>
+  </span>
+</ng-template>
