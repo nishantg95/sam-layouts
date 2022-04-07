@@ -30,37 +30,6 @@ export class SLStepperComponent extends SdsStepper implements AfterContentInit {
   /**
    * @ignore
    */
-  responseDialog: SdsDialogRef<any> | undefined;
-
-  /**
-   * @ignore
-   */
-  onDialogOpen($event: any) {
-    this.responseDialog = $event;
-  }
-
-  /**
-   * @ignore
-   */
-  onCancelClicked() {
-    if (this.responseDialog) this.responseDialog.close();
-    this.responseDialog = undefined;
-  }
-
-  /**
-   * @ignore
-   */
-  onSideNavClick() {
-    if (!this.responseDialog) {
-      return;
-    }
-    this.responseDialog.close();
-    this.responseDialog = undefined;
-  }
-
-  /**
-   * @ignore
-   */
   ngAfterContentInit() {
     super.ngAfterContentInit();
     this.stepLabels = this.stepTemplates.map((stepTemplate, index) => {

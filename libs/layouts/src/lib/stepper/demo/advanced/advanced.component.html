@@ -1,6 +1,6 @@
 <button class="usa-button margin-bottom-3" (click)="toggleLinearMode()">Toggle Linear Mode</button>
 
-<sam-layouts-stepper [hideSideNav]="false" [hideHeader]="true" [queryParamKey]="'sdsAdvancedStepper'" [model]="model"
+<sam-layouts-stepper [hideSideNav]="false" [queryParamKey]="'sdsAdvancedStepper'" [model]="model"
   [stepValidityMap]="stepValidityMap" (stepChange)="onStepChange($event)" [linear]="linear"
   (saveData)="onSaveData($event)">
 
@@ -46,13 +46,6 @@
   <sds-step id="review" text="Review and Submit" [isReview]="true" [stepTemplate]="reviewTemplate"
     [stepValidationFn]="stepMap.review.validationFn">
   </sds-step>
-
-  <ng-container stepper-footer>
-    <sam-layouts-stepper-footer-custom-action icon="x" (clickEvent)="customBtnClick($event)">Close
-    </sam-layouts-stepper-footer-custom-action>
-    <sam-layouts-stepper-footer-custom-action icon="question" (clickEvent)="customBtnClick($event)">Help
-    </sam-layouts-stepper-footer-custom-action>
-  </ng-container>
 
 </sam-layouts-stepper>
 
