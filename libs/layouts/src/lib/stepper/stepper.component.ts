@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AfterContentInit, Component, Input } from '@angular/core';
-import { SdsDialogRef } from '@gsa-sam/components';
 import { SdsStepper } from '@gsa-sam/sam-formly';
 
 @Component({

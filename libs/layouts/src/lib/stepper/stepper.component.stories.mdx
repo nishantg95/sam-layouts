@@ -35,11 +35,20 @@ It provides the most common uses for `sds-stepper` component.
   </Story>
 </Canvas>
 
-## How to use
+## Stepper Wrapper (*sam-layouts-stepper*)
 
-`sam-layouts-stepper` extends `sds-stepper` so all inputs and outputs found in `sds-stepper` can be used.
+`sam-layouts-stepper` extends `sds-stepper` so all inputs and outputs found in `sds-stepper` can be used. There is only one additional input added `hideSideNav`.
+For more information about this input look at the Stepper with navigation section
 
 For more information about the `sds-stepper` component, visit the [design system docs]([sds-stepper](https://cg-fa19003e-5296-4960-ac2e-caccfeb620ac.app.cloud.gov/site/gsa/sam-design-system).) -> Formly -> Stepper
+
+```html
+<sam-layouts-stepper [model]="model" [stepValidityMap]="stepValidityMap" (saveData)="onSaveData($event)" ... >
+    // Steps...
+ </sam-layouts-stepper>
+```
+
+## How to use
 
 ### Add the stepper to your module
 ```typescript
@@ -215,6 +224,8 @@ Add the `stepper-footer` to any container,  use the `sam-layouts-stepper-footer-
 </sam-layouts-stepper>
 ```
 
+# Stepper with Navigation
+
 <Canvas>
   <Story inline={true} name="Stepper with Navigation" args={{}}>
     {(args) => ({
@@ -222,3 +233,17 @@ Add the `stepper-footer` to any container,  use the `sam-layouts-stepper-footer-
     })}
   </Story>
 </Canvas>
+
+### Enable Navigation
+
+Set the `hideSideNav` attribute of the `sam-layouts-stepper` component to `false`
+
+Visit the github repository to [View the code](https://github.com/GSA/sam-layouts/tree/master/libs/layouts/src/lib/stepper/demo/advanced)
+
+```html
+<sam-layouts-stepper [hideSideNav]="false"  [model]="model" [stepValidityMap]="stepValidityMap" (saveData)="onSaveData($event)">
+    <sam-layouts-stepper-header></sam-layouts-stepper-header>
+    <sds-step id="stepOne" text="Entity Title" [fieldConfig]="stepOne"></sds-step>
+    <sds-step id="stepTwo" text="Purpose of Registration" [stepTemplate]="stepTwo"></sds-step>
+</sam-layouts-stepper>
+```
