@@ -33,3 +33,6 @@ export * from './workspace-tier-2/label/label.module';
 export * from './workspace-tier-2/title/title.component';
 export * from './workspace-tier-2/title/title.module';
 export * from './stepper/stepper.module';
+export * from './stepper/stepper.component';
+export * from './stepper/header/header.component';
+export * from './stepper/footer/footer.component';
