@@ -1,0 +1,23 @@
+<button class="usa-button usa-button--outline" (click)="buttonClicked()">Comments ({{commentCount}})</button>
+
+<ng-template #templateRef>
+  <div class="container" role="dialog" aria-labelledby="slide-out-title" cdkTrapFocus>
+    <div class="header">
+      <h1 id="slide-out-title"> Comments ({{commentCount}})</h1>
+    </div>
+    <div class="content">
+      <div class="overflow-scroll">
+        <div *ngFor="let comment of comments"
+          class="width-full height-4 radius-md bg-white shadow-1 border border-base-lighter">
+          <div class="right-full">
+            <button class="usa-button usa-button--unstyled sds-button--small">Edit</button>
+            <buttton class="usa-button usa-button--unstyled sds-button--small">Delete</buttton>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</ng-template>
