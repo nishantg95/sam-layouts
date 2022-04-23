@@ -8,16 +8,25 @@
     <div class="content">
       <div class="overflow-scroll">
         <div *ngFor="let comment of comments"
-          class="width-full height-4 radius-md bg-white shadow-1 border border-base-lighter">
+          class="width-full height-10 radius-md bg-white shadow-1 border border-base-lighter">
+          <div>{{comment.firstName.substring(0,1)+comment.lastName.substring(0,1)}}
+            {{comment.firstName}} {{comment.lastName }}
+            {{comment.role}}
+          </div>
+          <div> {{comment.comment}}
+          </div>
           <div class="right-full">
             <button class="usa-button usa-button--unstyled sds-button--small">Edit</button>
-            <buttton class="usa-button usa-button--unstyled sds-button--small">Delete</buttton>
+            <buttton (click)="deleteComment(comment.id)" class="usa-button usa-button--unstyled sds-button--small">
+              Delete</buttton>
           </div>
         </div>
+        <form [formGroup]="form">
+          <formly-form (modelChange)="onModelChange($event)" [(model)]="model" [fields]="fields" [options]="options"
+            [form]="form"></formly-form>
+        </form>
+        <button [disabled]="!model.commentField" (click)="saveComment()" class="usa-button usa-button--secondary">Send</button>
       </div>
     </div>
   </div>
-
-
-
 </ng-template>

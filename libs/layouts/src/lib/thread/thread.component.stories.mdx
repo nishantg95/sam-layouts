@@ -6,11 +6,13 @@ import { GenericThreadComponent } from './thread.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SdsFormlyModule } from '@gsa-sam/sam-formly';
 import { FormlyModule } from '@ngx-formly/core';
-import { SdsToastModule } from '@gsa-sam/components';
+import { SdsToastModule, SdsToastSettings } from '@gsa-sam/components';
 import { SystemConfig } from './thread-config-model';
 import { GenericThreadService } from './thread.service';
 import { ThreadMockService } from './thread-mock.service';
 import { GenericThreadModule } from './thread.module';
+import { CommonModule } from '@angular/common';
+import { ToastrModule } from 'ngx-toastr';
 
 <Meta
   title="Thread"

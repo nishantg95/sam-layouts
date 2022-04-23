@@ -17,13 +17,13 @@ export class GenericThreadService implements IThreadService {
   createThread(thread: ThreadEntity): Observable<ThreadEntity> {
     throw new Error('Method not implemented.');
   }
-  createComment(comment: CommentEntity): Observable<CommentEntity> {
+  createComment(comment: CommentEntity, threadId:string): Observable<CommentEntity> {
     throw new Error('Method not implemented.');
   }
   editComment(comment: CommentEntity, commentId: string): Observable<CommentEntity> {
     throw new Error('Method not implemented.');
   }
-  deleteComment(commentId: string): Observable<CommentEntity> {
+  deleteComment(comment: CommentEntity): Observable<CommentEntity> {
     throw new Error('Method not implemented.');
   }
   getComments(threadId: string): Observable<CommentEntity[]> {
@@ -121,11 +121,13 @@ export class ThreadEntity {
 
 export class CommentEntity {
   constructor(public id: string,
+    public threadId:string,
     public comment: string,
     public firstName: string,
     public lastName: string,
     public role: string,
-    public showUser: boolean) {
+    public showUser: boolean,
+    public createdDate:Date) {
 
   }
 }
@@ -133,9 +135,9 @@ export class CommentEntity {
 
 export interface IThreadService {
   createThread(thread: ThreadEntity): Observable<ThreadEntity>;
-  createComment(comment: CommentEntity): Observable<CommentEntity>
+  createComment(comment: CommentEntity, threadId:string): Observable<CommentEntity>
   editComment(comment: CommentEntity, commentId: string): Observable<CommentEntity>
-  deleteComment(commentId: string): Observable<CommentEntity>;
+  deleteComment(comment: CommentEntity): Observable<CommentEntity>;
   getComments(threadId: string): Observable<CommentEntity[]>;
   getCommentCount(threadId: string): Observable<number>;
 
