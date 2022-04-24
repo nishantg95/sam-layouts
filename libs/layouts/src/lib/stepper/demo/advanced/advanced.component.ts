@@ -54,6 +54,11 @@ export class DemoStepperAdvancedComponent {
   currentStepId: string | undefined;
   stepValidityMap = {};
 
+  versions = [
+    { label: '2', value: '2'},
+    { label: '1', value: '1'},
+  ];
+
   linear = false;
   reinitializeComponents = false;
   constructor(private stepperAdvancedService: StepperAdvancedService) {}

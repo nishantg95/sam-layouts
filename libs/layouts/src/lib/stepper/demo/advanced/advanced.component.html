@@ -2,7 +2,10 @@
 
 <sam-layouts-stepper [hideSideNav]="false" [queryParamKey]="'sdsAdvancedStepper'" [model]="model"
   [stepValidityMap]="stepValidityMap" (stepChange)="onStepChange($event)" [linear]="linear"
-  (saveData)="onSaveData($event)">
+  (saveData)="onSaveData($event)" expirationDate="N/A" [versions]="versions" [showActions]="true">
+
+  <sam-layouts-stepper-header-custom title="Test Title" status="Draft">
+  </sam-layouts-stepper-header-custom>
 
   <sds-step id="welcome" text="Welcome" [stepTemplate]="gatherInformation"
     [stepValidationFn]="stepMap.welcome.validationFn">
