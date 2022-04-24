@@ -39,3 +39,13 @@ export class SLStepperHeaderComponent
     this.steps = this.stepLabels;
   }
 }
+
+@Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'sam-layouts-stepper-header-custom',
+  templateUrl: './header-custom.component.html',
+})
+export class SLStepperHeaderCustomComponent {
+  @Input() title: string;
+  @Input() status: string;
+}

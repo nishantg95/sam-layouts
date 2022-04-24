@@ -32,6 +32,33 @@
 
     <ng-content select="sam-layouts-stepper-header"></ng-content>
 
+    <ng-content select="sam-layouts-stepper-header-custom"></ng-content>
+
+    <div *ngIf="versions || expirationDate || showActions" class="display-flex margin-top-1 margin-bottom-2">
+      <div *ngIf="versions">
+        <label class="text-semibold" for="version">Version</label>
+        <select class="sds-tag sds-tag--outline" name="version" id="version" (change)="selectChange($event)">
+          <option *ngFor="let version of versions" [value]="version.value">
+            {{version?.label}}
+          </option>
+        </select>
+      </div>
+      <div *ngIf="expirationDate">
+        <div class="text-semibold">Expiration Date</div>
+        <span class="sds-tag sds-tag--outline flex-justify-center padding-y-1">
+          {{ expirationDate }}
+        </span>
+      </div>
+      <div *ngIf="showActions" class="flex-align-self-end flex-fill text-right">
+        <button class="usa-button usa-button--secondary" [disabled]="discardDraftButtonDisabled" id="discardDraft" (click)="discardDraftButtonClick();">
+          Discard Draft
+        </button>
+        <button class="usa-button" id="submitDraft" [disabled]="submitButtonDisabled" (click)="submitButtonClick();">
+          Submit
+        </button>
+      </div>
+    </div>
+
     <!-- Body -->
     <div [ngTemplateOutlet]="selectedStep ? selectedStep.content : null"></div>
 

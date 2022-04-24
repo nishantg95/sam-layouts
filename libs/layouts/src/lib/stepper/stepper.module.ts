@@ -16,7 +16,7 @@ import {
 import { IconModule } from '@gsa-sam/ngx-uswds-icons';
 import { SdsSideToolbarModule } from '@gsa-sam/components';
 
-import { SLStepperHeaderComponent } from './header/header.component';
+import { SLStepperHeaderComponent, SLStepperHeaderCustomComponent } from './header/header.component';
 import {
   SLStepperFooterComponent,
   SLStepperFooterCustomActionComponent,
@@ -27,6 +27,7 @@ import { SLStepperComponent } from './stepper.component';
   declarations: [
     SLStepperComponent,
     SLStepperHeaderComponent,
+    SLStepperHeaderCustomComponent,
     SLStepperFooterComponent,
     SLStepperFooterCustomActionComponent,
   ],
@@ -50,6 +51,7 @@ import { SLStepperComponent } from './stepper.component';
   exports: [
     SLStepperComponent,
     SLStepperHeaderComponent,
+    SLStepperHeaderCustomComponent,
     SLStepperFooterCustomActionComponent,
   ],
   providers: [],
