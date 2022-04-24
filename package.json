@@ -27,7 +27,7 @@
     "@gsa-sam/ngx-uswds-icons": "12.0.0-beta.2",
     "@gsa-sam/sam-formly": "12.0.0-beta.7",
     "@gsa-sam/sam-material-extensions": "12.0.0-beta.7",
-    "@gsa-sam/sam-styles": "0.0.133",
+    "@gsa-sam/sam-styles": "0.0.135",
     "@ngx-formly/core": "^5.10.27",
     "@nrwl/angular": "13.1.4",
     "lodash-es": "4.17.20",
