@@ -8,11 +8,13 @@ import { SystemConfig } from './thread-config-model';
 import { GenericThreadComponent } from './thread.component';
 import { GenericThreadService } from './thread.service';
 import { ThreadMockService } from './thread-mock.service';
+import { CommentComponent } from './comment/comment.component';
 
 
 @NgModule({
   declarations: [
-    GenericThreadComponent
+    GenericThreadComponent,
+    CommentComponent
   ],
   imports: [
     CommonModule,

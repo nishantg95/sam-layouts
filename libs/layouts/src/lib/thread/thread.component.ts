@@ -61,7 +61,8 @@ export class GenericThreadComponent implements OnInit {
 
 
   saveComment() {
-    let comment = new CommentEntity(null, this.threadId, this.model.commentField, 'User', 'LUser', '', true, null);
+    let comment = new CommentEntity(null, this.threadId, this.model.commentField, 'User', 'LUser', '', true, new Date());
+
     this.service.createComment(comment, this.threadId).subscribe((comment: CommentEntity) => {
       this.comments.push(comment);
       this.commentCount = this.comments.length;
@@ -89,6 +90,12 @@ export class GenericThreadComponent implements OnInit {
       },
     );
   }
+
+  editComment(commentId: string) {
+  }
+
+
+
 
   buttonClicked() {
     this.service.getComments(this.threadId).subscribe((comments: CommentEntity[]) => {

@@ -1,0 +1,53 @@
+<div class="position-relative padding-x padding-y  width-full ">
+  <div class="margin-1 radius-md bg-white shadow-3 border border-base-light">
+    <!-- <div [className]="showMore?'height-mobile':'height-card-lg'"> -->
+    <div class="height-full">
+      <div class="padding-top-1 padding-left-1 padding-right-1 padding-top-1 padding-bottom-1">
+        <span class="circle-8 sds-field--medium bg-accent-cool-light">
+          {{comment.firstName.substring(0,1)+comment.lastName.substring(0,1)}}
+        </span>
+        <span class="text-semibold"> {{comment.firstName}} {{comment.lastName }}</span>
+        <span class="text-italic"> {{comment.role}}</span>
+      </div>
+      <div class="padding-left-1 padding-right-1" *ngIf="commmentMode===CommentMode.READ">
+        {{ getDateFormat(comment.createdDate) }}
+      </div>
+      <div class="padding-left-1 padding-right-1 padding-bottom-2" *ngIf="commmentMode===CommentMode.READ">
+        <div *ngIf="comment.comment.length<=characterCountShowMore||showMore">
+          {{comment.comment}}
+        </div>
+
+        <div class="padding-left-1 padding-right-1 padding-bottom-2"
+          *ngIf="comment.comment.length>characterCountShowMore&&!showMore">
+          {{comment.comment.substring(0,characterCountShowMore)}}
+        </div>
+      </div>
+
+
+
+      <div class="padding-left-1 padding-right-1  padding-bottom-5" *ngIf="commmentMode===CommentMode.UPDATE">
+        <form [formGroup]="form">
+          <formly-form (modelChange)="onModelChange($event)" [(model)]="model" [fields]="fields" [options]="options"
+            [form]="form"></formly-form>
+        </form>
+      </div>
+
+      <div class="pin-right pin-bottom" *ngIf="commmentMode===CommentMode.READ">
+        <button class="usa-button usa-button--unstyled sds-button--small"
+          *ngIf="comment.comment.length>characterCountShowMore&& !showMore" (click)="showMoreClick()">More</button>
+        <button class="usa-button usa-button--unstyled sds-button--small" *ngIf="showMore"
+          (click)="showLessClick()">Less</button>
+
+        <button (click)="editComment()" class="usa-button usa-button--unstyled sds-button--small">Edit</button>
+        <button (click)="deleteComment()" class="usa-button usa-button--unstyled sds-button--small">
+          Delete</button>
+      </div>
+
+      <div class="pin-right pin-bottom padding-top-1 padding-bottom-1" *ngIf="commmentMode===CommentMode.UPDATE">
+        <button (click)="cancelEditComment()" class="usa-button usa-button--base sds-button--small">Cancel</button>
+        <button (click)="saveEditComment()" class="usa-button usa-button--accent-cool sds-button--small">
+          Save</button>
+      </div>
+    </div>
+  </div>
+</div>

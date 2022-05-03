@@ -1,31 +1,24 @@
-<button class="usa-button usa-button--outline" (click)="buttonClicked()">Comments ({{commentCount}})</button>
+<button class="usa-button usa-button--outline usa-button--accent-cool" (click)="buttonClicked()">Comments
+  ({{commentCount}})</button>
 
 <ng-template #templateRef>
   <div class="container" role="dialog" aria-labelledby="slide-out-title" cdkTrapFocus>
-    <div class="header">
-      <h1 id="slide-out-title"> Comments ({{commentCount}})</h1>
+    <div class="header bg-secondary padding-2">
+      <h2 class=" text-base-lightest" id="slide-out-title"> Comments ({{commentCount}})</h2>
     </div>
     <div class="content">
-      <div class="overflow-scroll">
-        <div *ngFor="let comment of comments"
-          class="width-full height-10 radius-md bg-white shadow-1 border border-base-lighter">
-          <div>{{comment.firstName.substring(0,1)+comment.lastName.substring(0,1)}}
-            {{comment.firstName}} {{comment.lastName }}
-            {{comment.role}}
-          </div>
-          <div> {{comment.comment}}
-          </div>
-          <div class="right-full">
-            <button class="usa-button usa-button--unstyled sds-button--small">Edit</button>
-            <buttton (click)="deleteComment(comment.id)" class="usa-button usa-button--unstyled sds-button--small">
-              Delete</buttton>
-          </div>
+      <div class="overflow-scroll bg-base-lighter">
+        <div *ngFor="let comment of comments">
+          <comment [comment]="comment"></comment>
         </div>
         <form [formGroup]="form">
           <formly-form (modelChange)="onModelChange($event)" [(model)]="model" [fields]="fields" [options]="options"
             [form]="form"></formly-form>
         </form>
-        <button [disabled]="!model.commentField" (click)="saveComment()" class="usa-button usa-button--secondary">Send</button>
+        <div class="pin-right">
+          <button [disabled]="!model.commentField" (click)="saveComment()"
+            class="usa-button usa-button--accent-cool">Send</button>
+        </div>
       </div>
     </div>
   </div>
