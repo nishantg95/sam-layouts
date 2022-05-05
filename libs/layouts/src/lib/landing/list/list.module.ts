@@ -16,6 +16,10 @@ import {
   playBtn,
   chevronLeft,
   checkCircle,
+  filePdf,
+  files,
+  window,
+  infoCircle
 } from 'ngx-bootstrap-icons';
 
 import { SdsLandingListComponent } from './list.component';
@@ -48,6 +52,10 @@ const arrowRightCircleGreen = `<svg xmlns="http://www.w3.org/2000/svg" width="16
       playBtn,
       chevronLeft,
       checkCircle,
+      filePdf,
+      files,
+      window,
+      infoCircle
     }),
   ],
   exports: [SdsLandingListComponent],

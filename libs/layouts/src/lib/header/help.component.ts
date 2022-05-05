@@ -54,7 +54,7 @@ export class SdsHeaderHelpComponent {
 
 @Component({
   template: `
-    <div class="bg-base-lighter height-full padding-x-2 padding-top-2">
+    <div class="bg-base-lighter minh-full padding-x-2 padding-top-2">
       <div class="font-heading-lg text-semibold">Help</div>
       <div *ngFor="let item of data.help">
         <div
