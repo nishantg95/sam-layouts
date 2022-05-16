@@ -1,53 +1,91 @@
 <div class="position-relative padding-x padding-y  width-full ">
   <div class="margin-1 radius-md bg-white shadow-3 border border-base-light">
-    <!-- <div [className]="showMore?'height-mobile':'height-card-lg'"> -->
     <div class="height-full">
-      <div class="padding-top-1 padding-left-1 padding-right-1 padding-top-1 padding-bottom-1">
-        <span class="circle-8 sds-field--medium bg-accent-cool-light">
-          {{comment.firstName.substring(0,1)+comment.lastName.substring(0,1)}}
-        </span>
-        <span class="text-semibold"> {{comment.firstName}} {{comment.lastName }}</span>
-        <span class="text-italic"> {{comment.role}}</span>
-      </div>
-      <div class="padding-left-1 padding-right-1" *ngIf="commmentMode===CommentMode.READ">
-        {{ getDateFormat(comment.createdDate) }}
-      </div>
-      <div class="padding-left-1 padding-right-1 padding-bottom-2" *ngIf="commmentMode===CommentMode.READ">
-        <div *ngIf="comment.comment.length<=characterCountShowMore||showMore">
-          {{comment.comment}}
+      <div class=" padding-left-1 padding-right-1 padding-top-1 ">
+        <!--Abbr, Name, Role-->
+        <div class="padding-bottom-1">
+          <div class="grid-container padding-0">
+            <div class="grid-row grid-gap-2px flex-align-center">
+              <div class="grid-col flex-auto flex-align-center">
+                <div
+                  class="circle-205 flex-justify-center text-center outline-1px outline-accent-cool-darker bg-accent-cool-light font-sans-2xs">
+                  <div class="display-flex flex-align-center "> {{comment.firstName.substring(0,1)+comment.lastName.substring(0,1)}}
+                  </div>
+                </div>
+              </div>
+              <div class="grid-col flex-auto flex-align-center font-sans-xs ">
+                <span class="text-semibold "> {{comment.firstName}} {{comment.lastName }}</span>
+              </div>
+              <div class="grid-col flex-auto font-sans-xs">
+                <span class="text-italic "> {{comment.role}}</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!--Date-->
+        <div class=" padding-right-1 font-sans-xs" *ngIf="commmentMode===CommentMode.READ">
+          {{ getDateFormat(comment.createdDate) }}
+        </div>
+        <!--Comment-->
+        <div class=" padding-right-1 padding-bottom-1 font-sans-xs" *ngIf="commmentMode===CommentMode.READ">
+          <div *ngIf="comment.comment.length<=characterCountShowMore||showMore">
+            {{comment.comment}}
+          </div>
+
+          <div class="padding-right-1 padding-bottom-1 font-sans-xs"
+            *ngIf="comment.comment.length>characterCountShowMore&&!showMore">
+            {{comment.comment.substring(0,characterCountShowMore)}}
+          </div>
         </div>
 
-        <div class="padding-left-1 padding-right-1 padding-bottom-2"
-          *ngIf="comment.comment.length>characterCountShowMore&&!showMore">
-          {{comment.comment.substring(0,characterCountShowMore)}}
+        <!--Inline Edit-->
+        <div class="padding-left-1 padding-right-1"
+          style="resize: none; border-style: none; border-color: Transparent; overflow: auto; "
+          *ngIf="commmentMode===CommentMode.UPDATE">
+          <textarea titles="Comment" placeholder="Write a comment…" style="resize: none;"
+            [(ngModel)]="model.commentField" id="txtArea" maxlength="500" rows="5" cols="30"></textarea>
         </div>
-      </div>
-
-
-
-      <div class="padding-left-1 padding-right-1  padding-bottom-5" *ngIf="commmentMode===CommentMode.UPDATE">
-        <form [formGroup]="form">
-          <formly-form (modelChange)="onModelChange($event)" [(model)]="model" [fields]="fields" [options]="options"
-            [form]="form"></formly-form>
-        </form>
-      </div>
-
-      <div class="pin-right pin-bottom" *ngIf="commmentMode===CommentMode.READ">
-        <button class="usa-button usa-button--unstyled sds-button--small"
-          *ngIf="comment.comment.length>characterCountShowMore&& !showMore" (click)="showMoreClick()">More</button>
-        <button class="usa-button usa-button--unstyled sds-button--small" *ngIf="showMore"
-          (click)="showLessClick()">Less</button>
-
-        <button (click)="editComment()" class="usa-button usa-button--unstyled sds-button--small">Edit</button>
-        <button (click)="deleteComment()" class="usa-button usa-button--unstyled sds-button--small">
-          Delete</button>
-      </div>
-
-      <div class="pin-right pin-bottom padding-top-1 padding-bottom-1" *ngIf="commmentMode===CommentMode.UPDATE">
-        <button (click)="cancelEditComment()" class="usa-button usa-button--base sds-button--small">Cancel</button>
-        <button (click)="saveEditComment()" class="usa-button usa-button--accent-cool sds-button--small">
-          Save</button>
+        <!--  More Less, Edit, Delete buttons-->
+        <div class="grid-container padding-0" *ngIf="commmentMode===CommentMode.READ">
+          <div class="grid-row flex-align-center">
+            <div class="grid-col flex-align-center">
+              <button class="usa-button usa-button--unstyled sds-button--small"
+                *ngIf="comment.comment.length>characterCountShowMore&& !showMore" (click)="showMoreClick()">
+                More
+                <usa-icon [icon]="'chevron-down'" [size]="'x'">
+                </usa-icon>
+              </button>
+              <button class="usa-button usa-button--unstyled sds-button--small" *ngIf="showMore"
+                (click)="showLessClick()">Less
+                <usa-icon [icon]="'chevron-up'" [size]="'x'">
+                </usa-icon>
+              </button>
+            </div>
+            <div class="grid-col flex-auto">
+              <div class="pos-right">
+                <button (click)="editComment()"
+                  class="padding-right-05 usa-button usa-button--unstyled font-sans-2xs">Edit</button>
+                <button (click)="deleteComment()" class="usa-button usa-button--unstyled font-sans-2xs">
+                  Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Save and Cancel-->
+        <div class="grid-container padding-bottom-1" *ngIf="commmentMode===CommentMode.UPDATE">
+          <div class="grid-row">
+            <div class="grid-col">
+              <button (click)="cancelEditComment()"
+                class="usa-button sds-button--small usa-button--base font-sans-2xs">Cancel</button>
+            </div>
+            <div class="grid-col">
+              <button (click)="saveEditComment()"
+                class="usa-button sds-button--small usa-button--accent-cool font-sans-2xs">
+                Save</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>

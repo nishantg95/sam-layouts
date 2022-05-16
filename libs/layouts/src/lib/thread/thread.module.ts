@@ -9,6 +9,8 @@ import { GenericThreadComponent } from './thread.component';
 import { GenericThreadService } from './thread.service';
 import { ThreadMockService } from './thread-mock.service';
 import { CommentComponent } from './comment/comment.component';
+import { IconModule } from '@gsa-sam/ngx-uswds-icons';
+import { NgxBootstrapIconsModule, chevronDown, chevronUp,chatLeftDots } from 'ngx-bootstrap-icons';
 
 
 @NgModule({
@@ -27,6 +29,8 @@ import { CommentComponent } from './comment/comment.component';
     }),
     SdsFormlyModule,
     SdsToastModule,
+    IconModule,
+    NgxBootstrapIconsModule.pick({chevronDown,chevronUp,chatLeftDots}),
   ],
   exports: [
     GenericThreadComponent

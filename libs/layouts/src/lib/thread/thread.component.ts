@@ -37,12 +37,21 @@ export class GenericThreadComponent implements OnInit {
   onModelChange(model) {
 
   }
+  expandedText: boolean = false;
 
   @ViewChild('templateRef') ref: TemplateRef<any>;
 
   openedDialogRef: SdsDialogRef<any>;
 
+  expandTextBox: boolean = false;
 
+  colapse() {
+    this.expandTextBox = false;
+  }
+
+  expand() {
+    this.expandTextBox = true;
+  }
 
   constructor(private service: ThreadMockService, public dialog: SdsDialogService
     //,public toastr: ToastrService
@@ -76,11 +85,12 @@ export class GenericThreadComponent implements OnInit {
     );
   }
 
-  deleteComment(commentId: string) {
-    let comment: CommentEntity = this.comments.find(element => element.id === commentId);
+
+  deleteComment(comment: CommentEntity) {
+    let comment2= comment;
     this.service.deleteComment(comment).subscribe((comment: CommentEntity) => {
       this.comments = this.comments.filter(function (ele: CommentEntity) {
-        return ele.id != commentId;
+        return ele.id != comment2.id;
       });
       this.commentCount = this.comments.length;
     },
@@ -91,10 +101,20 @@ export class GenericThreadComponent implements OnInit {
     );
   }
 
-  editComment(commentId: string) {
+  editComment(comment: CommentEntity) {
+    let comment2= comment;
+    this.service.editComment(comment, comment.id).subscribe((comment: CommentEntity) => {
+
+      let commentFound: CommentEntity = this.comments.find(element => element.id === comment2.id);
+      commentFound.comment = comment2.comment;
+
+    },
+      err => {
+        console.error(err);
+        // this.toastr.error('Comments could not be loaded', "");
+      },
+    );
   }
-
-
 
 
   buttonClicked() {

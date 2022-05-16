@@ -32,20 +32,7 @@ export class CommentComponent implements OnInit {
   commmentMode = CommentMode.READ;
 
   model = { commentField: '' };
-  form = new FormGroup({});
-  options: FormlyFormOptions = {};
-  fields: FormlyFieldConfig[] = [
-    {
-      key: 'commentField',
-      type: 'input',
-      templateOptions: {
-        label: 'Comment',
-        placeholder: 'Write a comment…',
-        maxLength: 500,
-        rows: 5
-      },
-    },
-  ];
+
 
   showMoreClick() {
     this.showMore = true;
@@ -109,12 +96,13 @@ export class CommentComponent implements OnInit {
 
   editComment() {
     this.model.commentField = this.comment.comment;
-    this.form.patchValue(this.model);
     this.commmentMode = CommentMode.UPDATE;
   }
 
   saveEditComment() {
-    this.deleteCommentEvent.emit(this.comment);
+    this.comment.comment = this.model.commentField;
+    this.editCommentEvent.emit(this.comment);
+    this.commmentMode = CommentMode.READ;
   }
 
   deleteComment() {

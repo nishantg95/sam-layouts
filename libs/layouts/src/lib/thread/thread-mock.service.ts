@@ -35,11 +35,15 @@ export class ThreadMockService implements IThreadService {
   }
 
   editComment(comment: CommentEntity, commentId: string): Observable<CommentEntity> {
-    throw new Error('Method not implemented.');
+    let comments: CommentEntity[] = this.threads[comment.threadId];
+    let comment2 = comments.find(function (ele: CommentEntity) {
+      return ele.id === comment.id;
+    });
+    comment2.comment = comment.comment;
+    return of(comment2);
   }
 
   deleteComment(comment: CommentEntity): Observable<CommentEntity> {
-
     let comments: CommentEntity[] = this.threads[comment.threadId];
     this.threads[comment.threadId] = comments.filter(function (ele: CommentEntity) {
       return ele.id != comment.id;
@@ -52,7 +56,8 @@ export class ThreadMockService implements IThreadService {
   }
 
   getCommentCount(threadId: string): Observable<number> {
-    return of(this.threads[threadId].length);
+
+    return of(JSON.parse(JSON.stringify(this.threads[threadId])).length);
   }
 
 }

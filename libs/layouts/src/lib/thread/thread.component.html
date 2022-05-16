@@ -1,23 +1,55 @@
-<button class="usa-button usa-button--outline usa-button--accent-cool" (click)="buttonClicked()">Comments
-  ({{commentCount}})</button>
+<button class="usa-button usa-button--outline accent-vooo" (click)="buttonClicked()">
+
+  <usa-icon [icon]="'chat-left-dots'" [size]="'x'">
+  </usa-icon>Comments
+  ({{commentCount}})
+</button>
 
 <ng-template #templateRef>
   <div class="container" role="dialog" aria-labelledby="slide-out-title" cdkTrapFocus>
-    <div class="header bg-secondary padding-2">
-      <h2 class=" text-base-lightest" id="slide-out-title"> Comments ({{commentCount}})</h2>
+    <div class="header bg-secondary padding-1">
+      <h2 class=" text-base-lightest font-sans-md" id="slide-out-title"> Comments ({{commentCount}})</h2>
     </div>
     <div class="content">
-      <div class="overflow-scroll bg-base-lighter">
+      <div class="bg-base-lighter">
+        <!--Comment Boxes-->
         <div *ngFor="let comment of comments">
-          <comment [comment]="comment"></comment>
+          <comment [comment]="comment" (editCommentEvent)="editComment($event)"
+            (deleteCommentEvent)="deleteComment($event)"></comment>
         </div>
-        <form [formGroup]="form">
-          <formly-form (modelChange)="onModelChange($event)" [(model)]="model" [fields]="fields" [options]="options"
-            [form]="form"></formly-form>
-        </form>
-        <div class="pin-right">
-          <button [disabled]="!model.commentField" (click)="saveComment()"
-            class="usa-button usa-button--accent-cool">Send</button>
+      </div>
+      <div>
+        <!--Bottom Fields-->
+        <div class="grid-container  padding-2px  bg-base-lightest ">
+          <div class="grid-row grid-gap-2px">
+            <div classs="grid-col flex-auto">
+              <textarea class="padding-left-1" title="Comment" placeholder="Write a comment…"
+                style="resize: none; border-style: none; border-color: Transparent; overflow: auto; "
+                [(ngModel)]="model.commentField" id="txtArea" maxlength="500" [attr.rows]="expandTextBox?10:5"
+                cols="30"></textarea>
+            </div>
+            <div classs="grid-col flex-auto">
+              <!--Expand Collapse Textarea-->
+              <button title="Expand Comment Field" *ngIf="!expandTextBox" (click)="expand()"
+                class="usa-button usa-button--unstyled">
+                <usa-icon [icon]="'chevron-up'" [size]="'2x'">
+                </usa-icon>
+              </button>
+              <button title="Colapse Comment Field" *ngIf="expandTextBox" (click)="colapse()"
+                class="usa-button usa-button--unstyled">
+                <usa-icon [icon]="'chevron-down'" [size]="'2x'">
+                </usa-icon>
+              </button>
+            </div>
+          </div>
+          <div>
+            <div class="grid-row ">
+              <div classs="grid-col flex-fill">
+                <button [disabled]=" !model.commentField" (click)="saveComment()"
+                  class=" pin-right usa-button usa-button--accent-cool">Send</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
