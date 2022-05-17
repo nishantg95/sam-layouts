@@ -51,17 +51,19 @@
         <div class="grid-container padding-0" *ngIf="commmentMode===CommentMode.READ">
           <div class="grid-row flex-align-center">
             <div class="grid-col display-flex flex-row">
-              <button class="flex-align-self-center usa-button usa-button--unstyled sds-button--small"
-                *ngIf="comment.comment.length>characterCountShowMore&& !showMore" (click)="showMoreClick()">
-                More
-                <usa-icon [icon]="'chevron-down'" [size]="'x'">
-                </usa-icon>
-              </button>
-              <button class="flex-align-self-center usa-button usa-button--unstyled sds-button--small" *ngIf="showMore"
-                (click)="showLessClick()">Less
-                <usa-icon [icon]="'chevron-up'" [size]="'x'">
-                </usa-icon>
-              </button>
+              <div class="flex-1 padding-1px flex-align-self-center display-flex flex-align-center flex-justify-center">
+                <button class=" usa-button usa-button--unstyled sds-button--small"
+                  *ngIf="comment.comment.length>characterCountShowMore&& !showMore" (click)="showMoreClick()">
+                  More
+                  <usa-icon [icon]="'chevron-down'" [size]="'x'">
+                  </usa-icon>
+                </button>
+                <button class="usa-button usa-button--unstyled sds-button--small" *ngIf="showMore"
+                  (click)="showLessClick()">Less
+                  <usa-icon [icon]="'chevron-up'" [size]="'x'">
+                  </usa-icon>
+                </button>
+              </div>
             </div>
             <div class="grid-col flex-auto">
               <div class="pos-right">
