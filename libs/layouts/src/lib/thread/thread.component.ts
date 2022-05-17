@@ -1,9 +1,5 @@
-import { ChangeDetectorRef, Component, Inject, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { FormlyUtilsService, SdsFormlyTypes } from '@gsa-sam/sam-formly';
-
 import { IThreadService, GenericThreadService, CommentEntity, ThreadEntity } from './thread.service';
 import { ThreadMockService } from './thread-mock.service';
 import { SdsDialogRef, SdsDialogService } from '@gsa-sam/components';
@@ -14,34 +10,26 @@ import { SdsDialogRef, SdsDialogService } from '@gsa-sam/components';
   templateUrl: 'thread.component.html'
 })
 export class GenericThreadComponent implements OnInit {
-  @Input() threadId: string = '0';
-  commentCount: number = 0;
-  comments: CommentEntity[];
 
-  model = { commentField: '' };
-  form = new FormGroup({});
-  options: FormlyFormOptions = {};
-  fields: FormlyFieldConfig[] = [
-    {
-      key: 'commentField',
-      type: 'input',
-      templateOptions: {
-        label: 'Comment',
-        placeholder: 'Write a comment…',
-        maxLength: 500,
-        rows: 5
-      },
-    },
-  ];
+  @Input() threadId: string;// = '0';
 
-  onModelChange(model) {
+  @Input() source: string;
 
-  }
-  expandedText: boolean = false;
+  @Input() sourceId: string;
+
+  @Input() role: string;
 
   @ViewChild('templateRef') ref: TemplateRef<any>;
 
   openedDialogRef: SdsDialogRef<any>;
+
+  commentCount = 0;
+
+  comments: CommentEntity[];
+
+  model = { commentField: '' };
+
+  expandedText = false;
 
   expandTextBox: boolean = false;
 
@@ -62,21 +50,39 @@ export class GenericThreadComponent implements OnInit {
 
 
   ngOnInit(): void {
-    //create thread id if not exist
-    //if do exist get count
 
-    //add on close behavior to pass threadId
+    if (this.threadId) {
+      this.getCommentCount();
+    }
+
+    // else {
+    //   this.createNewThread();
+    // }
+
+
+
+
   }
 
 
+  private getCommentCount() {
+    this.service.getCommentCount(this.threadId).subscribe((commentCount: number) => {
+      this.commentCount = commentCount;
+    },
+      err => {
+        console.error(err);
+      }
+    );
+  }
+
   saveComment() {
-    let comment = new CommentEntity(null, this.threadId, this.model.commentField, 'User', 'LUser', '', true, new Date());
+    let comment = new CommentEntity(null, this.threadId, this.model.commentField, 'User', 'LUser', this.role, true, new Date());
 
     this.service.createComment(comment, this.threadId).subscribe((comment: CommentEntity) => {
       this.comments.push(comment);
       this.commentCount = this.comments.length;
       this.model.commentField = '';
-      this.form.patchValue(this.model);
+
     },
       err => {
         console.error(err);
@@ -87,7 +93,7 @@ export class GenericThreadComponent implements OnInit {
 
 
   deleteComment(comment: CommentEntity) {
-    let comment2= comment;
+    let comment2 = comment;
     this.service.deleteComment(comment).subscribe((comment: CommentEntity) => {
       this.comments = this.comments.filter(function (ele: CommentEntity) {
         return ele.id != comment2.id;
@@ -102,7 +108,7 @@ export class GenericThreadComponent implements OnInit {
   }
 
   editComment(comment: CommentEntity) {
-    let comment2= comment;
+    let comment2 = comment;
     this.service.editComment(comment, comment.id).subscribe((comment: CommentEntity) => {
 
       let commentFound: CommentEntity = this.comments.find(element => element.id === comment2.id);
@@ -118,32 +124,57 @@ export class GenericThreadComponent implements OnInit {
 
 
   buttonClicked() {
-    this.service.getComments(this.threadId).subscribe((comments: CommentEntity[]) => {
-      this.comments = comments;
-      this.commentCount = comments.length;
-      if (!this.openedDialogRef) {
-        this.openedDialogRef = this.dialog.open(this.ref, {
-          hasBackdrop: false,
-          height: '100%',
-          position: { right: 'true' },
-          slideOut: {
-            width: '20rem',
-            time: '350ms',
-          },
-        })
-      }
-      else {
-        this.openedDialogRef.close();
-        this.openedDialogRef = null;
-      }
+    if (this.threadId) {
+      this.getComments();
+    } else {
+      this.createNewThread();
+    }
+  }
+
+  private createNewThread() {
+    const thread = new ThreadEntity(null, this.source, this.sourceId);
+    this.service.createThread(thread).subscribe((threadRtn: ThreadEntity) => {
+      this.threadId = threadRtn.id;
+      this.comments = [];
+      this.commentCount = 0;
+      this.openCloseSlideOut();
     },
       err => {
         console.error(err);
-        // this.toastr.error('Comments could not be loaded', "");
-      },
+      }
     );
   }
 
 
+
+  private getComments() {
+    this.service.getComments(this.threadId).subscribe((comments: CommentEntity[]) => {
+      this.comments = comments;
+      this.commentCount = comments.length;
+      this.openCloseSlideOut();
+    },
+      err => {
+        console.error(err);
+      }
+    );
+  }
+
+  private openCloseSlideOut() {
+    if (!this.openedDialogRef) {
+      this.openedDialogRef = this.dialog.open(this.ref, {
+        hasBackdrop: false,
+        height: '100%',
+        position: { right: 'true' },
+        slideOut: {
+          width: '20rem',
+          time: '350ms',
+        },
+      });
+    }
+    else {
+      this.openedDialogRef.close();
+      this.openedDialogRef = null;
+    }
+  }
 }
 

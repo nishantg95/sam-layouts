@@ -1,8 +1,8 @@
 <button class="usa-button usa-button--outline accent-vooo" (click)="buttonClicked()">
 
-  <usa-icon [icon]="'chat-left-dots'" [size]="'x'">
-  </usa-icon>Comments
-  ({{commentCount}})
+  <usa-icon class="padding-right-05" [icon]="'chat-left-dots'" [size]="'x'">
+  </usa-icon>
+  <span>Comments ({{commentCount}})</span>
 </button>
 
 <ng-template #templateRef>
@@ -18,7 +18,7 @@
             (deleteCommentEvent)="deleteComment($event)"></comment>
         </div>
       </div>
-      <div>
+      <div class="padding-top-1">
         <!--Bottom Fields-->
         <div class="grid-container  padding-2px  bg-base-lightest ">
           <div class="grid-row grid-gap-2px">

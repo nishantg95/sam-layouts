@@ -8,8 +8,9 @@
             <div class="grid-row grid-gap-2px flex-align-center">
               <div class="grid-col flex-auto flex-align-center">
                 <div
-                  class="circle-205 flex-justify-center text-center outline-1px outline-accent-cool-darker bg-accent-cool-light font-sans-2xs">
-                  <div class="display-flex flex-align-center "> {{comment.firstName.substring(0,1)+comment.lastName.substring(0,1)}}
+                  class="circle-3 display-flex flex-align-center flex-justify-center text-center outline-1px outline-accent-cool-darker bg-accent-cool-light font-sans-3xs">
+                  <div class="display-flex flex-align-center ">
+                    {{comment.firstName.substring(0,1)+comment.lastName.substring(0,1)}}
                   </div>
                 </div>
               </div>
@@ -24,7 +25,7 @@
           </div>
         </div>
         <!--Date-->
-        <div class=" padding-right-1 font-sans-xs" *ngIf="commmentMode===CommentMode.READ">
+        <div class=" padding-right-1 font-sans-2xs" *ngIf="commmentMode===CommentMode.READ">
           {{ getDateFormat(comment.createdDate) }}
         </div>
         <!--Comment-->
@@ -49,14 +50,14 @@
         <!--  More Less, Edit, Delete buttons-->
         <div class="grid-container padding-0" *ngIf="commmentMode===CommentMode.READ">
           <div class="grid-row flex-align-center">
-            <div class="grid-col flex-align-center">
-              <button class="usa-button usa-button--unstyled sds-button--small"
+            <div class="grid-col display-flex flex-row">
+              <button class="flex-align-self-center usa-button usa-button--unstyled sds-button--small"
                 *ngIf="comment.comment.length>characterCountShowMore&& !showMore" (click)="showMoreClick()">
                 More
                 <usa-icon [icon]="'chevron-down'" [size]="'x'">
                 </usa-icon>
               </button>
-              <button class="usa-button usa-button--unstyled sds-button--small" *ngIf="showMore"
+              <button class="flex-align-self-center usa-button usa-button--unstyled sds-button--small" *ngIf="showMore"
                 (click)="showLessClick()">Less
                 <usa-icon [icon]="'chevron-up'" [size]="'x'">
                 </usa-icon>
@@ -73,16 +74,16 @@
           </div>
         </div>
         <!-- Save and Cancel-->
-        <div class="grid-container padding-bottom-1" *ngIf="commmentMode===CommentMode.UPDATE">
-          <div class="grid-row">
-            <div class="grid-col">
-              <button (click)="cancelEditComment()"
-                class="usa-button sds-button--small usa-button--base font-sans-2xs">Cancel</button>
-            </div>
-            <div class="grid-col">
-              <button (click)="saveEditComment()"
-                class="usa-button sds-button--small usa-button--accent-cool font-sans-2xs">
-                Save</button>
+        <div class="grid-container padding-0 padding-bottom-1" *ngIf="commmentMode===CommentMode.UPDATE">
+          <div class="grid-row flex-column flex-align-end">
+            <div class="grid-col flex-fill">
+              <div class="">
+                <button (click)="cancelEditComment()"
+                  class=" pos-right usa-button sds-button--small usa-button--base font-sans-2xs">Cancel</button>
+                <button (click)="saveEditComment()"
+                  class=" pos-right usa-button sds-button--small usa-button--accent-cool font-sans-2xs">
+                  Save</button>
+              </div>
             </div>
           </div>
         </div>

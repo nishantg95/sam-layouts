@@ -1,12 +1,8 @@
-import { ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { SdsDialogRef, SdsDialogService, SDS_DIALOG_DATA } from '@gsa-sam/components';
 import { ToastrService } from 'ngx-toastr';
-import { FormlyUtilsService, SdsFormlyTypes } from '@gsa-sam/sam-formly';
+import { CommentEntity } from '../thread.service';
 
-import { IThreadService, GenericThreadService, CommentEntity, ThreadEntity } from '../thread.service';
-import { ThreadMockService } from '../thread-mock.service';
-import { SdsDialogRef, SdsDialogService } from '@gsa-sam/components';
 
 
 
@@ -33,6 +29,8 @@ export class CommentComponent implements OnInit {
 
   model = { commentField: '' };
 
+
+  constructor(public dialog: SdsDialogService) { }
 
   showMoreClick() {
     this.showMore = true;
@@ -106,18 +104,71 @@ export class CommentComponent implements OnInit {
   }
 
   deleteComment() {
-    this.deleteCommentEvent.emit(this.comment);
+    this.openDeleteModal();
+
   }
 
   cancelEditComment() {
     this.commmentMode = CommentMode.READ;
   }
 
-  onModelChange(event) {
+  openDeleteModal() {
+    const deleteDialog = this.dialog.open(AlertComponent, {
+      alert: 'warning',
+      width: 'Small',
+      data: {},
+    });
 
+    deleteDialog.afterClosed().subscribe(result => this.deleteModalClosed(result)
+    );
+  }
+
+  deleteModalClosed(result) {
+    if (result.deleteStatus) {
+      this.deleteCommentEvent.emit(this.comment);
+    }
   }
 
 
+}
+
+
+export interface AlertData {
+  title: string;
+  content: string;
+}
+
+/**
+ * ALERTS
+ * ================================================
+ */
+// Error
+@Component({
+  selector: 'dialog-alert',
+  template: `
+
+  <div sds-dialog-title>Are you sure you want to delete this comment?</div>
+<div class="padding-bottom-2"> </div>
+<div sds-dialog-actions>
+  <div class="grid-container">
+  <div class="grid-row">
+    <div class="grid-col">
+      <button (click)="close(false)" class="usa-button usa-button--base">Back</button>
+    </div>
+    <div class="grid-col">
+      <button (click)="close(true)" cdkFocusInitial class="usa-button">Delete</button>
+    </div>
+  </div>
+</div>
+</div>
+  `,
+})
+export class AlertComponent {
+  constructor(@Inject(SDS_DIALOG_DATA) public data: AlertData, public dialogRef: SdsDialogRef<AlertComponent>,) { }
+
+  close(status: boolean) {
+    this.dialogRef.close({ 'deleteStatus': status, });
+  }
 }
 
 export enum CommentMode { UPDATE, READ }
