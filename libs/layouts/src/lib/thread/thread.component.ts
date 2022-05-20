@@ -1,8 +1,9 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, Output, TemplateRef, EventEmitter, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { IThreadService, GenericThreadService, CommentEntity, ThreadEntity } from './thread.service';
 import { ThreadMockService } from './thread-mock.service';
 import { SdsDialogRef, SdsDialogService } from '@gsa-sam/components';
+
 
 
 @Component({
@@ -19,7 +20,14 @@ export class GenericThreadComponent implements OnInit {
 
   @Input() role: string;
 
+  @Input() serviceOveride: IThreadService;
+
+  @Output() threadCreated: EventEmitter<string> = new EventEmitter<string>();
+
   @ViewChild('templateRef') ref: TemplateRef<any>;
+
+  private service: IThreadService;
+
 
   openedDialogRef: SdsDialogRef<any>;
 
@@ -41,7 +49,7 @@ export class GenericThreadComponent implements OnInit {
     this.expandTextBox = true;
   }
 
-  constructor(private service: ThreadMockService, public dialog: SdsDialogService
+  constructor(private threadService: ThreadMockService, public dialog: SdsDialogService
     //,public toastr: ToastrService
   ) {
 
@@ -51,17 +59,15 @@ export class GenericThreadComponent implements OnInit {
 
   ngOnInit(): void {
 
+    if(this.serviceOveride){
+      this.service= this.serviceOveride;
+    }else{
+      this.service = this.threadService;
+    }
+
     if (this.threadId) {
       this.getCommentCount();
     }
-
-    // else {
-    //   this.createNewThread();
-    // }
-
-
-
-
   }
 
 
@@ -124,10 +130,16 @@ export class GenericThreadComponent implements OnInit {
 
 
   buttonClicked() {
-    if (this.threadId) {
-      this.getComments();
-    } else {
-      this.createNewThread();
+    if (!this.openedDialogRef) {
+      if (this.threadId) {
+        this.getComments();
+      } else {
+        this.createNewThread();
+      }
+    }
+    else {
+      this.openedDialogRef.close();
+      this.openedDialogRef = null;
     }
   }
 
@@ -138,6 +150,7 @@ export class GenericThreadComponent implements OnInit {
       this.comments = [];
       this.commentCount = 0;
       this.openCloseSlideOut();
+      this.threadCreated.emit(this.threadId);
     },
       err => {
         console.error(err);
@@ -160,21 +173,17 @@ export class GenericThreadComponent implements OnInit {
   }
 
   private openCloseSlideOut() {
-    if (!this.openedDialogRef) {
-      this.openedDialogRef = this.dialog.open(this.ref, {
-        hasBackdrop: false,
-        height: '100%',
-        position: { right: 'true' },
-        slideOut: {
-          width: '20rem',
-          time: '350ms',
-        },
-      });
-    }
-    else {
-      this.openedDialogRef.close();
-      this.openedDialogRef = null;
-    }
+
+    this.openedDialogRef = this.dialog.open(this.ref, {
+      hasBackdrop: false,
+      height: '100%',
+      position: { right: 'true' },
+      slideOut: {
+        width: '20rem',
+        time: '350ms',
+      },
+    });
+
   }
 }
 
