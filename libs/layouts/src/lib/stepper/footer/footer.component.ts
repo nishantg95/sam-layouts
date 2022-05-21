@@ -7,9 +7,20 @@ import { SdsStepper } from '@gsa-sam/sam-formly';
   templateUrl: './footer.component.html',
 })
 export class SLStepperFooterComponent {
+  @Output() previousBtnClick = new EventEmitter<any>();
+  @Output() nextBtnClick = new EventEmitter<any>();
+
   public stepperID: string;
   constructor(stepper: SdsStepper) {
     this.stepperID = stepper.id;
+  }
+
+  previousBtn($event){
+    this.previousBtnClick.emit($event);
+  }
+
+  nextBtn($event) {
+    this.nextBtnClick.emit($event);
   }
 }
 

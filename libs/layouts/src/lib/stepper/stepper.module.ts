@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UsaStepIndicatorModule } from '@gsa-sam/ngx-uswds';
-import { SdsStepperModule } from '@gsa-sam/sam-formly';
+import { NgModule } from '@angular/core';
+import { SdsSideToolbarModule } from '@gsa-sam/components';
+import { SLStepperComponent } from './stepper.component';
 import {
   NgxBootstrapIconsModule,
   chevronLeft,
@@ -14,27 +14,26 @@ import {
   x,
 } from 'ngx-bootstrap-icons';
 import { IconModule } from '@gsa-sam/ngx-uswds-icons';
-import { SdsSideToolbarModule } from '@gsa-sam/components';
-
-import { SLStepperHeaderComponent, SLStepperHeaderCustomComponent } from './header/header.component';
+import { SdsStepperModule } from '@gsa-sam/sam-formly';
+import { UsaStepIndicatorModule } from '@gsa-sam/ngx-uswds';
 import {
-  SLStepperFooterComponent,
-  SLStepperFooterCustomActionComponent,
-} from './footer/footer.component';
-import { SLStepperComponent } from './stepper.component';
+  SLStepperHeaderComponent,
+  SLStepperHeaderWithStatusComponent,
+} from './header/header.component';
+import { SLStepperFooterComponent, SLStepperFooterCustomActionComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     SLStepperComponent,
     SLStepperHeaderComponent,
-    SLStepperHeaderCustomComponent,
+    SLStepperHeaderWithStatusComponent,
     SLStepperFooterComponent,
-    SLStepperFooterCustomActionComponent,
+    SLStepperFooterCustomActionComponent
   ],
   imports: [
     CommonModule,
+    SdsSideToolbarModule,
     UsaStepIndicatorModule,
-    SdsStepperModule,
     NgxBootstrapIconsModule.pick({
       chevronLeft,
       chevronRight,
@@ -46,14 +45,14 @@ import { SLStepperComponent } from './stepper.component';
       x,
     }),
     IconModule,
-    SdsSideToolbarModule,
+    SdsStepperModule,
   ],
   exports: [
     SLStepperComponent,
     SLStepperHeaderComponent,
-    SLStepperHeaderCustomComponent,
-    SLStepperFooterCustomActionComponent,
+    SLStepperHeaderWithStatusComponent,
+    SLStepperFooterComponent,
+    SLStepperFooterCustomActionComponent
   ],
-  providers: [],
 })
 export class SLStepperModule {}

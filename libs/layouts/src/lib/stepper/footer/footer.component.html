@@ -1,12 +1,12 @@
 <div class="grid-row grid-gap flex-justify-center margin-top-4">
   <div class="margin-right-1">
     <button sdsStepperPrevious class="usa-button sds-button--circle usa-button--base usa-button--big padding-2"
-      [attr.id]="stepperID + '-prevBtn'">
+      [attr.id]="stepperID + '-prevBtn'" (click)="previousBtn($event)">
       <usa-icon [icon]="'chevron-left'"></usa-icon>
     </button>
 
     <label [attr.for]="stepperID + '-prevBtn'" class="text-right usa-link cursor-pointer display-block margin-top-2">
-      Go Back
+      Previous
     </label>
   </div>
 
@@ -25,7 +25,7 @@
   <div class="margin-right-1">
     <button #saveAndContinueBtn sdsStepperNext
       class="usa-button sds-button--circle usa-button--base usa-button--big usa-button--active padding-2"
-      [attr.id]="stepperID + '-nextBtn'">
+      [attr.id]="stepperID + '-nextBtn'" (click)="nextBtn($event)">
       <usa-icon [icon]="'chevron-right'"></usa-icon>
     </button>
     <label [attr.for]="stepperID + '-nextBtn'" class="text-left usa-link cursor-pointer display-block margin-top-2">

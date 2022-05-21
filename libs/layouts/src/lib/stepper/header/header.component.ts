@@ -42,10 +42,10 @@ export class SLStepperHeaderComponent
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'sam-layouts-stepper-header-custom',
-  templateUrl: './header-custom.component.html',
+  selector: 'sam-layouts-stepper-header-with-status',
+  templateUrl: './header-with-status.component.html',
 })
-export class SLStepperHeaderCustomComponent {
+export class SLStepperHeaderWithStatusComponent {
   @Input() title: string;
   @Input() status: string;
 }
