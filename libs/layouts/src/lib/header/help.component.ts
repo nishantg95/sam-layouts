@@ -1,10 +1,12 @@
 import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';
 import { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
 import {
   SdsDialogRef,
   SdsDialogService,
   SDS_DIALOG_DATA,
 } from '@gsa-sam/components';
+import { filter } from 'rxjs/operators';
 
 interface Data {
   help: [];
@@ -20,6 +22,7 @@ interface Data {
       (click)="openSlidePanel()"
       matTooltipClass='help-tooltip'
       matTooltip="Find help articles for features on this page"
+      title="Find help articles for features on this page"
       >
       <usa-icon
         class="text-info"
@@ -54,7 +57,9 @@ export class SdsHeaderHelpComponent {
 
 @Component({
   template: `
-    <div class="bg-base-lighter minh-full padding-x-2 padding-top-2">
+    <div
+      class="help-slide-out bg-base-lighter minh-full padding-x-2 padding-top-2"
+    >
       <div class="font-heading-lg text-semibold">Help</div>
       <div *ngFor="let item of data.help">
         <div
@@ -71,9 +76,21 @@ export class SdsHeaderHelpComponent {
       </div>
     </div>
   `,
+  styles: ['.help-slide-out .sds-list .usa-link:hover { color: #625028; }'], // 508: Contrast fix
+  encapsulation: ViewEncapsulation.None,
 })
 export class HelpContentComponent {
-  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}
+  constructor(
+    private router: Router,
+    public dialogRef: SdsDialogRef<HelpContentComponent>,
+    @Inject(SDS_DIALOG_DATA) public data: Data
+  ) {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationStart))
+      .subscribe(() => {
+        this.dialogRef.close();
+      });
+  }
 
   inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {
     ref = ref as ComponentRef<never>;
