@@ -53,12 +53,12 @@
         },
         {
             "name": "Data",
-            "id": "interface-Data-9f44040371f9df5d5722e0ca9bda758d66cc4e616f5fee4e0b3034a9663150be1ef6572bb1b99fa9564343ea2e98a3a496192f1bfda1c73aee8e08ae1f1a453a",
+            "id": "interface-Data-6eaeeb56022beec31ee156a8ead6b2a850970e1c75709c2e2a5f59b4716078680eccf9b9b2c5a8c96387680743894fe3cfcdfea6ed1981c0e72e936e6b3a7afb",
             "file": "libs/layouts/src/lib/header/help.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport { NavigationStart, Router } from '@angular/router';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\nimport { filter } from 'rxjs/operators';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      title=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div\n      class=\"help-slide-out bg-base-lighter minh-full padding-x-2 padding-top-2\"\n    >\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n  styles: ['.help-slide-out .sds-list .usa-link:hover { color: #625028; }'], // 508: Contrast fix\n  encapsulation: ViewEncapsulation.None,\n})\nexport class HelpContentComponent {\n  constructor(\n    private router: Router,\n    public dialogRef: SdsDialogRef<HelpContentComponent>,\n    @Inject(SDS_DIALOG_DATA) public data: Data\n  ) {\n    this.router.events\n      .pipe(filter((event) => event instanceof NavigationStart))\n      .subscribe(() => {\n        this.dialogRef.close();\n      });\n  }\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
             "properties": [
                 {
                     "name": "help",
@@ -67,7 +67,7 @@
                     "type": "[]",
                     "optional": false,
                     "description": "",
-                    "line": 10
+                    "line": 12
                 }
             ],
             "indexSignatures": [],
@@ -2030,7 +2030,7 @@
         },
         {
             "name": "DemoStepperAdvancedComponent",
-            "id": "component-DemoStepperAdvancedComponent-cb6237efd23ce1f17960ca39ff8c15253c5e985c5470a9c626ebcf2089c4d37dd97349e45c16f5e716a94fc4b3dedb9b6bc1ab538707ad94b233b9f6809a57ee",
+            "id": "component-DemoStepperAdvancedComponent-ae6813f1f050928290f08fe7d5e8bf988be85083b064bc3e6247eff66387643436ca053d3ca6e317c69c744078ac23319d1fdece20f9946efcdabb03e2ed0c13",
             "file": "libs/layouts/src/lib/stepper/demo/advanced/advanced.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2071,7 +2071,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 57
+                    "line": 62
                 },
                 {
                     "name": "model",
@@ -2091,7 +2091,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 58
+                    "line": 63
                 },
                 {
                     "name": "showLoading",
@@ -2122,6 +2122,16 @@
                     "optional": false,
                     "description": "",
                     "line": 55
+                },
+                {
+                    "name": "versions",
+                    "defaultValue": "[\n    { label: '2', value: '2'},\n    { label: '1', value: '1'},\n  ]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 57
                 }
             ],
             "methodsClass": [
@@ -2138,7 +2148,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 84,
+                    "line": 89,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2166,7 +2176,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 72,
+                    "line": 77,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2194,7 +2204,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 61,
+                    "line": 66,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2215,7 +2225,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 80,
+                    "line": 85,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -2232,7 +2242,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 76,
+                    "line": 81,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2255,7 +2265,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\nimport { FormlyUtilsService, SdsStepper } from '@gsa-sam/sam-formly';\nimport { FormlyFieldConfig } from '@ngx-formly/core';\nimport { StepperAdvancedService } from './advanced.service';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: `demo-stepper-advanced`,\n  templateUrl: `./advanced.component.html`,\n  providers: [StepperAdvancedService, SdsStepper],\n})\nexport class DemoStepperAdvancedComponent {\n  model = {\n    subawardee: [],\n  };\n\n  showLoading = false;\n\n  stepMap = {\n    welcome: {\n      validationFn: () => true,\n    },\n    registrationPurpose: {\n      fieldConfig: this.stepperAdvancedService.getRegistrationPurpose(),\n    },\n    enitityInformation: {\n      fieldConfig: this.stepperAdvancedService.getEntityInformation(),\n    },\n    reportDetails: {\n      fieldConfig: this.stepperAdvancedService.getReportDetails() as FormlyFieldConfig,\n    },\n    taxpayerInformation: {\n      fieldConfig: this.stepperAdvancedService.getTaxpayerForm(),\n    },\n    subawardee: {\n      validationFn: (model: any) => {\n        return model.subawardee.length ? true : undefined;\n      },\n    },\n    review: {\n      fieldConfig: {\n        fieldGroup: [\n          this.stepperAdvancedService.getRegistrationPurpose(),\n          this.stepperAdvancedService.getEntityInformation(),\n          this.stepperAdvancedService.getReportDetails() as FormlyFieldConfig,\n          this.stepperAdvancedService.getTaxpayerForm(),\n        ],\n      },\n      validationFn: () => true,\n    },\n  };\n\n  currentStepId: string | undefined;\n  stepValidityMap = {};\n\n  linear = false;\n  reinitializeComponents = false;\n  constructor(private stepperAdvancedService: StepperAdvancedService) {}\n\n  onStepChange($event: any) {\n    this.currentStepId = $event.id;\n\n    if (this.currentStepId === 'review') {\n      FormlyUtilsService.setReadonlyMode(\n        true,\n        this.stepMap.review.fieldConfig.fieldGroup as any\n      );\n    }\n  }\n\n  onSaveData(data: { model: any; metadata: any }) {\n    console.log(data);\n  }\n\n  updateSubawardee($event: any) {\n    this.model.subawardee = $event;\n  }\n\n  toggleLinearMode() {\n    this.linear = !this.linear;\n  }\n\n  customBtnClick(evt: MouseEvent){\n    console.log(evt)\n  }\n}\n",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { FormlyUtilsService, SdsStepper } from '@gsa-sam/sam-formly';\nimport { FormlyFieldConfig } from '@ngx-formly/core';\nimport { StepperAdvancedService } from './advanced.service';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: `demo-stepper-advanced`,\n  templateUrl: `./advanced.component.html`,\n  providers: [StepperAdvancedService, SdsStepper],\n})\nexport class DemoStepperAdvancedComponent {\n  model = {\n    subawardee: [],\n  };\n\n  showLoading = false;\n\n  stepMap = {\n    welcome: {\n      validationFn: () => true,\n    },\n    registrationPurpose: {\n      fieldConfig: this.stepperAdvancedService.getRegistrationPurpose(),\n    },\n    enitityInformation: {\n      fieldConfig: this.stepperAdvancedService.getEntityInformation(),\n    },\n    reportDetails: {\n      fieldConfig: this.stepperAdvancedService.getReportDetails() as FormlyFieldConfig,\n    },\n    taxpayerInformation: {\n      fieldConfig: this.stepperAdvancedService.getTaxpayerForm(),\n    },\n    subawardee: {\n      validationFn: (model: any) => {\n        return model.subawardee.length ? true : undefined;\n      },\n    },\n    review: {\n      fieldConfig: {\n        fieldGroup: [\n          this.stepperAdvancedService.getRegistrationPurpose(),\n          this.stepperAdvancedService.getEntityInformation(),\n          this.stepperAdvancedService.getReportDetails() as FormlyFieldConfig,\n          this.stepperAdvancedService.getTaxpayerForm(),\n        ],\n      },\n      validationFn: () => true,\n    },\n  };\n\n  currentStepId: string | undefined;\n  stepValidityMap = {};\n\n  versions = [\n    { label: '2', value: '2'},\n    { label: '1', value: '1'},\n  ];\n\n  linear = false;\n  reinitializeComponents = false;\n  constructor(private stepperAdvancedService: StepperAdvancedService) {}\n\n  onStepChange($event: any) {\n    this.currentStepId = $event.id;\n\n    if (this.currentStepId === 'review') {\n      FormlyUtilsService.setReadonlyMode(\n        true,\n        this.stepMap.review.fieldConfig.fieldGroup as any\n      );\n    }\n  }\n\n  onSaveData(data: { model: any; metadata: any }) {\n    console.log(data);\n  }\n\n  updateSubawardee($event: any) {\n    this.model.subawardee = $event;\n  }\n\n  toggleLinearMode() {\n    this.linear = !this.linear;\n  }\n\n  customBtnClick(evt: MouseEvent){\n    console.log(evt)\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -2272,7 +2282,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 58,
+                "line": 63,
                 "jsdoctags": [
                     {
                         "name": "stepperAdvancedService",
@@ -2285,7 +2295,7 @@
                     }
                 ]
             },
-            "templateData": "<button class=\"usa-button margin-bottom-3\" (click)=\"toggleLinearMode()\">Toggle Linear Mode</button>\n\n<sam-layouts-stepper [hideSideNav]=\"false\" [queryParamKey]=\"'sdsAdvancedStepper'\" [model]=\"model\"\n  [stepValidityMap]=\"stepValidityMap\" (stepChange)=\"onStepChange($event)\" [linear]=\"linear\"\n  (saveData)=\"onSaveData($event)\">\n\n  <sds-step id=\"welcome\" text=\"Welcome\" [stepTemplate]=\"gatherInformation\"\n    [stepValidationFn]=\"stepMap.welcome.validationFn\">\n  </sds-step>\n\n  <sds-step id=\"entityDetails\" text=\"Entity Details\" [editable]=\"false\">\n    <sds-step id=\"registrationPurpose\" text=\"Purpose of Registration\"\n      [fieldConfig]=\"stepMap.registrationPurpose.fieldConfig\">\n      <h1 sdsStepHeader class=\"margin-top-0\">\n        Purpose of Registration\n        <hr>\n      </h1>\n    </sds-step>\n\n    <sds-step id=\"entityInformation\" text=\"Entity Information\" [fieldConfig]=\"stepMap.enitityInformation.fieldConfig\">\n      <h1 sdsStepHeader class=\"margin-top-0\">\n        Enter Entity Information\n        <hr>\n      </h1>\n    </sds-step>\n\n    <sds-step id=\"reportDetails\" text=\"Report Details\" [fieldConfig]=\"stepMap.reportDetails.fieldConfig\">\n      <h1 sdsStepHeader class=\"margin-top-0\">\n        Report Details\n        <hr>\n      </h1>\n    </sds-step>\n  </sds-step>\n\n  <sds-step id=\"taxPayerInfoForm\" text=\"Taxpayer Details\" [fieldConfig]=\"stepMap.taxpayerInformation.fieldConfig\">\n    <h1 sdsStepHeader class=\"margin-top-0\">\n      Enter Taxpayer Details\n      <hr>\n    </h1>\n  </sds-step>\n\n  <sds-step id=\"addSubawardee\" text=\"Add Subawardee\" [stepTemplate]=\"subawardeeStep\"\n    [stepValidationFn]=\"stepMap.subawardee.validationFn\">\n  </sds-step>\n\n  <sds-step id=\"review\" text=\"Review and Submit\" [isReview]=\"true\" [stepTemplate]=\"reviewTemplate\"\n    [stepValidationFn]=\"stepMap.review.validationFn\">\n  </sds-step>\n\n</sam-layouts-stepper>\n\n<!-- Custom Templates -->\n<ng-template #gatherInformation>\n  <h1 class=\"margin-top-0\">\n    Gather Your Information\n  </h1>\n  <div class=\"sds-card\">\n    <div class=\"sds-card__header\">\n      <h2>\n        U.S. REGISTRANTS:\n      </h2>\n    </div>\n    <div class=\"sds-card__body\">\n      <ul class=\"usa-list usa-list--unstyled\">\n        <li class=\"margin-bottom-4\">\n          <h3>Entity Details</h3>\n          <ul class=\"usa-list\">\n            <li>Purpose of Registration</li>\n            <li>Legal Business Name</li>\n            <li>Physical Address</li>\n          </ul>\n        </li>\n        <li class=\"margin-bottom-4\">\n          <h3>Taxpayer Information</h3>\n          <ul class=\"usa-list\">\n            <li>Taxpayer Identification Number (TIN)</li>\n            <li>Taxpayer Name</li>\n          </ul>\n          <span class=\"display-block text-small\">\n            Review your tax documents from the IRS (such as a 1099 or w2 form)\n            to find your Taxpayer information.\n          </span>\n        </li>\n        <li class=\"margin-bottom-4\">\n          <h3>Banking Information</h3>\n          <ul class=\"usa-list\">\n            <li>Routing Number</li>\n            <li>Account Number</li>\n          </ul>\n          <span class=\"display-block text-small\">\n            Account type (checking or savings) to set up Electronic Funds Transfer (ETF)\n          </span>\n        </li>\n      </ul>\n    </div>\n  </div>\n</ng-template>\n\n<ng-template #subawardeeStep>\n  <ng-container *ngIf=\"!showLoading; else loading\">\n    <h1 class=\"margin-top-0\">\n      Subawardee Data\n      <hr>\n    </h1>\n    <subawardee-demo (subawardeeUpdate)=\"updateSubawardee($event)\" [subawardees]=\"model.subawardee\"></subawardee-demo>\n  </ng-container>\n  <ng-template #loading>\n    <div class=\"grid-container padding-left-0\">\n      <div class=\"sds-load grid-row\">\n        <div class=\"grid-col-5 sds-load__title\"></div>\n      </div>\n      <div class=\"sds-load margin-top-1\">\n        <div class=\"tablet:grid-col-fill sds-load__element\"></div>\n      </div>\n      <div class=\"sds-load margin-top-1\">\n        <div class=\"grid-col-8 height-4 sds-load__content\"></div>\n      </div>\n    </div>\n  </ng-template>\n</ng-template>\n\n<ng-template #reviewTemplate>\n  <h1 class=\"margin-top-0\">\n    Review and Submit\n    <hr>\n  </h1>\n  <formly-form [fields]=\"[stepMap.review.fieldConfig]\" [model]=\"model\"></formly-form>\n  <subawardee-demo [displayInput]=\"false\" [subawardees]=\"model.subawardee\"></subawardee-demo>\n</ng-template>\n"
+            "templateData": "<button class=\"usa-button margin-bottom-3\" (click)=\"toggleLinearMode()\">Toggle Linear Mode</button>\n\n<sam-layouts-stepper [hideSideNav]=\"false\" [queryParamKey]=\"'sdsAdvancedStepper'\" [model]=\"model\"\n  [stepValidityMap]=\"stepValidityMap\" (stepChange)=\"onStepChange($event)\" [linear]=\"linear\"\n  (saveData)=\"onSaveData($event)\" expirationDate=\"N/A\" [versions]=\"versions\">\n\n  <sam-layouts-stepper-header-with-status title=\"Test Title\" status=\"Draft\">\n  </sam-layouts-stepper-header-with-status>\n\n  <sds-step id=\"welcome\" text=\"Welcome\" [stepTemplate]=\"gatherInformation\"\n    [stepValidationFn]=\"stepMap.welcome.validationFn\">\n  </sds-step>\n\n  <sds-step id=\"entityDetails\" text=\"Entity Details\" [editable]=\"false\">\n    <sds-step id=\"registrationPurpose\" text=\"Purpose of Registration\"\n      [fieldConfig]=\"stepMap.registrationPurpose.fieldConfig\">\n      <h1 sdsStepHeader class=\"margin-top-0\">\n        Purpose of Registration\n        <hr>\n      </h1>\n    </sds-step>\n\n    <sds-step id=\"entityInformation\" text=\"Entity Information\" [fieldConfig]=\"stepMap.enitityInformation.fieldConfig\">\n      <h1 sdsStepHeader class=\"margin-top-0\">\n        Enter Entity Information\n        <hr>\n      </h1>\n    </sds-step>\n\n    <sds-step id=\"reportDetails\" text=\"Report Details\" [fieldConfig]=\"stepMap.reportDetails.fieldConfig\">\n      <h1 sdsStepHeader class=\"margin-top-0\">\n        Report Details\n        <hr>\n      </h1>\n    </sds-step>\n  </sds-step>\n\n  <sds-step id=\"taxPayerInfoForm\" text=\"Taxpayer Details\" [fieldConfig]=\"stepMap.taxpayerInformation.fieldConfig\">\n    <h1 sdsStepHeader class=\"margin-top-0\">\n      Enter Taxpayer Details\n      <hr>\n    </h1>\n  </sds-step>\n\n  <sds-step id=\"addSubawardee\" text=\"Add Subawardee\" [stepTemplate]=\"subawardeeStep\"\n    [stepValidationFn]=\"stepMap.subawardee.validationFn\">\n  </sds-step>\n\n  <sds-step id=\"review\" text=\"Review and Submit\" [isReview]=\"true\" [stepTemplate]=\"reviewTemplate\"\n    [stepValidationFn]=\"stepMap.review.validationFn\">\n  </sds-step>\n\n</sam-layouts-stepper>\n\n<!-- Custom Templates -->\n<ng-template #gatherInformation>\n  <h1 class=\"margin-top-0\">\n    Gather Your Information\n  </h1>\n  <div class=\"sds-card\">\n    <div class=\"sds-card__header\">\n      <h2>\n        U.S. REGISTRANTS:\n      </h2>\n    </div>\n    <div class=\"sds-card__body\">\n      <ul class=\"usa-list usa-list--unstyled\">\n        <li class=\"margin-bottom-4\">\n          <h3>Entity Details</h3>\n          <ul class=\"usa-list\">\n            <li>Purpose of Registration</li>\n            <li>Legal Business Name</li>\n            <li>Physical Address</li>\n          </ul>\n        </li>\n        <li class=\"margin-bottom-4\">\n          <h3>Taxpayer Information</h3>\n          <ul class=\"usa-list\">\n            <li>Taxpayer Identification Number (TIN)</li>\n            <li>Taxpayer Name</li>\n          </ul>\n          <span class=\"display-block text-small\">\n            Review your tax documents from the IRS (such as a 1099 or w2 form)\n            to find your Taxpayer information.\n          </span>\n        </li>\n        <li class=\"margin-bottom-4\">\n          <h3>Banking Information</h3>\n          <ul class=\"usa-list\">\n            <li>Routing Number</li>\n            <li>Account Number</li>\n          </ul>\n          <span class=\"display-block text-small\">\n            Account type (checking or savings) to set up Electronic Funds Transfer (ETF)\n          </span>\n        </li>\n      </ul>\n    </div>\n  </div>\n</ng-template>\n\n<ng-template #subawardeeStep>\n  <ng-container *ngIf=\"!showLoading; else loading\">\n    <h1 class=\"margin-top-0\">\n      Subawardee Data\n      <hr>\n    </h1>\n    <subawardee-demo (subawardeeUpdate)=\"updateSubawardee($event)\" [subawardees]=\"model.subawardee\"></subawardee-demo>\n  </ng-container>\n  <ng-template #loading>\n    <div class=\"grid-container padding-left-0\">\n      <div class=\"sds-load grid-row\">\n        <div class=\"grid-col-5 sds-load__title\"></div>\n      </div>\n      <div class=\"sds-load margin-top-1\">\n        <div class=\"tablet:grid-col-fill sds-load__element\"></div>\n      </div>\n      <div class=\"sds-load margin-top-1\">\n        <div class=\"grid-col-8 height-4 sds-load__content\"></div>\n      </div>\n    </div>\n  </ng-template>\n</ng-template>\n\n<ng-template #reviewTemplate>\n  <h1 class=\"margin-top-0\">\n    Review and Submit\n    <hr>\n  </h1>\n  <formly-form [fields]=\"[stepMap.review.fieldConfig]\" [model]=\"model\"></formly-form>\n  <subawardee-demo [displayInput]=\"false\" [subawardees]=\"model.subawardee\"></subawardee-demo>\n</ng-template>\n"
         },
         {
             "name": "DemoStepperSimpleComponent",
@@ -2611,16 +2621,20 @@
         },
         {
             "name": "HelpContentComponent",
-            "id": "component-HelpContentComponent-9f44040371f9df5d5722e0ca9bda758d66cc4e616f5fee4e0b3034a9663150be1ef6572bb1b99fa9564343ea2e98a3a496192f1bfda1c73aee8e08ae1f1a453a",
+            "id": "component-HelpContentComponent-6eaeeb56022beec31ee156a8ead6b2a850970e1c75709c2e2a5f59b4716078680eccf9b9b2c5a8c96387680743894fe3cfcdfea6ed1981c0e72e936e6b3a7afb",
             "file": "libs/layouts/src/lib/header/help.component.ts",
-            "encapsulation": [],
+            "encapsulation": [
+                "ViewEncapsulation.None"
+            ],
             "entryComponents": [],
             "inputs": [],
             "outputs": [],
             "providers": [],
             "styleUrls": [],
-            "styles": [],
-            "template": "<div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n  <div class=\"font-heading-lg text-semibold\">Help</div>\n  <div *ngFor=\"let item of data.help\">\n    <div\n      class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n    >\n      {{ item.head.title }}\n    </div>\n    <ng-template\n      *ngFor=\"let content of item.body.content\"\n      [cdkPortalOutlet]=\"content.component\"\n      (attached)=\"inputs($event, content.inputs)\"\n    >\n    </ng-template>\n  </div>\n</div>\n",
+            "styles": [
+                ".help-slide-out .sds-list .usa-link:hover { color: #625028; }"
+            ],
+            "template": "<div\n  class=\"help-slide-out bg-base-lighter minh-full padding-x-2 padding-top-2\"\n>\n  <div class=\"font-heading-lg text-semibold\">Help</div>\n  <div *ngFor=\"let item of data.help\">\n    <div\n      class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n    >\n      {{ item.head.title }}\n    </div>\n    <ng-template\n      *ngFor=\"let content of item.body.content\"\n      [cdkPortalOutlet]=\"content.component\"\n      (attached)=\"inputs($event, content.inputs)\"\n    >\n    </ng-template>\n  </div>\n</div>\n",
             "templateUrl": [],
             "viewProviders": [],
             "inputsClass": [],
@@ -2633,13 +2647,25 @@
                     "type": "Data",
                     "optional": false,
                     "description": "",
-                    "line": 76,
+                    "line": 86,
                     "decorators": [
                         {
                             "name": "Inject",
                             "stringifiedArguments": "SDS_DIALOG_DATA"
                         }
                     ],
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "dialogRef",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "SdsDialogRef<HelpContentComponent>",
+                    "optional": false,
+                    "description": "",
+                    "line": 85,
                     "modifierKind": [
                         123
                     ]
@@ -2666,7 +2692,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 78,
+                    "line": 95,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2699,10 +2725,10 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport { NavigationStart, Router } from '@angular/router';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\nimport { filter } from 'rxjs/operators';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      title=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div\n      class=\"help-slide-out bg-base-lighter minh-full padding-x-2 padding-top-2\"\n    >\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n  styles: ['.help-slide-out .sds-list .usa-link:hover { color: #625028; }'], // 508: Contrast fix\n  encapsulation: ViewEncapsulation.None,\n})\nexport class HelpContentComponent {\n  constructor(\n    private router: Router,\n    public dialogRef: SdsDialogRef<HelpContentComponent>,\n    @Inject(SDS_DIALOG_DATA) public data: Data\n  ) {\n    this.router.events\n      .pipe(filter((event) => event instanceof NavigationStart))\n      .subscribe(() => {\n        this.dialogRef.close();\n      });\n  }\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
-            "stylesData": "",
+            "stylesData": ".help-slide-out .sds-list .usa-link:hover { color: #625028; }\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -2710,14 +2736,44 @@
                 "deprecationMessage": "",
                 "args": [
                     {
+                        "name": "router",
+                        "type": "Router",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "dialogRef",
+                        "type": "SdsDialogRef<HelpContentComponent>",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
                         "name": "data",
                         "type": "Data",
                         "deprecated": false,
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 75,
+                "line": 82,
                 "jsdoctags": [
+                    {
+                        "name": "router",
+                        "type": "Router",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "dialogRef",
+                        "type": "SdsDialogRef<HelpContentComponent>",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
                     {
                         "name": "data",
                         "type": "Data",
@@ -4146,7 +4202,7 @@
         },
         {
             "name": "SdsHeaderHelpComponent",
-            "id": "component-SdsHeaderHelpComponent-9f44040371f9df5d5722e0ca9bda758d66cc4e616f5fee4e0b3034a9663150be1ef6572bb1b99fa9564343ea2e98a3a496192f1bfda1c73aee8e08ae1f1a453a",
+            "id": "component-SdsHeaderHelpComponent-6eaeeb56022beec31ee156a8ead6b2a850970e1c75709c2e2a5f59b4716078680eccf9b9b2c5a8c96387680743894fe3cfcdfea6ed1981c0e72e936e6b3a7afb",
             "file": "libs/layouts/src/lib/header/help.component.ts",
             "encapsulation": [
                 "ViewEncapsulation.None"
@@ -4160,7 +4216,7 @@
                 "./help.component.scss"
             ],
             "styles": [],
-            "template": "<button\n  class=\"usa-button usa-button--unstyled\"\n  (click)=\"openSlidePanel()\"\n  matTooltipClass='help-tooltip'\n  matTooltip=\"Find help articles for features on this page\"\n  >\n  <usa-icon\n    class=\"text-info\"\n    [icon]=\"'question-circle'\"\n    [size]=\"'2x'\"\n  ></usa-icon>\n</button>\n",
+            "template": "<button\n  class=\"usa-button usa-button--unstyled\"\n  (click)=\"openSlidePanel()\"\n  matTooltipClass='help-tooltip'\n  matTooltip=\"Find help articles for features on this page\"\n  title=\"Find help articles for features on this page\"\n  >\n  <usa-icon\n    class=\"text-info\"\n    [icon]=\"'question-circle'\"\n    [size]=\"'2x'\"\n  ></usa-icon>\n</button>\n",
             "templateUrl": [],
             "viewProviders": [],
             "inputsClass": [
@@ -4168,7 +4224,7 @@
                     "name": "content",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 33,
+                    "line": 36,
                     "type": "any",
                     "decorators": []
                 }
@@ -4182,7 +4238,7 @@
                     "type": "SdsDialogService",
                     "optional": false,
                     "description": "",
-                    "line": 37,
+                    "line": 40,
                     "modifierKind": [
                         123
                     ]
@@ -4194,7 +4250,7 @@
                     "type": "SdsDialogRef<HelpContentComponent>",
                     "optional": false,
                     "description": "",
-                    "line": 35
+                    "line": 38
                 }
             ],
             "methodsClass": [
@@ -4204,7 +4260,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 39,
+                    "line": 42,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -4216,7 +4272,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div class=\"bg-base-lighter height-full padding-x-2 padding-top-2\">\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n})\nexport class HelpContentComponent {\n  constructor(@Inject(SDS_DIALOG_DATA) public data: Data) {}\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport { NavigationStart, Router } from '@angular/router';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\nimport { filter } from 'rxjs/operators';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      title=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div\n      class=\"help-slide-out bg-base-lighter minh-full padding-x-2 padding-top-2\"\n    >\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n  styles: ['.help-slide-out .sds-list .usa-link:hover { color: #625028; }'], // 508: Contrast fix\n  encapsulation: ViewEncapsulation.None,\n})\nexport class HelpContentComponent {\n  constructor(\n    private router: Router,\n    public dialogRef: SdsDialogRef<HelpContentComponent>,\n    @Inject(SDS_DIALOG_DATA) public data: Data\n  ) {\n    this.router.events\n      .pipe(filter((event) => event instanceof NavigationStart))\n      .subscribe(() => {\n        this.dialogRef.close();\n      });\n  }\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -4238,7 +4294,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 35,
+                "line": 38,
                 "jsdoctags": [
                     {
                         "name": "dialog",
@@ -4330,7 +4386,7 @@
         },
         {
             "name": "SdsLandingLinkComponent",
-            "id": "component-SdsLandingLinkComponent-5a1e43dc865d27c0432129a79ffb07db0c75308a9c1b24e75565eea265128afb4515834600f3e6dc66ddf242b0a80818abd0d76540f6b375fd7b1576a1476227",
+            "id": "component-SdsLandingLinkComponent-f964e6af4c8dd4e14ba7f30674843ee676aa4d3486ff9abd76f2b3e316d5fb66d85784464278f0ab3f2df97c3293eb5d06e955602f744a8884492719474a221a",
             "file": "libs/layouts/src/lib/landing/link/link.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -4364,11 +4420,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { AfterViewInit, Component, Input, OnInit } from '@angular/core';\nimport { Link } from './link.model';\n\n@Component({\n  selector: 'sds-landing-link',\n  templateUrl: './link.component.html'\n})\nexport class SdsLandingLinkComponent {\n  @Input() link;\n}\n",
+            "sourceCode": "import { Component, Input } from '@angular/core';\nimport { Link } from './link.model';\n\n@Component({\n  selector: 'sds-landing-link',\n  templateUrl: './link.component.html'\n})\nexport class SdsLandingLinkComponent {\n  @Input() link;\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
-            "templateData": "<a\n  *ngIf=\"link.href; else internalLink\"\n  class=\"usa-link\"\n  [class.usa-link--external]=\"link.target === '_blank'\"\n  [ngClass]=\"link.classes\"\n  [href]=\"link.href\"\n  [target]=\"link.target\"\n  [innerHtml]=\"link.innerHtml\"\n  [attr.aria-label]=\"\n    link.target === '_blank' ? link.ariaLabel + ' (Opens a new window)' : null\n  \"\n></a>\n\n<ng-template #internalLink>\n  <a\n    class=\"usa-link\"\n    [ngClass]=\"link.classes\"\n    [routerLink]=\"link.routerLink\"\n    [queryParams]=\"link.queryParams\"\n    [innerHtml]=\"link.innerHtml\"\n    [attr.aria-label]=\"link.ariaLabel\"\n  ></a>\n</ng-template>\n"
+            "templateData": "<a\n  *ngIf=\"link.href; else internalLink\"\n  class=\"usa-link\"\n  [ngClass]=\"link.classes\"\n  [href]=\"link.href\"\n  [innerHtml]=\"link.innerHtml\"\n></a>\n\n<ng-template #internalLink>\n  <a\n    class=\"usa-link\"\n    [ngClass]=\"link.classes\"\n    [routerLink]=\"link.routerLink\"\n    [queryParams]=\"link.queryParams\"\n    [innerHtml]=\"link.innerHtml\"\n    [attr.aria-label]=\"link.ariaLabel\"\n  ></a>\n</ng-template>\n"
         },
         {
             "name": "SdsLandingListComponent",
@@ -6369,7 +6425,7 @@
         },
         {
             "name": "SLStepperComponent",
-            "id": "component-SLStepperComponent-73a7e4cd41597240a5152ae00dc031121801c316de4a4c34db6660834933d70f54758368fd288aaff6c286ed918cd3c1066ba2d0a97545ea23494eab4d24ba8a",
+            "id": "component-SLStepperComponent-1afa18175b6d124e7c6c62d0853f12faa63a98744453fd83fdd2f604fa8227a275bc0c87e2a86541debf74986aa3c4752cd201ebf240bdb9aab4e20578b24b4e",
             "file": "libs/layouts/src/lib/stepper/stepper.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -6382,30 +6438,107 @@
                 }
             ],
             "selector": "sam-layouts-stepper",
-            "styleUrls": [],
-            "styles": [
-                ".justify-content-space-between {justify-content: space-between; }",
-                ".usa-sidenav__item--disabled {cursor: default; hover:none; opacity: 60%; pointer-events: none}",
-                ".usa-step-indicator__header { border: 1px solid red; }"
+            "styleUrls": [
+                "./stepper.component.scss"
             ],
+            "styles": [],
             "templateUrl": [
                 "./stepper.component.html"
             ],
             "viewProviders": [],
             "inputsClass": [
                 {
+                    "name": "expirationDate",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 20,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
                     "name": "hideSideNav",
                     "defaultValue": "true",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 18,
+                    "line": 22,
                     "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "reviewMode",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 21,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "versions",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 19,
+                    "type": "[]",
                     "decorators": []
                 }
             ],
-            "outputsClass": [],
+            "outputsClass": [
+                {
+                    "name": "nextClick",
+                    "defaultValue": "new EventEmitter<any>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 25,
+                    "type": "EventEmitter"
+                },
+                {
+                    "name": "previousClick",
+                    "defaultValue": "new EventEmitter<any>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 24,
+                    "type": "EventEmitter"
+                },
+                {
+                    "name": "versionChange",
+                    "defaultValue": "new EventEmitter<any>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 23,
+                    "type": "EventEmitter"
+                }
+            ],
             "propertiesClass": [],
-            "methodsClass": [],
+            "methodsClass": [
+                {
+                    "name": "versionSelected",
+                    "args": [
+                        {
+                            "name": "event",
+                            "type": "",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 27,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "event",
+                            "type": "",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [],
@@ -6413,19 +6546,77 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { AfterContentInit, Component, Input } from '@angular/core';\nimport { SdsStepper } from '@gsa-sam/sam-formly';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper',\n  templateUrl: './stepper.component.html',\n  providers: [{ provide: SdsStepper, useExisting: SLStepperComponent }],\n  styles: [\n    '.justify-content-space-between {justify-content: space-between; }',\n    '.usa-sidenav__item--disabled {cursor: default; hover:none; opacity: 60%; pointer-events: none}',\n    '.usa-step-indicator__header { border: 1px solid red; }'\n  ],\n})\nexport class SLStepperComponent extends SdsStepper implements AfterContentInit {\n\n  @Input() hideSideNav = true;\n\n  /**\n   * @ignore\n   */\n  stepLabels: any = [];\n  /**\n   * @ignore\n   */\n  currentStepIndex = 0;\n\n  /**\n   * @ignore\n   */\n  ngAfterContentInit() {\n    super.ngAfterContentInit();\n    this.stepLabels = this.stepTemplates.map((stepTemplate, index) => {\n      if (stepTemplate.id === this.currentStepId) {\n        this.currentStepIndex = index;\n      }\n      return { ...stepTemplate, label: stepTemplate.text };\n    });\n  }\n}\n",
+            "sourceCode": "import {\n  ChangeDetectorRef,\n  Component,\n  EventEmitter,\n  Input,\n  Output,\n} from '@angular/core';\nimport { ActivatedRoute, Router } from '@angular/router';\nimport { SdsStepper } from '@gsa-sam/sam-formly';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper',\n  providers: [{ provide: SdsStepper, useExisting: SLStepperComponent }],\n  templateUrl: './stepper.component.html',\n  styleUrls: ['./stepper.component.scss'],\n})\nexport class SLStepperComponent extends SdsStepper {\n  @Input() versions: [];\n  @Input() expirationDate: string;\n  @Input() reviewMode = false;\n  @Input() hideSideNav = true;\n  @Output() versionChange = new EventEmitter<any>();\n  @Output() previousClick = new EventEmitter<any>();\n  @Output() nextClick = new EventEmitter<any>();\n\n  versionSelected(event) {\n    this.versionChange.emit(event.target.value);\n  }\n\n  constructor(\n    router: Router,\n    activatedRoute: ActivatedRoute,\n    cdr: ChangeDetectorRef\n  ) {\n    super(router, activatedRoute, cdr);\n  }\n}\n",
             "assetsDirs": [],
-            "styleUrlsData": "",
-            "stylesData": ".justify-content-space-between {justify-content: space-between; }\n.usa-sidenav__item--disabled {cursor: default; hover:none; opacity: 60%; pointer-events: none}\n.usa-step-indicator__header { border: 1px solid red; }\n",
-            "extends": "SdsStepper",
-            "implements": [
-                "AfterContentInit"
+            "styleUrlsData": [
+                {
+                    "data": "[type=justify-content-space-between], .justify-content-space-between{\n    justify-content: space-between;\n }\n[type=usa-sidenav__item--disabled], .usa-sidenav__item--disabled{\n    cursor: default;\n    opacity: 60%;\n    pointer-events: none;\n }\n",
+                    "styleUrl": "./stepper.component.scss"
+                }
             ],
-            "templateData": "<div class=\"grid-row\">\n  <div *ngIf=\"!hideSideNav\"\n    class=\"desktop:grid-col-4 tablet-lg:grid-col-12 mobile-lg:grid-col-12 margin-bottom-3 margin-right-2\">\n    <!-- =========================================================== -->\n    <!-- SIDE NAVIGATION -->\n    <!-- =========================================================== -->\n    <sds-side-toolbar [responsiveButtonText]=\"'Select Step'\">\n      <ng-template>\n        <div class=\"sds-card\">\n          <div class=\"sds-card__body sds-card__body--accent-cool\">\n\n            <ul class=\"usa-sidenav usa-sidenav--styled\">\n              <li *ngFor=\"let step of stepTemplates; let i = index;\" class=\"usa-sidenav__item\" [ngClass]=\"{\n                'usa-current':  selectedStep?.id === step.id\n              }\">\n                <ng-container [ngTemplateOutlet]=\"sidenavItem\" [ngTemplateOutletContext]=\"{$implicit: step}\">\n                </ng-container>\n                <ng-container [ngTemplateOutlet]=\"subPanelTemplate\" [ngTemplateOutletContext]=\"{$implicit:step}\">\n                </ng-container>\n              </li>\n            </ul>\n          </div>\n        </div>\n      </ng-template>\n    </sds-side-toolbar>\n  </div>\n\n  <!-- =========================================================== -->\n  <!-- STEPPER -->\n  <!-- =========================================================== -->\n  <div class=\"grid-col-fill\">\n\n    <ng-content select=\"sam-layouts-stepper-header\"></ng-content>\n\n    <!-- Body -->\n    <div [ngTemplateOutlet]=\"selectedStep ? selectedStep.content : null\"></div>\n\n    <!-- Footer -->\n    <sam-layouts-stepper-footer>\n      <ng-content select=\"[stepper-footer]\"></ng-content>\n    </sam-layouts-stepper-footer>\n  </div>\n\n</div>\n\n<!-- =========================================================== -->\n<!-- SIDE NAVIGATION TEMPLATES -->\n<!-- =========================================================== -->\n<ng-template #subPanelTemplate let-panelItem>\n  <div *ngFor=\"let pItem of getDisplayedSteps(panelItem.children); let i = index;\">\n    <ul class=\"usa-sidenav usa-sidenav--styled bg-base-lighter margin-x-0\">\n      <li class=\"usa-sidenav__item  padding-left-3\" [ngClass]=\"{'usa-current':  selectedStep?.id === pItem.id }\">\n        <ng-container [ngTemplateOutlet]=\"sidenavItem\" [ngTemplateOutletContext]=\"{$implicit: pItem}\"></ng-container>\n      </li>\n    </ul>\n  </div>\n</ng-template>\n\n<ng-template #sidenavItem let-step>\n  <ng-container [ngSwitch]=\"step.editable\">\n    <span *ngSwitchCase=\"false\">\n      <span class=\"padding-x-2 padding-y-1 display-block text-bold\">\n        {{step.text}}\n      </span>\n    </span>\n    <a *ngSwitchDefault href=\"javascript:void(0);\" [sdsStepperNav]=\"step\"\n      class=\"display-flex justify-content-space-between\"\n      [ngClass]=\"{'usa-sidenav__item--disabled': step.disabled || (step.isReview && _isReviewAndSubmitDisabled)}\">\n      <span>\n        {{step.text}}\n      </span>\n      <ng-container [ngTemplateOutlet]=\"sidenavIcon\" [ngTemplateOutletContext]=\"{$implicit: step}\"></ng-container>\n    </a>\n  </ng-container>\n</ng-template>\n\n<ng-template #sidenavIcon let-step>\n  <span>\n    <ng-container [ngSwitch]=\"step.valid\">\n      <usa-icon *ngSwitchCase=\"true\" [icon]=\"'check-circle-fill'\" class=\"text-primary\"></usa-icon>\n      <usa-icon *ngSwitchCase=\"false\" [icon]=\"'slash-circle-fill'\" class=\"text-error\"></usa-icon>\n      <usa-icon *ngSwitchDefault [icon]=\"'circle'\"></usa-icon>\n    </ng-container>\n  </span>\n</ng-template>\n"
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "router",
+                        "type": "Router",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "activatedRoute",
+                        "type": "ActivatedRoute",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "cdr",
+                        "type": "ChangeDetectorRef",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 29,
+                "jsdoctags": [
+                    {
+                        "name": "router",
+                        "type": "Router",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "activatedRoute",
+                        "type": "ActivatedRoute",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "cdr",
+                        "type": "ChangeDetectorRef",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "extends": "SdsStepper",
+            "templateData": "<div class=\"grid-row\">\n  <div *ngIf=\"!hideSideNav\" class=\"desktop:grid-col-3 tablet-lg:grid-col-12 mobile-lg:grid-col-12 margin-bottom-3 margin-right-2\">\n    <!-- =========================================================== -->\n    <!-- SIDE NAVIGATION -->\n    <!-- =========================================================== -->\n    <sds-side-toolbar [responsiveButtonText]=\"'Select Step'\">\n      <ng-template>\n        <div class=\"sds-card\">\n          <div class=\"sds-card__body sds-card__body--accent-cool\">\n            <ul class=\"usa-sidenav usa-sidenav--styled\">\n              <li *ngFor=\"let step of stepTemplates; let i = index;\" class=\"usa-sidenav__item\" [ngClass]=\"{\n                  'usa-current':  selectedStep?.id === step.id\n                }\">\n                <ng-container *ngIf=\"!step.hide\">\n                  <ng-container [ngTemplateOutlet]=\"sidenavItem\" [ngTemplateOutletContext]=\"{$implicit: step}\">\n                  </ng-container>\n                  <ng-container [ngTemplateOutlet]=\"subPanelTemplate\" [ngTemplateOutletContext]=\"{$implicit:step}\">\n                  </ng-container>\n                </ng-container>\n              </li>\n            </ul>\n          </div>\n        </div>\n      </ng-template>\n    </sds-side-toolbar>\n  </div>\n\n  <!-- =========================================================== -->\n  <!-- STEPPER -->\n  <!-- =========================================================== -->\n\n  <div class=\"grid-col-fill margin-left-2\">\n\n    <!-- =========================================================== -->\n    <!-- Types of headers -->\n    <!-- =========================================================== -->\n    <ng-content select=\"sam-layouts-stepper-header\"></ng-content>\n    <ng-content select=\"sam-layouts-stepper-header-with-status\"></ng-content>\n\n    <!-- =========================================================== -->\n    <!-- Options -->\n    <!-- =========================================================== -->\n    <div class=\"display-flex margin-top-1 margin-bottom-2\">\n      <div *ngIf=\"versions\">\n        <label class=\"text-semibold\" for=\"version\">Version</label>\n        <select class=\"sds-tag sds-tag--outline\" name=\"version\" id=\"version\" (change)=\"versionSelected($event)\">\n          <option *ngFor=\"let version of versions\" [value]=\"version.value\">\n            {{version?.label}}\n          </option>\n        </select>\n      </div>\n      <div *ngIf=\"expirationDate\">\n        <div class=\"text-semibold\">Expiration Date</div>\n        <span class=\"sds-tag sds-tag--outline flex-justify-center padding-y-1\">\n          {{ expirationDate }}\n        </span>\n      </div>\n      <div class=\"flex-align-self-end flex-fill text-right\">\n        <ng-content select=\"[sam-layouts-stepper-header-actions]\"></ng-content>\n      </div>\n    </div>\n\n    <!-- =========================================================== -->\n    <!-- Content -->\n    <!-- =========================================================== -->\n    <div *ngIf=\"!reviewMode\">\n      <div [ngTemplateOutlet]=\"selectedStep ? selectedStep.content : null\"></div>\n    </div>\n    <div *ngIf=\"reviewMode\">\n      <ng-content select=\"[sam-layouts-stepper-review-content]\"></ng-content>\n    </div>\n\n\n    <!-- =========================================================== -->\n    <!-- Footer -->\n    <!-- =========================================================== -->\n    <div class=\"grid-row grid-gap flex-justify-center margin-top-4\">\n      <div class=\"grid-col-fill\"></div>\n      <div class=\"grid-col-auto float-right\">\n        <ng-content select=\"[sam-layouts-stepper-footer-actions]\"></ng-content>\n      </div>\n    </div>\n\n\n    <!-- Footer -->\n    <sam-layouts-stepper-footer\n      (previousBtnClick)=\"previousClick.emit($event)\"\n      (nextBtnClick)=\"nextClick.emit($event)\">\n      <ng-content select=\"[stepper-footer]\"></ng-content>\n    </sam-layouts-stepper-footer>\n\n  </div>\n</div>\n\n<!-- =========================================================== -->\n<!-- SIDE NAVIGATION TEMPLATES -->\n<!-- =========================================================== -->\n\n<ng-template #subPanelTemplate let-panelItem>\n  <div *ngFor=\"let pItem of getDisplayedSteps(panelItem.children); let i = index;\">\n    <ul class=\"usa-sidenav usa-sidenav--styled bg-base-lighter margin-x-0\">\n      <li class=\"usa-sidenav__item  padding-left-3\" [ngClass]=\"{'usa-current':  selectedStep?.id === pItem.id }\">\n        <ng-container [ngTemplateOutlet]=\"sidenavItem\" [ngTemplateOutletContext]=\"{$implicit: pItem}\"></ng-container>\n      </li>\n    </ul>\n  </div>\n</ng-template>\n\n<ng-template #sidenavItem let-step>\n  <ng-container [ngSwitch]=\"step.editable\">\n    <span *ngSwitchCase=\"false\">\n      <span class=\"padding-x-2 padding-y-1 display-block text-bold\">\n        {{step.text}}\n      </span>\n    </span>\n    <a *ngSwitchDefault href=\"javascript:void(0);\" [sdsStepperNav]=\"step\"\n      class=\"display-flex justify-content-space-between\"\n      [ngClass]=\"{'usa-sidenav__item--disabled': step.disabled || (step.isReview && _isReviewAndSubmitDisabled)}\">\n      <span>\n        {{step.text}}\n      </span>\n      <ng-container [ngTemplateOutlet]=\"sidenavIcon\" [ngTemplateOutletContext]=\"{$implicit: step}\"></ng-container>\n    </a>\n  </ng-container>\n</ng-template>\n\n<ng-template #sidenavIcon let-step>\n  <span>\n    <ng-container [ngSwitch]=\"step.valid\">\n      <usa-icon *ngSwitchCase=\"true\" [icon]=\"'check-circle-fill'\" class=\"text-primary\"></usa-icon>\n      <usa-icon *ngSwitchCase=\"false\" [icon]=\"'slash-circle-fill'\" class=\"text-error\"></usa-icon>\n      <usa-icon *ngSwitchDefault [icon]=\"'circle'\"></usa-icon>\n    </ng-container>\n  </span>\n</ng-template>\n"
         },
         {
             "name": "SLStepperFooterComponent",
-            "id": "component-SLStepperFooterComponent-b77ba4d170bb3e95d8700123d3bc78aa24cfd7734ca62a5fa030df736a0744558bf1c9d5c426d31faf1346e7d5a25286d958021432dad8909b31943c276d3e7b",
+            "id": "component-SLStepperFooterComponent-8fc9346044959e3699865aa2e6e01fb653b79517508fb543b6b2ccfc9d662740d240c08124b70b86770564b58b670a779c77eb2dcfd2e57c17697c339e65f81e",
             "file": "libs/layouts/src/lib/stepper/footer/footer.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -6440,7 +6631,24 @@
             ],
             "viewProviders": [],
             "inputsClass": [],
-            "outputsClass": [],
+            "outputsClass": [
+                {
+                    "name": "nextBtnClick",
+                    "defaultValue": "new EventEmitter<any>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 11,
+                    "type": "EventEmitter"
+                },
+                {
+                    "name": "previousBtnClick",
+                    "defaultValue": "new EventEmitter<any>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 10,
+                    "type": "EventEmitter"
+                }
+            ],
             "propertiesClass": [
                 {
                     "name": "stepperID",
@@ -6449,13 +6657,70 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 10,
+                    "line": 13,
                     "modifierKind": [
                         123
                     ]
                 }
             ],
-            "methodsClass": [],
+            "methodsClass": [
+                {
+                    "name": "nextBtn",
+                    "args": [
+                        {
+                            "name": "$event",
+                            "type": "",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 22,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "$event",
+                            "type": "",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "previousBtn",
+                    "args": [
+                        {
+                            "name": "$event",
+                            "type": "",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 18,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "$event",
+                            "type": "",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [],
@@ -6463,7 +6728,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { SdsStepper } from '@gsa-sam/sam-formly';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-footer',\n  templateUrl: './footer.component.html',\n})\nexport class SLStepperFooterComponent {\n  public stepperID: string;\n  constructor(stepper: SdsStepper) {\n    this.stepperID = stepper.id;\n  }\n}\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-footer-custom-action',\n  template: `\n    <div class=\"margin-right-1\">\n      <button\n        class=\"usa-button sds-button--circle usa-button--big usa-button--base padding-2\"\n        [attr.id]=\"stepperID + '-closeBtn'\"\n        (click)=\"btnClicked($event)\"\n      >\n        <usa-icon [icon]=\"icon\"></usa-icon>\n      </button>\n      <label\n        [attr.for]=\"stepperID + '-closeBtn'\"\n        class=\"text-center usa-link cursor-pointer display-block margin-top-2\"\n      >\n        <ng-content></ng-content>\n      </label>\n    </div>\n  `,\n})\nexport class SLStepperFooterCustomActionComponent {\n  @Input() icon!: string;\n  @Output() clickEvent = new EventEmitter<MouseEvent>();\n  public stepperID: string;\n  constructor(stepper: SdsStepper) {\n    this.stepperID = stepper.id;\n  }\n  btnClicked(event: MouseEvent) {\n    this.clickEvent.emit(event);\n  }\n}\n",
+            "sourceCode": "import { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { SdsStepper } from '@gsa-sam/sam-formly';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-footer',\n  templateUrl: './footer.component.html',\n})\nexport class SLStepperFooterComponent {\n  @Output() previousBtnClick = new EventEmitter<any>();\n  @Output() nextBtnClick = new EventEmitter<any>();\n\n  public stepperID: string;\n  constructor(stepper: SdsStepper) {\n    this.stepperID = stepper.id;\n  }\n\n  previousBtn($event){\n    this.previousBtnClick.emit($event);\n  }\n\n  nextBtn($event) {\n    this.nextBtnClick.emit($event);\n  }\n}\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-footer-custom-action',\n  template: `\n    <div class=\"margin-right-1\">\n      <button\n        class=\"usa-button sds-button--circle usa-button--big usa-button--base padding-2\"\n        [attr.id]=\"stepperID + '-closeBtn'\"\n        (click)=\"btnClicked($event)\"\n      >\n        <usa-icon [icon]=\"icon\"></usa-icon>\n      </button>\n      <label\n        [attr.for]=\"stepperID + '-closeBtn'\"\n        class=\"text-center usa-link cursor-pointer display-block margin-top-2\"\n      >\n        <ng-content></ng-content>\n      </label>\n    </div>\n  `,\n})\nexport class SLStepperFooterCustomActionComponent {\n  @Input() icon!: string;\n  @Output() clickEvent = new EventEmitter<MouseEvent>();\n  public stepperID: string;\n  constructor(stepper: SdsStepper) {\n    this.stepperID = stepper.id;\n  }\n  btnClicked(event: MouseEvent) {\n    this.clickEvent.emit(event);\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -6480,7 +6745,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 10,
+                "line": 13,
                 "jsdoctags": [
                     {
                         "name": "stepper",
@@ -6493,11 +6758,11 @@
                     }
                 ]
             },
-            "templateData": "<div class=\"grid-row grid-gap flex-justify-center margin-top-4\">\n  <div class=\"margin-right-1\">\n    <button sdsStepperPrevious class=\"usa-button sds-button--circle usa-button--base usa-button--big padding-2\"\n      [attr.id]=\"stepperID + '-prevBtn'\">\n      <usa-icon [icon]=\"'chevron-left'\"></usa-icon>\n    </button>\n\n    <label [attr.for]=\"stepperID + '-prevBtn'\" class=\"text-right usa-link cursor-pointer display-block margin-top-2\">\n      Go Back\n    </label>\n  </div>\n\n  <ng-content></ng-content>\n\n  <div class=\"margin-right-1\">\n    <button sdsStepperSave class=\"usa-button sds-button--circle usa-button--big usa-button--base padding-2\"\n      [attr.id]=\"stepperID + '-saveBtn'\">\n      <usa-icon [icon]=\"'save'\"></usa-icon>\n    </button>\n    <label [attr.for]=\"stepperID + '-saveBtn'\" class=\"text-center usa-link cursor-pointer display-block margin-top-2\">\n      Save\n    </label>\n  </div>\n\n  <div class=\"margin-right-1\">\n    <button #saveAndContinueBtn sdsStepperNext\n      class=\"usa-button sds-button--circle usa-button--base usa-button--big usa-button--active padding-2\"\n      [attr.id]=\"stepperID + '-nextBtn'\">\n      <usa-icon [icon]=\"'chevron-right'\"></usa-icon>\n    </button>\n    <label [attr.for]=\"stepperID + '-nextBtn'\" class=\"text-left usa-link cursor-pointer display-block margin-top-2\">\n      Save and Continue\n    </label>\n  </div>\n</div>\n"
+            "templateData": "<div class=\"grid-row grid-gap flex-justify-center margin-top-4\">\n  <div class=\"margin-right-1\">\n    <button sdsStepperPrevious class=\"usa-button sds-button--circle usa-button--base usa-button--big padding-2\"\n      [attr.id]=\"stepperID + '-prevBtn'\" (click)=\"previousBtn($event)\">\n      <usa-icon [icon]=\"'chevron-left'\"></usa-icon>\n    </button>\n\n    <label [attr.for]=\"stepperID + '-prevBtn'\" class=\"text-right usa-link cursor-pointer display-block margin-top-2\">\n      Previous\n    </label>\n  </div>\n\n  <ng-content></ng-content>\n\n  <div class=\"margin-right-1\">\n    <button sdsStepperSave class=\"usa-button sds-button--circle usa-button--big usa-button--base padding-2\"\n      [attr.id]=\"stepperID + '-saveBtn'\">\n      <usa-icon [icon]=\"'save'\"></usa-icon>\n    </button>\n    <label [attr.for]=\"stepperID + '-saveBtn'\" class=\"text-center usa-link cursor-pointer display-block margin-top-2\">\n      Save\n    </label>\n  </div>\n\n  <div class=\"margin-right-1\">\n    <button #saveAndContinueBtn sdsStepperNext\n      class=\"usa-button sds-button--circle usa-button--base usa-button--big usa-button--active padding-2\"\n      [attr.id]=\"stepperID + '-nextBtn'\" (click)=\"nextBtn($event)\">\n      <usa-icon [icon]=\"'chevron-right'\"></usa-icon>\n    </button>\n    <label [attr.for]=\"stepperID + '-nextBtn'\" class=\"text-left usa-link cursor-pointer display-block margin-top-2\">\n      Save and Continue\n    </label>\n  </div>\n</div>\n"
         },
         {
             "name": "SLStepperFooterCustomActionComponent",
-            "id": "component-SLStepperFooterCustomActionComponent-b77ba4d170bb3e95d8700123d3bc78aa24cfd7734ca62a5fa030df736a0744558bf1c9d5c426d31faf1346e7d5a25286d958021432dad8909b31943c276d3e7b",
+            "id": "component-SLStepperFooterCustomActionComponent-8fc9346044959e3699865aa2e6e01fb653b79517508fb543b6b2ccfc9d662740d240c08124b70b86770564b58b670a779c77eb2dcfd2e57c17697c339e65f81e",
             "file": "libs/layouts/src/lib/stepper/footer/footer.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -6515,7 +6780,7 @@
                     "name": "icon",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 38,
+                    "line": 49,
                     "type": "string",
                     "decorators": []
                 }
@@ -6526,7 +6791,7 @@
                     "defaultValue": "new EventEmitter<MouseEvent>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 39,
+                    "line": 50,
                     "type": "EventEmitter"
                 }
             ],
@@ -6538,7 +6803,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 40,
+                    "line": 51,
                     "modifierKind": [
                         123
                     ]
@@ -6558,7 +6823,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 44,
+                    "line": 55,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -6581,7 +6846,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { SdsStepper } from '@gsa-sam/sam-formly';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-footer',\n  templateUrl: './footer.component.html',\n})\nexport class SLStepperFooterComponent {\n  public stepperID: string;\n  constructor(stepper: SdsStepper) {\n    this.stepperID = stepper.id;\n  }\n}\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-footer-custom-action',\n  template: `\n    <div class=\"margin-right-1\">\n      <button\n        class=\"usa-button sds-button--circle usa-button--big usa-button--base padding-2\"\n        [attr.id]=\"stepperID + '-closeBtn'\"\n        (click)=\"btnClicked($event)\"\n      >\n        <usa-icon [icon]=\"icon\"></usa-icon>\n      </button>\n      <label\n        [attr.for]=\"stepperID + '-closeBtn'\"\n        class=\"text-center usa-link cursor-pointer display-block margin-top-2\"\n      >\n        <ng-content></ng-content>\n      </label>\n    </div>\n  `,\n})\nexport class SLStepperFooterCustomActionComponent {\n  @Input() icon!: string;\n  @Output() clickEvent = new EventEmitter<MouseEvent>();\n  public stepperID: string;\n  constructor(stepper: SdsStepper) {\n    this.stepperID = stepper.id;\n  }\n  btnClicked(event: MouseEvent) {\n    this.clickEvent.emit(event);\n  }\n}\n",
+            "sourceCode": "import { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { SdsStepper } from '@gsa-sam/sam-formly';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-footer',\n  templateUrl: './footer.component.html',\n})\nexport class SLStepperFooterComponent {\n  @Output() previousBtnClick = new EventEmitter<any>();\n  @Output() nextBtnClick = new EventEmitter<any>();\n\n  public stepperID: string;\n  constructor(stepper: SdsStepper) {\n    this.stepperID = stepper.id;\n  }\n\n  previousBtn($event){\n    this.previousBtnClick.emit($event);\n  }\n\n  nextBtn($event) {\n    this.nextBtnClick.emit($event);\n  }\n}\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-footer-custom-action',\n  template: `\n    <div class=\"margin-right-1\">\n      <button\n        class=\"usa-button sds-button--circle usa-button--big usa-button--base padding-2\"\n        [attr.id]=\"stepperID + '-closeBtn'\"\n        (click)=\"btnClicked($event)\"\n      >\n        <usa-icon [icon]=\"icon\"></usa-icon>\n      </button>\n      <label\n        [attr.for]=\"stepperID + '-closeBtn'\"\n        class=\"text-center usa-link cursor-pointer display-block margin-top-2\"\n      >\n        <ng-content></ng-content>\n      </label>\n    </div>\n  `,\n})\nexport class SLStepperFooterCustomActionComponent {\n  @Input() icon!: string;\n  @Output() clickEvent = new EventEmitter<MouseEvent>();\n  public stepperID: string;\n  constructor(stepper: SdsStepper) {\n    this.stepperID = stepper.id;\n  }\n  btnClicked(event: MouseEvent) {\n    this.clickEvent.emit(event);\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -6598,7 +6863,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 40,
+                "line": 51,
                 "jsdoctags": [
                     {
                         "name": "stepper",
@@ -6614,7 +6879,7 @@
         },
         {
             "name": "SLStepperHeaderComponent",
-            "id": "component-SLStepperHeaderComponent-9f9158ff0d630206cc888e5dfed0560ac668b8d7047aab66a8a41aaf9b4228314b9042609cb313260beaeda220f16826912e0bec4940662275880c6c5de19860",
+            "id": "component-SLStepperHeaderComponent-25d56751b0a763029b9f5b9be7e29fbd696c8293da09182fd30a817c39268ff95ac59e164e25feefa7e7d71e7995aa6b38ff9e50fec6783bbdbd550524789392",
             "file": "libs/layouts/src/lib/stepper/header/header.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -6689,7 +6954,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { AfterContentInit, Component, ElementRef, Input, TemplateRef } from '@angular/core';\n\nimport {\n  UsaStepIndicatorComponent,\n  UsaStepIndicatorConfig,\n} from '@gsa-sam/ngx-uswds';\nimport { SdsStepper } from '@gsa-sam/sam-formly';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-header',\n  templateUrl: './header.component.html',\n})\nexport class SLStepperHeaderComponent\n  extends UsaStepIndicatorComponent\n  implements AfterContentInit\n{\n  @Input() custom = false;\n  @Input() template: TemplateRef<any>;\n\n  stepLabels: any = [];\n  currentStepIndex = 0;\n\n  constructor(\n    private stepper: SdsStepper,\n    config: UsaStepIndicatorConfig,\n    elementRef: ElementRef\n  ) {\n    super(config, elementRef);\n  }\n\n  ngAfterContentInit() {\n    this.stepLabels = this.stepper.stepTemplates.map((stepTemplate, index) => {\n      if (stepTemplate.id === this.stepper.currentStepId) {\n        this.currentStepIndex = index;\n      }\n      return { ...stepTemplate, label: stepTemplate.text };\n    });\n    this.steps = this.stepLabels;\n  }\n}\n",
+            "sourceCode": "import { AfterContentInit, Component, ElementRef, Input, TemplateRef } from '@angular/core';\n\nimport {\n  UsaStepIndicatorComponent,\n  UsaStepIndicatorConfig,\n} from '@gsa-sam/ngx-uswds';\nimport { SdsStepper } from '@gsa-sam/sam-formly';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-header',\n  templateUrl: './header.component.html',\n})\nexport class SLStepperHeaderComponent\n  extends UsaStepIndicatorComponent\n  implements AfterContentInit\n{\n  @Input() custom = false;\n  @Input() template: TemplateRef<any>;\n\n  stepLabels: any = [];\n  currentStepIndex = 0;\n\n  constructor(\n    private stepper: SdsStepper,\n    config: UsaStepIndicatorConfig,\n    elementRef: ElementRef\n  ) {\n    super(config, elementRef);\n  }\n\n  ngAfterContentInit() {\n    this.stepLabels = this.stepper.stepTemplates.map((stepTemplate, index) => {\n      if (stepTemplate.id === this.stepper.currentStepId) {\n        this.currentStepIndex = index;\n      }\n      return { ...stepTemplate, label: stepTemplate.text };\n    });\n    this.steps = this.stepLabels;\n  }\n}\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-header-with-status',\n  templateUrl: './header-with-status.component.html',\n})\nexport class SLStepperHeaderWithStatusComponent {\n  @Input() title: string;\n  @Input() status: string;\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -6753,7 +7018,57 @@
             "implements": [
                 "AfterContentInit"
             ],
-            "templateData": "<usa-step-indicator sdsStepperUSWDSNav [steps]=\"stepLabels\" [(currentStep)]=\"currentStepIndex\">\n  <div  UsaStepHeader [template]=\"template\"></div>\n</usa-step-indicator>\n"
+            "templateData": "<usa-step-indicator sdsStepperUSWDSNav [steps]=\"stepLabels\" [(currentStep)]=\"currentStepIndex\">\n  <div UsaStepHeader [template]=\"template\"></div>\n</usa-step-indicator>\n"
+        },
+        {
+            "name": "SLStepperHeaderWithStatusComponent",
+            "id": "component-SLStepperHeaderWithStatusComponent-25d56751b0a763029b9f5b9be7e29fbd696c8293da09182fd30a817c39268ff95ac59e164e25feefa7e7d71e7995aa6b38ff9e50fec6783bbdbd550524789392",
+            "file": "libs/layouts/src/lib/stepper/header/header.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "sam-layouts-stepper-header-with-status",
+            "styleUrls": [],
+            "styles": [],
+            "templateUrl": [
+                "./header-with-status.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "status",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 50,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "title",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 49,
+                    "type": "string",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { AfterContentInit, Component, ElementRef, Input, TemplateRef } from '@angular/core';\n\nimport {\n  UsaStepIndicatorComponent,\n  UsaStepIndicatorConfig,\n} from '@gsa-sam/ngx-uswds';\nimport { SdsStepper } from '@gsa-sam/sam-formly';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-header',\n  templateUrl: './header.component.html',\n})\nexport class SLStepperHeaderComponent\n  extends UsaStepIndicatorComponent\n  implements AfterContentInit\n{\n  @Input() custom = false;\n  @Input() template: TemplateRef<any>;\n\n  stepLabels: any = [];\n  currentStepIndex = 0;\n\n  constructor(\n    private stepper: SdsStepper,\n    config: UsaStepIndicatorConfig,\n    elementRef: ElementRef\n  ) {\n    super(config, elementRef);\n  }\n\n  ngAfterContentInit() {\n    this.stepLabels = this.stepper.stepTemplates.map((stepTemplate, index) => {\n      if (stepTemplate.id === this.stepper.currentStepId) {\n        this.currentStepIndex = index;\n      }\n      return { ...stepTemplate, label: stepTemplate.text };\n    });\n    this.steps = this.stepLabels;\n  }\n}\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'sam-layouts-stepper-header-with-status',\n  templateUrl: './header-with-status.component.html',\n})\nexport class SLStepperHeaderWithStatusComponent {\n  @Input() title: string;\n  @Input() status: string;\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "templateData": "<div *ngIf=\"title || status\" class=\"display-flex\">\n  <h1 *ngIf=\"title\">{{ title }}</h1>\n  <div *ngIf=\"status\" class=\"padding-left-105\">\n    <span class=\"sds-status sds-status--sm sds-status--light-blue text-bottom\"></span>\n    <span class=\"text-semibold\">{{ status }}</span>\n  </div>\n</div>\n<ng-content></ng-content>\n"
         },
         {
             "name": "SubawardeeDemoComponent",
@@ -7193,13 +7508,13 @@
         },
         {
             "name": "SdsHeaderModule",
-            "id": "module-SdsHeaderModule-8344304d3c2053e627abd19c8140a91656317c7249beb1b6231c5cd7c85df98a888f2b6fbf718a1b0244fbc5006cac11e1fd7bbdf4bfe2eef4bb63446074d6ca",
+            "id": "module-SdsHeaderModule-d61d51864b1ad3445326539e936450f9bb07c70d4604ffe8dba25ad4e6e06b0537ede7712fa2986306a50909e0adf3157ccb1d12bcfa732d6fb19b99d1c3fac1",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/layouts/src/lib/header/header.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { FormsModule } from '@angular/forms';\nimport { SdsHeaderComponent } from './header.component';\nimport { RouterModule } from '@angular/router';\nimport { SdsTopBannerModule, SdsDialogModule } from '@gsa-sam/components';\n\nimport { A11yModule } from '@angular/cdk/a11y';\nimport { NgxBootstrapIconsModule, square, justifyLeft, circle, circleFill, questionCircle } from 'ngx-bootstrap-icons';\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\nimport { HelpContentComponent, SdsHeaderHelpComponent } from './help.component';\nimport { PortalModule } from '@angular/cdk/portal';\nimport {MatTooltipModule} from '@angular/material/tooltip';\nimport { SdsLandingListModule } from '../landing/list/list.module';\n\n@NgModule({\n  imports: [\n    CommonModule,\n    FormsModule,\n    RouterModule,\n    IconModule,\n    A11yModule,\n    SdsTopBannerModule,\n    SdsDialogModule,\n    PortalModule,\n    MatTooltipModule,\n    SdsLandingListModule,\n    NgxBootstrapIconsModule.pick({\n      square,\n      justifyLeft,\n      circle,\n      circleFill,\n      questionCircle,\n    }),\n  ],\n  declarations: [\n    SdsHeaderComponent,\n    SdsHeaderHelpComponent,\n    HelpContentComponent,\n  ],\n  exports: [SdsHeaderComponent],\n})\nexport class SdsHeaderModule {}\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { FormsModule } from '@angular/forms';\nimport { SdsHeaderComponent } from './header.component';\nimport { RouterModule } from '@angular/router';\nimport { SdsTopBannerModule, SdsDialogModule } from '@gsa-sam/components';\n\nimport { A11yModule } from '@angular/cdk/a11y';\nimport {\n  NgxBootstrapIconsModule,\n  square,\n  justifyLeft,\n  circle,\n  circleFill,\n  questionCircle\n} from 'ngx-bootstrap-icons';\nimport {\n  IconModule,\n  request,\n  messages,\n  workspace,\n  logOut,\n  bars,\n} from '@gsa-sam/ngx-uswds-icons';\nimport { HelpContentComponent, SdsHeaderHelpComponent } from './help.component';\nimport { PortalModule } from '@angular/cdk/portal';\nimport { MatTooltipModule } from '@angular/material/tooltip';\nimport { SdsLandingListModule } from '../landing/list/list.module';\n\n@NgModule({\n  imports: [\n    CommonModule,\n    FormsModule,\n    RouterModule,\n    IconModule,\n    A11yModule,\n    SdsTopBannerModule,\n    SdsDialogModule,\n    PortalModule,\n    MatTooltipModule,\n    SdsLandingListModule,\n    NgxBootstrapIconsModule.pick({\n      square,\n      justifyLeft,\n      circle,\n      circleFill,\n      questionCircle,\n      request,\n      messages,\n      workspace,\n      logOut,\n      bars\n    }),\n  ],\n  declarations: [\n    SdsHeaderComponent,\n    SdsHeaderHelpComponent,\n    HelpContentComponent,\n  ],\n  exports: [SdsHeaderComponent],\n})\nexport class SdsHeaderModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -7341,13 +7656,13 @@
         },
         {
             "name": "SdsLandingLinkModule",
-            "id": "module-SdsLandingLinkModule-f8452acd2ad9dcbfa55e527c85910ecd3f4065cf053a3dfc2d55865373501708be051e91f16c3215fe8a9b980c904eb98239d3f5e309e91da17ffd37f1de9943",
+            "id": "module-SdsLandingLinkModule-8f1153f8e72dd8561de6b9ab0d3ad602c289cd64c15417a3292f78650f32a4e8624385602970993d5345f9fc821d7725d6a961356aaad24be903f9e0ea5e7980",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/layouts/src/lib/landing/link/link.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { RouterModule } from '@angular/router';\n\nimport { SdsLandingLinkComponent } from './link.component';\n\n@NgModule({\n  declarations: [SdsLandingLinkComponent],\n  imports: [\n    CommonModule,\n    RouterModule\n  ],\n  exports: [SdsLandingLinkComponent]\n})\nexport class SdsLandingLinkModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { RouterModule } from '@angular/router';\n\nimport { SdsLandingLinkComponent } from './link.component';\nimport { SdsExternalLinkDirectivesModule } from '@gsa-sam/components';\n\n@NgModule({\n  declarations: [SdsLandingLinkComponent],\n  imports: [\n    CommonModule,\n    RouterModule,\n    SdsExternalLinkDirectivesModule\n  ],\n  exports: [SdsLandingLinkComponent]\n})\nexport class SdsLandingLinkModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -7385,13 +7700,13 @@
         },
         {
             "name": "SdsLandingListModule",
-            "id": "module-SdsLandingListModule-3b4b9e9b2456bdba50c685db67db0d7df268c8a5a7c3bae2b2a641b3dc33fb68ffdc6cefa34f2ffad70545bef69552d56b240839e5342c0e851ab20fddbb9745",
+            "id": "module-SdsLandingListModule-06691b3a2bfa3361b4ae576f044919862fe86ae983feeee302d865c3effce190b7fbce11a3f33dea58cc7c09ac69243cf5cecc7558d8aa1761342098fa8891bf",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/layouts/src/lib/landing/list/list.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { NgModule } from '@angular/core';\nimport {\n  NgxBootstrapIconsModule,\n  arrowRightCircleFill,\n  fileEarmark,\n  questionCircle,\n  fileEarmarkText,\n  book,\n  file,\n  play,\n  search,\n  person,\n  info,\n  arrowRightCircle,\n  playBtn,\n  chevronLeft,\n  checkCircle,\n} from 'ngx-bootstrap-icons';\n\nimport { SdsLandingListComponent } from './list.component';\nimport { SdsLandingLinkModule } from '../link/link.module';\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\n\nconst arrowRightCircleGreen = `<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-arrow-right-circle bg-primary border-0 radius-pill\" viewBox=\"0 0 16 16\">\n  <path fill-rule=\"evenodd\" d=\"M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z\"/>\n</svg>`;\n\n@NgModule({\n  imports: [\n    CommonModule,\n    SdsLandingLinkModule,\n    IconModule,\n    NgxBootstrapIconsModule,\n    NgxBootstrapIconsModule.pick({\n      arrowRightCircleFill,\n      fileEarmark,\n      arrowRightCircle,\n      questionCircle,\n      fileEarmarkText,\n      file,\n      book,\n      play,\n      search,\n      person,\n      info,\n      arrowRightCircleGreen,\n      playBtn,\n      chevronLeft,\n      checkCircle,\n    }),\n  ],\n  exports: [SdsLandingListComponent],\n  declarations: [SdsLandingListComponent],\n  providers: [],\n})\nexport class SdsLandingListModule {}\n",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { NgModule } from '@angular/core';\nimport {\n  NgxBootstrapIconsModule,\n  arrowRightCircleFill,\n  fileEarmark,\n  questionCircle,\n  fileEarmarkText,\n  book,\n  file,\n  play,\n  search,\n  person,\n  info,\n  arrowRightCircle,\n  playBtn,\n  chevronLeft,\n  checkCircle,\n  filePdf,\n  files,\n  window,\n  infoCircle,\n  filterCircle,\n  arrowClockwise\n} from 'ngx-bootstrap-icons';\n\nimport { SdsLandingListComponent } from './list.component';\nimport { SdsLandingLinkModule } from '../link/link.module';\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\n\nconst arrowRightCircleGreen = `<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-arrow-right-circle bg-primary border-0 radius-pill\" viewBox=\"0 0 16 16\">\n  <path fill-rule=\"evenodd\" d=\"M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z\"/>\n</svg>`;\n\n@NgModule({\n  imports: [\n    CommonModule,\n    SdsLandingLinkModule,\n    IconModule,\n    NgxBootstrapIconsModule,\n    NgxBootstrapIconsModule.pick({\n      arrowRightCircleFill,\n      fileEarmark,\n      arrowRightCircle,\n      questionCircle,\n      fileEarmarkText,\n      file,\n      book,\n      play,\n      search,\n      person,\n      info,\n      arrowRightCircleGreen,\n      playBtn,\n      chevronLeft,\n      checkCircle,\n      filePdf,\n      files,\n      window,\n      infoCircle,\n      filterCircle,\n      arrowClockwise\n    }),\n  ],\n  exports: [SdsLandingListComponent],\n  declarations: [SdsLandingListComponent],\n  providers: [],\n})\nexport class SdsLandingListModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -7841,13 +8156,13 @@
         },
         {
             "name": "SLStepperModule",
-            "id": "module-SLStepperModule-d0590b4840dc930cd4d9fc3c8262c3406269e6a7d53236a4f2055cf12c8fff4e078c6244b6cab0bbdee39bc34558acab198849985067d82286da694d6bc9e319",
+            "id": "module-SLStepperModule-af7ce2df3671d1ed7f2b0c33cb1a2d4b18b670c43588597f491a9f51e677dcbb1d076d6e0b28ef8fc814e4782c0a53995ff6f71c54b9ff39964aed018b242df9",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/layouts/src/lib/stepper/stepper.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { UsaStepIndicatorModule } from '@gsa-sam/ngx-uswds';\nimport { SdsStepperModule } from '@gsa-sam/sam-formly';\nimport {\n  NgxBootstrapIconsModule,\n  chevronLeft,\n  chevronRight,\n  slashCircleFill,\n  checkCircleFill,\n  circle,\n  question,\n  save,\n  x,\n} from 'ngx-bootstrap-icons';\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\nimport { SdsSideToolbarModule } from '@gsa-sam/components';\n\nimport { SLStepperHeaderComponent } from './header/header.component';\nimport {\n  SLStepperFooterComponent,\n  SLStepperFooterCustomActionComponent,\n} from './footer/footer.component';\nimport { SLStepperComponent } from './stepper.component';\n\n@NgModule({\n  declarations: [\n    SLStepperComponent,\n    SLStepperHeaderComponent,\n    SLStepperFooterComponent,\n    SLStepperFooterCustomActionComponent,\n  ],\n  imports: [\n    CommonModule,\n    UsaStepIndicatorModule,\n    SdsStepperModule,\n    NgxBootstrapIconsModule.pick({\n      chevronLeft,\n      chevronRight,\n      circle,\n      slashCircleFill,\n      checkCircleFill,\n      question,\n      save,\n      x,\n    }),\n    IconModule,\n    SdsSideToolbarModule,\n  ],\n  exports: [\n    SLStepperComponent,\n    SLStepperHeaderComponent,\n    SLStepperFooterCustomActionComponent,\n  ],\n  providers: [],\n})\nexport class SLStepperModule {}\n",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { NgModule } from '@angular/core';\nimport { SdsSideToolbarModule } from '@gsa-sam/components';\nimport { SLStepperComponent } from './stepper.component';\nimport {\n  NgxBootstrapIconsModule,\n  chevronLeft,\n  chevronRight,\n  slashCircleFill,\n  checkCircleFill,\n  circle,\n  question,\n  save,\n  x,\n} from 'ngx-bootstrap-icons';\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\nimport { SdsStepperModule } from '@gsa-sam/sam-formly';\nimport { UsaStepIndicatorModule } from '@gsa-sam/ngx-uswds';\nimport {\n  SLStepperHeaderComponent,\n  SLStepperHeaderWithStatusComponent,\n} from './header/header.component';\nimport { SLStepperFooterComponent, SLStepperFooterCustomActionComponent } from './footer/footer.component';\n\n@NgModule({\n  declarations: [\n    SLStepperComponent,\n    SLStepperHeaderComponent,\n    SLStepperHeaderWithStatusComponent,\n    SLStepperFooterComponent,\n    SLStepperFooterCustomActionComponent\n  ],\n  imports: [\n    CommonModule,\n    SdsSideToolbarModule,\n    UsaStepIndicatorModule,\n    NgxBootstrapIconsModule.pick({\n      chevronLeft,\n      chevronRight,\n      circle,\n      slashCircleFill,\n      checkCircleFill,\n      question,\n      save,\n      x,\n    }),\n    IconModule,\n    SdsStepperModule,\n  ],\n  exports: [\n    SLStepperComponent,\n    SLStepperHeaderComponent,\n    SLStepperHeaderWithStatusComponent,\n    SLStepperFooterComponent,\n    SLStepperFooterCustomActionComponent\n  ],\n})\nexport class SLStepperModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -7867,6 +8182,9 @@
                         },
                         {
                             "name": "SLStepperHeaderComponent"
+                        },
+                        {
+                            "name": "SLStepperHeaderWithStatusComponent"
                         }
                     ]
                 },
@@ -7881,10 +8199,16 @@
                             "name": "SLStepperComponent"
                         },
                         {
+                            "name": "SLStepperFooterComponent"
+                        },
+                        {
                             "name": "SLStepperFooterCustomActionComponent"
                         },
                         {
                             "name": "SLStepperHeaderComponent"
+                        },
+                        {
+                            "name": "SLStepperHeaderWithStatusComponent"
                         }
                     ]
                 },
@@ -8460,7 +8784,7 @@
                 "linktype": "component",
                 "name": "HelpContentComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/4",
+                "coverageCount": "0/5",
                 "status": "low"
             },
             {
@@ -8891,7 +9215,7 @@
                 "linktype": "component",
                 "name": "DemoStepperAdvancedComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/14",
+                "coverageCount": "0/15",
                 "status": "low"
             },
             {
@@ -8936,7 +9260,7 @@
                 "linktype": "component",
                 "name": "SLStepperFooterComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/3",
+                "coverageCount": "0/7",
                 "status": "low"
             },
             {
@@ -8958,12 +9282,21 @@
                 "status": "low"
             },
             {
+                "filePath": "libs/layouts/src/lib/stepper/header/header.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SLStepperHeaderWithStatusComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
                 "filePath": "libs/layouts/src/lib/stepper/stepper.component.ts",
                 "type": "component",
                 "linktype": "component",
                 "name": "SLStepperComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/2",
+                "coverageCount": "0/10",
                 "status": "low"
             },
             {
