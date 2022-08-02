@@ -53,12 +53,12 @@
         },
         {
             "name": "Data",
-            "id": "interface-Data-6eaeeb56022beec31ee156a8ead6b2a850970e1c75709c2e2a5f59b4716078680eccf9b9b2c5a8c96387680743894fe3cfcdfea6ed1981c0e72e936e6b3a7afb",
+            "id": "interface-Data-90535610fbb9f95afc231ddeb497f87bc3319fefc556946643923cc3bc304f63c303c6ff4c564679a89f2167fbd3a877d6a8eb460f694286202b3831525c2147",
             "file": "libs/layouts/src/lib/header/help.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport { NavigationStart, Router } from '@angular/router';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\nimport { filter } from 'rxjs/operators';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      title=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div\n      class=\"help-slide-out bg-base-lighter minh-full padding-x-2 padding-top-2\"\n    >\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n  styles: ['.help-slide-out .sds-list .usa-link:hover { color: #625028; }'], // 508: Contrast fix\n  encapsulation: ViewEncapsulation.None,\n})\nexport class HelpContentComponent {\n  constructor(\n    private router: Router,\n    public dialogRef: SdsDialogRef<HelpContentComponent>,\n    @Inject(SDS_DIALOG_DATA) public data: Data\n  ) {\n    this.router.events\n      .pipe(filter((event) => event instanceof NavigationStart))\n      .subscribe(() => {\n        this.dialogRef.close();\n      });\n  }\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport {\n  Component,\n  ComponentRef,\n  Inject,\n  Input,\n  ViewEncapsulation,\n} from '@angular/core';\nimport { NavigationStart, Router } from '@angular/router';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\nimport { filter } from 'rxjs/operators';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass=\"help-tooltip\"\n      matTooltip=\"Find help articles for features on this page\"\n      title=\"Find help articles for features on this page\"\n    >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div\n      class=\"help-slide-out bg-base-lighter minh-full padding-x-2 padding-top-2\"\n    >\n      <h2 class=\"font-heading-lg text-semibold\">Help</h2>\n      <div *ngFor=\"let item of data.help\">\n        <h3\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </h3>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n  styles: ['.help-slide-out .sds-list .usa-link:hover { color: #625028; }'], // 508: Contrast fix\n  encapsulation: ViewEncapsulation.None,\n})\nexport class HelpContentComponent {\n  constructor(\n    private router: Router,\n    public dialogRef: SdsDialogRef<HelpContentComponent>,\n    @Inject(SDS_DIALOG_DATA) public data: Data\n  ) {\n    this.router.events\n      .pipe(filter((event) => event instanceof NavigationStart))\n      .subscribe(() => {\n        this.dialogRef.close();\n      });\n  }\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
             "properties": [
                 {
                     "name": "help",
@@ -67,7 +67,7 @@
                     "type": "[]",
                     "optional": false,
                     "description": "",
-                    "line": 12
+                    "line": 18
                 }
             ],
             "indexSignatures": [],
@@ -2621,7 +2621,7 @@
         },
         {
             "name": "HelpContentComponent",
-            "id": "component-HelpContentComponent-6eaeeb56022beec31ee156a8ead6b2a850970e1c75709c2e2a5f59b4716078680eccf9b9b2c5a8c96387680743894fe3cfcdfea6ed1981c0e72e936e6b3a7afb",
+            "id": "component-HelpContentComponent-90535610fbb9f95afc231ddeb497f87bc3319fefc556946643923cc3bc304f63c303c6ff4c564679a89f2167fbd3a877d6a8eb460f694286202b3831525c2147",
             "file": "libs/layouts/src/lib/header/help.component.ts",
             "encapsulation": [
                 "ViewEncapsulation.None"
@@ -2634,7 +2634,7 @@
             "styles": [
                 ".help-slide-out .sds-list .usa-link:hover { color: #625028; }"
             ],
-            "template": "<div\n  class=\"help-slide-out bg-base-lighter minh-full padding-x-2 padding-top-2\"\n>\n  <div class=\"font-heading-lg text-semibold\">Help</div>\n  <div *ngFor=\"let item of data.help\">\n    <div\n      class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n    >\n      {{ item.head.title }}\n    </div>\n    <ng-template\n      *ngFor=\"let content of item.body.content\"\n      [cdkPortalOutlet]=\"content.component\"\n      (attached)=\"inputs($event, content.inputs)\"\n    >\n    </ng-template>\n  </div>\n</div>\n",
+            "template": "<div\n  class=\"help-slide-out bg-base-lighter minh-full padding-x-2 padding-top-2\"\n>\n  <h2 class=\"font-heading-lg text-semibold\">Help</h2>\n  <div *ngFor=\"let item of data.help\">\n    <h3\n      class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n    >\n      {{ item.head.title }}\n    </h3>\n    <ng-template\n      *ngFor=\"let content of item.body.content\"\n      [cdkPortalOutlet]=\"content.component\"\n      (attached)=\"inputs($event, content.inputs)\"\n    >\n    </ng-template>\n  </div>\n</div>\n",
             "templateUrl": [],
             "viewProviders": [],
             "inputsClass": [],
@@ -2647,7 +2647,7 @@
                     "type": "Data",
                     "optional": false,
                     "description": "",
-                    "line": 86,
+                    "line": 92,
                     "decorators": [
                         {
                             "name": "Inject",
@@ -2665,7 +2665,7 @@
                     "type": "SdsDialogRef<HelpContentComponent>",
                     "optional": false,
                     "description": "",
-                    "line": 85,
+                    "line": 91,
                     "modifierKind": [
                         123
                     ]
@@ -2692,7 +2692,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 95,
+                    "line": 101,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2725,7 +2725,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport { NavigationStart, Router } from '@angular/router';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\nimport { filter } from 'rxjs/operators';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      title=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div\n      class=\"help-slide-out bg-base-lighter minh-full padding-x-2 padding-top-2\"\n    >\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n  styles: ['.help-slide-out .sds-list .usa-link:hover { color: #625028; }'], // 508: Contrast fix\n  encapsulation: ViewEncapsulation.None,\n})\nexport class HelpContentComponent {\n  constructor(\n    private router: Router,\n    public dialogRef: SdsDialogRef<HelpContentComponent>,\n    @Inject(SDS_DIALOG_DATA) public data: Data\n  ) {\n    this.router.events\n      .pipe(filter((event) => event instanceof NavigationStart))\n      .subscribe(() => {\n        this.dialogRef.close();\n      });\n  }\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport {\n  Component,\n  ComponentRef,\n  Inject,\n  Input,\n  ViewEncapsulation,\n} from '@angular/core';\nimport { NavigationStart, Router } from '@angular/router';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\nimport { filter } from 'rxjs/operators';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass=\"help-tooltip\"\n      matTooltip=\"Find help articles for features on this page\"\n      title=\"Find help articles for features on this page\"\n    >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div\n      class=\"help-slide-out bg-base-lighter minh-full padding-x-2 padding-top-2\"\n    >\n      <h2 class=\"font-heading-lg text-semibold\">Help</h2>\n      <div *ngFor=\"let item of data.help\">\n        <h3\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </h3>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n  styles: ['.help-slide-out .sds-list .usa-link:hover { color: #625028; }'], // 508: Contrast fix\n  encapsulation: ViewEncapsulation.None,\n})\nexport class HelpContentComponent {\n  constructor(\n    private router: Router,\n    public dialogRef: SdsDialogRef<HelpContentComponent>,\n    @Inject(SDS_DIALOG_DATA) public data: Data\n  ) {\n    this.router.events\n      .pipe(filter((event) => event instanceof NavigationStart))\n      .subscribe(() => {\n        this.dialogRef.close();\n      });\n  }\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": ".help-slide-out .sds-list .usa-link:hover { color: #625028; }\n",
@@ -2754,7 +2754,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 82,
+                "line": 88,
                 "jsdoctags": [
                     {
                         "name": "router",
@@ -4202,7 +4202,7 @@
         },
         {
             "name": "SdsHeaderHelpComponent",
-            "id": "component-SdsHeaderHelpComponent-6eaeeb56022beec31ee156a8ead6b2a850970e1c75709c2e2a5f59b4716078680eccf9b9b2c5a8c96387680743894fe3cfcdfea6ed1981c0e72e936e6b3a7afb",
+            "id": "component-SdsHeaderHelpComponent-90535610fbb9f95afc231ddeb497f87bc3319fefc556946643923cc3bc304f63c303c6ff4c564679a89f2167fbd3a877d6a8eb460f694286202b3831525c2147",
             "file": "libs/layouts/src/lib/header/help.component.ts",
             "encapsulation": [
                 "ViewEncapsulation.None"
@@ -4216,7 +4216,7 @@
                 "./help.component.scss"
             ],
             "styles": [],
-            "template": "<button\n  class=\"usa-button usa-button--unstyled\"\n  (click)=\"openSlidePanel()\"\n  matTooltipClass='help-tooltip'\n  matTooltip=\"Find help articles for features on this page\"\n  title=\"Find help articles for features on this page\"\n  >\n  <usa-icon\n    class=\"text-info\"\n    [icon]=\"'question-circle'\"\n    [size]=\"'2x'\"\n  ></usa-icon>\n</button>\n",
+            "template": "<button\n  class=\"usa-button usa-button--unstyled\"\n  (click)=\"openSlidePanel()\"\n  matTooltipClass=\"help-tooltip\"\n  matTooltip=\"Find help articles for features on this page\"\n  title=\"Find help articles for features on this page\"\n>\n  <usa-icon\n    class=\"text-info\"\n    [icon]=\"'question-circle'\"\n    [size]=\"'2x'\"\n  ></usa-icon>\n</button>\n",
             "templateUrl": [],
             "viewProviders": [],
             "inputsClass": [
@@ -4224,7 +4224,7 @@
                     "name": "content",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 36,
+                    "line": 42,
                     "type": "any",
                     "decorators": []
                 }
@@ -4238,7 +4238,7 @@
                     "type": "SdsDialogService",
                     "optional": false,
                     "description": "",
-                    "line": 40,
+                    "line": 46,
                     "modifierKind": [
                         123
                     ]
@@ -4250,7 +4250,7 @@
                     "type": "SdsDialogRef<HelpContentComponent>",
                     "optional": false,
                     "description": "",
-                    "line": 38
+                    "line": 44
                 }
             ],
             "methodsClass": [
@@ -4260,7 +4260,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 42,
+                    "line": 48,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -4272,7 +4272,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';\nimport { NavigationStart, Router } from '@angular/router';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\nimport { filter } from 'rxjs/operators';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass='help-tooltip'\n      matTooltip=\"Find help articles for features on this page\"\n      title=\"Find help articles for features on this page\"\n      >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div\n      class=\"help-slide-out bg-base-lighter minh-full padding-x-2 padding-top-2\"\n    >\n      <div class=\"font-heading-lg text-semibold\">Help</div>\n      <div *ngFor=\"let item of data.help\">\n        <div\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </div>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n  styles: ['.help-slide-out .sds-list .usa-link:hover { color: #625028; }'], // 508: Contrast fix\n  encapsulation: ViewEncapsulation.None,\n})\nexport class HelpContentComponent {\n  constructor(\n    private router: Router,\n    public dialogRef: SdsDialogRef<HelpContentComponent>,\n    @Inject(SDS_DIALOG_DATA) public data: Data\n  ) {\n    this.router.events\n      .pipe(filter((event) => event instanceof NavigationStart))\n      .subscribe(() => {\n        this.dialogRef.close();\n      });\n  }\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
+            "sourceCode": "import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';\nimport {\n  Component,\n  ComponentRef,\n  Inject,\n  Input,\n  ViewEncapsulation,\n} from '@angular/core';\nimport { NavigationStart, Router } from '@angular/router';\nimport {\n  SdsDialogRef,\n  SdsDialogService,\n  SDS_DIALOG_DATA,\n} from '@gsa-sam/components';\nimport { filter } from 'rxjs/operators';\n\ninterface Data {\n  help: [];\n}\n\n@Component({\n  selector: 'sds-header-help',\n  styleUrls: ['./help.component.scss'],\n  encapsulation: ViewEncapsulation.None,\n  template: `\n    <button\n      class=\"usa-button usa-button--unstyled\"\n      (click)=\"openSlidePanel()\"\n      matTooltipClass=\"help-tooltip\"\n      matTooltip=\"Find help articles for features on this page\"\n      title=\"Find help articles for features on this page\"\n    >\n      <usa-icon\n        class=\"text-info\"\n        [icon]=\"'question-circle'\"\n        [size]=\"'2x'\"\n      ></usa-icon>\n    </button>\n  `,\n})\nexport class SdsHeaderHelpComponent {\n  @Input() content;\n\n  openedDialogRef: SdsDialogRef<HelpContentComponent>;\n\n  constructor(public dialog: SdsDialogService) {}\n\n  openSlidePanel() {\n    this.openedDialogRef = this.dialog.open(HelpContentComponent, {\n      hasBackdrop: false,\n      height: '100%',\n      position: { right: 'true' },\n      slideOut: {\n        width: '20rem',\n        time: '350ms',\n      },\n      data: {\n        help: this.content,\n      },\n    });\n  }\n}\n\n@Component({\n  template: `\n    <div\n      class=\"help-slide-out bg-base-lighter minh-full padding-x-2 padding-top-2\"\n    >\n      <h2 class=\"font-heading-lg text-semibold\">Help</h2>\n      <div *ngFor=\"let item of data.help\">\n        <h3\n          class=\"font-heading-md text-semibold margin-top-205 margin-bottom-1\"\n        >\n          {{ item.head.title }}\n        </h3>\n        <ng-template\n          *ngFor=\"let content of item.body.content\"\n          [cdkPortalOutlet]=\"content.component\"\n          (attached)=\"inputs($event, content.inputs)\"\n        >\n        </ng-template>\n      </div>\n    </div>\n  `,\n  styles: ['.help-slide-out .sds-list .usa-link:hover { color: #625028; }'], // 508: Contrast fix\n  encapsulation: ViewEncapsulation.None,\n})\nexport class HelpContentComponent {\n  constructor(\n    private router: Router,\n    public dialogRef: SdsDialogRef<HelpContentComponent>,\n    @Inject(SDS_DIALOG_DATA) public data: Data\n  ) {\n    this.router.events\n      .pipe(filter((event) => event instanceof NavigationStart))\n      .subscribe(() => {\n        this.dialogRef.close();\n      });\n  }\n\n  inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {\n    ref = ref as ComponentRef<never>;\n    for (const [input, value] of Object.entries(componentInputs)) {\n      ref.instance[input] = value;\n    }\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -4294,7 +4294,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 38,
+                "line": 44,
                 "jsdoctags": [
                     {
                         "name": "dialog",
