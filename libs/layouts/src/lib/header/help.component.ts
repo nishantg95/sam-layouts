@@ -1,5 +1,11 @@
 import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';
-import { Component, ComponentRef, Inject, Input, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  Inject,
+  Input,
+  ViewEncapsulation,
+} from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import {
   SdsDialogRef,
@@ -20,10 +26,10 @@ interface Data {
     <button
       class="usa-button usa-button--unstyled"
       (click)="openSlidePanel()"
-      matTooltipClass='help-tooltip'
+      matTooltipClass="help-tooltip"
       matTooltip="Find help articles for features on this page"
       title="Find help articles for features on this page"
-      >
+    >
       <usa-icon
         class="text-info"
         [icon]="'question-circle'"
@@ -60,13 +66,13 @@ export class SdsHeaderHelpComponent {
     <div
       class="help-slide-out bg-base-lighter minh-full padding-x-2 padding-top-2"
     >
-      <div class="font-heading-lg text-semibold">Help</div>
+      <h2 class="font-heading-lg text-semibold">Help</h2>
       <div *ngFor="let item of data.help">
-        <div
+        <h3
           class="font-heading-md text-semibold margin-top-205 margin-bottom-1"
         >
           {{ item.head.title }}
-        </div>
+        </h3>
         <ng-template
           *ngFor="let content of item.body.content"
           [cdkPortalOutlet]="content.component"
