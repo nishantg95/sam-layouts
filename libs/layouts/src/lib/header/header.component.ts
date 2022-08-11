@@ -39,6 +39,10 @@ export class SdsHeaderComponent {
    * determines if the top banner is shown
    */
   @Input() showTopBanner = true;
+  @Input() hideSecondaryLinks = false;
+  @Input() hidePrimaryLinks = false;
+  @Input() hideAlerts = false;
+
 
   /**
    * Model used for the different display portions of the header
