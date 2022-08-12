@@ -16,7 +16,7 @@
     </div>
     <sds-header-help *ngIf="help && help.length > 0" [content]="help" class="tablet:display-none margin-right-2">
     </sds-header-help>
-    <button #usaNavOpen class="usa-menu-btn" (click)="openMobileNav()">
+    <button *ngIf="!hidePrimaryLinks && !hideSecondaryLinks" #usaNavOpen class="usa-menu-btn" (click)="openMobileNav()">
       <div class="sds-stack sds-lg">
         <usa-icon class="sds-stack-icon text-primary" [icon]="'square-fill'" [size]="'2x'"></usa-icon>
         <usa-icon class="sds-stack-icon" [icon]="'bars'" [size]="'lg'"></usa-icon>
@@ -31,7 +31,7 @@
       <span class="usa-sr-only">Menu</span>
     </button>
   </div>
-  <nav *ngIf="!hidePrimaryLinks" aria-label="Primary navigation" class="usa-nav" (keydown.esc)="closeMobileNav()"
+  <nav aria-label="Primary navigation" class="usa-nav" (keydown.esc)="closeMobileNav()"
     (animationend)="navAnimationEnd()" [class.is-visible]="mobileNavActive" [cdkTrapFocus]="mobileNavActive">
     <div class="usa-nav__inner">
       <button #usaNavClose class="usa-nav__close" (click)="closeMobileNav()">
@@ -42,7 +42,7 @@
         </fa-layers> -->
         <span class="usa-sr-only">Close</span>
       </button>
-      <ul class="usa-nav__primary usa-accordion">
+      <ul *ngIf="!hidePrimaryLinks" class="usa-nav__primary usa-accordion">
         <li *ngFor="let link of model.navigationLinks" class="usa-nav__primary-item">
           <ng-container [ngTemplateOutlet]="link.route ? linkTemplate : dropDownTemplate"
             [ngTemplateOutletContext]="{ $implicit: link }"></ng-container>
