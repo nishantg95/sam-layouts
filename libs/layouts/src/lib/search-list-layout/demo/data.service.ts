@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { registrationData } from './search-data';
-import { SearchParameters, SearchResult } from '@gsa-sam/layouts';
 import { delay } from 'rxjs/operators';
+import {
+  SearchParameters,
+  SearchResult,
+} from '../model/search-list-layout.model';
 @Injectable({ providedIn: 'root' })
 export class DataService {
   private data: any[];
@@ -13,8 +16,11 @@ export class DataService {
         let filterText = '';
         if (search.filter.keyword && search.filter.keyword.keywordTags) {
           filterText = search.filter.keyword.keywordTags[0].text;
-        } else if (search.filter.keyword && search.filter.keyword.keywordTextarea) {
-          filterText =  search.filter.keyword.keywordTextarea;
+        } else if (
+          search.filter.keyword &&
+          search.filter.keyword.keywordTextarea
+        ) {
+          filterText = search.filter.keyword.keywordTextarea;
         }
         if (search.filter.keyword || search.filter.location) {
           const toReturn = [];
@@ -22,9 +28,7 @@ export class DataService {
             const item = this.data[i];
             if (
               search.filter.keyword &&
-              item.title
-                .toLowerCase()
-                .indexOf(filterText.toLowerCase()) !== -1
+              item.title.toLowerCase().indexOf(filterText.toLowerCase()) !== -1
             ) {
               toReturn.push(item);
             } else if (search.filter.location) {

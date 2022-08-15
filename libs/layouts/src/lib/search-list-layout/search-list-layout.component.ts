@@ -46,7 +46,7 @@ export class SearchListLayoutComponent implements OnInit {
     private formlyUpdateComunicationService: SDSFormlyUpdateComunicationService,
     private filterUpdateModelService: SDSFormlyUpdateModelService,
     private loc: Location
-  ) { }
+  ) {}
 
   /**
    * Input service to be called when items change
@@ -148,16 +148,20 @@ export class SearchListLayoutComponent implements OnInit {
     if (this.isHistoryEnabled) {
       this.getHistoryModel();
     }
-    this.sortField = this.sortField != null ? this.sortField : this.configuration.defaultSortValue;
+    this.sortField =
+      this.sortField != null
+        ? this.sortField
+        : this.configuration.defaultSortValue;
     this.paginationChange.subscribe(() => {
       this.updateContent();
     });
     if (this.formlyUpdateComunicationService) {
-      this.formlySubscription = this.formlyUpdateComunicationService.filterUpdate.subscribe(
-        (filter) => {
-          this.updateFilter(filter);
-        }
-      );
+      this.formlySubscription =
+        this.formlyUpdateComunicationService.filterUpdate.subscribe(
+          (filter) => {
+            this.updateFilter(filter);
+          }
+        );
     }
   }
 
@@ -177,7 +181,9 @@ export class SearchListLayoutComponent implements OnInit {
 
     this.page.default = true;
     this.page.pageNumber = paramModel['page'] ? +paramModel['page'] : 1;
-    this.page.pageSize = paramModel['pageSize'] ? Number.parseInt(paramModel['pageSize']) : this.configuration.pageSize;
+    this.page.pageSize = paramModel['pageSize']
+      ? Number.parseInt(paramModel['pageSize'])
+      : this.configuration.pageSize;
 
     this.sortField = paramModel['sort'];
     if (this.filterUpdateModelService) {
@@ -249,14 +255,15 @@ export class SearchListLayoutComponent implements OnInit {
     }
 
     queryObj['page'] = this.page.pageNumber
-    ? this.page.pageNumber.toString()
-    : '1';
+      ? this.page.pageNumber.toString()
+      : '1';
     queryObj['pageSize'] = this.page.pageSize
       ? this.page.pageSize.toString()
       : '25';
 
     queryObj['sort'] = this.sortField ? this.sortField.toString() : '';
     queryObj['sfm'] = this.filterData;
+
     const params = this.convertToParam(queryObj);
     /**
      * loc.go updates URL but also updates history stack so that upon clicking
@@ -272,13 +279,19 @@ export class SearchListLayoutComponent implements OnInit {
         relativeTo: this.route,
         queryParams: params,
         queryParamsHandling: this.configuration.queryParamsHandling,
-        fragment: window.location.hash?.length > 1 ? window.location.hash.substring(1) : undefined,
+        fragment:
+          window.location.hash?.length > 1
+            ? window.location.hash.substring(1)
+            : undefined,
         replaceUrl: skipHistoryOnNav,
       });
     } else {
       const urlTree = this.router.parseUrl(this.loc.path());
       urlTree.queryParams = params;
-      urlTree.fragment = window.location.hash?.length > 1 ? window.location.hash.substring(1) : undefined
+      urlTree.fragment =
+        window.location.hash?.length > 1
+          ? window.location.hash.substring(1)
+          : undefined;
       this.loc.go(urlTree.toString());
     }
   }
@@ -286,7 +299,7 @@ export class SearchListLayoutComponent implements OnInit {
   convertToParam(filters) {
     const encodedValues = qs.stringify(filters, {
       skipNulls: true,
-      encode: false,
+      encodeValuesOnly: true,
     });
     if (encodedValues) {
       return this.getUrlParams(encodedValues);
@@ -294,15 +307,12 @@ export class SearchListLayoutComponent implements OnInit {
       return '';
     }
   }
+
   getUrlParams(queryString) {
+    const searchParams = new URLSearchParams(queryString);
     const target = {};
-    queryString.split('&').forEach((pair) => {
-      if (pair !== '') {
-        const splitpair = pair.split('=');
-        if (splitpair[1] != '' && splitpair[1] != 'false') {
-          target[splitpair[0]] = splitpair[1]
-        }
-      }
+    searchParams.forEach((value, key) => {
+      target[key] = value;
     });
     return target;
   }
@@ -320,7 +330,12 @@ export class SearchListLayoutComponent implements OnInit {
   /**
    * Decoder for qs.parse to convert true / false strings to boolean values
    */
-  convertToModelParser(str: string, decoder: qs.defaultDecoder, charset: string, type: 'key' | 'value') {
+  convertToModelParser(
+    str: string,
+    decoder: qs.defaultDecoder,
+    charset: string,
+    type: 'key' | 'value'
+  ) {
     if (type === 'key') {
       return decoder(str, decoder, charset);
     }
@@ -364,16 +379,17 @@ export class SearchListLayoutComponent implements OnInit {
             sortField: this.sortField,
             filter: this.filterData,
           })
-          .subscribe((result) => {
-            this.loading = false;
-            this.items = result.items;
-            this.page.totalPages = Math.ceil(
-              result.totalItems / this.page.pageSize
-            );
-            this.totalItems = result.totalItems;
-          },
-            (error) => this.loading = false,
-            () => this.loading = false
+          .subscribe(
+            (result) => {
+              this.loading = false;
+              this.items = result.items;
+              this.page.totalPages = Math.ceil(
+                result.totalItems / this.page.pageSize
+              );
+              this.totalItems = result.totalItems;
+            },
+            (error) => (this.loading = false),
+            () => (this.loading = false)
           );
       });
     }

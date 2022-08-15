@@ -1,18 +1,32 @@
-import { Component, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  HostListener,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NavigationLink, SdsDialogConfig, SdsDialogRef, SelectionPanelModel } from '@gsa-sam/components';
-import { ResultsModel, SearchListConfiguration } from '@gsa-sam/layouts';
+import {
+  NavigationLink,
+  SdsDialogConfig,
+  SdsDialogRef,
+  SelectionPanelModel,
+} from '@gsa-sam/components';
+import {
+  ResultsModel,
+  SearchListConfiguration,
+} from '../../model/search-list-layout.model';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, timer } from 'rxjs';
 import { DataService } from '../data.service';
 import { FilterService } from '../filter.service';
 import { navigationConfig } from '../navigate.config';
+import { debounce, filter, pairwise, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'demo-search-list-layout',
   templateUrl: './layout-responsive.component.html',
 })
-export class LayoutResponsiveComponent {
+export class LayoutResponsiveComponent implements AfterViewInit {
   @ViewChild('resultList') resultList;
   @ViewChild('filters') filterComponent;
 
@@ -23,8 +37,8 @@ export class LayoutResponsiveComponent {
   form;
   filterModel = {};
   options;
-  filtersExpanded: boolean = true;
-  domainsExpanded: boolean = false;
+  filtersExpanded = true;
+  domainsExpanded = false;
   responsiveDialogOptions: SdsDialogConfig = {
     ariaLabel: 'Search Filters',
   };
@@ -32,8 +46,8 @@ export class LayoutResponsiveComponent {
   public filterChange$ = new BehaviorSubject<object>([]);
   public navigationModel: SelectionPanelModel = {
     navigationLinks: navigationConfig.navigationLinks,
-    selectionMode: 'SELECTION'
-   };
+    selectionMode: 'SELECTION',
+  };
 
   public filterPanelConfig;
 
@@ -72,7 +86,7 @@ export class LayoutResponsiveComponent {
     public service: DataService,
     public filterService: FilterService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -93,19 +107,49 @@ export class LayoutResponsiveComponent {
   }
 
   ngAfterViewInit() {
-    this.filterChange$.subscribe((res) => {
-      this.resultList.updateFilter(res);
+    const debounceTime = 2000;
+
+    const filters$ = this.filterChange$.pipe(
+      pairwise(),
+      filter(([prev, curr]: any) => {
+        if (
+          curr.keyword &&
+          curr.keyword.keywordTags &&
+          curr.keyword.keywordTags.length > 0
+        )
+          return true;
+        if (Array.isArray(prev)) return false;
+        return (
+          prev.keyword.keywordRadio === curr.keyword.keywordRadio &&
+          prev.keyword.keywordExactPhrase === curr.keyword.keywordExactPhrase
+        );
+      }),
+      debounce(([prev, curr]) =>
+        curr.keyword &&
+        curr.keyword.keywordTextarea &&
+        curr.keyword.keywordTextarea.length > 0
+          ? timer(debounceTime)
+          : timer(0)
+      )
+    );
+
+    filters$.subscribe((model) => {
+      this.resultList.updateFilter(model);
     });
 
     // Listen for radio change and refresh autocomplete
-    const keywordGroup = this.fields.find(field => field.key === 'keyword').fieldArray.fieldGroup[0].fieldGroup;
-    keywordGroup.find(keyword => keyword.key === 'keywordRadio').formControl.valueChanges.subscribe(change => {
-      // Refresh autocomplete chips - we do set timeout so that our model for radio option can update first, then
-      // this refresh will update our chips depending on the updated model value
-      setTimeout(() => {
-        this.filterService.keywordChangeSubject.next();
+    const keywordGroup = this.fields.find((field) => field.key === 'keyword')
+      .fieldArray.fieldGroup[0].fieldGroup;
+
+    keywordGroup
+      .find((keyword) => keyword.key === 'keywordRadio')
+      .formControl.valueChanges.subscribe((change) => {
+        // Refresh autocomplete chips - we do set timeout so that our model for radio option can update first, then
+        // this refresh will update our chips depending on the updated model value
+        setTimeout(() => {
+          this.filterService.keywordChangeSubject.next();
+        });
       });
-    });
   }
 
   updateConfig(update: boolean) {
@@ -115,7 +159,10 @@ export class LayoutResponsiveComponent {
       this.listConfig = { ...this.defaultListConfig };
     }
     const newSortValue = this.listConfig.defaultSortValue;
-    this.resultList.updateSearchResultsModel({sort: newSortValue, filterModel: this.filterModel});
+    this.resultList.updateSearchResultsModel({
+      sort: newSortValue,
+      filterModel: this.filterModel,
+    });
   }
 
   onDialogOpen($event) {
@@ -133,13 +180,13 @@ export class LayoutResponsiveComponent {
       sort: 'registrationStatus',
       filterModel: {
         keyword: {
-          keywordRadio: "allWords",
+          keywordRadio: 'allWords',
           keywordTags: [
             {
-              key: "te",
-              text: "te"
-            }
-          ]
+              key: 'te',
+              text: 'te',
+            },
+          ],
         },
         location: {
           city: null,
@@ -151,7 +198,9 @@ export class LayoutResponsiveComponent {
       },
     };
 
-    this.fields[0].fieldArray.fieldGroup[0].form.setValue(model.filterModel.keyword);
+    this.fields[0].fieldArray.fieldGroup[0].form.setValue(
+      model.filterModel.keyword
+    );
     this.resultList.updateSearchResultsModel(model);
   }
 
@@ -166,17 +215,19 @@ export class LayoutResponsiveComponent {
     this.domainsExpanded = false;
     this.filtersExpanded = true;
     console.log('Selected Domain', $event);
-    this.router.navigate(
-      [],
-      {queryParams: $event.queryParams, relativeTo: this.activatedRoute, queryParamsHandling: 'merge'}
-    );
+    this.router.navigate([], {
+      queryParams: $event.queryParams,
+      relativeTo: this.activatedRoute,
+      queryParamsHandling: 'merge',
+    });
   }
 
   onSubPanelClicked($event: NavigationLink) {
     console.log('Sub Domain selected', $event);
-    this.router.navigate(
-      [],
-      {queryParams: $event.queryParams, relativeTo: this.activatedRoute, queryParamsHandling: 'merge'}
-    );
+    this.router.navigate([], {
+      queryParams: $event.queryParams,
+      relativeTo: this.activatedRoute,
+      queryParamsHandling: 'merge',
+    });
   }
 }

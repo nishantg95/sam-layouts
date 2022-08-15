@@ -5,7 +5,8 @@ import {
   SdsSearchResultListModule,
   SdsSideNavigationModule,
   SdsSelectionPanelModule,
-  SdsSideToolbarModule
+  SdsSideToolbarModule,
+  SdsDialogModule,
 } from '@gsa-sam/components';
 import {
   SdsFiltersModule,
@@ -19,6 +20,7 @@ import { AutocompleteSampleDataService } from './services/autocomplete-sample.se
 import { LayoutResponsiveComponent } from './layout-responsive/layout-responsive.component';
 import { SdsAccordionModule } from '@gsa-sam/sam-material-extensions';
 import { IconModule } from '@gsa-sam/ngx-uswds-icons';
+import { FilterTabModalComponent } from './filter-tab-modal.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -31,10 +33,11 @@ import { IconModule } from '@gsa-sam/ngx-uswds-icons';
     ResultModule,
     SdsSideToolbarModule,
     SdsSelectionPanelModule,
+    SdsDialogModule
   ],
 
   exports: [LayoutResponsiveComponent],
-  declarations: [LayoutResponsiveComponent],
+  declarations: [LayoutResponsiveComponent, FilterTabModalComponent],
   providers: [
     FilterService,
     AutocompleteSampleDataService,

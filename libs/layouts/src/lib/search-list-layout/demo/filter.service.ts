@@ -5,17 +5,19 @@ import {
   SelectionMode,
   SDSSelectedItemModel,
   SDSAutocompletelConfiguration,
+  SdsDialogService,
 } from '@gsa-sam/components';
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { SdsFormlyTypes } from '@gsa-sam/sam-formly';
 import { Subject } from 'rxjs';
+import { FilterTabModalComponent } from './filter-tab-modal.component';
 
 @Injectable()
 export class FilterService {
   public settings = new SDSAutocompletelConfiguration();
   public autocompleteModel = new SDSSelectedItemModel();
 
-  public model = {};
+  public model: any = {};
   public form = new FormGroup({});
   options: FormlyFormOptions = {};
 
@@ -29,13 +31,36 @@ export class FilterService {
         label: 'Keyword Search',
         description: `For more information on how to use our keyword search, visit our <a href="#"> help guide </a>`,
         hideOptional: true,
+        interceptTabChange: true,
+        preTabChange: (selectedTab) => {
+          if (
+            (this.model.keyword &&
+              this.model.keyword.keywordTextarea &&
+              this.model.keyword.keywordTextarea.length > 0) ||
+            (this.model.keyword &&
+              this.model.keyword.keywordTags &&
+              this.model.keyword.keywordTags.length > 0)
+          ) {
+            this.dialog.open(FilterTabModalComponent, {
+              alert: 'warning',
+              width: 'small',
+              data: {
+                form: this.form,
+                fields: this.fields,
+                options: { selectedTab },
+              },
+            });
+          } else {
+            this.fields[0].templateOptions.selectedTab = selectedTab;
+          }
+        },
       },
       fieldArray: {
         fieldGroup: [
           // tab 1
           {
             templateOptions: {
-              tabHeader: 'Simple Search'
+              tabHeader: 'Simple Search',
             },
             fieldGroupClassName: 'grid-row',
             fieldGroup: [
@@ -48,11 +73,11 @@ export class FilterService {
                   options: [
                     {
                       label: 'Any Words',
-                      value: 'anyWords'
+                      value: 'anyWords',
                     },
                     {
                       label: 'All Words',
-                      value: 'allWords'
+                      value: 'allWords',
                     },
                   ],
                 },
@@ -64,7 +89,7 @@ export class FilterService {
                 templateOptions: {
                   label: 'Exact Phrase',
                   hideOptional: true,
-                }
+                },
               },
               {
                 key: 'keywordTags',
@@ -73,49 +98,41 @@ export class FilterService {
                 templateOptions: {
                   expand: false,
                   configuration: {
-                    id: "keyword",
-                    primaryKeyField: "key",
-                    primaryTextField: "text",
-                    labelText: "Search Keyword",
+                    id: 'keyword',
+                    primaryKeyField: 'key',
+                    primaryTextField: 'text',
+                    labelText: 'Search Keyword',
                     selectionMode: SelectionMode.MULTIPLE,
-                    autocompletePlaceHolderText: "",
+                    autocompletePlaceHolderText: '',
                     isTagModeEnabled: true,
                     // Bind context of this service so we have access to radio button value
                     displayModifierFn: this.displayModifierFn.bind(this),
                     // Add observable so that we can tell autocomplete to run change detection later when radio option changes
                     registerChanges$: this.keywordChangeSubject.asObservable(),
-                  }
-                }
-              }]
+                  },
+                },
+              },
+            ],
           },
           //tab 2
           {
             templateOptions: {
               tabHeader: 'Search Editor',
-              submitButtonId: 'booleanSearchSubmit',
             },
             fieldGroup: [
               {
                 key: 'keywordTextarea',
+                id: 'keyword-textarea',
                 type: SdsFormlyTypes.TEXTAREA,
                 className: 'display-block padding-left-2 padding-right-2',
                 templateOptions: {
-                  placeholder: 'e.g. ((rental AND property) OR (lease and property) AND NOT ( "short term"))',
-                  required: true,
-                }
+                  placeholder:
+                    'e.g. ((rental AND property) OR (lease and property) AND NOT ( "short term"))',
+                },
               },
-              {
-                type: SdsFormlyTypes.BUTTON,
-                id: 'booleanSearchSubmit',
-                className: 'display-block margin-top-1 padding-left-2 padding-right-2',
-                templateOptions: {
-                  text: 'Search',
-                  type: 'submit',
-                }
-              }
-            ]
-          }
-        ]
+            ],
+          },
+        ],
       },
     },
     {
@@ -213,7 +230,7 @@ export class FilterService {
       type: 'input',
       templateOptions: {
         label: 'Socio-Economic Status',
-        group: 'accordion'
+        group: 'accordion',
       },
     },
     {
@@ -323,7 +340,10 @@ export class FilterService {
     },
   ];
 
-  constructor(public service: AutocompleteSampleDataService) {
+  constructor(
+    public service: AutocompleteSampleDataService,
+    private dialog: SdsDialogService
+  ) {
     this.setup();
   }
 
