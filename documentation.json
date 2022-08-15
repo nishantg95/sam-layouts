@@ -589,7 +589,7 @@
         },
         {
             "name": "DataService",
-            "id": "injectable-DataService-4ad745fcf6c4ae1183f55a42a20f510076fe895d21c8e06a524f31ae366ab4d773fc3147ea939ff51fd45d85153a49b60004af06519b0734a7478eeb8e09738d",
+            "id": "injectable-DataService-97939d6f20ee46644d3014dc2e4c30c63f938aa5ac4d0864ff790677bfeb886aa522a34dde6d5dcdb079d20965720b5ab313f2382094e0f6254efb521f004cc2",
             "file": "libs/layouts/src/lib/search-list-layout/demo/data.service.ts",
             "properties": [
                 {
@@ -599,7 +599,7 @@
                     "type": "any[]",
                     "optional": false,
                     "description": "",
-                    "line": 8,
+                    "line": 11,
                     "modifierKind": [
                         121
                     ]
@@ -619,7 +619,7 @@
                     "optional": false,
                     "returnType": "Observable<SearchResult>",
                     "typeParameters": [],
-                    "line": 9,
+                    "line": 12,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -642,12 +642,12 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { Injectable } from '@angular/core';\r\nimport { Observable, of } from 'rxjs';\r\nimport { registrationData } from './search-data';\r\nimport { SearchParameters, SearchResult } from '@gsa-sam/layouts';\r\nimport { delay } from 'rxjs/operators';\r\n@Injectable({ providedIn: 'root' })\r\nexport class DataService {\r\n  private data: any[];\r\n  public getData(search: SearchParameters): Observable<SearchResult> {\r\n    this.data = registrationData._embedded.results;\r\n    if (this.data) {\r\n      if (search.filter) {\r\n        let filterText = '';\r\n        if (search.filter.keyword && search.filter.keyword.keywordTags) {\r\n          filterText = search.filter.keyword.keywordTags[0].text;\r\n        } else if (search.filter.keyword && search.filter.keyword.keywordTextarea) {\r\n          filterText =  search.filter.keyword.keywordTextarea;\r\n        }\r\n        if (search.filter.keyword || search.filter.location) {\r\n          const toReturn = [];\r\n          for (let i = 0; i < this.data.length; i++) {\r\n            const item = this.data[i];\r\n            if (\r\n              search.filter.keyword &&\r\n              item.title\r\n                .toLowerCase()\r\n                .indexOf(filterText.toLowerCase()) !== -1\r\n            ) {\r\n              toReturn.push(item);\r\n            } else if (search.filter.location) {\r\n              const location = search.filter.location;\r\n\r\n              if (\r\n                location.country &&\r\n                item.address.country &&\r\n                item.address.country\r\n                  .toLowerCase()\r\n                  .indexOf(location.country.toLowerCase()) > -1\r\n              ) {\r\n                toReturn.push(item);\r\n              } else if (\r\n                location.state &&\r\n                location.state.length &&\r\n                item.address.state &&\r\n                location.state.find(\r\n                  (state) =>\r\n                    item.address.state\r\n                      .toLowerCase()\r\n                      .indexOf(state.id.toLowerCase()) > -1\r\n                )\r\n              ) {\r\n                toReturn.push(item);\r\n              } else if (\r\n                location.city &&\r\n                item.address.city &&\r\n                item.address.city\r\n                  .toLowerCase()\r\n                  .indexOf(location.city.toLowerCase()) > -1\r\n              ) {\r\n                toReturn.push(item);\r\n              } else if (\r\n                location.zipCode &&\r\n                item.address.zip &&\r\n                item.address.zip\r\n                  .toLowerCase()\r\n                  .indexOf(location.city.toLowerCase()) > -1\r\n              ) {\r\n                toReturn.push(item);\r\n              }\r\n            }\r\n          }\r\n          this.data = toReturn;\r\n        }\r\n      }\r\n      const start =\r\n        search.page.pageNumber * search.page.pageSize - search.page.pageSize;\r\n      const end = start + search.page.pageSize;\r\n      return of({\r\n        items: this.data.slice(start, end),\r\n        totalItems: this.data.length,\r\n      }).pipe(delay(2000));\r\n    } else {\r\n      return of({\r\n        items: [],\r\n        totalItems: 0,\r\n      });\r\n    }\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Injectable } from '@angular/core';\r\nimport { Observable, of } from 'rxjs';\r\nimport { registrationData } from './search-data';\r\nimport { delay } from 'rxjs/operators';\r\nimport {\r\n  SearchParameters,\r\n  SearchResult,\r\n} from '../model/search-list-layout.model';\r\n@Injectable({ providedIn: 'root' })\r\nexport class DataService {\r\n  private data: any[];\r\n  public getData(search: SearchParameters): Observable<SearchResult> {\r\n    this.data = registrationData._embedded.results;\r\n    if (this.data) {\r\n      if (search.filter) {\r\n        let filterText = '';\r\n        if (search.filter.keyword && search.filter.keyword.keywordTags) {\r\n          filterText = search.filter.keyword.keywordTags[0].text;\r\n        } else if (\r\n          search.filter.keyword &&\r\n          search.filter.keyword.keywordTextarea\r\n        ) {\r\n          filterText = search.filter.keyword.keywordTextarea;\r\n        }\r\n        if (search.filter.keyword || search.filter.location) {\r\n          const toReturn = [];\r\n          for (let i = 0; i < this.data.length; i++) {\r\n            const item = this.data[i];\r\n            if (\r\n              search.filter.keyword &&\r\n              item.title.toLowerCase().indexOf(filterText.toLowerCase()) !== -1\r\n            ) {\r\n              toReturn.push(item);\r\n            } else if (search.filter.location) {\r\n              const location = search.filter.location;\r\n\r\n              if (\r\n                location.country &&\r\n                item.address.country &&\r\n                item.address.country\r\n                  .toLowerCase()\r\n                  .indexOf(location.country.toLowerCase()) > -1\r\n              ) {\r\n                toReturn.push(item);\r\n              } else if (\r\n                location.state &&\r\n                location.state.length &&\r\n                item.address.state &&\r\n                location.state.find(\r\n                  (state) =>\r\n                    item.address.state\r\n                      .toLowerCase()\r\n                      .indexOf(state.id.toLowerCase()) > -1\r\n                )\r\n              ) {\r\n                toReturn.push(item);\r\n              } else if (\r\n                location.city &&\r\n                item.address.city &&\r\n                item.address.city\r\n                  .toLowerCase()\r\n                  .indexOf(location.city.toLowerCase()) > -1\r\n              ) {\r\n                toReturn.push(item);\r\n              } else if (\r\n                location.zipCode &&\r\n                item.address.zip &&\r\n                item.address.zip\r\n                  .toLowerCase()\r\n                  .indexOf(location.city.toLowerCase()) > -1\r\n              ) {\r\n                toReturn.push(item);\r\n              }\r\n            }\r\n          }\r\n          this.data = toReturn;\r\n        }\r\n      }\r\n      const start =\r\n        search.page.pageNumber * search.page.pageSize - search.page.pageSize;\r\n      const end = start + search.page.pageSize;\r\n      return of({\r\n        items: this.data.slice(start, end),\r\n        totalItems: this.data.length,\r\n      }).pipe(delay(2000));\r\n    } else {\r\n      return of({\r\n        items: [],\r\n        totalItems: 0,\r\n      });\r\n    }\r\n  }\r\n}\r\n",
             "type": "injectable"
         },
         {
             "name": "FilterService",
-            "id": "injectable-FilterService-4bed7952d0d15efe335444d197bd32e18cf911dc011c3a1c0c2caf02f084a01df196d41e86b7e25aa6a18b84169d7014f3d8038bf981a0f73d69831a2931d2fa",
+            "id": "injectable-FilterService-c92295ab95f7fa4a528849ac61a636392019f2deeeb83dc40b8f507424ff654ffc5d01940170fc135c0ec7bff56b0ad88fd75611a548540304ac1ae446d9efdf",
             "file": "libs/layouts/src/lib/search-list-layout/demo/filter.service.ts",
             "properties": [
                 {
@@ -658,20 +658,20 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 16,
+                    "line": 18,
                     "modifierKind": [
                         123
                     ]
                 },
                 {
                     "name": "fields",
-                    "defaultValue": "[\n    {\n      key: 'keyword',\n      wrappers: ['tabs'],\n      templateOptions: {\n        label: 'Keyword Search',\n        description: `For more information on how to use our keyword search, visit our <a href=\"#\"> help guide </a>`,\n        hideOptional: true,\n      },\n      fieldArray: {\n        fieldGroup: [\n          // tab 1\n          {\n            templateOptions: {\n              tabHeader: 'Simple Search'\n            },\n            fieldGroupClassName: 'grid-row',\n            fieldGroup: [\n              {\n                key: 'keywordRadio',\n                className: 'grid-col-5',\n                type: 'radio',\n                defaultValue: 'anyWords',\n                templateOptions: {\n                  options: [\n                    {\n                      label: 'Any Words',\n                      value: 'anyWords'\n                    },\n                    {\n                      label: 'All Words',\n                      value: 'allWords'\n                    },\n                  ],\n                },\n              },\n              {\n                className: 'grid-col-6 margin-top-auto margin-left-auto',\n                key: 'keywordExactPhrase',\n                type: 'checkbox',\n                templateOptions: {\n                  label: 'Exact Phrase',\n                  hideOptional: true,\n                }\n              },\n              {\n                key: 'keywordTags',\n                type: 'autocomplete',\n                className: 'grid-col-12',\n                templateOptions: {\n                  expand: false,\n                  configuration: {\n                    id: \"keyword\",\n                    primaryKeyField: \"key\",\n                    primaryTextField: \"text\",\n                    labelText: \"Search Keyword\",\n                    selectionMode: SelectionMode.MULTIPLE,\n                    autocompletePlaceHolderText: \"\",\n                    isTagModeEnabled: true,\n                    // Bind context of this service so we have access to radio button value\n                    displayModifierFn: this.displayModifierFn.bind(this),\n                    // Add observable so that we can tell autocomplete to run change detection later when radio option changes\n                    registerChanges$: this.keywordChangeSubject.asObservable(),\n                  }\n                }\n              }]\n          },\n          //tab 2\n          {\n            templateOptions: {\n              tabHeader: 'Search Editor',\n              submitButtonId: 'booleanSearchSubmit',\n            },\n            fieldGroup: [\n              {\n                key: 'keywordTextarea',\n                type: SdsFormlyTypes.TEXTAREA,\n                className: 'display-block padding-left-2 padding-right-2',\n                templateOptions: {\n                  placeholder: 'e.g. ((rental AND property) OR (lease and property) AND NOT ( \"short term\"))',\n                  required: true,\n                }\n              },\n              {\n                type: SdsFormlyTypes.BUTTON,\n                id: 'booleanSearchSubmit',\n                className: 'display-block margin-top-1 padding-left-2 padding-right-2',\n                templateOptions: {\n                  text: 'Search',\n                  type: 'submit',\n                }\n              }\n            ]\n          }\n        ]\n      },\n    },\n    {\n      key: 'searchEntity',\n      templateOptions: { label: 'Entity', group: 'accordion' },\n      fieldGroup: [\n        {\n          key: 'legalBusinessName',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'Entity Name',\n          },\n        },\n        {\n          key: 'uniqueEntityIdDuns',\n          type: 'input',\n          templateOptions: {\n            tagText: 'DUNS',\n            tagClass: 'sds-tag--info-purple',\n            label: 'Unique Entity ID',\n            hideOptional: true,\n            placeholder: '',\n            min: 13,\n            max: 40,\n            inputType: 'number',\n            inputStyle: 'error',\n          },\n        },\n        {\n          key: 'uniqueEntityIdSam',\n          type: 'input',\n          templateOptions: {\n            tagText: 'SAM',\n            label: 'Unique Entity ID',\n            hideOptional: true,\n            placeholder: '',\n            inputType: 'text',\n          },\n        },\n        {\n          key: 'cageCode',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'CAGE / NCAGE',\n          },\n        },\n      ],\n    },\n    {\n      key: 'purposeOfRegistration',\n\n      type: 'multicheckbox',\n      templateOptions: {\n        label: 'Purpose of Registration',\n        group: 'accordion',\n        options: [\n          {\n            key: 'allawards',\n            value: 'All Awards',\n          },\n          {\n            key: 'assistance-awards',\n            value: 'Federal Assistance Awards',\n          },\n          {\n            key: 'igt-awards',\n            value: 'Intragovernmental Transactions',\n          },\n        ],\n      },\n    },\n    {\n      key: 'startDate',\n      type: 'datepicker',\n      templateOptions: {\n        group: 'accordion',\n        hideOptional: true,\n        label: 'Date',\n      },\n    },\n    {\n      key: 'entityType',\n      type: 'input',\n      templateOptions: {\n        label: 'Entity Type',\n        group: 'accordion',\n      },\n    },\n    {\n      key: 'socioEconomicStatus',\n      type: 'input',\n      templateOptions: {\n        label: 'Socio-Economic Status',\n        group: 'accordion'\n      },\n    },\n    {\n      key: 'serviceClassifications',\n\n      templateOptions: {\n        label: 'NAICS and Product Service Codes',\n        group: 'accordion',\n      },\n      fieldGroup: [\n        {\n          key: 'naicsCode',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'NAICS Code',\n            placeholder: 'Ex: 110610',\n          },\n        },\n        {\n          key: 'productServiceCode',\n          type: 'input',\n          templateOptions: {\n            label: 'Product Service Code',\n            hideOptional: true,\n            placeholder: 'Ex: 3320 or L019',\n          },\n        },\n      ],\n    },\n    {\n      key: 'location',\n      templateOptions: { label: 'Location', group: 'accordion' },\n      fieldGroup: [\n        {\n          key: 'country',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'Country',\n          },\n        },\n        {\n          key: 'zipCode',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'Zip Code',\n          },\n        },\n        {\n          key: 'state',\n          type: 'autocomplete',\n          templateOptions: {\n            label: 'State / Province',\n            hideOptional: true,\n            service: this.service,\n            configuration: this.settings,\n            model: this.autocompleteModel,\n            modelChange: this.changes,\n          },\n        },\n        {\n          key: 'city',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'City',\n          },\n        },\n        {\n          key: 'congressionalDistrict',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'Congressional District',\n          },\n        },\n      ],\n    },\n    {\n      key: 'status',\n      templateOptions: { label: 'Status', group: 'accordion' },\n      fieldGroup: [\n        {\n          key: 'registrationStatus',\n          type: 'multicheckbox',\n          templateOptions: {\n            options: [\n              {\n                key: 'Active',\n                value: 'Active',\n              },\n              {\n                key: 'Inactive',\n                value: 'Inactive',\n              },\n            ],\n          },\n        },\n      ],\n    },\n  ]",
+                    "defaultValue": "[\n    {\n      key: 'keyword',\n      wrappers: ['tabs'],\n      templateOptions: {\n        label: 'Keyword Search',\n        description: `For more information on how to use our keyword search, visit our <a href=\"#\"> help guide </a>`,\n        hideOptional: true,\n        interceptTabChange: true,\n        preTabChange: (selectedTab) => {\n          if (\n            (this.model.keyword &&\n              this.model.keyword.keywordTextarea &&\n              this.model.keyword.keywordTextarea.length > 0) ||\n            (this.model.keyword &&\n              this.model.keyword.keywordTags &&\n              this.model.keyword.keywordTags.length > 0)\n          ) {\n            this.dialog.open(FilterTabModalComponent, {\n              alert: 'warning',\n              width: 'small',\n              data: {\n                form: this.form,\n                fields: this.fields,\n                options: { selectedTab },\n              },\n            });\n          } else {\n            this.fields[0].templateOptions.selectedTab = selectedTab;\n          }\n        },\n      },\n      fieldArray: {\n        fieldGroup: [\n          // tab 1\n          {\n            templateOptions: {\n              tabHeader: 'Simple Search',\n            },\n            fieldGroupClassName: 'grid-row',\n            fieldGroup: [\n              {\n                key: 'keywordRadio',\n                className: 'grid-col-5',\n                type: 'radio',\n                defaultValue: 'anyWords',\n                templateOptions: {\n                  options: [\n                    {\n                      label: 'Any Words',\n                      value: 'anyWords',\n                    },\n                    {\n                      label: 'All Words',\n                      value: 'allWords',\n                    },\n                  ],\n                },\n              },\n              {\n                className: 'grid-col-6 margin-top-auto margin-left-auto',\n                key: 'keywordExactPhrase',\n                type: 'checkbox',\n                templateOptions: {\n                  label: 'Exact Phrase',\n                  hideOptional: true,\n                },\n              },\n              {\n                key: 'keywordTags',\n                type: 'autocomplete',\n                className: 'grid-col-12',\n                templateOptions: {\n                  expand: false,\n                  configuration: {\n                    id: 'keyword',\n                    primaryKeyField: 'key',\n                    primaryTextField: 'text',\n                    labelText: 'Search Keyword',\n                    selectionMode: SelectionMode.MULTIPLE,\n                    autocompletePlaceHolderText: '',\n                    isTagModeEnabled: true,\n                    // Bind context of this service so we have access to radio button value\n                    displayModifierFn: this.displayModifierFn.bind(this),\n                    // Add observable so that we can tell autocomplete to run change detection later when radio option changes\n                    registerChanges$: this.keywordChangeSubject.asObservable(),\n                  },\n                },\n              },\n            ],\n          },\n          //tab 2\n          {\n            templateOptions: {\n              tabHeader: 'Search Editor',\n            },\n            fieldGroup: [\n              {\n                key: 'keywordTextarea',\n                id: 'keyword-textarea',\n                type: SdsFormlyTypes.TEXTAREA,\n                className: 'display-block padding-left-2 padding-right-2',\n                templateOptions: {\n                  placeholder:\n                    'e.g. ((rental AND property) OR (lease and property) AND NOT ( \"short term\"))',\n                },\n              },\n            ],\n          },\n        ],\n      },\n    },\n    {\n      key: 'searchEntity',\n      templateOptions: { label: 'Entity', group: 'accordion' },\n      fieldGroup: [\n        {\n          key: 'legalBusinessName',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'Entity Name',\n          },\n        },\n        {\n          key: 'uniqueEntityIdDuns',\n          type: 'input',\n          templateOptions: {\n            tagText: 'DUNS',\n            tagClass: 'sds-tag--info-purple',\n            label: 'Unique Entity ID',\n            hideOptional: true,\n            placeholder: '',\n            min: 13,\n            max: 40,\n            inputType: 'number',\n            inputStyle: 'error',\n          },\n        },\n        {\n          key: 'uniqueEntityIdSam',\n          type: 'input',\n          templateOptions: {\n            tagText: 'SAM',\n            label: 'Unique Entity ID',\n            hideOptional: true,\n            placeholder: '',\n            inputType: 'text',\n          },\n        },\n        {\n          key: 'cageCode',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'CAGE / NCAGE',\n          },\n        },\n      ],\n    },\n    {\n      key: 'purposeOfRegistration',\n\n      type: 'multicheckbox',\n      templateOptions: {\n        label: 'Purpose of Registration',\n        group: 'accordion',\n        options: [\n          {\n            key: 'allawards',\n            value: 'All Awards',\n          },\n          {\n            key: 'assistance-awards',\n            value: 'Federal Assistance Awards',\n          },\n          {\n            key: 'igt-awards',\n            value: 'Intragovernmental Transactions',\n          },\n        ],\n      },\n    },\n    {\n      key: 'startDate',\n      type: 'datepicker',\n      templateOptions: {\n        group: 'accordion',\n        hideOptional: true,\n        label: 'Date',\n      },\n    },\n    {\n      key: 'entityType',\n      type: 'input',\n      templateOptions: {\n        label: 'Entity Type',\n        group: 'accordion',\n      },\n    },\n    {\n      key: 'socioEconomicStatus',\n      type: 'input',\n      templateOptions: {\n        label: 'Socio-Economic Status',\n        group: 'accordion',\n      },\n    },\n    {\n      key: 'serviceClassifications',\n\n      templateOptions: {\n        label: 'NAICS and Product Service Codes',\n        group: 'accordion',\n      },\n      fieldGroup: [\n        {\n          key: 'naicsCode',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'NAICS Code',\n            placeholder: 'Ex: 110610',\n          },\n        },\n        {\n          key: 'productServiceCode',\n          type: 'input',\n          templateOptions: {\n            label: 'Product Service Code',\n            hideOptional: true,\n            placeholder: 'Ex: 3320 or L019',\n          },\n        },\n      ],\n    },\n    {\n      key: 'location',\n      templateOptions: { label: 'Location', group: 'accordion' },\n      fieldGroup: [\n        {\n          key: 'country',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'Country',\n          },\n        },\n        {\n          key: 'zipCode',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'Zip Code',\n          },\n        },\n        {\n          key: 'state',\n          type: 'autocomplete',\n          templateOptions: {\n            label: 'State / Province',\n            hideOptional: true,\n            service: this.service,\n            configuration: this.settings,\n            model: this.autocompleteModel,\n            modelChange: this.changes,\n          },\n        },\n        {\n          key: 'city',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'City',\n          },\n        },\n        {\n          key: 'congressionalDistrict',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'Congressional District',\n          },\n        },\n      ],\n    },\n    {\n      key: 'status',\n      templateOptions: { label: 'Status', group: 'accordion' },\n      fieldGroup: [\n        {\n          key: 'registrationStatus',\n          type: 'multicheckbox',\n          templateOptions: {\n            options: [\n              {\n                key: 'Active',\n                value: 'Active',\n              },\n              {\n                key: 'Inactive',\n                value: 'Inactive',\n              },\n            ],\n          },\n        },\n      ],\n    },\n  ]",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "FormlyFieldConfig[]",
                     "optional": false,
                     "description": "",
-                    "line": 24,
+                    "line": 26,
                     "modifierKind": [
                         123
                     ]
@@ -684,7 +684,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 19,
+                    "line": 21,
                     "modifierKind": [
                         123
                     ]
@@ -697,7 +697,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 22,
+                    "line": 24,
                     "modifierKind": [
                         123
                     ]
@@ -707,10 +707,10 @@
                     "defaultValue": "{}",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "object",
+                    "type": "any",
                     "optional": false,
                     "description": "",
-                    "line": 18,
+                    "line": 20,
                     "modifierKind": [
                         123
                     ]
@@ -723,7 +723,7 @@
                     "type": "FormlyFormOptions",
                     "optional": false,
                     "description": "",
-                    "line": 20
+                    "line": 22
                 },
                 {
                     "name": "service",
@@ -732,7 +732,7 @@
                     "type": "AutocompleteSampleDataService",
                     "optional": false,
                     "description": "",
-                    "line": 326,
+                    "line": 344,
                     "modifierKind": [
                         123
                     ]
@@ -745,7 +745,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 15,
+                    "line": 17,
                     "modifierKind": [
                         123
                     ]
@@ -765,7 +765,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 330,
+                    "line": 350,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -799,7 +799,7 @@
                     "optional": false,
                     "returnType": "string",
                     "typeParameters": [],
-                    "line": 345,
+                    "line": 365,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -829,7 +829,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 334,
+                    "line": 354,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -838,7 +838,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';\nimport { FormGroup } from '@angular/forms';\nimport { AutocompleteSampleDataService } from './services/autocomplete-sample.service';\nimport {\n  SelectionMode,\n  SDSSelectedItemModel,\n  SDSAutocompletelConfiguration,\n} from '@gsa-sam/components';\nimport { Injectable } from '@angular/core';\nimport { SdsFormlyTypes } from '@gsa-sam/sam-formly';\nimport { Subject } from 'rxjs';\n\n@Injectable()\nexport class FilterService {\n  public settings = new SDSAutocompletelConfiguration();\n  public autocompleteModel = new SDSSelectedItemModel();\n\n  public model = {};\n  public form = new FormGroup({});\n  options: FormlyFormOptions = {};\n\n  public keywordChangeSubject = new Subject();\n\n  public fields: FormlyFieldConfig[] = [\n    {\n      key: 'keyword',\n      wrappers: ['tabs'],\n      templateOptions: {\n        label: 'Keyword Search',\n        description: `For more information on how to use our keyword search, visit our <a href=\"#\"> help guide </a>`,\n        hideOptional: true,\n      },\n      fieldArray: {\n        fieldGroup: [\n          // tab 1\n          {\n            templateOptions: {\n              tabHeader: 'Simple Search'\n            },\n            fieldGroupClassName: 'grid-row',\n            fieldGroup: [\n              {\n                key: 'keywordRadio',\n                className: 'grid-col-5',\n                type: 'radio',\n                defaultValue: 'anyWords',\n                templateOptions: {\n                  options: [\n                    {\n                      label: 'Any Words',\n                      value: 'anyWords'\n                    },\n                    {\n                      label: 'All Words',\n                      value: 'allWords'\n                    },\n                  ],\n                },\n              },\n              {\n                className: 'grid-col-6 margin-top-auto margin-left-auto',\n                key: 'keywordExactPhrase',\n                type: 'checkbox',\n                templateOptions: {\n                  label: 'Exact Phrase',\n                  hideOptional: true,\n                }\n              },\n              {\n                key: 'keywordTags',\n                type: 'autocomplete',\n                className: 'grid-col-12',\n                templateOptions: {\n                  expand: false,\n                  configuration: {\n                    id: \"keyword\",\n                    primaryKeyField: \"key\",\n                    primaryTextField: \"text\",\n                    labelText: \"Search Keyword\",\n                    selectionMode: SelectionMode.MULTIPLE,\n                    autocompletePlaceHolderText: \"\",\n                    isTagModeEnabled: true,\n                    // Bind context of this service so we have access to radio button value\n                    displayModifierFn: this.displayModifierFn.bind(this),\n                    // Add observable so that we can tell autocomplete to run change detection later when radio option changes\n                    registerChanges$: this.keywordChangeSubject.asObservable(),\n                  }\n                }\n              }]\n          },\n          //tab 2\n          {\n            templateOptions: {\n              tabHeader: 'Search Editor',\n              submitButtonId: 'booleanSearchSubmit',\n            },\n            fieldGroup: [\n              {\n                key: 'keywordTextarea',\n                type: SdsFormlyTypes.TEXTAREA,\n                className: 'display-block padding-left-2 padding-right-2',\n                templateOptions: {\n                  placeholder: 'e.g. ((rental AND property) OR (lease and property) AND NOT ( \"short term\"))',\n                  required: true,\n                }\n              },\n              {\n                type: SdsFormlyTypes.BUTTON,\n                id: 'booleanSearchSubmit',\n                className: 'display-block margin-top-1 padding-left-2 padding-right-2',\n                templateOptions: {\n                  text: 'Search',\n                  type: 'submit',\n                }\n              }\n            ]\n          }\n        ]\n      },\n    },\n    {\n      key: 'searchEntity',\n      templateOptions: { label: 'Entity', group: 'accordion' },\n      fieldGroup: [\n        {\n          key: 'legalBusinessName',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'Entity Name',\n          },\n        },\n        {\n          key: 'uniqueEntityIdDuns',\n          type: 'input',\n          templateOptions: {\n            tagText: 'DUNS',\n            tagClass: 'sds-tag--info-purple',\n            label: 'Unique Entity ID',\n            hideOptional: true,\n            placeholder: '',\n            min: 13,\n            max: 40,\n            inputType: 'number',\n            inputStyle: 'error',\n          },\n        },\n        {\n          key: 'uniqueEntityIdSam',\n          type: 'input',\n          templateOptions: {\n            tagText: 'SAM',\n            label: 'Unique Entity ID',\n            hideOptional: true,\n            placeholder: '',\n            inputType: 'text',\n          },\n        },\n        {\n          key: 'cageCode',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'CAGE / NCAGE',\n          },\n        },\n      ],\n    },\n    {\n      key: 'purposeOfRegistration',\n\n      type: 'multicheckbox',\n      templateOptions: {\n        label: 'Purpose of Registration',\n        group: 'accordion',\n        options: [\n          {\n            key: 'allawards',\n            value: 'All Awards',\n          },\n          {\n            key: 'assistance-awards',\n            value: 'Federal Assistance Awards',\n          },\n          {\n            key: 'igt-awards',\n            value: 'Intragovernmental Transactions',\n          },\n        ],\n      },\n    },\n    {\n      key: 'startDate',\n      type: 'datepicker',\n      templateOptions: {\n        group: 'accordion',\n        hideOptional: true,\n        label: 'Date',\n      },\n    },\n    {\n      key: 'entityType',\n      type: 'input',\n      templateOptions: {\n        label: 'Entity Type',\n        group: 'accordion',\n      },\n    },\n    {\n      key: 'socioEconomicStatus',\n      type: 'input',\n      templateOptions: {\n        label: 'Socio-Economic Status',\n        group: 'accordion'\n      },\n    },\n    {\n      key: 'serviceClassifications',\n\n      templateOptions: {\n        label: 'NAICS and Product Service Codes',\n        group: 'accordion',\n      },\n      fieldGroup: [\n        {\n          key: 'naicsCode',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'NAICS Code',\n            placeholder: 'Ex: 110610',\n          },\n        },\n        {\n          key: 'productServiceCode',\n          type: 'input',\n          templateOptions: {\n            label: 'Product Service Code',\n            hideOptional: true,\n            placeholder: 'Ex: 3320 or L019',\n          },\n        },\n      ],\n    },\n    {\n      key: 'location',\n      templateOptions: { label: 'Location', group: 'accordion' },\n      fieldGroup: [\n        {\n          key: 'country',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'Country',\n          },\n        },\n        {\n          key: 'zipCode',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'Zip Code',\n          },\n        },\n        {\n          key: 'state',\n          type: 'autocomplete',\n          templateOptions: {\n            label: 'State / Province',\n            hideOptional: true,\n            service: this.service,\n            configuration: this.settings,\n            model: this.autocompleteModel,\n            modelChange: this.changes,\n          },\n        },\n        {\n          key: 'city',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'City',\n          },\n        },\n        {\n          key: 'congressionalDistrict',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'Congressional District',\n          },\n        },\n      ],\n    },\n    {\n      key: 'status',\n      templateOptions: { label: 'Status', group: 'accordion' },\n      fieldGroup: [\n        {\n          key: 'registrationStatus',\n          type: 'multicheckbox',\n          templateOptions: {\n            options: [\n              {\n                key: 'Active',\n                value: 'Active',\n              },\n              {\n                key: 'Inactive',\n                value: 'Inactive',\n              },\n            ],\n          },\n        },\n      ],\n    },\n  ];\n\n  constructor(public service: AutocompleteSampleDataService) {\n    this.setup();\n  }\n\n  changes(value) {\n    console.log(value);\n  }\n\n  setup() {\n    this.settings.id = 'autocomplete1';\n    this.settings.primaryKeyField = 'id';\n    this.settings.primaryTextField = 'name';\n    this.settings.secondaryTextField = 'subtext';\n    this.settings.labelText = 'Autocomplete 1';\n    this.settings.selectionMode = SelectionMode.MULTIPLE;\n    this.settings.autocompletePlaceHolderText = 'Alaska';\n    this.settings.debounceTime = 350;\n  }\n\n  displayModifierFn(value: string, index: number) {\n    if (index === 0) {\n      return value;\n    }\n\n    // We can do 'this.model' because we binded this service to the function in the config.\n    // So, inside this function, the context 'this' will refer to this service\n    const keywordRadio = this.model['keyword']?.keywordRadio;\n    if (!keywordRadio) {\n      return value;\n    }\n\n    if (keywordRadio === 'allWords') {\n      return `and  ${value}`;\n    } else if (keywordRadio === 'anyWords') {\n      return `or  ${value}`;\n    } else {\n      return value;\n    }\n  }\n}\n",
+            "sourceCode": "import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';\nimport { FormGroup } from '@angular/forms';\nimport { AutocompleteSampleDataService } from './services/autocomplete-sample.service';\nimport {\n  SelectionMode,\n  SDSSelectedItemModel,\n  SDSAutocompletelConfiguration,\n  SdsDialogService,\n} from '@gsa-sam/components';\nimport { ElementRef, Injectable } from '@angular/core';\nimport { SdsFormlyTypes } from '@gsa-sam/sam-formly';\nimport { Subject } from 'rxjs';\nimport { FilterTabModalComponent } from './filter-tab-modal.component';\n\n@Injectable()\nexport class FilterService {\n  public settings = new SDSAutocompletelConfiguration();\n  public autocompleteModel = new SDSSelectedItemModel();\n\n  public model: any = {};\n  public form = new FormGroup({});\n  options: FormlyFormOptions = {};\n\n  public keywordChangeSubject = new Subject();\n\n  public fields: FormlyFieldConfig[] = [\n    {\n      key: 'keyword',\n      wrappers: ['tabs'],\n      templateOptions: {\n        label: 'Keyword Search',\n        description: `For more information on how to use our keyword search, visit our <a href=\"#\"> help guide </a>`,\n        hideOptional: true,\n        interceptTabChange: true,\n        preTabChange: (selectedTab) => {\n          if (\n            (this.model.keyword &&\n              this.model.keyword.keywordTextarea &&\n              this.model.keyword.keywordTextarea.length > 0) ||\n            (this.model.keyword &&\n              this.model.keyword.keywordTags &&\n              this.model.keyword.keywordTags.length > 0)\n          ) {\n            this.dialog.open(FilterTabModalComponent, {\n              alert: 'warning',\n              width: 'small',\n              data: {\n                form: this.form,\n                fields: this.fields,\n                options: { selectedTab },\n              },\n            });\n          } else {\n            this.fields[0].templateOptions.selectedTab = selectedTab;\n          }\n        },\n      },\n      fieldArray: {\n        fieldGroup: [\n          // tab 1\n          {\n            templateOptions: {\n              tabHeader: 'Simple Search',\n            },\n            fieldGroupClassName: 'grid-row',\n            fieldGroup: [\n              {\n                key: 'keywordRadio',\n                className: 'grid-col-5',\n                type: 'radio',\n                defaultValue: 'anyWords',\n                templateOptions: {\n                  options: [\n                    {\n                      label: 'Any Words',\n                      value: 'anyWords',\n                    },\n                    {\n                      label: 'All Words',\n                      value: 'allWords',\n                    },\n                  ],\n                },\n              },\n              {\n                className: 'grid-col-6 margin-top-auto margin-left-auto',\n                key: 'keywordExactPhrase',\n                type: 'checkbox',\n                templateOptions: {\n                  label: 'Exact Phrase',\n                  hideOptional: true,\n                },\n              },\n              {\n                key: 'keywordTags',\n                type: 'autocomplete',\n                className: 'grid-col-12',\n                templateOptions: {\n                  expand: false,\n                  configuration: {\n                    id: 'keyword',\n                    primaryKeyField: 'key',\n                    primaryTextField: 'text',\n                    labelText: 'Search Keyword',\n                    selectionMode: SelectionMode.MULTIPLE,\n                    autocompletePlaceHolderText: '',\n                    isTagModeEnabled: true,\n                    // Bind context of this service so we have access to radio button value\n                    displayModifierFn: this.displayModifierFn.bind(this),\n                    // Add observable so that we can tell autocomplete to run change detection later when radio option changes\n                    registerChanges$: this.keywordChangeSubject.asObservable(),\n                  },\n                },\n              },\n            ],\n          },\n          //tab 2\n          {\n            templateOptions: {\n              tabHeader: 'Search Editor',\n            },\n            fieldGroup: [\n              {\n                key: 'keywordTextarea',\n                id: 'keyword-textarea',\n                type: SdsFormlyTypes.TEXTAREA,\n                className: 'display-block padding-left-2 padding-right-2',\n                templateOptions: {\n                  placeholder:\n                    'e.g. ((rental AND property) OR (lease and property) AND NOT ( \"short term\"))',\n                },\n              },\n            ],\n          },\n        ],\n      },\n    },\n    {\n      key: 'searchEntity',\n      templateOptions: { label: 'Entity', group: 'accordion' },\n      fieldGroup: [\n        {\n          key: 'legalBusinessName',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'Entity Name',\n          },\n        },\n        {\n          key: 'uniqueEntityIdDuns',\n          type: 'input',\n          templateOptions: {\n            tagText: 'DUNS',\n            tagClass: 'sds-tag--info-purple',\n            label: 'Unique Entity ID',\n            hideOptional: true,\n            placeholder: '',\n            min: 13,\n            max: 40,\n            inputType: 'number',\n            inputStyle: 'error',\n          },\n        },\n        {\n          key: 'uniqueEntityIdSam',\n          type: 'input',\n          templateOptions: {\n            tagText: 'SAM',\n            label: 'Unique Entity ID',\n            hideOptional: true,\n            placeholder: '',\n            inputType: 'text',\n          },\n        },\n        {\n          key: 'cageCode',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'CAGE / NCAGE',\n          },\n        },\n      ],\n    },\n    {\n      key: 'purposeOfRegistration',\n\n      type: 'multicheckbox',\n      templateOptions: {\n        label: 'Purpose of Registration',\n        group: 'accordion',\n        options: [\n          {\n            key: 'allawards',\n            value: 'All Awards',\n          },\n          {\n            key: 'assistance-awards',\n            value: 'Federal Assistance Awards',\n          },\n          {\n            key: 'igt-awards',\n            value: 'Intragovernmental Transactions',\n          },\n        ],\n      },\n    },\n    {\n      key: 'startDate',\n      type: 'datepicker',\n      templateOptions: {\n        group: 'accordion',\n        hideOptional: true,\n        label: 'Date',\n      },\n    },\n    {\n      key: 'entityType',\n      type: 'input',\n      templateOptions: {\n        label: 'Entity Type',\n        group: 'accordion',\n      },\n    },\n    {\n      key: 'socioEconomicStatus',\n      type: 'input',\n      templateOptions: {\n        label: 'Socio-Economic Status',\n        group: 'accordion',\n      },\n    },\n    {\n      key: 'serviceClassifications',\n\n      templateOptions: {\n        label: 'NAICS and Product Service Codes',\n        group: 'accordion',\n      },\n      fieldGroup: [\n        {\n          key: 'naicsCode',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'NAICS Code',\n            placeholder: 'Ex: 110610',\n          },\n        },\n        {\n          key: 'productServiceCode',\n          type: 'input',\n          templateOptions: {\n            label: 'Product Service Code',\n            hideOptional: true,\n            placeholder: 'Ex: 3320 or L019',\n          },\n        },\n      ],\n    },\n    {\n      key: 'location',\n      templateOptions: { label: 'Location', group: 'accordion' },\n      fieldGroup: [\n        {\n          key: 'country',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'Country',\n          },\n        },\n        {\n          key: 'zipCode',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'Zip Code',\n          },\n        },\n        {\n          key: 'state',\n          type: 'autocomplete',\n          templateOptions: {\n            label: 'State / Province',\n            hideOptional: true,\n            service: this.service,\n            configuration: this.settings,\n            model: this.autocompleteModel,\n            modelChange: this.changes,\n          },\n        },\n        {\n          key: 'city',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'City',\n          },\n        },\n        {\n          key: 'congressionalDistrict',\n          type: 'input',\n          templateOptions: {\n            type: 'text',\n            hideOptional: true,\n            label: 'Congressional District',\n          },\n        },\n      ],\n    },\n    {\n      key: 'status',\n      templateOptions: { label: 'Status', group: 'accordion' },\n      fieldGroup: [\n        {\n          key: 'registrationStatus',\n          type: 'multicheckbox',\n          templateOptions: {\n            options: [\n              {\n                key: 'Active',\n                value: 'Active',\n              },\n              {\n                key: 'Inactive',\n                value: 'Inactive',\n              },\n            ],\n          },\n        },\n      ],\n    },\n  ];\n\n  constructor(\n    public service: AutocompleteSampleDataService,\n    private dialog: SdsDialogService\n  ) {\n    this.setup();\n  }\n\n  changes(value) {\n    console.log(value);\n  }\n\n  setup() {\n    this.settings.id = 'autocomplete1';\n    this.settings.primaryKeyField = 'id';\n    this.settings.primaryTextField = 'name';\n    this.settings.secondaryTextField = 'subtext';\n    this.settings.labelText = 'Autocomplete 1';\n    this.settings.selectionMode = SelectionMode.MULTIPLE;\n    this.settings.autocompletePlaceHolderText = 'Alaska';\n    this.settings.debounceTime = 350;\n  }\n\n  displayModifierFn(value: string, index: number) {\n    if (index === 0) {\n      return value;\n    }\n\n    // We can do 'this.model' because we binded this service to the function in the config.\n    // So, inside this function, the context 'this' will refer to this service\n    const keywordRadio = this.model['keyword']?.keywordRadio;\n    if (!keywordRadio) {\n      return value;\n    }\n\n    if (keywordRadio === 'allWords') {\n      return `and  ${value}`;\n    } else if (keywordRadio === 'anyWords') {\n      return `or  ${value}`;\n    } else {\n      return value;\n    }\n  }\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -850,13 +850,28 @@
                         "type": "AutocompleteSampleDataService",
                         "deprecated": false,
                         "deprecationMessage": ""
+                    },
+                    {
+                        "name": "dialog",
+                        "type": "SdsDialogService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
                     }
                 ],
-                "line": 324,
+                "line": 341,
                 "jsdoctags": [
                     {
                         "name": "service",
                         "type": "AutocompleteSampleDataService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "dialog",
+                        "type": "SdsDialogService",
                         "deprecated": false,
                         "deprecationMessage": "",
                         "tagName": {
@@ -2620,6 +2635,139 @@
             }
         },
         {
+            "name": "FilterTabModalComponent",
+            "id": "component-FilterTabModalComponent-a1e421b31f0e760b6eef87af3034d033312a94eb7d7cfa2c2b0efd7be085e8f364f72943f88735a84690cf2dad32d0722e26e6c07e0d2a4ee512ccdd74e5f118",
+            "file": "libs/layouts/src/lib/search-list-layout/demo/filter-tab-modal.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "filter-tab-modal.component",
+            "styleUrls": [],
+            "styles": [],
+            "template": "<div sds-dialog-title>Switch Tabs?</div>\n<div sds-dialog-content>\n  Switching tabs will clear your current keywords.\n</div>\n<div sds-dialog-actions>\n  <button (click)=\"cancel()\" class=\"usa-button usa-button--base\">\n    Cancel\n  </button>\n  <button (click)=\"changeTabs()\" cdkFocusInitial class=\"usa-button\">\n    Switch\n  </button>\n</div>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "data",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 32,
+                    "decorators": [
+                        {
+                            "name": "Inject",
+                            "stringifiedArguments": "SDS_DIALOG_DATA"
+                        }
+                    ],
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "dialogRef",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "SdsDialogRef<SdsFormlyDialogComponent>",
+                    "optional": false,
+                    "description": "",
+                    "line": 31,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "selectedTab",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "TabPanelComponent",
+                    "optional": false,
+                    "description": "",
+                    "line": 28
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "cancel",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 56,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "changeTabs",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 37,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, Inject } from '@angular/core';\nimport {\n  SdsDialogRef,\n  SDS_DIALOG_DATA,\n  TabPanelComponent,\n} from '@gsa-sam/components';\nimport { SdsFormlyDialogComponent } from '@gsa-sam/sam-formly';\n\n@Component({\n  // eslint-disable-next-line @angular-eslint/component-selector\n  selector: 'filter-tab-modal.component',\n  template: `\n    <div sds-dialog-title>Switch Tabs?</div>\n    <div sds-dialog-content>\n      Switching tabs will clear your current keywords.\n    </div>\n    <div sds-dialog-actions>\n      <button (click)=\"cancel()\" class=\"usa-button usa-button--base\">\n        Cancel\n      </button>\n      <button (click)=\"changeTabs()\" cdkFocusInitial class=\"usa-button\">\n        Switch\n      </button>\n    </div>\n  `,\n})\nexport class FilterTabModalComponent {\n  selectedTab: TabPanelComponent;\n\n  constructor(\n    public dialogRef: SdsDialogRef<SdsFormlyDialogComponent>,\n    @Inject(SDS_DIALOG_DATA) public data: any\n  ) {\n    this.selectedTab = this.data.options.selectedTab;\n  }\n\n  changeTabs() {\n    this.data.fields[0].templateOptions.selectedTab = this.selectedTab;\n\n    const keywordFieldArray =\n      this.data.form.controls.keyword._fields[0].fieldArray;\n\n    if (this.selectedTab.tabHeader === 'Simple Search') {\n      keywordFieldArray.fieldGroup[1].fieldGroup[0].formControl.setValue(null);\n    }\n\n    if (this.selectedTab.tabHeader === 'Search Editor') {\n      keywordFieldArray.fieldGroup[0].fieldGroup.forEach((field) => {\n        field.formControl.setValue(null);\n      });\n    }\n\n    this.dialogRef.close();\n  }\n\n  cancel() {\n    this.dialogRef.close();\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "dialogRef",
+                        "type": "SdsDialogRef<SdsFormlyDialogComponent>",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "data",
+                        "type": "any",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 28,
+                "jsdoctags": [
+                    {
+                        "name": "dialogRef",
+                        "type": "SdsDialogRef<SdsFormlyDialogComponent>",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "data",
+                        "type": "any",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            }
+        },
+        {
             "name": "HelpContentComponent",
             "id": "component-HelpContentComponent-90535610fbb9f95afc231ddeb497f87bc3319fefc556946643923cc3bc304f63c303c6ff4c564679a89f2167fbd3a877d6a8eb460f694286202b3831525c2147",
             "file": "libs/layouts/src/lib/header/help.component.ts",
@@ -2788,7 +2936,7 @@
         },
         {
             "name": "LayoutResponsiveComponent",
-            "id": "component-LayoutResponsiveComponent-d5afd29a98ea1818ebddc1d323aa95056fe71ae62cb3bc5420250bc97df8337adeb16760ddb30e45a5400db69873cf5847fed06f5df3d5b9319eb17de79aa52e",
+            "id": "component-LayoutResponsiveComponent-38e30b0104e5baf60165bff4e5fd4466f8bd0dbd74c86683725ba03a84c94a105112f5414fcc69083e87fb45ed696fada21e4a0dec79ddd12a21a1ab95272fb4",
             "file": "libs/layouts/src/lib/search-list-layout/demo/layout-responsive/layout-responsive.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2813,17 +2961,17 @@
                     "type": "SearchListConfiguration",
                     "optional": false,
                     "description": "",
-                    "line": 52
+                    "line": 66
                 },
                 {
                     "name": "domainsExpanded",
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "boolean",
+                    "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 27
+                    "line": 41
                 },
                 {
                     "name": "fields",
@@ -2833,7 +2981,7 @@
                     "type": "FormlyFieldConfig[]",
                     "optional": false,
                     "description": "",
-                    "line": 22
+                    "line": 36
                 },
                 {
                     "name": "filterChange$",
@@ -2843,7 +2991,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 32,
+                    "line": 46,
                     "modifierKind": [
                         123
                     ]
@@ -2855,7 +3003,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 17,
+                    "line": 31,
                     "decorators": [
                         {
                             "name": "ViewChild",
@@ -2871,7 +3019,7 @@
                     "type": "object",
                     "optional": false,
                     "description": "",
-                    "line": 24
+                    "line": 38
                 },
                 {
                     "name": "filterPanelConfig",
@@ -2880,7 +3028,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 38,
+                    "line": 52,
                     "modifierKind": [
                         123
                     ]
@@ -2892,7 +3040,7 @@
                     "type": "FilterService",
                     "optional": false,
                     "description": "",
-                    "line": 73,
+                    "line": 87,
                     "modifierKind": [
                         123
                     ]
@@ -2902,10 +3050,10 @@
                     "defaultValue": "true",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "boolean",
+                    "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 26
+                    "line": 40
                 },
                 {
                     "name": "form",
@@ -2914,7 +3062,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 23
+                    "line": 37
                 },
                 {
                     "name": "isMobileMode",
@@ -2923,7 +3071,7 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "",
-                    "line": 19
+                    "line": 33
                 },
                 {
                     "name": "listConfig",
@@ -2933,7 +3081,7 @@
                     "type": "SearchListConfiguration",
                     "optional": false,
                     "description": "",
-                    "line": 42
+                    "line": 56
                 },
                 {
                     "name": "mobileDialog",
@@ -2942,17 +3090,17 @@
                     "type": "SdsDialogRef<any>",
                     "optional": false,
                     "description": "",
-                    "line": 20
+                    "line": 34
                 },
                 {
                     "name": "navigationModel",
-                    "defaultValue": "{\n    navigationLinks: navigationConfig.navigationLinks,\n    selectionMode: 'SELECTION'\n   }",
+                    "defaultValue": "{\n    navigationLinks: navigationConfig.navigationLinks,\n    selectionMode: 'SELECTION',\n  }",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "SelectionPanelModel",
                     "optional": false,
                     "description": "",
-                    "line": 33,
+                    "line": 47,
                     "modifierKind": [
                         123
                     ]
@@ -2964,7 +3112,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 25
+                    "line": 39
                 },
                 {
                     "name": "responsiveDialogOptions",
@@ -2974,7 +3122,7 @@
                     "type": "SdsDialogConfig",
                     "optional": false,
                     "description": "",
-                    "line": 28
+                    "line": 42
                 },
                 {
                     "name": "resultList",
@@ -2983,7 +3131,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 16,
+                    "line": 30,
                     "decorators": [
                         {
                             "name": "ViewChild",
@@ -2999,7 +3147,7 @@
                     "type": "NavigationLink",
                     "optional": false,
                     "description": "",
-                    "line": 40
+                    "line": 54
                 },
                 {
                     "name": "service",
@@ -3008,7 +3156,7 @@
                     "type": "DataService",
                     "optional": false,
                     "description": "",
-                    "line": 72,
+                    "line": 86,
                     "modifierKind": [
                         123
                     ]
@@ -3021,7 +3169,7 @@
                     "type": "SearchListConfiguration",
                     "optional": false,
                     "description": "",
-                    "line": 61
+                    "line": 75
                 }
             ],
             "methodsClass": [
@@ -3031,7 +3179,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 95,
+                    "line": 109,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3041,7 +3189,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 78,
+                    "line": 92,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3051,7 +3199,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 158,
+                    "line": 207,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3061,7 +3209,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 125,
+                    "line": 172,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3078,7 +3226,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 121,
+                    "line": 168,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -3106,7 +3254,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 164,
+                    "line": 213,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -3127,7 +3275,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 130,
+                    "line": 177,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3144,7 +3292,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 175,
+                    "line": 225,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -3172,7 +3320,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 111,
+                    "line": 155,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -3195,7 +3343,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, ViewChild } from '@angular/core';\nimport { ActivatedRoute, Router } from '@angular/router';\nimport { NavigationLink, SdsDialogConfig, SdsDialogRef, SelectionPanelModel } from '@gsa-sam/components';\nimport { ResultsModel, SearchListConfiguration } from '@gsa-sam/layouts';\nimport { FormlyFieldConfig } from '@ngx-formly/core';\nimport { BehaviorSubject } from 'rxjs';\nimport { DataService } from '../data.service';\nimport { FilterService } from '../filter.service';\nimport { navigationConfig } from '../navigate.config';\n\n@Component({\n  selector: 'demo-search-list-layout',\n  templateUrl: './layout-responsive.component.html',\n})\nexport class LayoutResponsiveComponent {\n  @ViewChild('resultList') resultList;\n  @ViewChild('filters') filterComponent;\n\n  isMobileMode: boolean;\n  mobileDialog: SdsDialogRef<any>;\n\n  fields: FormlyFieldConfig[] = [];\n  form;\n  filterModel = {};\n  options;\n  filtersExpanded: boolean = true;\n  domainsExpanded: boolean = false;\n  responsiveDialogOptions: SdsDialogConfig = {\n    ariaLabel: 'Search Filters',\n  };\n\n  public filterChange$ = new BehaviorSubject<object>([]);\n  public navigationModel: SelectionPanelModel = {\n    navigationLinks: navigationConfig.navigationLinks,\n    selectionMode: 'SELECTION'\n   };\n\n  public filterPanelConfig;\n\n  selectedPanel: NavigationLink = this.navigationModel.navigationLinks[1];\n\n  listConfig: SearchListConfiguration = {\n    defaultSortValue: 'legalBusinessName',\n    pageSize: 25,\n    sortList: [\n      { text: 'Entity Name', value: 'legalBusinessName' },\n      { text: 'Status', value: 'registrationStatus' },\n    ],\n  };\n\n  /* Sort config change demo */\n  defaultListConfig: SearchListConfiguration = {\n    defaultSortValue: 'legalBusinessName',\n    pageSize: 25,\n    sortList: [\n      { text: 'Entity Name', value: 'legalBusinessName' },\n      { text: 'Status', value: 'registrationStatus' },\n    ],\n  };\n\n  updatedListConfig: SearchListConfiguration = {\n    defaultSortValue: 'cageCode',\n    pageSize: 25,\n    sortList: [\n      { text: 'Entity Name', value: 'legalBusinessName' },\n      { text: 'Cage Code', value: 'cageCode' },\n      { text: 'Status', value: 'registrationStatus' },\n    ],\n  };\n\n  constructor(\n    public service: DataService,\n    public filterService: FilterService,\n    private router: Router,\n    private activatedRoute: ActivatedRoute,\n  ) {}\n\n  ngOnInit() {\n    this.fields = this.filterService.fields;\n    this.filterModel = this.filterService.model;\n    this.form = this.filterService.form;\n    this.options = this.filterService.options;\n\n    this.filterPanelConfig = {\n      title: 'Filter By',\n      fields: this.fields,\n      model: this.filterModel,\n      form: this.form,\n      options: this.options,\n      isHistoryEnabled: true,\n      advancedFilters: true,\n    };\n  }\n\n  ngAfterViewInit() {\n    this.filterChange$.subscribe((res) => {\n      this.resultList.updateFilter(res);\n    });\n\n    // Listen for radio change and refresh autocomplete\n    const keywordGroup = this.fields.find(field => field.key === 'keyword').fieldArray.fieldGroup[0].fieldGroup;\n    keywordGroup.find(keyword => keyword.key === 'keywordRadio').formControl.valueChanges.subscribe(change => {\n      // Refresh autocomplete chips - we do set timeout so that our model for radio option can update first, then\n      // this refresh will update our chips depending on the updated model value\n      setTimeout(() => {\n        this.filterService.keywordChangeSubject.next();\n      });\n    });\n  }\n\n  updateConfig(update: boolean) {\n    if (update) {\n      this.listConfig = { ...this.updatedListConfig };\n    } else {\n      this.listConfig = { ...this.defaultListConfig };\n    }\n    const newSortValue = this.listConfig.defaultSortValue;\n    this.resultList.updateSearchResultsModel({sort: newSortValue, filterModel: this.filterModel});\n  }\n\n  onDialogOpen($event) {\n    this.mobileDialog = $event;\n  }\n\n  onCancelClicked() {\n    this.mobileDialog.close();\n    this.mobileDialog = undefined;\n  }\n\n  onSearchModelUpdate() {\n    const model: ResultsModel = {\n      page: 2,\n      sort: 'registrationStatus',\n      filterModel: {\n        keyword: {\n          keywordRadio: \"allWords\",\n          keywordTags: [\n            {\n              key: \"te\",\n              text: \"te\"\n            }\n          ]\n        },\n        location: {\n          city: null,\n          congressionalDistrict: null,\n          country: null,\n          state: [{ id: 'AL', name: 'Alabama', subtext: undefined }],\n          zipCode: null,\n        },\n      },\n    };\n\n    this.fields[0].fieldArray.fieldGroup[0].form.setValue(model.filterModel.keyword);\n    this.resultList.updateSearchResultsModel(model);\n  }\n\n  onApplyFilter() {\n    this.mobileDialog.close();\n    this.mobileDialog = undefined;\n    console.log('Applied Filters', this.filterModel);\n  }\n\n  onPanelSelection($event: NavigationLink) {\n    this.selectedPanel = $event;\n    this.domainsExpanded = false;\n    this.filtersExpanded = true;\n    console.log('Selected Domain', $event);\n    this.router.navigate(\n      [],\n      {queryParams: $event.queryParams, relativeTo: this.activatedRoute, queryParamsHandling: 'merge'}\n    );\n  }\n\n  onSubPanelClicked($event: NavigationLink) {\n    console.log('Sub Domain selected', $event);\n    this.router.navigate(\n      [],\n      {queryParams: $event.queryParams, relativeTo: this.activatedRoute, queryParamsHandling: 'merge'}\n    );\n  }\n}\n",
+            "sourceCode": "import {\n  AfterViewInit,\n  Component,\n  HostListener,\n  ViewChild,\n} from '@angular/core';\nimport { ActivatedRoute, Router } from '@angular/router';\nimport {\n  NavigationLink,\n  SdsDialogConfig,\n  SdsDialogRef,\n  SelectionPanelModel,\n} from '@gsa-sam/components';\nimport {\n  ResultsModel,\n  SearchListConfiguration,\n} from '../../model/search-list-layout.model';\nimport { FormlyFieldConfig } from '@ngx-formly/core';\nimport { BehaviorSubject, timer } from 'rxjs';\nimport { DataService } from '../data.service';\nimport { FilterService } from '../filter.service';\nimport { navigationConfig } from '../navigate.config';\nimport { debounce, filter, pairwise, tap } from 'rxjs/operators';\n\n@Component({\n  selector: 'demo-search-list-layout',\n  templateUrl: './layout-responsive.component.html',\n})\nexport class LayoutResponsiveComponent implements AfterViewInit {\n  @ViewChild('resultList') resultList;\n  @ViewChild('filters') filterComponent;\n\n  isMobileMode: boolean;\n  mobileDialog: SdsDialogRef<any>;\n\n  fields: FormlyFieldConfig[] = [];\n  form;\n  filterModel = {};\n  options;\n  filtersExpanded = true;\n  domainsExpanded = false;\n  responsiveDialogOptions: SdsDialogConfig = {\n    ariaLabel: 'Search Filters',\n  };\n\n  public filterChange$ = new BehaviorSubject<object>([]);\n  public navigationModel: SelectionPanelModel = {\n    navigationLinks: navigationConfig.navigationLinks,\n    selectionMode: 'SELECTION',\n  };\n\n  public filterPanelConfig;\n\n  selectedPanel: NavigationLink = this.navigationModel.navigationLinks[1];\n\n  listConfig: SearchListConfiguration = {\n    defaultSortValue: 'legalBusinessName',\n    pageSize: 25,\n    sortList: [\n      { text: 'Entity Name', value: 'legalBusinessName' },\n      { text: 'Status', value: 'registrationStatus' },\n    ],\n  };\n\n  /* Sort config change demo */\n  defaultListConfig: SearchListConfiguration = {\n    defaultSortValue: 'legalBusinessName',\n    pageSize: 25,\n    sortList: [\n      { text: 'Entity Name', value: 'legalBusinessName' },\n      { text: 'Status', value: 'registrationStatus' },\n    ],\n  };\n\n  updatedListConfig: SearchListConfiguration = {\n    defaultSortValue: 'cageCode',\n    pageSize: 25,\n    sortList: [\n      { text: 'Entity Name', value: 'legalBusinessName' },\n      { text: 'Cage Code', value: 'cageCode' },\n      { text: 'Status', value: 'registrationStatus' },\n    ],\n  };\n\n  constructor(\n    public service: DataService,\n    public filterService: FilterService,\n    private router: Router,\n    private activatedRoute: ActivatedRoute\n  ) {}\n\n  ngOnInit() {\n    this.fields = this.filterService.fields;\n    this.filterModel = this.filterService.model;\n    this.form = this.filterService.form;\n    this.options = this.filterService.options;\n\n    this.filterPanelConfig = {\n      title: 'Filter By',\n      fields: this.fields,\n      model: this.filterModel,\n      form: this.form,\n      options: this.options,\n      isHistoryEnabled: true,\n      advancedFilters: true,\n    };\n  }\n\n  ngAfterViewInit() {\n    const debounceTime = 2000;\n\n    const filters$ = this.filterChange$.pipe(\n      pairwise(),\n      filter(([prev, curr]: any) => {\n        if (\n          curr.keyword &&\n          curr.keyword.keywordTags &&\n          curr.keyword.keywordTags.length > 0\n        )\n          return true;\n        if (Array.isArray(prev)) return false;\n        return (\n          prev.keyword.keywordRadio === curr.keyword.keywordRadio &&\n          prev.keyword.keywordExactPhrase === curr.keyword.keywordExactPhrase\n        );\n      }),\n      debounce(([prev, curr]) =>\n        curr.keyword &&\n        curr.keyword.keywordTextarea &&\n        curr.keyword.keywordTextarea.length > 0\n          ? timer(debounceTime)\n          : timer(0)\n      )\n    );\n\n    filters$.subscribe((model) => {\n      this.resultList.updateFilter(model);\n    });\n\n    // Listen for radio change and refresh autocomplete\n    const keywordGroup = this.fields.find((field) => field.key === 'keyword')\n      .fieldArray.fieldGroup[0].fieldGroup;\n\n    keywordGroup\n      .find((keyword) => keyword.key === 'keywordRadio')\n      .formControl.valueChanges.subscribe((change) => {\n        // Refresh autocomplete chips - we do set timeout so that our model for radio option can update first, then\n        // this refresh will update our chips depending on the updated model value\n        setTimeout(() => {\n          this.filterService.keywordChangeSubject.next();\n        });\n      });\n  }\n\n  updateConfig(update: boolean) {\n    if (update) {\n      this.listConfig = { ...this.updatedListConfig };\n    } else {\n      this.listConfig = { ...this.defaultListConfig };\n    }\n    const newSortValue = this.listConfig.defaultSortValue;\n    this.resultList.updateSearchResultsModel({\n      sort: newSortValue,\n      filterModel: this.filterModel,\n    });\n  }\n\n  onDialogOpen($event) {\n    this.mobileDialog = $event;\n  }\n\n  onCancelClicked() {\n    this.mobileDialog.close();\n    this.mobileDialog = undefined;\n  }\n\n  onSearchModelUpdate() {\n    const model: ResultsModel = {\n      page: 2,\n      sort: 'registrationStatus',\n      filterModel: {\n        keyword: {\n          keywordRadio: 'allWords',\n          keywordTags: [\n            {\n              key: 'te',\n              text: 'te',\n            },\n          ],\n        },\n        location: {\n          city: null,\n          congressionalDistrict: null,\n          country: null,\n          state: [{ id: 'AL', name: 'Alabama', subtext: undefined }],\n          zipCode: null,\n        },\n      },\n    };\n\n    this.fields[0].fieldArray.fieldGroup[0].form.setValue(\n      model.filterModel.keyword\n    );\n    this.resultList.updateSearchResultsModel(model);\n  }\n\n  onApplyFilter() {\n    this.mobileDialog.close();\n    this.mobileDialog = undefined;\n    console.log('Applied Filters', this.filterModel);\n  }\n\n  onPanelSelection($event: NavigationLink) {\n    this.selectedPanel = $event;\n    this.domainsExpanded = false;\n    this.filtersExpanded = true;\n    console.log('Selected Domain', $event);\n    this.router.navigate([], {\n      queryParams: $event.queryParams,\n      relativeTo: this.activatedRoute,\n      queryParamsHandling: 'merge',\n    });\n  }\n\n  onSubPanelClicked($event: NavigationLink) {\n    console.log('Sub Domain selected', $event);\n    this.router.navigate([], {\n      queryParams: $event.queryParams,\n      relativeTo: this.activatedRoute,\n      queryParamsHandling: 'merge',\n    });\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -3230,7 +3378,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 69,
+                "line": 83,
                 "jsdoctags": [
                     {
                         "name": "service",
@@ -3270,6 +3418,9 @@
                     }
                 ]
             },
+            "implements": [
+                "AfterViewInit"
+            ],
             "templateData": "<div aria-role=\"heading\" class=\"h1 text-ink line-height-sans-2 margin-y-3\">Search List Layout</div>\n<div class=\"margin-y-2\">\n  <button class=\"usa-button\" (click)=\"updateConfig(false)\">Default Sort Config</button>\n  <button class=\"usa-button\" (click)=\"updateConfig(true)\">Update Sort Config</button>\n  <button class=\"usa-button\" (click)=\"onSearchModelUpdate()\">Update search results model</button>\n  <hr />\n</div>\n\n<div class=\"sds-page condensed margin-top-2\">\n  <div class=\"grid-container grid-row grid-gap\">\n    <div class=\"desktop:grid-col-4 tablet-lg:grid-col-12 mobile-lg:grid-col-12 margin-bottom-3\">\n      <sds-side-toolbar [responsiveButtonText]=\"'Advanced Search'\" [responsiveDialogOptions]=\"responsiveDialogOptions\"\n        (responsiveDialog)=\"onDialogOpen($event)\" (responsiveView)=\"isMobileMode = $event;\">\n        <ng-template #toolbarContent>\n          <div class=\"sds-card\" *ngIf=\"isMobileMode\">\n            <div class=\"sds-card__header sds-card__header--accent-cool grid-row\">\n              <button id=\"cancelButton\" class=\"sds-button sds-button--circular sds-button--white\"\n                (click)=\"onCancelClicked()\" aria-label=\"Cancel Advanced Search\">\n                <usa-icon [icon]=\"'chevron-left'\"></usa-icon>\n              </button>\n              <div class=\"margin-x-auto\">\n                <h2 class=\"sds-card__title margin-top-1 margin-left-neg-2\">Advanced Search</h2>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"sds-card sds-card--collapsible\" [ngClass]=\"{'sds-card--collapsed': !domainsExpanded}\">\n            <div role=\"button\" class=\"sds-card__header sds-card__header--action\" [attr.aria-expanded]=\"domainsExpanded\"\n              aria-controls=\"panelBody\" tabindex=\"0\" aria-label=\"Select Domain\"\n              (click)=\"domainsExpanded = !domainsExpanded\" (keyup.enter)=\"domainsExpanded = !domainsExpanded\">\n              <div class=\"sds-card__title\">Select Domain<br />\n                <span class=\"sds-card__subtitle\">\n                  {{selectedPanel?.text}}\n                </span>\n              </div>\n\n              <div class=\"sds-card__action sds-card__collapse\"></div>\n            </div>\n\n            <div class=\"sds-card__body sds-card__body--accent-cool\" id=\"panelBody\">\n              <sds-selection-panel [model]=\"navigationModel\" [currentSelection]=\"selectedPanel\"\n                [navigateOnClick]=\"!isMobileMode\" (panelSelected)=\"onPanelSelection($event)\">\n              </sds-selection-panel>\n            </div>\n          </div>\n\n          <div class=\"sds-card\" *ngIf=\"selectedPanel && selectedPanel.children\"\n            [ngClass]=\"{'display-none': domainsExpanded}\">\n            <div class=\"sds-card__body sds-card__body--accent-cool\">\n              <sds-sub-panel [model]=\"selectedPanel.children\" (subPanelClicked)=\"onSubPanelClicked($event)\">\n              </sds-sub-panel>\n            </div>\n          </div>\n\n          <div class=\"sds-card sds-card--collapsible\" [ngClass]=\"{'sds-card--collapsed': !filtersExpanded}\">\n            <div class=\"sds-card__header sds-card__header--action\" role=\"button\" tabindex=\"0\"\n              aria-controls=\"filtersBody\" [attr.aria-label]=\"'Filter By'\" [attr.aria-expanded]=\"filtersExpanded\"\n              (click)=\"filtersExpanded = !filtersExpanded\" (keyup.enter)=\"filtersExpanded = !filtersExpanded\">\n              <div class=\"sds-card__title\">Filter By</div>\n              <div class=\"sds-card__action sds-card__collapse\"></div>\n            </div>\n            <div class=\"sds-card__body sds-card__body--accent-cool\" id=\"filtersBody\">\n              <sds-filters #filters [options]=\"filterPanelConfig.options\"\n                [advancedFilters]=\"filterPanelConfig.advancedFilters\" [form]=\"filterPanelConfig.form\"\n                [fields]=\"filterPanelConfig.fields\" [model]=\"filterPanelConfig.model\"\n                (filterChange)=\"filterChange$.next($event)\">\n              </sds-filters>\n            </div>\n          </div>\n\n          <div class=\"sds-card\" *ngIf=\"isMobileMode\">\n            <div class=\"sds-card__body sds-card__body--accent-cool\">\n              <button class=\"usa-button\" id=\"applyButton\" aria-label=\"Apply\" (click)=\"onApplyFilter()\">Apply</button>\n            </div>\n          </div>\n        </ng-template>\n      </sds-side-toolbar>\n    </div>\n\n    <div class=\"desktop:grid-col-8 tablet-lg:grid-col-12 mobile-lg:grid-col-12\">\n      <search-list-layout #resultList [service]=\"service\" [configuration]=\"listConfig\"\n        [isHistoryEnabled]=\"!mobileDialog\" [enableApiCall]=\"!mobileDialog\">\n        <ng-template #resultContent let-item>\n          <div>\n            <result-item [model]=\"item\"></result-item>\n          </div>\n        </ng-template>\n      </search-list-layout>\n    </div>\n  </div>\n</div>\n"
         },
         {
@@ -3696,7 +3847,7 @@
         },
         {
             "name": "SdsHeaderComponent",
-            "id": "component-SdsHeaderComponent-cefdc9c339ced3c99134e4a89be326873114e2c0db156dd79fa2c414db7724e3addfea3b2425d26bd5a9e6ae4c7ca15ffb2f487e8af4499d6730667e30b01e09",
+            "id": "component-SdsHeaderComponent-66570723218574f7007b729a95768936e1610fec33ab779cf15c9c6eb7e14b52d0682ef7ef666290b2cede0aebc8609d7b8333ccbd4d0c052581d5fa9b32b1d8",
             "file": "libs/layouts/src/lib/header/header.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3717,7 +3868,7 @@
                     "name": "alertsTemplate",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 52,
+                    "line": 56,
                     "type": "TemplateRef<any>",
                     "decorators": []
                 },
@@ -3725,8 +3876,35 @@
                     "name": "help",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 54,
+                    "line": 58,
                     "type": "[]",
+                    "decorators": []
+                },
+                {
+                    "name": "hideAlerts",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 44,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "hidePrimaryLinks",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 43,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "hideSecondaryLinks",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 42,
+                    "type": "boolean",
                     "decorators": []
                 },
                 {
@@ -3735,7 +3913,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nModel used for the different display portions of the header\n",
                     "description": "<p>Model used for the different display portions of the header</p>\n",
-                    "line": 46,
+                    "line": 50,
                     "type": "HeaderModel",
                     "decorators": []
                 },
@@ -3744,7 +3922,7 @@
                     "defaultValue": "true",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 50,
+                    "line": 54,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -3764,7 +3942,7 @@
                     "defaultValue": "''",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 48,
+                    "line": 52,
                     "type": "string",
                     "decorators": []
                 }
@@ -3777,7 +3955,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\n\nevent for event based\n",
                     "description": "<p>event for event based</p>\n",
-                    "line": 59,
+                    "line": 63,
                     "type": "EventEmitter"
                 }
             ],
@@ -3830,7 +4008,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 199,
+                    "line": 203,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3840,7 +4018,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 102,
+                    "line": 106,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nDeselects all the items in the header model\n",
@@ -3859,7 +4037,7 @@
                     "optional": false,
                     "returnType": "Selectable",
                     "typeParameters": [],
-                    "line": 131,
+                    "line": 135,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nFinds the navigation element by id in the header model\n",
@@ -3867,8 +4045,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 2877,
-                                "end": 2879,
+                                "pos": 2985,
+                                "end": 2987,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3879,8 +4057,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 2871,
-                                "end": 2876,
+                                "pos": 2979,
+                                "end": 2984,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3910,7 +4088,7 @@
                     "optional": false,
                     "returnType": "Selectable",
                     "typeParameters": [],
-                    "line": 155,
+                    "line": 159,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nSearchs the items in the navigation links\n",
@@ -3921,8 +4099,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 3481,
-                                "end": 3483,
+                                "pos": 3589,
+                                "end": 3591,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3933,8 +4111,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 3475,
-                                "end": 3480,
+                                "pos": 3583,
+                                "end": 3588,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3960,7 +4138,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 73,
+                    "line": 77,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nseeif any secondary link has a counter\n",
@@ -3979,7 +4157,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 177,
+                    "line": 181,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nLink clicked and emits the link data into an event\n",
@@ -3987,8 +4165,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 4075,
-                                "end": 4079,
+                                "pos": 4183,
+                                "end": 4187,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -3999,8 +4177,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 4069,
-                                "end": 4074,
+                                "pos": 4177,
+                                "end": 4182,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -4017,7 +4195,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 210,
+                    "line": 214,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -4034,7 +4212,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 186,
+                    "line": 190,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "decorators": [
@@ -4061,7 +4239,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 195,
+                    "line": 199,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -4078,7 +4256,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 64,
+                    "line": 68,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nTakes in a text string and removes all white space characters and returns the new string\n",
@@ -4086,8 +4264,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 1393,
-                                "end": 1397,
+                                "pos": 1501,
+                                "end": 1505,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -4098,8 +4276,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 1387,
-                                "end": 1392,
+                                "pos": 1495,
+                                "end": 1500,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -4123,7 +4301,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 91,
+                    "line": 95,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nDeselects previous seletion\n",
@@ -4131,8 +4309,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 1933,
-                                "end": 1935,
+                                "pos": 2041,
+                                "end": 2043,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -4143,8 +4321,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 1927,
-                                "end": 1932,
+                                "pos": 2035,
+                                "end": 2040,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -4175,13 +4353,13 @@
                     ],
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 186
+                    "line": 190
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\n  Component,\n  Input,\n  Output,\n  EventEmitter,\n  ViewChild,\n  ElementRef,\n  HostListener,\n  TemplateRef\n} from '@angular/core';\nimport {\n  HeaderModel,\n  HeaderNavigationLink,\n  HeaderSecondaryLink\n} from './model/HeaderModel';\nimport { INavigationLink, Selectable } from '@gsa-sam/components';\nimport { NavigationHelper } from '@gsa-sam/components';\n\n\n@Component({\n  selector: 'sds-header',\n  templateUrl: './header.component.html',\n  styleUrls: ['./header.component.scss']\n})\nexport class SdsHeaderComponent {\n  @ViewChild('usaNavOpen') openNavBtn: ElementRef;\n  @ViewChild('usaNavClose') closeNavBtn: ElementRef;\n  mobileNavActive = false;\n\n  /** Navigation helper\n   * Compodoc Ignore\n   * Instantiation of a class in a property causes\n   * issues in storybook\n   * @ignore\n   */\n  navigationHelper = new NavigationHelper();\n\n  /**\n   * determines if the top banner is shown\n   */\n  @Input() showTopBanner = true;\n\n  /**\n   * Model used for the different display portions of the header\n   */\n  @Input() model: HeaderModel;\n\n  @Input() topBannerDescription = '';\n\n  @Input() showHeaderLogo = true;\n\n  @Input() alertsTemplate: TemplateRef<any>;\n\n  @Input() help: [];\n  /**\n   * event for event based\n   */\n  @Output()\n  linkEvent = new EventEmitter<INavigationLink>();\n  /**\n   * Takes in a text string and removes all white space characters and returns the new string\n   * @param text\n   */\n  removeWhiteSpace(text: string) {\n    return text.replace(/ /g, '');\n  }\n  constructor() {\n\n  }\n  /**\n   * seeif any secondary link has a counter\n   */\n  hasCounter(): boolean {\n    let hasCounter = false;\n    if (this.model) {\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          if (item.hasCounter) {\n            hasCounter = true;\n          }\n        });\n      }\n    }\n    return hasCounter;\n  }\n\n  /**\n   * Deselects previous seletion\n   * @param id\n   */\n  select(id: string) {\n    this.deselect();\n    const item = this.find(id);\n    if (item) {\n      item.selected = true;\n    }\n  }\n\n  /**\n   * Deselects all the items in the header model\n   */\n  deselect() {\n    if (this.model) {\n      if (this.model.home) {\n        this.model.home.selected = false;\n      }\n      if (this.model.navigationLinks) {\n        this.model.navigationLinks.forEach(function(\n          item: HeaderNavigationLink\n        ) {\n          item.selected = false;\n          if (item.children) {\n            item.children.forEach(function(child: HeaderNavigationLink) {\n              child.selected = false;\n            });\n          }\n        });\n      }\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          item.selected = false;\n        });\n      }\n    }\n  }\n\n  /**\n   * Finds the navigation element by id in the header model\n   * @param id of the navigation item\n   */\n  find(id: string): Selectable {\n    let toReturn = null;\n    if (this.model) {\n      if (this.model.home) {\n        if (this.model.home.id === id) {\n          toReturn = this.model.home;\n        }\n      }\n      toReturn = this.findNavigationLinks(id, toReturn);\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          if (item.id === id) {\n            toReturn = item;\n          }\n        });\n      }\n    }\n    return toReturn;\n  }\n\n  /**\n   * Searchs the items in the navigation links\n   * @param id\n   */\n  private findNavigationLinks(id: string, toReturn: Selectable): Selectable {\n    if (this.model.navigationLinks) {\n      this.model.navigationLinks.forEach(function(item: HeaderNavigationLink) {\n        if (item.id === id) {\n          toReturn = item;\n        }\n        if (item.children) {\n          item.children.forEach(function(child: HeaderNavigationLink) {\n            if (child.id === id) {\n              toReturn = child;\n            }\n          });\n        }\n      });\n    }\n    return toReturn;\n  }\n\n  /**\n   * Link clicked and emits the link data into an event\n   * @param link\n   */\n  linkClickEvent(link: INavigationLink) {\n    this.linkEvent.emit(link);\n    return false;\n  }\n\n  // When the mobile nav is active, and the close box isn't visible,\n  // we know the user's viewport has been resized to be larger.\n  // Let's make the page state consistent by deactivating the mobile nav.\n  @HostListener('window:resize', ['$event'])\n  onBrowserResize(event) {\n    if (\n      this.mobileNavActive &&\n      this.closeNavBtn.nativeElement.getBoundingClientRect().width === 0\n    ) {\n      this.mobileNavActive = false;\n    }\n  }\n\n  openMobileNav() {\n    this.mobileNavActive = true;\n  }\n\n  closeMobileNav() {\n    this.mobileNavActive = false;\n    // The mobile nav was just deactivated, and focus was on the close\n    // button, which is no longer visible. We don't want the focus to\n    // disappear into the void, so focus on the menu button if it's\n    // visible (this may have been what the user was just focused on,\n    // if they triggered the mobile nav by mistake).\n    this.openNavBtn.nativeElement.focus();\n  }\n\n  // The mobile nav was just activated, so focus on the close button,\n  navAnimationEnd() {\n    this.closeNavBtn.nativeElement.focus();\n  }\n}\n",
+            "sourceCode": "import {\n  Component,\n  Input,\n  Output,\n  EventEmitter,\n  ViewChild,\n  ElementRef,\n  HostListener,\n  TemplateRef\n} from '@angular/core';\nimport {\n  HeaderModel,\n  HeaderNavigationLink,\n  HeaderSecondaryLink\n} from './model/HeaderModel';\nimport { INavigationLink, Selectable } from '@gsa-sam/components';\nimport { NavigationHelper } from '@gsa-sam/components';\n\n\n@Component({\n  selector: 'sds-header',\n  templateUrl: './header.component.html',\n  styleUrls: ['./header.component.scss']\n})\nexport class SdsHeaderComponent {\n  @ViewChild('usaNavOpen') openNavBtn: ElementRef;\n  @ViewChild('usaNavClose') closeNavBtn: ElementRef;\n  mobileNavActive = false;\n\n  /** Navigation helper\n   * Compodoc Ignore\n   * Instantiation of a class in a property causes\n   * issues in storybook\n   * @ignore\n   */\n  navigationHelper = new NavigationHelper();\n\n  /**\n   * determines if the top banner is shown\n   */\n  @Input() showTopBanner = true;\n  @Input() hideSecondaryLinks = false;\n  @Input() hidePrimaryLinks = false;\n  @Input() hideAlerts = false;\n\n\n  /**\n   * Model used for the different display portions of the header\n   */\n  @Input() model: HeaderModel;\n\n  @Input() topBannerDescription = '';\n\n  @Input() showHeaderLogo = true;\n\n  @Input() alertsTemplate: TemplateRef<any>;\n\n  @Input() help: [];\n  /**\n   * event for event based\n   */\n  @Output()\n  linkEvent = new EventEmitter<INavigationLink>();\n  /**\n   * Takes in a text string and removes all white space characters and returns the new string\n   * @param text\n   */\n  removeWhiteSpace(text: string) {\n    return text.replace(/ /g, '');\n  }\n  constructor() {\n\n  }\n  /**\n   * seeif any secondary link has a counter\n   */\n  hasCounter(): boolean {\n    let hasCounter = false;\n    if (this.model) {\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          if (item.hasCounter) {\n            hasCounter = true;\n          }\n        });\n      }\n    }\n    return hasCounter;\n  }\n\n  /**\n   * Deselects previous seletion\n   * @param id\n   */\n  select(id: string) {\n    this.deselect();\n    const item = this.find(id);\n    if (item) {\n      item.selected = true;\n    }\n  }\n\n  /**\n   * Deselects all the items in the header model\n   */\n  deselect() {\n    if (this.model) {\n      if (this.model.home) {\n        this.model.home.selected = false;\n      }\n      if (this.model.navigationLinks) {\n        this.model.navigationLinks.forEach(function(\n          item: HeaderNavigationLink\n        ) {\n          item.selected = false;\n          if (item.children) {\n            item.children.forEach(function(child: HeaderNavigationLink) {\n              child.selected = false;\n            });\n          }\n        });\n      }\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          item.selected = false;\n        });\n      }\n    }\n  }\n\n  /**\n   * Finds the navigation element by id in the header model\n   * @param id of the navigation item\n   */\n  find(id: string): Selectable {\n    let toReturn = null;\n    if (this.model) {\n      if (this.model.home) {\n        if (this.model.home.id === id) {\n          toReturn = this.model.home;\n        }\n      }\n      toReturn = this.findNavigationLinks(id, toReturn);\n      if (this.model.secondaryLinks) {\n        this.model.secondaryLinks.forEach(function(item: HeaderSecondaryLink) {\n          if (item.id === id) {\n            toReturn = item;\n          }\n        });\n      }\n    }\n    return toReturn;\n  }\n\n  /**\n   * Searchs the items in the navigation links\n   * @param id\n   */\n  private findNavigationLinks(id: string, toReturn: Selectable): Selectable {\n    if (this.model.navigationLinks) {\n      this.model.navigationLinks.forEach(function(item: HeaderNavigationLink) {\n        if (item.id === id) {\n          toReturn = item;\n        }\n        if (item.children) {\n          item.children.forEach(function(child: HeaderNavigationLink) {\n            if (child.id === id) {\n              toReturn = child;\n            }\n          });\n        }\n      });\n    }\n    return toReturn;\n  }\n\n  /**\n   * Link clicked and emits the link data into an event\n   * @param link\n   */\n  linkClickEvent(link: INavigationLink) {\n    this.linkEvent.emit(link);\n    return false;\n  }\n\n  // When the mobile nav is active, and the close box isn't visible,\n  // we know the user's viewport has been resized to be larger.\n  // Let's make the page state consistent by deactivating the mobile nav.\n  @HostListener('window:resize', ['$event'])\n  onBrowserResize(event) {\n    if (\n      this.mobileNavActive &&\n      this.closeNavBtn.nativeElement.getBoundingClientRect().width === 0\n    ) {\n      this.mobileNavActive = false;\n    }\n  }\n\n  openMobileNav() {\n    this.mobileNavActive = true;\n  }\n\n  closeMobileNav() {\n    this.mobileNavActive = false;\n    // The mobile nav was just deactivated, and focus was on the close\n    // button, which is no longer visible. We don't want the focus to\n    // disappear into the void, so focus on the menu button if it's\n    // visible (this may have been what the user was just focused on,\n    // if they triggered the mobile nav by mistake).\n    this.openNavBtn.nativeElement.focus();\n  }\n\n  // The mobile nav was just activated, so focus on the close button,\n  navAnimationEnd() {\n    this.closeNavBtn.nativeElement.focus();\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -4196,9 +4374,9 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 66
+                "line": 70
             },
-            "templateData": "<sds-top-banner *ngIf=\"showTopBanner\" [description]=\"topBannerDescription\"></sds-top-banner>\n\n<div *ngIf=\"alertsTemplate\">\n  <ng-container [ngTemplateOutlet]=\"alertsTemplate\"></ng-container>\n</div>\n\n<div class=\"usa-overlay\" [class.is-visible]=\"mobileNavActive\" (click)=\"closeMobileNav()\"></div>\n<header class=\"usa-header usa-header--extended\">\n  <div class=\"usa-navbar\">\n    <div *ngIf=\"showHeaderLogo; else fillerBlock\" class=\"usa-logo\">\n      <ng-container [ngTemplateOutlet]=\"\n            navigationHelper.isLinkInternal(model.home)\n              ? homeLinkRouteTemplate\n              : homeLinkHREFTemplate\n          \" [ngTemplateOutletContext]=\"{ $implicit: model.home }\"></ng-container>\n    </div>\n    <sds-header-help *ngIf=\"help && help.length > 0\" [content]=\"help\" class=\"tablet:display-none margin-right-2\">\n    </sds-header-help>\n    <button #usaNavOpen class=\"usa-menu-btn\" (click)=\"openMobileNav()\">\n      <div class=\"sds-stack sds-lg\">\n        <usa-icon class=\"sds-stack-icon text-primary\" [icon]=\"'square-fill'\" [size]=\"'2x'\"></usa-icon>\n        <usa-icon class=\"sds-stack-icon\" [icon]=\"'bars'\" [size]=\"'lg'\"></usa-icon>\n        <usa-icon *ngIf=\"hasCounter()\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n          [classes]=\"['counter-icon']\"></usa-icon>\n      </div>\n      <!-- <fa-layers [fixedWidth]=\"true\" size=\"3x\">\n        <fa-icon [icon]=\"['fas', 'square']\" [classes]=\"['text-primary']\"></fa-icon>\n        <fa-icon [icon]=\"['sds', 'bars']\" [classes]=\"['icon-bars']\" transform=\"shrink-6\"></fa-icon>\n        <fa-layers-counter *ngIf=\"hasCounter()\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n      </fa-layers> -->\n      <span class=\"usa-sr-only\">Menu</span>\n    </button>\n  </div>\n  <nav aria-label=\"Primary navigation\" class=\"usa-nav\" (keydown.esc)=\"closeMobileNav()\"\n    (animationend)=\"navAnimationEnd()\" [class.is-visible]=\"mobileNavActive\" [cdkTrapFocus]=\"mobileNavActive\">\n    <div class=\"usa-nav__inner\">\n      <button #usaNavClose class=\"usa-nav__close\" (click)=\"closeMobileNav()\">\n        <usa-icon [icon]=\"'x-circle'\" [size]=\"'lg'\"></usa-icon>\n        <!-- <fa-layers [fixedWidth]=\"true\" size=\"lg\">\n          <fa-icon [icon]=\"['fas', 'circle']\" [inverse]=\"true\" transform=\"grow-2\"></fa-icon>\n          <fa-icon [icon]=\"['fas', 'times']\" transform=\"shrink-6\"></fa-icon>\n        </fa-layers> -->\n        <span class=\"usa-sr-only\">Close</span>\n      </button>\n      <ul class=\"usa-nav__primary usa-accordion\">\n        <li *ngFor=\"let link of model.navigationLinks\" class=\"usa-nav__primary-item\">\n          <ng-container [ngTemplateOutlet]=\"link.route ? linkTemplate : dropDownTemplate\"\n            [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n        </li>\n      </ul>\n      <div *ngIf=\"help && help.length > 0 && !mobileNavActive\" class=\"position-absolute top-1 right-205\">\n        <sds-header-help [content]=\"help\"></sds-header-help>\n      </div>\n      <div class=\"usa-nav__secondary\" [ngClass]=\"{'sds-nav__secondary--blank': !showHeaderLogo}\">\n        <ul class=\"usa-nav__secondary-links\">\n          <li *ngFor=\"let link of model.secondaryLinks\" class=\"usa-nav__secondary-item\">\n            <ng-container [ngTemplateOutlet]=\"\n                navigationHelper.isLinkInternal(link)\n                  ? secondaryRouteLinkTemplate\n                  : navigationHelper.isLinkExternal(link)\n                  ? secondaryHREFLinkTemplate\n                  : secondaryEVENTLinkTemplate\n              \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </nav>\n</header>\n<ng-template #homeLinkRouteTemplate let-home>\n  <a [routerLink]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #homeLinkHREFTemplate let-home>\n  <a [attr.href]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #secondaryRouteLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [routerLink]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryHREFLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.href]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryEVENTLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" (click)=\"linkClickEvent(link)\" href=\"javascript:void(0)\"\n    [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #iconLinkTemplate let-link>\n  <div class=\"sds-stack sds-sm\">\n    <usa-icon class=\"sds-stack-icon text-ink\" [icon]=\"link.imageClass\"></usa-icon>\n    <usa-icon *ngIf=\"link.hasCounter\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n      [classes]=\"['counter-icon']\"></usa-icon>\n  </div>\n  <!-- <fa-layers [fixedWidth]=\"true\">\n    <usa-icon [icon]=\"[link.imageClassPrefix, link.imageClass]\"></usa-icon>\n    <fa-layers-counter *ngIf=\"link.hasCounter\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n  </fa-layers> -->\n  <span class=\"sds-nav__secondary-item-text\">{{ link.text }}</span>\n</ng-template>\n\n<ng-template #linkTemplate let-link>\n  <ng-container [ngTemplateOutlet]=\"\n      navigationHelper.isLinkInternal(link)\n        ? linkRouteTemplate\n        : navigationHelper.isLinkExternal(link)\n        ? linkHREFTemplate\n        : linkEventTemplate\n    \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n</ng-template>\n\n<ng-template #linkRouteTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [routerLink]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkHREFTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [attr.href]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkEventTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    href=\"javascript:void(0)\" (click)=\"linkClickEvent(link)\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #dropDownTemplate let-link>\n  <button [attr.id]=\"link.id\" [attr.class]=\"\n      link.selected\n        ? 'usa-accordion__button usa-nav__link usa-current'\n        : 'usa-accordion__button usa-nav__link'\n    \" aria-expanded=\"false\" [attr.aria-controls]=\"removeWhiteSpace(link.text) + '-section'\">\n    <span>{{ link.text }}</span>\n  </button>\n  <ul [attr.id]=\"removeWhiteSpace(link.text) + '-section'\" class=\"usa-nav__submenu\" hidden>\n    <li *ngFor=\"let childLink of link.children\" class=\"usa-nav__submenu-item\">\n      <ng-container [ngTemplateOutlet]=\"\n          navigationHelper.isLinkInternal(childLink)\n            ? dropDownRouteLinkTemplate\n            : navigationHelper.isLinkExternal(childLink)\n            ? dropDownHREFLinkTemplate\n            : dropDownEVENTLinkTemplate\n        \" [ngTemplateOutletContext]=\"{ $implicit: childLink }\"></ng-container>\n    </li>\n  </ul>\n</ng-template>\n\n<ng-template #dropDownRouteLinkTemplate let-childLink>\n  <a [routerLink]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownHREFLinkTemplate let-childLink>\n  <a [attr.href]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownEVENTLinkTemplate let-childLink>\n  <a href=\"javascript:void(0)\" (click)=\"linkClickEvent(childLink)\">{{\n    childLink.text\n  }}</a>\n</ng-template>\n\n<ng-template #fillerBlock>\n  <!--Empty filler space for secondary links for when header logo display is turned off-->\n  <div class=\"sds-navbar--blank \"></div>\n</ng-template>\n"
+            "templateData": "<sds-top-banner *ngIf=\"showTopBanner\" [description]=\"topBannerDescription\"></sds-top-banner>\n\n<div *ngIf=\"alertsTemplate && !hideAlerts\">\n  <ng-container [ngTemplateOutlet]=\"alertsTemplate\"></ng-container>\n</div>\n\n<div class=\"usa-overlay\" [class.is-visible]=\"mobileNavActive\" (click)=\"closeMobileNav()\"></div>\n<header class=\"usa-header usa-header--extended\">\n  <div class=\"usa-navbar\">\n    <div *ngIf=\"showHeaderLogo; else fillerBlock\" class=\"usa-logo\">\n      <ng-container [ngTemplateOutlet]=\"\n            navigationHelper.isLinkInternal(model.home)\n              ? homeLinkRouteTemplate\n              : homeLinkHREFTemplate\n          \" [ngTemplateOutletContext]=\"{ $implicit: model.home }\"></ng-container>\n    </div>\n    <sds-header-help *ngIf=\"help && help.length > 0\" [content]=\"help\" class=\"tablet:display-none margin-right-2\">\n    </sds-header-help>\n    <button *ngIf=\"!hidePrimaryLinks && !hideSecondaryLinks\" #usaNavOpen class=\"usa-menu-btn\" (click)=\"openMobileNav()\">\n      <div class=\"sds-stack sds-lg\">\n        <usa-icon class=\"sds-stack-icon text-primary\" [icon]=\"'square-fill'\" [size]=\"'2x'\"></usa-icon>\n        <usa-icon class=\"sds-stack-icon\" [icon]=\"'bars'\" [size]=\"'lg'\"></usa-icon>\n        <usa-icon *ngIf=\"hasCounter()\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n          [classes]=\"['counter-icon']\"></usa-icon>\n      </div>\n      <!-- <fa-layers [fixedWidth]=\"true\" size=\"3x\">\n        <fa-icon [icon]=\"['fas', 'square']\" [classes]=\"['text-primary']\"></fa-icon>\n        <fa-icon [icon]=\"['sds', 'bars']\" [classes]=\"['icon-bars']\" transform=\"shrink-6\"></fa-icon>\n        <fa-layers-counter *ngIf=\"hasCounter()\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n      </fa-layers> -->\n      <span class=\"usa-sr-only\">Menu</span>\n    </button>\n  </div>\n  <nav aria-label=\"Primary navigation\" class=\"usa-nav\" (keydown.esc)=\"closeMobileNav()\"\n    (animationend)=\"navAnimationEnd()\" [class.is-visible]=\"mobileNavActive\" [cdkTrapFocus]=\"mobileNavActive\">\n    <div class=\"usa-nav__inner\">\n      <button #usaNavClose class=\"usa-nav__close\" (click)=\"closeMobileNav()\">\n        <usa-icon [icon]=\"'x-circle'\" [size]=\"'lg'\"></usa-icon>\n        <!-- <fa-layers [fixedWidth]=\"true\" size=\"lg\">\n          <fa-icon [icon]=\"['fas', 'circle']\" [inverse]=\"true\" transform=\"grow-2\"></fa-icon>\n          <fa-icon [icon]=\"['fas', 'times']\" transform=\"shrink-6\"></fa-icon>\n        </fa-layers> -->\n        <span class=\"usa-sr-only\">Close</span>\n      </button>\n      <ul *ngIf=\"!hidePrimaryLinks\" class=\"usa-nav__primary usa-accordion\">\n        <li *ngFor=\"let link of model.navigationLinks\" class=\"usa-nav__primary-item\">\n          <ng-container [ngTemplateOutlet]=\"link.route ? linkTemplate : dropDownTemplate\"\n            [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n        </li>\n      </ul>\n      <div *ngIf=\"help && help.length > 0 && !mobileNavActive\" class=\"position-absolute top-1 right-205\">\n        <sds-header-help [content]=\"help\"></sds-header-help>\n      </div>\n      <div *ngIf=\"!hideSecondaryLinks\" class=\"usa-nav__secondary\" [ngClass]=\"{'sds-nav__secondary--blank': !showHeaderLogo}\">\n        <ul class=\"usa-nav__secondary-links\">\n          <li *ngFor=\"let link of model.secondaryLinks\" class=\"usa-nav__secondary-item\">\n            <ng-container [ngTemplateOutlet]=\"\n                navigationHelper.isLinkInternal(link)\n                  ? secondaryRouteLinkTemplate\n                  : navigationHelper.isLinkExternal(link)\n                  ? secondaryHREFLinkTemplate\n                  : secondaryEVENTLinkTemplate\n              \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </nav>\n</header>\n<ng-template #homeLinkRouteTemplate let-home>\n  <a [routerLink]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #homeLinkHREFTemplate let-home>\n  <a [attr.href]=\"home.route\" title=\"Home\" aria-label=\"Go to Home page\">\n    <img class=\"sds-header__logo\" [src]=\"home.logo\" [alt]=\"home.text\" />\n  </a>\n</ng-template>\n\n<ng-template #secondaryRouteLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [routerLink]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryHREFLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.href]=\"[link.route]\" [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #secondaryEVENTLinkTemplate let-link>\n  <a [attr.id]=\"link.id\" (click)=\"linkClickEvent(link)\" href=\"javascript:void(0)\"\n    [attr.class]=\"link.selected ? 'usa-current' : ''\">\n    <ng-container [ngTemplateOutlet]=\"iconLinkTemplate\" [ngTemplateOutletContext]=\"{ $implicit: link }\">\n    </ng-container>\n  </a>\n</ng-template>\n\n<ng-template #iconLinkTemplate let-link>\n  <div class=\"sds-stack sds-sm\">\n    <usa-icon class=\"sds-stack-icon text-ink\" [icon]=\"link.imageClass\"></usa-icon>\n    <usa-icon *ngIf=\"link.hasCounter\" class=\"sds-stack-icon\" [icon]=\"'circle-fill'\" [size]=\"'xs'\"\n      [classes]=\"['counter-icon']\"></usa-icon>\n  </div>\n  <!-- <fa-layers [fixedWidth]=\"true\">\n    <usa-icon [icon]=\"[link.imageClassPrefix, link.imageClass]\"></usa-icon>\n    <fa-layers-counter *ngIf=\"link.hasCounter\" [classes]=\"['icon-layers-counter']\"></fa-layers-counter>\n  </fa-layers> -->\n  <span class=\"sds-nav__secondary-item-text\">{{ link.text }}</span>\n</ng-template>\n\n<ng-template #linkTemplate let-link>\n  <ng-container [ngTemplateOutlet]=\"\n      navigationHelper.isLinkInternal(link)\n        ? linkRouteTemplate\n        : navigationHelper.isLinkExternal(link)\n        ? linkHREFTemplate\n        : linkEventTemplate\n    \" [ngTemplateOutletContext]=\"{ $implicit: link }\"></ng-container>\n</ng-template>\n\n<ng-template #linkRouteTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [routerLink]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkHREFTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    [attr.href]=\"[link.route]\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #linkEventTemplate let-link>\n  <a [attr.id]=\"link.id\" [attr.class]=\"link.selected ? 'usa-nav__link usa-current' : 'usa-nav__link'\"\n    href=\"javascript:void(0)\" (click)=\"linkClickEvent(link)\"><span>{{ link.text }}</span></a>\n</ng-template>\n\n<ng-template #dropDownTemplate let-link>\n  <button [attr.id]=\"link.id\" [attr.class]=\"\n      link.selected\n        ? 'usa-accordion__button usa-nav__link usa-current'\n        : 'usa-accordion__button usa-nav__link'\n    \" aria-expanded=\"false\" [attr.aria-controls]=\"removeWhiteSpace(link.text) + '-section'\">\n    <span>{{ link.text }}</span>\n  </button>\n  <ul [attr.id]=\"removeWhiteSpace(link.text) + '-section'\" class=\"usa-nav__submenu\" hidden>\n    <li *ngFor=\"let childLink of link.children\" class=\"usa-nav__submenu-item\">\n      <ng-container [ngTemplateOutlet]=\"\n          navigationHelper.isLinkInternal(childLink)\n            ? dropDownRouteLinkTemplate\n            : navigationHelper.isLinkExternal(childLink)\n            ? dropDownHREFLinkTemplate\n            : dropDownEVENTLinkTemplate\n        \" [ngTemplateOutletContext]=\"{ $implicit: childLink }\"></ng-container>\n    </li>\n  </ul>\n</ng-template>\n\n<ng-template #dropDownRouteLinkTemplate let-childLink>\n  <a [routerLink]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownHREFLinkTemplate let-childLink>\n  <a [attr.href]=\"[childLink.route]\">{{ childLink.text }}</a>\n</ng-template>\n\n<ng-template #dropDownEVENTLinkTemplate let-childLink>\n  <a href=\"javascript:void(0)\" (click)=\"linkClickEvent(childLink)\">{{\n    childLink.text\n  }}</a>\n</ng-template>\n\n<ng-template #fillerBlock>\n  <!--Empty filler space for secondary links for when header logo display is turned off-->\n  <div class=\"sds-navbar--blank \"></div>\n</ng-template>\n"
         },
         {
             "name": "SdsHeaderHelpComponent",
@@ -5564,7 +5742,7 @@
         },
         {
             "name": "SearchListLayoutComponent",
-            "id": "component-SearchListLayoutComponent-974bb6c94e77ba77a62fba6e0923cd2140ec36bf316b245857a4b3f85fdce9959b540d4792e2b9fbf4e8c3466850d1648b13ae925471c0f67f7e689b7f581bc2",
+            "id": "component-SearchListLayoutComponent-a3640ad9ff4364ecb9d92c6f22564592ec24824fb9f3b73a7078654e30a654316ccf1680d6e617e5944bd65e5d53c80f9f7df14f246ad2ee166854c5cbab2809",
             "file": "libs/layouts/src/lib/search-list-layout/search-list-layout.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -5826,7 +6004,7 @@
                     "optional": false,
                     "returnType": "{}",
                     "typeParameters": [],
-                    "line": 310,
+                    "line": 320,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -5872,7 +6050,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 323,
+                    "line": 333,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nDecoder for qs.parse to convert true / false strings to boolean values\n",
@@ -5929,7 +6107,7 @@
                     "optional": false,
                     "returnType": "{}",
                     "typeParameters": [],
-                    "line": 286,
+                    "line": 299,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -5971,7 +6149,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 215,
+                    "line": 221,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -6012,7 +6190,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 173,
+                    "line": 177,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -6029,7 +6207,7 @@
                     "optional": false,
                     "returnType": "{}",
                     "typeParameters": [],
-                    "line": 297,
+                    "line": 311,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -6057,7 +6235,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 209,
+                    "line": 215,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -6078,7 +6256,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 164,
+                    "line": 168,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -6132,7 +6310,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 338,
+                    "line": 353,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nSorty by change event\n",
@@ -6152,7 +6330,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 347,
+                    "line": 362,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\ncalls service when updated\n",
@@ -6186,7 +6364,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 198,
+                    "line": 204,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nupdates the filter and set the page number to 1 and calls imported service\n",
@@ -6197,8 +6375,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 4838,
-                                "end": 4844,
+                                "pos": 4887,
+                                "end": 4893,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -6209,8 +6387,8 @@
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
-                                "pos": 4832,
-                                "end": 4837,
+                                "pos": 4881,
+                                "end": 4886,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
@@ -6235,7 +6413,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 236,
+                    "line": 242,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -6264,7 +6442,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 382,
+                    "line": 398,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -6308,7 +6486,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\n  Component,\n  Input,\n  ContentChild,\n  TemplateRef,\n  Optional,\n  OnChanges,\n  SimpleChanges,\n  OnInit,\n  ChangeDetectorRef,\n  HostListener,\n  Output,\n  EventEmitter,\n} from '@angular/core';\nimport { BehaviorSubject, Subscription } from 'rxjs';\nimport * as qs from 'qs';\nimport {\n  SearchListInterface,\n  SearchListConfiguration,\n  ResultsModel,\n} from './model/search-list-layout.model';\nimport {\n  SDSFormlyUpdateComunicationService,\n  SDSFormlyUpdateModelService,\n} from '@gsa-sam/sam-formly';\nimport { Router, ActivatedRoute } from '@angular/router';\nimport * as _ from 'lodash-es';\nimport { Location } from '@angular/common';\n\n@Component({\n  selector: 'search-list-layout',\n  templateUrl: './search-list-layout.component.html',\n  styleUrls: ['./search-list-layout.component.scss'],\n})\nexport class SearchListLayoutComponent implements OnInit {\n  /**\n   * Child Template to be used to display the data for each item in the list of items\n   */\n  @ContentChild('resultContent') resultContentTemplate: TemplateRef<any>;\n\n  constructor(\n    private cdr: ChangeDetectorRef,\n    private router: Router,\n    private route: ActivatedRoute,\n    @Optional()\n    private formlyUpdateComunicationService: SDSFormlyUpdateComunicationService,\n    private filterUpdateModelService: SDSFormlyUpdateModelService,\n    private loc: Location\n  ) { }\n\n  /**\n   * Input service to be called when items change\n   */\n  @Input() service: SearchListInterface;\n\n  /**\n   * Allow to insert a customized template for no results to use\n   */\n  @Input() customResultsTemplate: TemplateRef<any>;\n\n  @Input() isHistoryEnabled = true;\n  /**\n   * configuration\n   */\n  @Input() configuration: SearchListConfiguration;\n\n  @Input() enableApiCall: boolean = true;\n\n  @Output() sortFieldChange = new EventEmitter<string>();\n\n  /**\n   * Set to true when either filter is empty or filter is equal to default model\n   */\n  isDefaultModel: boolean = true;\n\n  /**\n   * Filter information\n   */\n  private filterData: any;\n\n  /**\n   * Total number of items\n   */\n  totalItems: number;\n  private formlySubscription: Subscription;\n\n  /**\n   * Default Page setttings\n   */\n  page = {\n    pageNumber: 1,\n    pageSize: 25,\n    totalPages: 0,\n    default: true,\n  };\n\n  /**\n   * Id of the top pagination control\n   */\n  top = { id: 'topPagination' };\n\n  /**\n   * Id of the bottom pagination control\n   */\n  bottom = { id: 'bottomPagination' };\n\n  /**\n   * Page event listener\n   */\n  public paginationChange = new BehaviorSubject<object>(this.page);\n\n  /**\n   * List of items to be displayed\n   */\n  items = [];\n\n  /**\n   * sort value\n   */\n  public sortField = '';\n\n  /**\n   * Value to track whether API call in progress for purpose of showing loading\n   * template\n   */\n  loading = false;\n\n  /**\n   * Used in ngFor to create multiple copies of the same loading row.\n   */\n  loadingArray = Array(25);\n\n  /**\n   * Used to track whether update resulting in navigation is as the result of a\n   * popstate. in order to apply correct navigation logic\n   */\n  private triggeredByPopState: boolean = false;\n\n  @HostListener('window:popstate', ['$event'])\n  onpopstate(event) {\n    this.triggeredByPopState = true;\n    if (this.isHistoryEnabled) {\n      this.getHistoryModel();\n    }\n  }\n\n  ngOnInit() {\n    if (this.isHistoryEnabled) {\n      this.getHistoryModel();\n    }\n    this.sortField = this.sortField != null ? this.sortField : this.configuration.defaultSortValue;\n    this.paginationChange.subscribe(() => {\n      this.updateContent();\n    });\n    if (this.formlyUpdateComunicationService) {\n      this.formlySubscription = this.formlyUpdateComunicationService.filterUpdate.subscribe(\n        (filter) => {\n          this.updateFilter(filter);\n        }\n      );\n    }\n  }\n\n  ngOnDestroy() {\n    // Reset filter Model in update service\n    this.filterUpdateModelService.updateModel(null);\n\n    if (this.formlySubscription) {\n      this.formlySubscription.unsubscribe();\n    }\n  }\n\n  getHistoryModel() {\n    const queryString = window.location.search.substring(1);\n    const params: any = this.getUrlParams(queryString);\n    const paramModel: any = this.convertToModel(params);\n\n    this.page.default = true;\n    this.page.pageNumber = paramModel['page'] ? +paramModel['page'] : 1;\n    this.page.pageSize = paramModel['pageSize'] ? Number.parseInt(paramModel['pageSize']) : this.configuration.pageSize;\n\n    this.sortField = paramModel['sort'];\n    if (this.filterUpdateModelService) {\n      if (paramModel && paramModel['sfm']) {\n        this.filterUpdateModelService.updateModel(paramModel['sfm']);\n      } else if (!this.triggeredByPopState) {\n        this.filterUpdateModelService.updateModel(\n          this.configuration.defaultFilterValue\n        );\n      }\n    }\n  }\n\n  /**\n   * updates the filter and set the page number to 1 and calls imported service\n   * @param filter - the updated filter model\n   */\n  public updateFilter(filter: any) {\n    this.filterData = filter;\n    this.page.pageNumber = this.page.default ? this.page.pageNumber : 1;\n    this.page.default = filter ? false : true;\n    this.isDefaultFilter(filter);\n    if (this.isDefaultModel) {\n      this.items = [];\n    }\n    this.updateContent(true);\n  }\n\n  isDefaultFilter(filter) {\n    const cleanModel = this.flatten(filter);\n    const op = this.flatten(this.configuration.defaultFilterValue);\n    this.isDefaultModel = _.isEqual(cleanModel, op);\n  }\n\n  flatten(input, reference?, output?) {\n    output = output || {};\n    for (var key in input) {\n      var value = input[key];\n      if (value) {\n        key = reference ? reference + '.' + key : key;\n        if (typeof value === 'object' && value !== null) {\n          this.flatten(value, key, output);\n        } else {\n          // Treat true string as boolean value & ignore value of string 'false'\n          if (value === 'true') {\n            output[key] = true;\n          } else if (value != 'false') {\n            output[key] = value;\n          }\n        }\n      }\n    }\n    return output;\n  }\n\n  updateNavigation(triggeredByFilter = false) {\n    const queryString = window.location.search.substring(1);\n    let queryObj = qs.parse(queryString, { allowPrototypes: true });\n\n    let skipHistoryOnNav = false;\n\n    if (queryObj.hasOwnProperty('sfm')) {\n      queryObj['sfm'] = {};\n    }\n\n    // Prevent recursive navigation when adding default page to search\n    if (!queryObj.page || !queryObj.pageSize) {\n      skipHistoryOnNav = true;\n    }\n\n    queryObj['page'] = this.page.pageNumber\n    ? this.page.pageNumber.toString()\n    : '1';\n    queryObj['pageSize'] = this.page.pageSize\n      ? this.page.pageSize.toString()\n      : '25';\n\n    queryObj['sort'] = this.sortField ? this.sortField.toString() : '';\n    queryObj['sfm'] = this.filterData;\n    const params = this.convertToParam(queryObj);\n    /**\n     * loc.go updates URL but also updates history stack so that upon clicking\n     * back, the state which clicking forward would move user to is deleted by\n     * loc.go This state is preserved by router.navigate, so use router.navigate\n     * where we state needs to be preserved or we want the page jumped to the top.\n     * use loc.go only where we need the page to remain in place, and would normally\n     * overwrite the top of the history stack\n     */\n    if (!triggeredByFilter || this.triggeredByPopState) {\n      this.triggeredByPopState = false;\n      this.router.navigate([], {\n        relativeTo: this.route,\n        queryParams: params,\n        queryParamsHandling: this.configuration.queryParamsHandling,\n        fragment: window.location.hash?.length > 1 ? window.location.hash.substring(1) : undefined,\n        replaceUrl: skipHistoryOnNav,\n      });\n    } else {\n      const urlTree = this.router.parseUrl(this.loc.path());\n      urlTree.queryParams = params;\n      urlTree.fragment = window.location.hash?.length > 1 ? window.location.hash.substring(1) : undefined\n      this.loc.go(urlTree.toString());\n    }\n  }\n\n  convertToParam(filters) {\n    const encodedValues = qs.stringify(filters, {\n      skipNulls: true,\n      encode: false,\n    });\n    if (encodedValues) {\n      return this.getUrlParams(encodedValues);\n    } else {\n      return '';\n    }\n  }\n  getUrlParams(queryString) {\n    const target = {};\n    queryString.split('&').forEach((pair) => {\n      if (pair !== '') {\n        const splitpair = pair.split('=');\n        if (splitpair[1] != '' && splitpair[1] != 'false') {\n          target[splitpair[0]] = splitpair[1]\n        }\n      }\n    });\n    return target;\n  }\n\n  convertToModel(filters) {\n    let obj = {};\n    const encodedValues = qs.stringify(filters, {\n      skipNulls: true,\n      encode: false,\n    });\n    obj = qs.parse(encodedValues, { decoder: this.convertToModelParser });\n    return obj;\n  }\n\n  /**\n   * Decoder for qs.parse to convert true / false strings to boolean values\n   */\n  convertToModelParser(str: string, decoder: qs.defaultDecoder, charset: string, type: 'key' | 'value') {\n    if (type === 'key') {\n      return decoder(str, decoder, charset);\n    }\n\n    if (str === 'true' || str === 'false') {\n      return str === 'true' ? true : false;\n    }\n\n    return decoder(str, decoder, charset);\n  }\n\n  /**\n   * Sorty by change event\n   */\n  onSelectChange() {\n    this.page.pageNumber = 1;\n    this.updateContent();\n    this.sortFieldChange.emit(this.sortField);\n  }\n\n  /**\n   * calls service when updated\n   */\n  private updateContent(triggeredByFilter = false) {\n    if (this.isHistoryEnabled) {\n      this.updateNavigation(triggeredByFilter);\n    }\n\n    if (\n      this.filterData &&\n      this.service &&\n      this.enableApiCall &&\n      !this.isDefaultModel\n    ) {\n      this.loading = true;\n\n      setTimeout(() => {\n        this.service\n          .getData({\n            page: this.page,\n            sortField: this.sortField,\n            filter: this.filterData,\n          })\n          .subscribe((result) => {\n            this.loading = false;\n            this.items = result.items;\n            this.page.totalPages = Math.ceil(\n              result.totalItems / this.page.pageSize\n            );\n            this.totalItems = result.totalItems;\n          },\n            (error) => this.loading = false,\n            () => this.loading = false\n          );\n      });\n    }\n  }\n\n  public updateSearchResultsModel(historyModel: ResultsModel) {\n    this.filterData = historyModel.filterModel;\n    this.page.default = historyModel.page || historyModel.sort ? true : false;\n    this.page.pageNumber = historyModel.page ? historyModel.page : 1;\n    this.sortField = historyModel.sort ? historyModel.sort : this.sortField;\n    if (this.filterUpdateModelService) {\n      if (historyModel && historyModel.filterModel) {\n        this.filterUpdateModelService.updateModel(historyModel.filterModel);\n      } else {\n        this.filterUpdateModelService.updateModel({});\n      }\n    }\n  }\n}\n",
+            "sourceCode": "import {\n  Component,\n  Input,\n  ContentChild,\n  TemplateRef,\n  Optional,\n  OnChanges,\n  SimpleChanges,\n  OnInit,\n  ChangeDetectorRef,\n  HostListener,\n  Output,\n  EventEmitter,\n} from '@angular/core';\nimport { BehaviorSubject, Subscription } from 'rxjs';\nimport * as qs from 'qs';\nimport {\n  SearchListInterface,\n  SearchListConfiguration,\n  ResultsModel,\n} from './model/search-list-layout.model';\nimport {\n  SDSFormlyUpdateComunicationService,\n  SDSFormlyUpdateModelService,\n} from '@gsa-sam/sam-formly';\nimport { Router, ActivatedRoute } from '@angular/router';\nimport * as _ from 'lodash-es';\nimport { Location } from '@angular/common';\n\n@Component({\n  selector: 'search-list-layout',\n  templateUrl: './search-list-layout.component.html',\n  styleUrls: ['./search-list-layout.component.scss'],\n})\nexport class SearchListLayoutComponent implements OnInit {\n  /**\n   * Child Template to be used to display the data for each item in the list of items\n   */\n  @ContentChild('resultContent') resultContentTemplate: TemplateRef<any>;\n\n  constructor(\n    private cdr: ChangeDetectorRef,\n    private router: Router,\n    private route: ActivatedRoute,\n    @Optional()\n    private formlyUpdateComunicationService: SDSFormlyUpdateComunicationService,\n    private filterUpdateModelService: SDSFormlyUpdateModelService,\n    private loc: Location\n  ) {}\n\n  /**\n   * Input service to be called when items change\n   */\n  @Input() service: SearchListInterface;\n\n  /**\n   * Allow to insert a customized template for no results to use\n   */\n  @Input() customResultsTemplate: TemplateRef<any>;\n\n  @Input() isHistoryEnabled = true;\n  /**\n   * configuration\n   */\n  @Input() configuration: SearchListConfiguration;\n\n  @Input() enableApiCall: boolean = true;\n\n  @Output() sortFieldChange = new EventEmitter<string>();\n\n  /**\n   * Set to true when either filter is empty or filter is equal to default model\n   */\n  isDefaultModel: boolean = true;\n\n  /**\n   * Filter information\n   */\n  private filterData: any;\n\n  /**\n   * Total number of items\n   */\n  totalItems: number;\n  private formlySubscription: Subscription;\n\n  /**\n   * Default Page setttings\n   */\n  page = {\n    pageNumber: 1,\n    pageSize: 25,\n    totalPages: 0,\n    default: true,\n  };\n\n  /**\n   * Id of the top pagination control\n   */\n  top = { id: 'topPagination' };\n\n  /**\n   * Id of the bottom pagination control\n   */\n  bottom = { id: 'bottomPagination' };\n\n  /**\n   * Page event listener\n   */\n  public paginationChange = new BehaviorSubject<object>(this.page);\n\n  /**\n   * List of items to be displayed\n   */\n  items = [];\n\n  /**\n   * sort value\n   */\n  public sortField = '';\n\n  /**\n   * Value to track whether API call in progress for purpose of showing loading\n   * template\n   */\n  loading = false;\n\n  /**\n   * Used in ngFor to create multiple copies of the same loading row.\n   */\n  loadingArray = Array(25);\n\n  /**\n   * Used to track whether update resulting in navigation is as the result of a\n   * popstate. in order to apply correct navigation logic\n   */\n  private triggeredByPopState: boolean = false;\n\n  @HostListener('window:popstate', ['$event'])\n  onpopstate(event) {\n    this.triggeredByPopState = true;\n    if (this.isHistoryEnabled) {\n      this.getHistoryModel();\n    }\n  }\n\n  ngOnInit() {\n    if (this.isHistoryEnabled) {\n      this.getHistoryModel();\n    }\n    this.sortField =\n      this.sortField != null\n        ? this.sortField\n        : this.configuration.defaultSortValue;\n    this.paginationChange.subscribe(() => {\n      this.updateContent();\n    });\n    if (this.formlyUpdateComunicationService) {\n      this.formlySubscription =\n        this.formlyUpdateComunicationService.filterUpdate.subscribe(\n          (filter) => {\n            this.updateFilter(filter);\n          }\n        );\n    }\n  }\n\n  ngOnDestroy() {\n    // Reset filter Model in update service\n    this.filterUpdateModelService.updateModel(null);\n\n    if (this.formlySubscription) {\n      this.formlySubscription.unsubscribe();\n    }\n  }\n\n  getHistoryModel() {\n    const queryString = window.location.search.substring(1);\n    const params: any = this.getUrlParams(queryString);\n    const paramModel: any = this.convertToModel(params);\n\n    this.page.default = true;\n    this.page.pageNumber = paramModel['page'] ? +paramModel['page'] : 1;\n    this.page.pageSize = paramModel['pageSize']\n      ? Number.parseInt(paramModel['pageSize'])\n      : this.configuration.pageSize;\n\n    this.sortField = paramModel['sort'];\n    if (this.filterUpdateModelService) {\n      if (paramModel && paramModel['sfm']) {\n        this.filterUpdateModelService.updateModel(paramModel['sfm']);\n      } else if (!this.triggeredByPopState) {\n        this.filterUpdateModelService.updateModel(\n          this.configuration.defaultFilterValue\n        );\n      }\n    }\n  }\n\n  /**\n   * updates the filter and set the page number to 1 and calls imported service\n   * @param filter - the updated filter model\n   */\n  public updateFilter(filter: any) {\n    this.filterData = filter;\n    this.page.pageNumber = this.page.default ? this.page.pageNumber : 1;\n    this.page.default = filter ? false : true;\n    this.isDefaultFilter(filter);\n    if (this.isDefaultModel) {\n      this.items = [];\n    }\n    this.updateContent(true);\n  }\n\n  isDefaultFilter(filter) {\n    const cleanModel = this.flatten(filter);\n    const op = this.flatten(this.configuration.defaultFilterValue);\n    this.isDefaultModel = _.isEqual(cleanModel, op);\n  }\n\n  flatten(input, reference?, output?) {\n    output = output || {};\n    for (var key in input) {\n      var value = input[key];\n      if (value) {\n        key = reference ? reference + '.' + key : key;\n        if (typeof value === 'object' && value !== null) {\n          this.flatten(value, key, output);\n        } else {\n          // Treat true string as boolean value & ignore value of string 'false'\n          if (value === 'true') {\n            output[key] = true;\n          } else if (value != 'false') {\n            output[key] = value;\n          }\n        }\n      }\n    }\n    return output;\n  }\n\n  updateNavigation(triggeredByFilter = false) {\n    const queryString = window.location.search.substring(1);\n    let queryObj = qs.parse(queryString, { allowPrototypes: true });\n\n    let skipHistoryOnNav = false;\n\n    if (queryObj.hasOwnProperty('sfm')) {\n      queryObj['sfm'] = {};\n    }\n\n    // Prevent recursive navigation when adding default page to search\n    if (!queryObj.page || !queryObj.pageSize) {\n      skipHistoryOnNav = true;\n    }\n\n    queryObj['page'] = this.page.pageNumber\n      ? this.page.pageNumber.toString()\n      : '1';\n    queryObj['pageSize'] = this.page.pageSize\n      ? this.page.pageSize.toString()\n      : '25';\n\n    queryObj['sort'] = this.sortField ? this.sortField.toString() : '';\n    queryObj['sfm'] = this.filterData;\n\n    const params = this.convertToParam(queryObj);\n    /**\n     * loc.go updates URL but also updates history stack so that upon clicking\n     * back, the state which clicking forward would move user to is deleted by\n     * loc.go This state is preserved by router.navigate, so use router.navigate\n     * where we state needs to be preserved or we want the page jumped to the top.\n     * use loc.go only where we need the page to remain in place, and would normally\n     * overwrite the top of the history stack\n     */\n    if (!triggeredByFilter || this.triggeredByPopState) {\n      this.triggeredByPopState = false;\n      this.router.navigate([], {\n        relativeTo: this.route,\n        queryParams: params,\n        queryParamsHandling: this.configuration.queryParamsHandling,\n        fragment:\n          window.location.hash?.length > 1\n            ? window.location.hash.substring(1)\n            : undefined,\n        replaceUrl: skipHistoryOnNav,\n      });\n    } else {\n      const urlTree = this.router.parseUrl(this.loc.path());\n      urlTree.queryParams = params;\n      urlTree.fragment =\n        window.location.hash?.length > 1\n          ? window.location.hash.substring(1)\n          : undefined;\n      this.loc.go(urlTree.toString());\n    }\n  }\n\n  convertToParam(filters) {\n    const encodedValues = qs.stringify(filters, {\n      skipNulls: true,\n      encodeValuesOnly: true,\n    });\n    if (encodedValues) {\n      return this.getUrlParams(encodedValues);\n    } else {\n      return '';\n    }\n  }\n\n  getUrlParams(queryString) {\n    const searchParams = new URLSearchParams(queryString);\n    const target = {};\n    searchParams.forEach((value, key) => {\n      target[key] = value;\n    });\n    return target;\n  }\n\n  convertToModel(filters) {\n    let obj = {};\n    const encodedValues = qs.stringify(filters, {\n      skipNulls: true,\n      encode: false,\n    });\n    obj = qs.parse(encodedValues, { decoder: this.convertToModelParser });\n    return obj;\n  }\n\n  /**\n   * Decoder for qs.parse to convert true / false strings to boolean values\n   */\n  convertToModelParser(\n    str: string,\n    decoder: qs.defaultDecoder,\n    charset: string,\n    type: 'key' | 'value'\n  ) {\n    if (type === 'key') {\n      return decoder(str, decoder, charset);\n    }\n\n    if (str === 'true' || str === 'false') {\n      return str === 'true' ? true : false;\n    }\n\n    return decoder(str, decoder, charset);\n  }\n\n  /**\n   * Sorty by change event\n   */\n  onSelectChange() {\n    this.page.pageNumber = 1;\n    this.updateContent();\n    this.sortFieldChange.emit(this.sortField);\n  }\n\n  /**\n   * calls service when updated\n   */\n  private updateContent(triggeredByFilter = false) {\n    if (this.isHistoryEnabled) {\n      this.updateNavigation(triggeredByFilter);\n    }\n\n    if (\n      this.filterData &&\n      this.service &&\n      this.enableApiCall &&\n      !this.isDefaultModel\n    ) {\n      this.loading = true;\n\n      setTimeout(() => {\n        this.service\n          .getData({\n            page: this.page,\n            sortField: this.sortField,\n            filter: this.filterData,\n          })\n          .subscribe(\n            (result) => {\n              this.loading = false;\n              this.items = result.items;\n              this.page.totalPages = Math.ceil(\n                result.totalItems / this.page.pageSize\n              );\n              this.totalItems = result.totalItems;\n            },\n            (error) => (this.loading = false),\n            () => (this.loading = false)\n          );\n      });\n    }\n  }\n\n  public updateSearchResultsModel(historyModel: ResultsModel) {\n    this.filterData = historyModel.filterModel;\n    this.page.default = historyModel.page || historyModel.sort ? true : false;\n    this.page.pageNumber = historyModel.page ? historyModel.page : 1;\n    this.sortField = historyModel.sort ? historyModel.sort : this.sortField;\n    if (this.filterUpdateModelService) {\n      if (historyModel && historyModel.filterModel) {\n        this.filterUpdateModelService.updateModel(historyModel.filterModel);\n      } else {\n        this.filterUpdateModelService.updateModel({});\n      }\n    }\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -7358,13 +7536,13 @@
         },
         {
             "name": "ResultsLayoutModule",
-            "id": "module-ResultsLayoutModule-c45b3e3828b2402c88c6dc3449a7f6e06468aeefd49976059866a838198df67f188c05b9a4cfe554b90aaff305e1a6f244fed5b9080394eec05e20270dea3083",
+            "id": "module-ResultsLayoutModule-aa0e389eeb2093d288aa46b26a0d7acbe7b292d7683cedde35626544824f668c3d33ec1900c32fd8768dba6e27275be573b6eb491df5a07188dc019651baa7c7",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/layouts/src/lib/search-list-layout/demo/layout.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\n\r\nimport {\r\n  SdsSearchResultListModule,\r\n  SdsSideNavigationModule,\r\n  SdsSelectionPanelModule,\r\n  SdsSideToolbarModule\r\n} from '@gsa-sam/components';\r\nimport {\r\n  SdsFiltersModule,\r\n  SDSFormlyUpdateModelService,\r\n} from '@gsa-sam/sam-formly';\r\n\r\nimport { ResultModule } from './result/result.module';\r\nimport { SearchListServiceModule } from '../search-list-layout.module';\r\nimport { FilterService } from './filter.service';\r\nimport { AutocompleteSampleDataService } from './services/autocomplete-sample.service';\r\nimport { LayoutResponsiveComponent } from './layout-responsive/layout-responsive.component';\r\nimport { SdsAccordionModule } from '@gsa-sam/sam-material-extensions';\r\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\r\n@NgModule({\r\n  imports: [\r\n    CommonModule,\r\n    IconModule,\r\n    SdsAccordionModule,\r\n    SdsSideNavigationModule,\r\n    SdsFiltersModule,\r\n    SdsSearchResultListModule,\r\n    SearchListServiceModule,\r\n    ResultModule,\r\n    SdsSideToolbarModule,\r\n    SdsSelectionPanelModule,\r\n  ],\r\n\r\n  exports: [LayoutResponsiveComponent],\r\n  declarations: [LayoutResponsiveComponent],\r\n  providers: [\r\n    FilterService,\r\n    AutocompleteSampleDataService,\r\n    SDSFormlyUpdateModelService,\r\n  ],\r\n})\r\nexport class ResultsLayoutModule {}\r\n",
+            "sourceCode": "import { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\n\r\nimport {\r\n  SdsSearchResultListModule,\r\n  SdsSideNavigationModule,\r\n  SdsSelectionPanelModule,\r\n  SdsSideToolbarModule,\r\n  SdsDialogModule,\r\n} from '@gsa-sam/components';\r\nimport {\r\n  SdsFiltersModule,\r\n  SDSFormlyUpdateModelService,\r\n} from '@gsa-sam/sam-formly';\r\n\r\nimport { ResultModule } from './result/result.module';\r\nimport { SearchListServiceModule } from '../search-list-layout.module';\r\nimport { FilterService } from './filter.service';\r\nimport { AutocompleteSampleDataService } from './services/autocomplete-sample.service';\r\nimport { LayoutResponsiveComponent } from './layout-responsive/layout-responsive.component';\r\nimport { SdsAccordionModule } from '@gsa-sam/sam-material-extensions';\r\nimport { IconModule } from '@gsa-sam/ngx-uswds-icons';\r\nimport { FilterTabModalComponent } from './filter-tab-modal.component';\r\n@NgModule({\r\n  imports: [\r\n    CommonModule,\r\n    IconModule,\r\n    SdsAccordionModule,\r\n    SdsSideNavigationModule,\r\n    SdsFiltersModule,\r\n    SdsSearchResultListModule,\r\n    SearchListServiceModule,\r\n    ResultModule,\r\n    SdsSideToolbarModule,\r\n    SdsSelectionPanelModule,\r\n    SdsDialogModule\r\n  ],\r\n\r\n  exports: [LayoutResponsiveComponent],\r\n  declarations: [LayoutResponsiveComponent, FilterTabModalComponent],\r\n  providers: [\r\n    FilterService,\r\n    AutocompleteSampleDataService,\r\n    SDSFormlyUpdateModelService,\r\n  ],\r\n})\r\nexport class ResultsLayoutModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -7380,6 +7558,9 @@
                 {
                     "type": "declarations",
                     "elements": [
+                        {
+                            "name": "FilterTabModalComponent"
+                        },
                         {
                             "name": "LayoutResponsiveComponent"
                         }
@@ -8774,8 +8955,8 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "SdsHeaderComponent",
-                "coveragePercent": 41,
-                "coverageCount": "10/24",
+                "coveragePercent": 37,
+                "coverageCount": "10/27",
                 "status": "medium"
             },
             {
@@ -9069,6 +9250,15 @@
                 "name": "DataService",
                 "coveragePercent": 0,
                 "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/layouts/src/lib/search-list-layout/demo/filter-tab-modal.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "FilterTabModalComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/7",
                 "status": "low"
             },
             {
