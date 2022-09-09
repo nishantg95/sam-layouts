@@ -12,16 +12,16 @@ import {
   justifyLeft,
   circle,
   circleFill,
-  questionCircle
+  questionCircle,
+  pencilSquare,
+  bell,
+  grid,
+  arrowRightSquare,
+  list,
+  xCircle,
+  squareFill
 } from 'ngx-bootstrap-icons';
-import {
-  IconModule,
-  request,
-  messages,
-  workspace,
-  logOut,
-  bars,
-} from '@gsa-sam/ngx-uswds-icons';
+import { IconModule } from '@gsa-sam/ngx-uswds-icons';
 import { HelpContentComponent, SdsHeaderHelpComponent } from './help.component';
 import { PortalModule } from '@angular/cdk/portal';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -45,11 +45,13 @@ import { SdsLandingListModule } from '../landing/list/list.module';
       circle,
       circleFill,
       questionCircle,
-      request,
-      messages,
-      workspace,
-      logOut,
-      bars
+      pencilSquare,
+      bell,
+      grid,
+      arrowRightSquare,
+      list,
+      xCircle,
+      squareFill
     }),
   ],
   declarations: [
