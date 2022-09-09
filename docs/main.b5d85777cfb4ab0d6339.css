@@ -14327,7 +14327,7 @@ example:
   );
 }
 */
-.flex-align-stretch {
+.flex-align-stretch, .sds-tag-container {
   align-items: stretch !important;
 }
 /*
@@ -102823,7 +102823,8 @@ hr.fine {
   width: 100%;
   position: relative;
 }
-.sds-tag.sds-tag--input .sds--tag__item div:first-child, .sds-tag.sds-tag--input .sds--tag__item .sds-tag__primary-text {
+.sds-tag.sds-tag--input .sds--tag__item div:first-child,
+.sds-tag.sds-tag--input .sds--tag__item .sds-tag__primary-text {
   font-weight: 600;
 }
 .sds-tag.sds-tag--input .sds-tag__close {
@@ -102984,6 +102985,10 @@ hr.fine {
 .sds-tag--outline--disabled {
   border-color: #c9c9c9;
   border-style: solid;
+}
+.sds-tag-container > .sds-tag:nth-child(n+2) {
+  border-top-width: 0;
+  border-top-style: solid;
 }
 .sds-tag--small {
   font-family: Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
@@ -105453,6 +105458,7 @@ ul.sds-history .sds-history__bullet--disabled {
   font-size: 1.13rem;
 }
 .usa-nav__primary > .usa-nav__primary-item > a {
+  color: #2e2e2a;
   font-weight: normal;
 }
 .usa-nav__primary > .usa-nav__primary-item > a:hover {
@@ -105486,6 +105492,9 @@ ul.sds-history .sds-history__bullet--disabled {
   .usa-nav__secondary-links .usa-nav__secondary-item {
     padding-left: 1.5rem;
   }
+  .usa-nav__secondary-links .usa-nav__secondary-item + .usa-nav__secondary-item::before {
+    color: #cac9c0;
+  }
 }
 @media all and (min-width: 55em) {
   .usa-nav__secondary-links .usa-nav__secondary-item {
@@ -105498,15 +105507,12 @@ ul.sds-history .sds-history__bullet--disabled {
   }
 }
 .usa-nav__secondary-links a {
+  color: #2e2e2a;
   padding-bottom: 0.75rem;
 }
 .usa-nav__secondary-links a:hover {
   color: #2672de;
   text-decoration: none;
-}
-.usa-nav__secondary-links a.usa-current::after {
-  left: 0;
-  right: 0;
 }
 @media all and (max-width: 39.99em) {
   .usa-nav__secondary-links a {
@@ -105518,19 +105524,19 @@ ul.sds-history .sds-history__bullet--disabled {
   top: -0.25rem;
   right: -2px;
 }
-.usa-nav__secondary-links a:hover, .usa-nav__secondary-links a.usa-current {
+.usa-nav__secondary-links a:hover .sds-nav__secondary-item-text, .usa-nav__secondary-links a.usa-current .sds-nav__secondary-item-text {
   position: relative;
 }
-.usa-nav__secondary-links a:hover::after, .usa-nav__secondary-links a.usa-current::after {
+.usa-nav__secondary-links a:hover .sds-nav__secondary-item-text::after, .usa-nav__secondary-links a.usa-current .sds-nav__secondary-item-text::after {
   background-color: #70e17b;
   border-radius: 0.5rem;
   content: "";
   display: block;
   position: absolute;
   height: 2px;
-  left: 0.5rem;
-  right: 0.5rem;
-  bottom: -2px;
+  left: 0;
+  right: 0;
+  bottom: -0.75rem;
 }
 /*-------------------
 Navigation close button
@@ -105542,7 +105548,7 @@ Navigation close button
       SDS Specific Styles
 *******************************/
 .sds-nav__secondary-item-text {
-  padding-left: 0.25rem;
+  margin-left: 0.25rem;
 }
 @media all and (min-width: 40em) {
   .sds-nav__secondary-item-text {
@@ -105804,8 +105810,7 @@ Navigation close button
 .sds-popover {
   cursor: pointer;
 }
-.sds-tooltip:hover .sds-tooltip__content,
-.sds-tooltip:focus .sds-tooltip__content,
+.sds-tooltip .tooltip-expanded.sds-tooltip__content,
 .sds-popover__content.sds-popover__hidden,
 .sds-popover__content.sds-popover__shown {
   display: block;
@@ -106508,10 +106513,6 @@ Navigation close button
   padding: 0;
   background: inherit;
 }
-.sds-table tr.sds-table__row--hovered td {
-  background-color: #cac9c0  !important;
-  cursor: pointer;
-}
 .sds-table__container {
   border-color: #cac9c0;
   border-width: 1px;
@@ -106522,6 +106523,12 @@ Navigation close button
 }
 .sds-table__container--borderless {
   border: 0;
+}
+.usa-table tr.sds-table__row--hovered td, .sds-table tr.sds-table__row--hovered td,
+.usa-table tr.usa-table__row--hovered td,
+.sds-table tr.usa-table__row--hovered td {
+  background-color: #cac9c0  !important;
+  cursor: pointer;
 }
 .usa-table .usa-table__header__button, .sds-table .usa-table__header__button {
   background-color: transparent;
@@ -106539,84 +106546,90 @@ Navigation close button
 .usa-table .usa-table__header__button .usa-icon > g.unsorted, .sds-table .usa-table__header__button .usa-icon > g.unsorted {
   fill: #757575;
 }
-.usa-table tr, .sds-table tr {
-  height: 3rem;
+@media all and (min-width: 40em) {
+  .usa-table tr, .sds-table tr {
+    height: 3rem;
+  }
+  .usa-table--compact tr {
+    height: 100%;
+  }
 }
-.usa-table--compact tr {
-  height: 100%;
+@media all and (min-width: 40em) {
+  .usa-table:not(.usa-table--borderless):not(.sds-tree-table) thead th, .sds-table:not(.usa-table--borderless):not(.sds-tree-table) thead th, .usa-table:not(.usa-table--borderless):not(.sds-tree-table) thead td, .sds-table:not(.usa-table--borderless):not(.sds-tree-table) thead td {
+    /**
+    Overrides remaining borders to ensure correct color and width.
+    Must include :not(.mat-header-cell) in order to prevent a 2 px border from forming when sds-table extends usa-table
+    */
+  }
+  .usa-table:not(.usa-table--borderless):not(.sds-tree-table) thead th:first-child:not(.mat-header-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) thead th:first-child:not(.mat-header-cell), .usa-table:not(.usa-table--borderless):not(.sds-tree-table) thead td:first-child:not(.mat-header-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) thead td:first-child:not(.mat-header-cell) {
+    border-left-color: #cac9c0;
+    border-left-width: 1px;
+    border-left-style: solid;
+  }
+  .usa-table:not(.usa-table--borderless):not(.sds-tree-table) thead th:last-child:not(.mat-header-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) thead th:last-child:not(.mat-header-cell), .usa-table:not(.usa-table--borderless):not(.sds-tree-table) thead td:last-child:not(.mat-header-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) thead td:last-child:not(.mat-header-cell) {
+    border-right-color: #cac9c0;
+    border-right-width: 1px;
+    border-right-style: solid;
+  }
+  .usa-table:not(.usa-table--borderless):not(.sds-tree-table) thead th:not(.mat-header-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) thead th:not(.mat-header-cell), .usa-table:not(.usa-table--borderless):not(.sds-tree-table) thead td:not(.mat-header-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) thead td:not(.mat-header-cell) {
+    border-top-color: #cac9c0;
+    border-top-width: 1px;
+    border-top-style: solid;
+  }
+  .usa-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr:last-child td:not(.mat-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr:last-child td:not(.mat-cell) {
+    border-bottom-color: #cac9c0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+  }
+  .usa-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr th:first-child:not(.mat-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr th:first-child:not(.mat-cell), .usa-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr td:first-child:not(.mat-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr td:first-child:not(.mat-cell) {
+    border-left-color: #cac9c0;
+    border-left-width: 1px;
+    border-left-style: solid;
+  }
+  .usa-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr th:last-child:not(.mat-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr th:last-child:not(.mat-cell), .usa-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr td:last-child:not(.mat-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr td:last-child:not(.mat-cell) {
+    border-right-color: #cac9c0;
+    border-right-width: 1px;
+    border-right-style: solid;
+  }
 }
-.usa-table:not(.usa-table--borderless):not(.sds-tree-table) thead th, .sds-table:not(.usa-table--borderless):not(.sds-tree-table) thead th, .usa-table:not(.usa-table--borderless):not(.sds-tree-table) thead td, .sds-table:not(.usa-table--borderless):not(.sds-tree-table) thead td {
-  /**
-  Overrides remaining borders to ensure correct color and width.
-  Must include :not(.mat-header-cell) in order to prevent a 2 px border from forming when sds-table extends usa-table
-  */
-}
-.usa-table:not(.usa-table--borderless):not(.sds-tree-table) thead th:first-child:not(.mat-header-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) thead th:first-child:not(.mat-header-cell), .usa-table:not(.usa-table--borderless):not(.sds-tree-table) thead td:first-child:not(.mat-header-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) thead td:first-child:not(.mat-header-cell) {
-  border-left-color: #cac9c0;
-  border-left-width: 1px;
-  border-left-style: solid;
-}
-.usa-table:not(.usa-table--borderless):not(.sds-tree-table) thead th:last-child:not(.mat-header-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) thead th:last-child:not(.mat-header-cell), .usa-table:not(.usa-table--borderless):not(.sds-tree-table) thead td:last-child:not(.mat-header-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) thead td:last-child:not(.mat-header-cell) {
-  border-right-color: #cac9c0;
-  border-right-width: 1px;
-  border-right-style: solid;
-}
-.usa-table:not(.usa-table--borderless):not(.sds-tree-table) thead th:not(.mat-header-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) thead th:not(.mat-header-cell), .usa-table:not(.usa-table--borderless):not(.sds-tree-table) thead td:not(.mat-header-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) thead td:not(.mat-header-cell) {
-  border-top-color: #cac9c0;
-  border-top-width: 1px;
-  border-top-style: solid;
-}
-.usa-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr:last-child td:not(.mat-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr:last-child td:not(.mat-cell) {
-  border-bottom-color: #cac9c0;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-}
-.usa-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr th:first-child:not(.mat-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr th:first-child:not(.mat-cell), .usa-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr td:first-child:not(.mat-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr td:first-child:not(.mat-cell) {
-  border-left-color: #cac9c0;
-  border-left-width: 1px;
-  border-left-style: solid;
-}
-.usa-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr th:last-child:not(.mat-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr th:last-child:not(.mat-cell), .usa-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr td:last-child:not(.mat-cell), .sds-table:not(.usa-table--borderless):not(.sds-tree-table) tbody tr td:last-child:not(.mat-cell) {
-  border-right-color: #cac9c0;
-  border-right-width: 1px;
-  border-right-style: solid;
-}
-.usa-table thead th, .sds-table thead th, .usa-table thead td, .sds-table thead td {
-  /**
-    Removes internal borders so that only borders on the outside edges of header remain
-  */
-  padding-bottom: 0.5rem;
-  padding-top: 0.5rem;
-  padding-left: 1.5rem;
-  padding-right: 1rem;
-  background-color: #f5f5f0;
-}
-.usa-table thead th:not(:first-child), .sds-table thead th:not(:first-child), .usa-table thead td:not(:first-child), .sds-table thead td:not(:first-child) {
-  border-left: 0px;
-}
-.usa-table thead th:not(:last-child), .sds-table thead th:not(:last-child), .usa-table thead td:not(:last-child), .sds-table thead td:not(:last-child) {
-  border-right: 0px;
-}
-.usa-table thead th:not(.mat-header-cell), .sds-table thead th:not(.mat-header-cell), .usa-table thead td:not(.mat-header-cell), .sds-table thead td:not(.mat-header-cell) {
-  border-bottom-color: #cac9c0;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-}
-.usa-table tbody tr th, .sds-table tbody tr th, .usa-table tbody tr td, .sds-table tbody tr td {
-  padding-bottom: 0.5rem;
-  padding-top: 0.5rem;
-  padding-left: 1.5rem;
-  padding-right: 1rem;
-  /**
-  Removing internal horizontal borders from rows that divide the body into rows
-  */
-  border-bottom: 0px;
-  border-top: 0px;
-  /**
-  Removing internal vertical borders from cells that divide the rows into columns
-  */
-  border-left: 0px;
-  border-right: 0px;
+@media all and (min-width: 40em) {
+  .usa-table thead th, .sds-table thead th, .usa-table thead td, .sds-table thead td {
+    /**
+      Removes internal borders so that only borders on the outside edges of header remain
+    */
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+    background-color: #f5f5f0;
+  }
+  .usa-table thead th:not(:first-child), .sds-table thead th:not(:first-child), .usa-table thead td:not(:first-child), .sds-table thead td:not(:first-child) {
+    border-left: 0px;
+  }
+  .usa-table thead th:not(:last-child), .sds-table thead th:not(:last-child), .usa-table thead td:not(:last-child), .sds-table thead td:not(:last-child) {
+    border-right: 0px;
+  }
+  .usa-table thead th:not(.mat-header-cell), .sds-table thead th:not(.mat-header-cell), .usa-table thead td:not(.mat-header-cell), .sds-table thead td:not(.mat-header-cell) {
+    border-bottom-color: #cac9c0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+  }
+  .usa-table tbody tr th, .sds-table tbody tr th, .usa-table tbody tr td, .sds-table tbody tr td {
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+    /**
+    Removing internal horizontal borders from rows that divide the body into rows
+    */
+    border-bottom: 0px;
+    border-top: 0px;
+    /**
+    Removing internal vertical borders from cells that divide the rows into columns
+    */
+    border-left: 0px;
+    border-right: 0px;
+  }
 }
 .usa-table--striped tbody tr:nth-child(even) td,
 .usa-table--striped tbody tr:nth-child(even) th {
@@ -106629,6 +106642,16 @@ Navigation close button
 }
 .usa-table thead th[aria-sort], .sds-table thead th[aria-sort] {
   background-color: #f5f5f0;
+}
+@media all and (max-width: 29.99em) {
+  .usa-table--stacked td:not(:first-child), .usa-table--stacked-header td:not(:first-child) {
+    border-top-width: 0px;
+  }
+}
+@media all and (max-width: 29.99em) {
+  .usa-table--stacked-header tr td:first-child {
+    padding-left: 0.75rem;
+  }
 }
 .sds-tile {
   display: flex;
