@@ -1,0 +1,8 @@
+<div *ngIf="title || status" class="display-flex">
+  <h1 *ngIf="title">{{ title }}</h1>
+  <div *ngIf="status" class="padding-left-105">
+    <span class="sds-status sds-status--sm sds-status--light-blue text-bottom"></span>
+    <span class="text-semibold">{{ status }}</span>
+  </div>
+</div>
+<ng-content></ng-content>

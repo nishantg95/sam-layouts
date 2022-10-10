@@ -2,6 +2,7 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
+    "layouts": "libs/layouts",
     "sam-layouts": "apps/sam-layouts",
     "sam-layouts-e2e": "apps/sam-layouts-e2e"
   }
