@@ -24,6 +24,8 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { SdsLandingListComponent } from '../landing/list/list.component';
 import { NavigationHelper } from '@gsa-sam/components';
 import { BrowserModule } from '@angular/platform-browser';
+import { AutocompleteService } from '../subheader/examples/services/autocomplete.service';
+
 
 <Meta
   title="Header"
@@ -36,6 +38,9 @@ import { BrowserModule } from '@angular/platform-browser';
         BrowserAnimationsModule,
         RouterModule.forRoot([], { useHash: true }),
         SdsHeaderModule,
+      ],
+      providers: [
+        AutocompleteService
       ],
     }),
   ]}

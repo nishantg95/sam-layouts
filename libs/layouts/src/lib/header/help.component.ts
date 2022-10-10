@@ -8,11 +8,15 @@ import {
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import {
+  SDSAutocompletelConfiguration,
   SdsDialogRef,
   SdsDialogService,
+  SDSSelectedItemModel,
   SDS_DIALOG_DATA,
+  SelectionMode,
 } from '@gsa-sam/components';
 import { filter } from 'rxjs/operators';
+import { AutocompleteService } from '../subheader/examples/services/autocomplete.service';
 
 interface Data {
   help: [];
@@ -67,6 +71,14 @@ export class SdsHeaderHelpComponent {
       class="help-slide-out bg-base-lighter minh-full padding-x-2 padding-top-2"
     >
       <h2 class="font-heading-lg text-semibold">Help</h2>
+
+      <sds-autocomplete
+      [service]="service"
+      (ngModelChange)="changes($event)"
+      [(ngModel)]="model"
+      [configuration]="settings"
+    >
+    </sds-autocomplete>
       <div *ngFor="let item of data.help">
         <h3
           class="font-heading-md text-semibold margin-top-205 margin-bottom-1"
@@ -89,6 +101,7 @@ export class HelpContentComponent {
   constructor(
     private router: Router,
     public dialogRef: SdsDialogRef<HelpContentComponent>,
+    public service: AutocompleteService,
     @Inject(SDS_DIALOG_DATA) public data: Data
   ) {
     this.router.events
@@ -96,7 +109,23 @@ export class HelpContentComponent {
       .subscribe(() => {
         this.dialogRef.close();
       });
+      this.setup();
   }
+    public settings = new SDSAutocompletelConfiguration();
+    public model = new SDSSelectedItemModel();
+    changes(value) {
+      console.log(value);
+    }
+    setup() {
+      this.settings.id = 'autocompleteBasic';
+      this.settings.primaryKeyField = 'id';
+      this.settings.primaryTextField = 'name';
+      this.settings.secondaryTextField = 'subtext';
+      this.settings.labelText = 'Autocomplete 1';
+      this.settings.selectionMode = SelectionMode.SINGLE;
+      this.settings.autocompletePlaceHolderText = 'eg: Level 1';
+    }
+    
 
   inputs(ref: CdkPortalOutletAttachedRef, componentInputs = {}) {
     ref = ref as ComponentRef<never>;

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SdsHeaderComponent } from './header.component';
 import { RouterModule } from '@angular/router';
-import { SdsTopBannerModule, SdsDialogModule } from '@gsa-sam/components';
+import { SdsTopBannerModule, SdsDialogModule, SdsAutocompleteModule } from '@gsa-sam/components';
 
 import { A11yModule } from '@angular/cdk/a11y';
 import {
@@ -53,6 +53,7 @@ import { SdsLandingListModule } from '../landing/list/list.module';
       xCircle,
       squareFill
     }),
+    SdsAutocompleteModule
   ],
   declarations: [
     SdsHeaderComponent,
