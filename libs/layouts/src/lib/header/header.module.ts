@@ -22,7 +22,7 @@ import {
   squareFill
 } from 'ngx-bootstrap-icons';
 import { IconModule } from '@gsa-sam/ngx-uswds-icons';
-import { HelpContentComponent, SdsHeaderHelpComponent } from './help.component';
+import { HelpContentComponent, HelpContentComponentAutocomplete, SdsHeaderHelpComponent } from './help.component';
 import { PortalModule } from '@angular/cdk/portal';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SdsLandingListModule } from '../landing/list/list.module';
@@ -64,6 +64,7 @@ import { BrowserModule } from '@angular/platform-browser';
     SdsHeaderComponent,
     SdsHeaderHelpComponent,
     HelpContentComponent,
+    HelpContentComponentAutocomplete
   ],
   exports: [SdsHeaderComponent],
 })

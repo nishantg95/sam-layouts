@@ -30,7 +30,7 @@ import { FsdApiService } from './help.component'
 
 
 <Meta
-  title="Header 2"
+  title="Header with Search"
   component={SdsHeaderComponent}
   decorators={[
     moduleMetadata({
@@ -57,12 +57,12 @@ import { FsdApiService } from './help.component'
   }}
 />
 
-# Header 2
+# Header
 
 <Canvas>
   <Story
     inline={true}
-    name="Header 2"
+    name="Header with Search"
     args={{
       model: {
         secondaryLinks: [
@@ -155,11 +155,13 @@ import { FsdApiService } from './help.component'
             },
           },
         ],
+        autocomplete: false,
       },
       template: `
         <sds-header
           [model]="model"
-          [help]="help">
+          [help]="help"
+          [autocomplete]="autocomplete">
         </sds-header>
         `,
     })}
