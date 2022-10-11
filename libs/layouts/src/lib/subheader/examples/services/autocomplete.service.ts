@@ -6,10 +6,11 @@ import {
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AutocompleteData } from './autocomplete.data';
+import { KnowledgeBaseArticles } from '../../../header/SampleFsdData';
 
 @Injectable()
 export class AutocompleteService implements SDSAutocompleteServiceInterface {
-  private _data = AutocompleteData;
+  private _data = KnowledgeBaseArticles;
 
   getDataByText(
     currentItems: number,
@@ -24,8 +25,10 @@ export class AutocompleteService implements SDSAutocompleteServiceInterface {
         map((items) =>
           items.filter(
             (item) =>
-              item.name.indexOf(searchValue) !== -1 ||
-              item.subtext.indexOf(searchValue) !== -1
+              // item.title.indexOf(searchValue) !== -1 ||
+              // item.text.indexOf(searchValue) !== -1
+              item.title.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1 ||
+              item.text.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
           )
         )
       );

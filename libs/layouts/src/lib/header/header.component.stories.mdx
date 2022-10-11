@@ -25,6 +25,8 @@ import { SdsLandingListComponent } from '../landing/list/list.component';
 import { NavigationHelper } from '@gsa-sam/components';
 import { BrowserModule } from '@angular/platform-browser';
 import { AutocompleteService } from '../subheader/examples/services/autocomplete.service';
+import { HttpClientModule } from '@angular/common/http';
+import { FsdApiService } from './help.component'
 
 
 <Meta
@@ -35,12 +37,14 @@ import { AutocompleteService } from '../subheader/examples/services/autocomplete
       declarations: [],
       imports: [
         BrowserModule,
+        HttpClientModule,
         BrowserAnimationsModule,
         RouterModule.forRoot([], { useHash: true }),
         SdsHeaderModule,
       ],
       providers: [
-        AutocompleteService
+        AutocompleteService,
+        FsdApiService,
       ],
     }),
   ]}
@@ -455,11 +459,13 @@ import { AutocompleteService } from '../subheader/examples/services/autocomplete
             },
           },
         ],
+        autocomplete: true,
       },
       template: `
         <sds-header
           [model]="model"
-          [help]="help">
+          [help]="help"
+          [autocomplete]="autocomplete">
         </sds-header>
         `,
     })}

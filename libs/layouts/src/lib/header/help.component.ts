@@ -1,8 +1,10 @@
 import { CdkPortalOutletAttachedRef } from '@angular/cdk/portal';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   Component,
   ComponentRef,
   Inject,
+  Injectable,
   Input,
   ViewEncapsulation,
 } from '@angular/core';
@@ -15,12 +17,42 @@ import {
   SDS_DIALOG_DATA,
   SelectionMode,
 } from '@gsa-sam/components';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AutocompleteService } from '../subheader/examples/services/autocomplete.service';
 
 interface Data {
   help: [];
 }
+
+@Injectable()
+export class FsdApiService {
+  private readonly url = 'https://tstservice.fsd.gov/api/now/sp/search';
+  private readonly headers = new HttpHeaders()
+  .append('Content-Type', 'application/json')
+  .append('Access-Control-Allow-Headers', 'Content-Type')
+  .append('Access-Control-Allow-Methods', 'POST')
+  .append('Access-Control-Allow-Origin', '*');
+  private body = {
+      "query": "",
+      "portal": "8b1c5a9fdb411c14c82370c08c9619c6",
+      "page": "gsa_search",
+      "source": [
+          "gsa_kb",
+          "my_incidents"
+      ],
+      "include_facets": false,
+      "searchType": "typeahead"
+  }
+
+  constructor( private httpClient : HttpClient){
+  }
+  getSearchResults(keyword: string): Observable<any>{
+    this.body.query = keyword;
+    return this.httpClient.post(this.url, this.body, {headers: this.headers});
+  }
+}
+
 
 @Component({
   selector: 'sds-header-help',
@@ -44,6 +76,7 @@ interface Data {
 })
 export class SdsHeaderHelpComponent {
   @Input() content;
+  @Input() autocomplete;
 
   openedDialogRef: SdsDialogRef<HelpContentComponent>;
 
@@ -60,8 +93,10 @@ export class SdsHeaderHelpComponent {
       },
       data: {
         help: this.content,
+        autocomplete: this.autocomplete
       },
     });
+    console.log(this.autocomplete);
   }
 }
 
@@ -72,13 +107,17 @@ export class SdsHeaderHelpComponent {
     >
       <h2 class="font-heading-lg text-semibold">Help</h2>
 
-      <sds-autocomplete
+      <sds-autocomplete *ngIf="data.autocomplete"
       [service]="service"
       (ngModelChange)="changes($event)"
       [(ngModel)]="model"
       [configuration]="settings"
+
     >
     </sds-autocomplete>
+
+
+
       <div *ngFor="let item of data.help">
         <h3
           class="font-heading-md text-semibold margin-top-205 margin-bottom-1"
@@ -98,11 +137,14 @@ export class SdsHeaderHelpComponent {
   encapsulation: ViewEncapsulation.None,
 })
 export class HelpContentComponent {
+
   constructor(
     private router: Router,
     public dialogRef: SdsDialogRef<HelpContentComponent>,
     public service: AutocompleteService,
-    @Inject(SDS_DIALOG_DATA) public data: Data
+    public fsdService : FsdApiService,
+    @Inject(SDS_DIALOG_DATA) public data: Data,
+    
   ) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationStart))
@@ -115,15 +157,22 @@ export class HelpContentComponent {
     public model = new SDSSelectedItemModel();
     changes(value) {
       console.log(value);
+      this.dialogRef._containerInstance._config.slideOut['width'] = '40rem';
+      console.log(this.dialogRef._containerInstance._config.slideOut['width']);
+      // this.fsdService.getSearchResults(value).subscribe(response => {
+      //   console.log(response);
+      // })
     }
     setup() {
       this.settings.id = 'autocompleteBasic';
       this.settings.primaryKeyField = 'id';
-      this.settings.primaryTextField = 'name';
-      this.settings.secondaryTextField = 'subtext';
+      this.settings.primaryTextField = 'title';
+      this.settings.secondaryTextField = 'text';
       this.settings.labelText = 'Autocomplete 1';
       this.settings.selectionMode = SelectionMode.SINGLE;
-      this.settings.autocompletePlaceHolderText = 'eg: Level 1';
+      this.settings.autocompletePlaceHolderText = 'eg: Entity Registration';
+      console.log(this.data);
+      
     }
     
 

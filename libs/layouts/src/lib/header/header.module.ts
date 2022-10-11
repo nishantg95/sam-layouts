@@ -26,6 +26,9 @@ import { HelpContentComponent, SdsHeaderHelpComponent } from './help.component';
 import { PortalModule } from '@angular/cdk/portal';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SdsLandingListModule } from '../landing/list/list.module';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+
 
 @NgModule({
   imports: [
@@ -53,7 +56,9 @@ import { SdsLandingListModule } from '../landing/list/list.module';
       xCircle,
       squareFill
     }),
-    SdsAutocompleteModule
+    SdsAutocompleteModule,
+    BrowserModule,
+    HttpClientModule
   ],
   declarations: [
     SdsHeaderComponent,

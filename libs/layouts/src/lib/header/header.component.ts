@@ -56,6 +56,8 @@ export class SdsHeaderComponent {
   @Input() alertsTemplate: TemplateRef<any>;
 
   @Input() help: [];
+
+  @Input() autocomplete = true;
   /**
    * event for event based
    */

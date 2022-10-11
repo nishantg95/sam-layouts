@@ -1,0 +1,169 @@
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { RouterModule } from '@angular/router';
+import { SdsHeaderComponent } from './header.component';
+import { SdsHeaderModule } from './header.module';
+import { NavigationMode } from '@gsa-sam/components';
+import {
+  NgxBootstrapIconsModule,
+  squareFill,
+  xCircle,
+  filePdf,
+  files,
+} from 'ngx-bootstrap-icons';
+import {
+  request,
+  messages,
+  workspace,
+  logOut,
+  bars,
+} from '@gsa-sam/ngx-uswds-icons';
+import { IconModule } from '@gsa-sam/ngx-uswds-icons';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { SdsLandingListComponent } from '../landing/list/list.component';
+import { NavigationHelper } from '@gsa-sam/components';
+import { BrowserModule } from '@angular/platform-browser';
+import { AutocompleteService } from '../subheader/examples/services/autocomplete.service';
+import { HttpClientModule } from '@angular/common/http';
+import { FsdApiService } from './help.component'
+
+
+<Meta
+  title="Header 2"
+  component={SdsHeaderComponent}
+  decorators={[
+    moduleMetadata({
+      declarations: [],
+      imports: [
+        BrowserModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        RouterModule.forRoot([], { useHash: true }),
+        SdsHeaderModule,
+      ],
+      providers: [
+        AutocompleteService,
+        FsdApiService,
+      ],
+    }),
+  ]}
+  args={{}}
+  argTypes = {{
+    navigationHelper: {
+      table: { disable: true },
+      control: { disable: true }
+    }
+  }}
+/>
+
+# Header 2
+
+<Canvas>
+  <Story
+    inline={true}
+    name="Header 2"
+    args={{
+      model: {
+        secondaryLinks: [
+          {
+            imageClass: 'pencil-square',
+            text: 'Requests',
+            route: '/',
+            id: 'request',
+            hasCounter: true,
+            selected: true,
+            mode: NavigationMode.INTERNAL,
+          },
+          {
+            imageClass: 'bell',
+            text: 'Notifications',
+            route: '/',
+            id: 'messages',
+            mode: NavigationMode.INTERNAL,
+          },
+          {
+            imageClass: 'grid',
+            text: 'Workspace',
+            route: '/',
+            id: 'workspace',
+            mode: NavigationMode.INTERNAL,
+          },
+          {
+            imageClass: 'arrow-right-square',
+            text: 'Sign Out',
+            route: '/',
+            id: 'signOut',
+            mode: NavigationMode.INTERNAL,
+          },
+        ],
+        navigationLinks: [
+          {
+            text: 'Home',
+            selected: true,
+            route: '/',
+            id: 'home',
+            mode: NavigationMode.INTERNAL,
+          },
+          {
+            text: 'Search',
+            route: '/',
+            id: 'search',
+            mode: NavigationMode.INTERNAL,
+          },
+          {
+            text: 'Databank',
+            route: '/',
+            id: 'databank',
+            mode: NavigationMode.INTERNAL,
+          },
+          {
+            text: 'Data Services',
+            route: '/',
+            id: 'dataService',
+            mode: NavigationMode.INTERNAL,
+          },
+          {
+            text: 'Help',
+            route: '/',
+            id: 'help',
+            mode: NavigationMode.INTERNAL,
+          },
+        ],
+        home: {
+          text: 'Logo',
+          logo: 'assets/img/logo-sam.svg',
+          route: '/',
+          id: 'home',
+          mode: NavigationMode.INTERNAL,
+        },
+      },
+    }}
+  >
+    {(args) => ({
+      props: {
+        ...args,
+        help: [
+          {
+            head: {
+              title: ''
+            },
+            body: {
+              content: [
+                {},
+              ],
+            },
+          },
+        ],
+      },
+      template: `
+        <sds-header
+          [model]="model"
+          [help]="help">
+        </sds-header>
+        `,
+    })}
+  </Story>
+</Canvas>
+
+<ArgsTable of={SdsHeaderComponent} />

@@ -14,7 +14,7 @@
               : homeLinkHREFTemplate
           " [ngTemplateOutletContext]="{ $implicit: model.home }"></ng-container>
     </div>
-    <sds-header-help *ngIf="help && help.length > 0" [content]="help" class="tablet:display-none margin-right-2">
+    <sds-header-help *ngIf="help && help.length > 0" [content]="help" [autocomplete]="autocomplete" class="tablet:display-none margin-right-2">
     </sds-header-help>
     <button *ngIf="!hidePrimaryLinks && !hideSecondaryLinks" #usaNavOpen class="usa-menu-btn" (click)="openMobileNav()">
       <div class="sds-stack sds-lg">
