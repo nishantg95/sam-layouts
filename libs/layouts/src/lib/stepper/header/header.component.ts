@@ -1,4 +1,10 @@
-import { AfterContentInit, Component, ElementRef, Input, TemplateRef } from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  ElementRef,
+  Input,
+  TemplateRef,
+} from '@angular/core';
 
 import {
   UsaStepIndicatorComponent,
@@ -47,5 +53,5 @@ export class SLStepperHeaderComponent
 })
 export class SLStepperHeaderWithStatusComponent {
   @Input() title: string;
-  @Input() status: string;
+  @Input() status: { text: string; color: string };
 }

@@ -1,67 +1,102 @@
-<button class="usa-button margin-bottom-3" (click)="toggleLinearMode()">Toggle Linear Mode</button>
+<button class="usa-button margin-bottom-3" (click)="toggleLinearMode()">
+  Toggle Linear Mode
+</button>
 
-<sam-layouts-stepper [hideSideNav]="false" [queryParamKey]="'sdsAdvancedStepper'" [model]="model"
-  [stepValidityMap]="stepValidityMap" (stepChange)="onStepChange($event)" [linear]="linear"
-  (saveData)="onSaveData($event)" expirationDate="N/A" [versions]="versions">
-
-  <sam-layouts-stepper-header-with-status title="Test Title" status="Draft">
+<sam-layouts-stepper
+  [hideSideNav]="false"
+  [queryParamKey]="'sdsAdvancedStepper'"
+  [model]="model"
+  [stepValidityMap]="stepValidityMap"
+  (stepChange)="onStepChange($event)"
+  [linear]="linear"
+  (saveData)="onSaveData($event)"
+  expirationDate="N/A"
+  [versions]="versions"
+>
+  <sam-layouts-stepper-header-with-status 
+    title="Test Title" 
+    [status]="{ text: 'Draft', color: 'light-blue' }"
+  >
   </sam-layouts-stepper-header-with-status>
 
-  <sds-step id="welcome" text="Welcome" [stepTemplate]="gatherInformation"
-    [stepValidationFn]="stepMap.welcome.validationFn">
+  <sds-step
+    id="welcome"
+    text="Welcome"
+    [stepTemplate]="gatherInformation"
+    [stepValidationFn]="stepMap.welcome.validationFn"
+  >
   </sds-step>
 
   <sds-step id="entityDetails" text="Entity Details" [editable]="false">
-    <sds-step id="registrationPurpose" text="Purpose of Registration"
-      [fieldConfig]="stepMap.registrationPurpose.fieldConfig">
+    <sds-step
+      id="registrationPurpose"
+      text="Purpose of Registration"
+      [fieldConfig]="stepMap.registrationPurpose.fieldConfig"
+    >
       <h1 sdsStepHeader class="margin-top-0">
         Purpose of Registration
-        <hr>
+        <hr />
       </h1>
     </sds-step>
 
-    <sds-step id="entityInformation" text="Entity Information" [fieldConfig]="stepMap.enitityInformation.fieldConfig">
+    <sds-step
+      id="entityInformation"
+      text="Entity Information"
+      [fieldConfig]="stepMap.enitityInformation.fieldConfig"
+    >
       <h1 sdsStepHeader class="margin-top-0">
         Enter Entity Information
-        <hr>
+        <hr />
       </h1>
     </sds-step>
 
-    <sds-step id="reportDetails" text="Report Details" [fieldConfig]="stepMap.reportDetails.fieldConfig">
+    <sds-step
+      id="reportDetails"
+      text="Report Details"
+      [fieldConfig]="stepMap.reportDetails.fieldConfig"
+    >
       <h1 sdsStepHeader class="margin-top-0">
         Report Details
-        <hr>
+        <hr />
       </h1>
     </sds-step>
   </sds-step>
 
-  <sds-step id="taxPayerInfoForm" text="Taxpayer Details" [fieldConfig]="stepMap.taxpayerInformation.fieldConfig">
+  <sds-step
+    id="taxPayerInfoForm"
+    text="Taxpayer Details"
+    [fieldConfig]="stepMap.taxpayerInformation.fieldConfig"
+  >
     <h1 sdsStepHeader class="margin-top-0">
       Enter Taxpayer Details
-      <hr>
+      <hr />
     </h1>
   </sds-step>
 
-  <sds-step id="addSubawardee" text="Add Subawardee" [stepTemplate]="subawardeeStep"
-    [stepValidationFn]="stepMap.subawardee.validationFn">
+  <sds-step
+    id="addSubawardee"
+    text="Add Subawardee"
+    [stepTemplate]="subawardeeStep"
+    [stepValidationFn]="stepMap.subawardee.validationFn"
+  >
   </sds-step>
 
-  <sds-step id="review" text="Review and Submit" [isReview]="true" [stepTemplate]="reviewTemplate"
-    [stepValidationFn]="stepMap.review.validationFn">
+  <sds-step
+    id="review"
+    text="Review and Submit"
+    [isReview]="true"
+    [stepTemplate]="reviewTemplate"
+    [stepValidationFn]="stepMap.review.validationFn"
+  >
   </sds-step>
-
 </sam-layouts-stepper>
 
 <!-- Custom Templates -->
 <ng-template #gatherInformation>
-  <h1 class="margin-top-0">
-    Gather Your Information
-  </h1>
+  <h1 class="margin-top-0">Gather Your Information</h1>
   <div class="sds-card">
     <div class="sds-card__header">
-      <h2>
-        U.S. REGISTRANTS:
-      </h2>
+      <h2>U.S. REGISTRANTS:</h2>
     </div>
     <div class="sds-card__body">
       <ul class="usa-list usa-list--unstyled">
@@ -91,7 +126,8 @@
             <li>Account Number</li>
           </ul>
           <span class="display-block text-small">
-            Account type (checking or savings) to set up Electronic Funds Transfer (ETF)
+            Account type (checking or savings) to set up Electronic Funds
+            Transfer (ETF)
           </span>
         </li>
       </ul>
@@ -103,9 +139,12 @@
   <ng-container *ngIf="!showLoading; else loading">
     <h1 class="margin-top-0">
       Subawardee Data
-      <hr>
+      <hr />
     </h1>
-    <subawardee-demo (subawardeeUpdate)="updateSubawardee($event)" [subawardees]="model.subawardee"></subawardee-demo>
+    <subawardee-demo
+      (subawardeeUpdate)="updateSubawardee($event)"
+      [subawardees]="model.subawardee"
+    ></subawardee-demo>
   </ng-container>
   <ng-template #loading>
     <div class="grid-container padding-left-0">
@@ -125,8 +164,14 @@
 <ng-template #reviewTemplate>
   <h1 class="margin-top-0">
     Review and Submit
-    <hr>
+    <hr />
   </h1>
-  <formly-form [fields]="[stepMap.review.fieldConfig]" [model]="model"></formly-form>
-  <subawardee-demo [displayInput]="false" [subawardees]="model.subawardee"></subawardee-demo>
+  <formly-form
+    [fields]="[stepMap.review.fieldConfig]"
+    [model]="model"
+  ></formly-form>
+  <subawardee-demo
+    [displayInput]="false"
+    [subawardees]="model.subawardee"
+  ></subawardee-demo>
 </ng-template>
