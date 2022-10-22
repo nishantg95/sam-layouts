@@ -76,6 +76,11 @@ export class sortItem {
 
 }
 
+export interface SearchExcludeField {
+  field: string;
+  unless: (m: any) => boolean;
+}
+
 export class SearchListConfiguration {
 
     /**
@@ -99,6 +104,8 @@ export class SearchListConfiguration {
     defaultFilterValue?: any = {};
 
     queryParamsHandling?: QueryParamsHandling;
+  
+    excludeFilterFields?: SearchExcludeField[];
 
 }
 
