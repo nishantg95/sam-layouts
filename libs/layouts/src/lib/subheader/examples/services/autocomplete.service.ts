@@ -10,7 +10,7 @@ import { KnowledgeBaseArticles } from '../../../header/SampleFsdData';
 
 @Injectable()
 export class AutocompleteService implements SDSAutocompleteServiceInterface {
-  private _data = KnowledgeBaseArticles;
+  private _data  = KnowledgeBaseArticles;
 
   getDataByText(
     currentItems: number,
@@ -27,7 +27,7 @@ export class AutocompleteService implements SDSAutocompleteServiceInterface {
             (item) =>
               // item.title.indexOf(searchValue) !== -1 ||
               // item.text.indexOf(searchValue) !== -1
-              item.title.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1 ||
+              item.label.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1 ||
               item.text.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
           )
         )
@@ -53,5 +53,10 @@ export class AutocompleteService implements SDSAutocompleteServiceInterface {
       totalItems: totalItemCount,
     };
     return of(returnItem);
+  }
+  setData(newData:any){
+    console.log(newData)
+    if(newData.length > 0)
+      this._data = newData;
   }
 }

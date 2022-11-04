@@ -134,6 +134,7 @@ export class SdsHeaderHelpComponent {
       [configuration]="settings"
 
     >
+    <pre>{{model|json}}</pre>
     </sds-autocomplete>
       <div *ngIf="model.length === 0">
         <div *ngFor="let item of data.help">
@@ -185,18 +186,21 @@ export class HelpContentComponentAutocomplete {
       console.log(value);
       // this.dialogRef._containerInstance._config.slideOut['width'] = '40rem';
       // console.log(this.dialogRef._containerInstance._config.slideOut['width']);
-      this.fsdService.getSearchResults(value).subscribe(response => {
+      this.fsdService.getSearchResults(value[0].label).subscribe(response => {
         console.log('api',response);
+        this.service.setData(response.result.results);
       })
     }
     setup() {
       this.settings.id = 'autocompleteBasic';
       this.settings.primaryKeyField = 'id';
-      this.settings.primaryTextField = 'title';
+      this.settings.primaryTextField = 'label';
       this.settings.secondaryTextField = 'text';
       this.settings.labelText = 'Autocomplete 1';
       this.settings.selectionMode = SelectionMode.SINGLE;
       this.settings.autocompletePlaceHolderText = 'eg: Entity Registration';
+      this.settings.isFreeTextEnabled = true;
+
       // console.log(this.data);
       
     }
