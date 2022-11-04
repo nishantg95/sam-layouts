@@ -27,23 +27,25 @@ interface Data {
 
 @Injectable()
 export class FsdApiService {
-  private readonly url = 'https://tstservice.fsd.gov/api/now/sp/search';
+  private readonly url = '/api/now/sp/search';
   private readonly headers = new HttpHeaders()
   .append('Content-Type', 'application/json')
-  .append('Access-Control-Allow-Headers', 'Content-Type')
-  .append('Access-Control-Allow-Methods', 'POST')
-  .append('Access-Control-Allow-Origin', '*');
+  .append('Accept', 'application/json')
+  // .append('Access-Control-Allow-Headers', 'Content-Type')
+  // .append('Access-Control-Allow-Methods', 'POST')
+  // .append('Access-Control-Allow-Origin', '*');
   private body = {
-      "query": "",
-      "portal": "8b1c5a9fdb411c14c82370c08c9619c6",
-      "page": "gsa_search",
-      "source": [
-          "gsa_kb",
-          "my_incidents"
-      ],
-      "include_facets": false,
-      "searchType": "typeahead"
+      "query": "re",
+      // "portal": "8b1c5a9fdb411c14c82370c08c9619c6",
+      // "page": "gsa_search",
+      // "source": [
+      //     "gsa_kb",
+      //     "my_incidents"
+      // ],
+      // "include_facets": false,
+      // "searchType": "typeahead"
   }
+  
 
   constructor( private httpClient : HttpClient){
   }
@@ -183,9 +185,9 @@ export class HelpContentComponentAutocomplete {
       console.log(value);
       // this.dialogRef._containerInstance._config.slideOut['width'] = '40rem';
       // console.log(this.dialogRef._containerInstance._config.slideOut['width']);
-      // this.fsdService.getSearchResults(value).subscribe(response => {
-      //   console.log(response);
-      // })
+      this.fsdService.getSearchResults(value).subscribe(response => {
+        console.log('api',response);
+      })
     }
     setup() {
       this.settings.id = 'autocompleteBasic';
@@ -195,7 +197,7 @@ export class HelpContentComponentAutocomplete {
       this.settings.labelText = 'Autocomplete 1';
       this.settings.selectionMode = SelectionMode.SINGLE;
       this.settings.autocompletePlaceHolderText = 'eg: Entity Registration';
-      console.log(this.data);
+      // console.log(this.data);
       
     }
     resetModel(){
