@@ -16,6 +16,8 @@
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true,
     "strict": false, // TODO: Enable
+    "noImplicitOverride": false,
+    "noPropertyAccessFromIndexSignature": false, // TODO: Enable
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },

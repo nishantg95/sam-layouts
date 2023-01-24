@@ -147,7 +147,7 @@ export class LayoutResponsiveComponent implements AfterViewInit {
         // Refresh autocomplete chips - we do set timeout so that our model for radio option can update first, then
         // this refresh will update our chips depending on the updated model value
         setTimeout(() => {
-          this.filterService.keywordChangeSubject.next();
+          this.filterService.keywordChangeSubject.next({});
         });
       });
   }
