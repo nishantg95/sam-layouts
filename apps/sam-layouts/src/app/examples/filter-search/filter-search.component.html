@@ -1,0 +1,34 @@
+<div class="grid-container margin-top-3">
+  <div class="grid-row grid-gap">
+    <div class="grid-col-4">
+      <sds-filters
+        #filters
+        [options]="filterPanelConfig.options"
+        [advancedFilters]="filterPanelConfig.advancedFilters"
+        [form]="filterPanelConfig.form"
+        [fields]="filterPanelConfig.fields"
+        [model]="filterPanelConfig.model"
+        (filterChange)="filterChange$.next($event)"
+      >
+      </sds-filters>
+    </div>
+    <div class="grid-col-8">
+      <search-list-layout
+        #resultList
+        [service]="service"
+        [configuration]="listConfig"
+        [isHistoryEnabled]="enableApiCall"
+        [enableApiCall]="enableApiCall"
+      >
+        <ng-template #resultContent let-item>
+          <div>
+            {{ item }}
+          </div>
+        </ng-template>
+      </search-list-layout>
+    </div>
+  </div>
+
+  <h3>Filter Change</h3>
+  <pre>{{ filterChange$ | async | json }}</pre>
+</div>
