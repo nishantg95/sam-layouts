@@ -390,7 +390,7 @@ export class SearchListLayoutComponent implements OnInit {
       this.filterData &&
       this.service &&
       this.enableApiCall &&
-      !this.isDefaultModel &&
+      !this.isDefaultModel &&  
       this.skipUpdate === false
     ) {
       this.loading = true;

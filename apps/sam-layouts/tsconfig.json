@@ -18,13 +18,15 @@
   ],
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true,
-    "strict": false,
+    "strict": false, // TODO: Enable
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": false, // TODO: Enable
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": false
+    "strictTemplates": false // TODO: Enable
   }
 }

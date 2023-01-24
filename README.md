@@ -1,5 +1,3 @@
-
-
 # SAM Layouts
 
 ## Homepage
@@ -29,8 +27,6 @@ nx run sam-layouts:storybook
 ## Publish docs
 
 ```bash
-# Update compodoc
-npm run docs:json
 
 # Update docs folder with latest code
  nx run sam-layouts:build-storybook -- --skip-nx-cache

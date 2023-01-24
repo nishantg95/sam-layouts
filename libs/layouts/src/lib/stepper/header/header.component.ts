@@ -1,10 +1,4 @@
-import {
-  AfterContentInit,
-  Component,
-  ElementRef,
-  Input,
-  TemplateRef,
-} from '@angular/core';
+import { AfterContentInit, Component, ElementRef, Input, TemplateRef } from '@angular/core';
 
 import {
   UsaStepIndicatorComponent,
