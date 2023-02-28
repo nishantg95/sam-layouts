@@ -14,9 +14,9 @@ Search for the most recent tag that uses the angular version desired (TAG)
 
 5. Generate Storybook Configuration files
 `nx g @nrwl/angular:storybook-configuration sam-layouts`
-✔ Configure a Cypress e2e app to run against the storybook instance? (Y/n) · n
-✔ Automatically generate *.stories.ts files for components declared in this project? (Y/n) · n
-✔ Automatically generate *.spec.ts files in the generated Cypress e2e app? (Y/n) · n
+- ✔ Configure a Cypress e2e app to run against the storybook instance? (Y/n) · n
+- ✔ Automatically generate *.stories.ts files for components declared in this project? (Y/n) · n
+- ✔ Automatically generate *.spec.ts files in the generated Cypress e2e app? (Y/n) · n
 
 6. Add library stories to storybook config (/apps/sam-layouts/.storybook/main.js -> stories array)
 `
