@@ -1,5 +1,4 @@
-Upgrade to a major Angular Version
----------------------------------------------- 
+## Upgrade to a major Angular Version
 
 1. Go to https://github.com/nrwl/nx/blob/master/package.json and 
 Search for the most recent tag that uses the angular version desired (TAG)
@@ -34,7 +33,7 @@ Search for the most recent tag that uses the angular version desired (TAG)
 `nx migrate @nrwl/workspace@{TAG}`
 `nx migrate --run-migrations`
 
-10. Copy the following files from the cloned repo to the new nx workspace
+10. Replace the following from the cloned repo to the new nx workspace
 - libs/layouts/src/lib
 - libs/layouts/package.json
 - libs/layouts/src/index.ts
