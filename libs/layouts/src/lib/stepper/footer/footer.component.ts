@@ -31,12 +31,13 @@ export class SLStepperFooterComponent {
     <div class="margin-right-1">
       <button
         class="usa-button sds-button--circle usa-button--big usa-button--base padding-2"
-        [attr.id]="stepperID + '-closeBtn'"
+        [attr.id]="stepperID + '-closeBtn'" [attr.aria-labelledby]="stepperID + '-closeBtn-label'"
         (click)="btnClicked($event)"
       >
         <usa-icon [icon]="icon"></usa-icon>
       </button>
       <label
+        [attr.id]="stepperID + '-closeBtn-label'"
         [attr.for]="stepperID + '-closeBtn'"
         class="text-center usa-link cursor-pointer display-block margin-top-2"
       >
