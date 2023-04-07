@@ -29,7 +29,7 @@
     "@gsa-sam/sam-formly": "^13.0.6",
     "@gsa-sam/sam-material-extensions": "^13.0.6",
     "@gsa-sam/sam-styles": "^0.0.151",
-    "@ngx-formly/core": "^5.12.0",",
+    "@ngx-formly/core": "^5.12.0",
     "@nrwl/angular": "14.1.10",
     "lodash-es": "^4.17.21",
     "ngx-toastr": "^14.3.0",
