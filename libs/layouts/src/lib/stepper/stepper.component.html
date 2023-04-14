@@ -84,9 +84,12 @@
 
     <!-- Footer -->
     <sam-layouts-stepper-footer
+      [customSave]="customSave"
       (previousBtnClick)="previousClick.emit($event)"
       (nextBtnClick)="nextClick.emit($event)">
       <ng-content select="[stepper-footer]"></ng-content>
+      <ng-content select="[stepper-footer-save-and-continue]" 
+        ngProjectAs="[stepper-footer-save-and-continue]"></ng-content>
     </sam-layouts-stepper-footer>
 
   </div>
@@ -119,7 +122,7 @@
       <span>
         {{step.text}}
       </span>
-      <ng-container [ngTemplateOutlet]="sidenavIcon" [ngTemplateOutletContext]="{$implicit: step}"></ng-container>
+      <ng-container *ngIf="showValidationIcon(step.id)" [ngTemplateOutlet]="sidenavIcon" [ngTemplateOutletContext]="{$implicit: step}"></ng-container>
     </a>
   </ng-container>
 </ng-template>
